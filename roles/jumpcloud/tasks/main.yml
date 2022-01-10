@@ -10,7 +10,7 @@
     url: "https://kickstart.jumpcloud.com/Kickstart"
     headers:
       x-connect-key: "{{ jumpcloud_key }}"
-    return_content: yes
+    return_content: true
   register: jc_install_script
   when: not jumpcloud_installed
 
