@@ -1,12 +1,12 @@
 all:
   hosts:
     turing:
-      ansible_host: 89.58.25.151
+      ansible_host: turing.box.pydis.wtf
     lovelace:
-      ansible_host: 89.58.26.118
+      ansible_host: lovelace.box.pydis.wtf
     hopper:
-      ansible_host: 89.58.24.117
+      ansible_host: hopper.box.pydis.wtf
     ritchie:
-      ansible_host: 89.58.25.224
+      ansible_host: ritchie.box.pydis.wtf
     neumann:
-      ansible_host: 89.58.12.244
+      ansible_host: neumann.box.pydis.wtf
