@@ -1,0 +1,14 @@
+- name: Ensure curl is installed
+  apt:
+    package: curl
+
+- name: Fetch service facts
+  service_facts:
+
+- name: Check if JumpCloud service is installed
+  set_fact:
+    jumpcloud_installed: "{{ 'jcagent.service' in ansible_facts.services }}"
+
+- name: Run Jumpcloud installer
+  shell: "curl --tlsv1.2 --silent --show-error --header 'x-connect-key: {{ jumpcloud_key }}' https://kickstart.jumpcloud.com/Kickstart | bash"
+  when: not jumpcloud_installesh
