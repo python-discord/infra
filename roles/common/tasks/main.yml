@@ -1,0 +1,29 @@
+- name: Update hostname to match Ansible inventory
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Update /etc/hosts to match Ansible inventory
+  template:
+    src: etc-hosts.j2
+    dest: /etc/hosts
+    mode: '0644'
+    owner: root
+    group: root
+
+- name: Disable SSH password authentication
+  lineinfile:
+    dest: /etc/ssh/sshd_config
+    regexp: "^PasswordAuthentication"
+    line: "PasswordAuthentication no"
+    state: present
+  notify:
+    - restart ssh
+
+- name: Set timezone to UTC
+  file:
+    src: /usr/share/zoneinfo/Etc/UTC
+    dest: /etc/localtime
+    mode: '0644'
+    owner: root
+    group: root
+  notify: restart systemd-timesyncd
