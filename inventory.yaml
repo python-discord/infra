@@ -1,0 +1,12 @@
+all:
+  hosts:
+    turing:
+      ansible_host: 89.58.25.151
+    lovelace:
+      ansible_host: 89.58.26.118
+    hopper:
+      ansible_host: 89.58.24.117
+    ritchie:
+      ansible_host: 89.58.25.224
+    neumann:
+      ansible_host: 89.58.12.244
