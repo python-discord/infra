@@ -66,7 +66,7 @@ jobs:
           ${{ hashFiles('./.pre-commit-config.yaml') }}"
 
       - name: Fetch vault password
-        run: 'echo "$VAULT_PASSWORD" > vault_password'
+        run: 'echo "$VAULT_PASSWORD" > vault_passwords'
         env:
           VAULT_PASSWORD: "${{ secrets.ANSIBLE_VAULT_PASSWORD }}"
 
