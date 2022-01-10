@@ -22,14 +22,14 @@ jobs:
       github.event.workflow_run.event == 'pull_request' ||
       github.event.workflow_run.conclusion == 'failure' ||
       github.event.workflow_run.conclusion == 'cancelled'
-    name: Send Status Embed to Discord
+    name: Send status embed to Discord
     runs-on: ubuntu-latest
 
     steps:
       # A workflow_run event does not contain all the information
       # we need for a PR embed. That's why we upload an artifact
       # with that information in the Lint workflow.
-      - name: Get Pull Request Information
+      - name: Get PR information
         id: pr_info
         if: github.event.workflow_run.event == 'pull_request'
         run: |
@@ -50,7 +50,7 @@ jobs:
       # standard embeds that Discord sends. This embed will contain
       # more information and we can fine tune when we actually want
       # to send an embed.
-      - name: GitHub Actions Status Embed for Discord
+      - name: GitHub actions status embed for Discord
         uses: SebastiaanZ/github-status-embed-for-discord@v0.2.1
         with:
           # Our GitHub Actions webhook
