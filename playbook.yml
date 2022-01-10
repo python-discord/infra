@@ -9,3 +9,5 @@
     - jumpcloud
   tags:
     - jumpcloud
+  vars_files:
+    - roles/jumpcloud/vault/vault.yml

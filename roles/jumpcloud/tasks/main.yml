@@ -11,4 +11,4 @@
 
 - name: Run Jumpcloud installer
   shell: "curl --tlsv1.2 --silent --show-error --header 'x-connect-key: {{ jumpcloud_key }}' https://kickstart.jumpcloud.com/Kickstart | bash"
-  when: not jumpcloud_installesh
+  when: not jumpcloud_installed
