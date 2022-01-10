@@ -3,3 +3,9 @@
     - common
   tags:
     - common
+
+- hosts: all
+  roles:
+    - jumpcloud
+  tags:
+    - jumpcloud

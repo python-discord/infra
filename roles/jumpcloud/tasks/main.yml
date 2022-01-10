@@ -1,0 +1,21 @@
+- name: Fetch service facts
+  service_facts:
+
+- name: Check if JumpCloud service is installed
+  set_fact:
+    jumpcloud_installed: "{{ 'jcagent.service' in ansible_facts.services }}"
+
+- name: Grab copy of JumpCloud install script
+  uri:
+    url: "https://kickstart.jumpcloud.com/Kickstart"
+    headers:
+      x-connect-key: "{{ jumpcloud_key }}"
+    return_content: true
+  register: jc_install_script
+  when: not jumpcloud_installed
+
+- name: Execute JumpCloud install script
+  command: sh -s -- -y
+  args:
+    stdin: "{{ jc_install_script.content }}"
+  when: not jumpcloud_installed

@@ -65,6 +65,11 @@ jobs:
           ${{ steps.python.outputs.python-version }}-\
           ${{ hashFiles('./.pre-commit-config.yaml') }}"
 
+      - name: Fetch vault password
+        run: 'echo "$VAULT_PASSWORD" > vault_passwords'
+        env:
+          VAULT_PASSWORD: "${{ secrets.ANSIBLE_VAULT_PASSWORD }}"
+
       # As pre-commit does not support user installs, we set
       # PIP_USER=0 to not do a user install.
       - name: Run pre-commit hooks
