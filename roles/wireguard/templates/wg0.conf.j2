@@ -13,3 +13,11 @@ Endpoint = {{ host }}.box.pydis.wtf:46850
 PersistentKeepalive = 30
 
 {% endfor %}
+
+{% for key in extra_keys %}
+# DevOps config for: {{ key.name }}
+[Peer]
+AllowedIPs = {{ key.subnet }}
+PublicKey = {{ key.pubkey }}
+
+{% endfor %}
