@@ -1,0 +1,20 @@
+- name: Enable UFW and deny all traffic by default
+  community.general.ufw:
+    state: enabled
+    policy: deny
+
+- name: Allow OpenSSH
+  community.general.ufw:
+    rule: allow
+    name: OpenSSH
+
+- name: Allow WireGuard
+  community.general.ufw:
+    rule: allow
+    proto: udp
+    port: "{{ wireguard_port }}"
+    comment: "Allow WireGuard"
+
+- name: Apply service-specific rules
+  community.general.ufw: "{{ item }}"
+  with_items: "{{ rules }}"
