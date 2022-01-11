@@ -16,7 +16,9 @@ requirements.txt                     # Python requirements
 1. Create a virtual environment: `python -m venv venv`
 1. Activate the virtual environment
    - Windows: `.\venv\Scripts\activate`
+    - Note: [Ansible cannot run on Windows hosts natively](https://docs.ansible.com/ansible/latest/user_guide/windows_faq.html#can-ansible-run-on-windows)
    - Linux: `source venv/bin/activate`
 1. Update pip and builder deps: `python -m pip install --upgrade pip wheel setuptools`
 1. Install project dependancies: `python -m pip install -r requirements.txt`
 1. Install the pre-commit hook: `pre-commit install`
+1. Create a `vault_passwords` file and write the vault password to it
