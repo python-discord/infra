@@ -1,12 +1,12 @@
-- name: Enable UFW and deny all traffic by default
-  community.general.ufw:
-    state: enabled
-    policy: deny
-
 - name: Allow OpenSSH
   community.general.ufw:
     rule: allow
     name: OpenSSH
+
+- name: Enable UFW and deny all traffic by default
+  community.general.ufw:
+    state: enabled
+    policy: deny
 
 - name: Allow WireGuard
   community.general.ufw:
