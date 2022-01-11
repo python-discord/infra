@@ -14,4 +14,3 @@ jobs:
           project: Infrastructure
           column: Todo
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-    
