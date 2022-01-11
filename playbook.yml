@@ -12,6 +12,12 @@
 
 - hosts: all
   roles:
+    - ufw
+  tags:
+    - ufw
+
+- hosts: all
+  roles:
     - wireguard
   tags:
     - wireguard
