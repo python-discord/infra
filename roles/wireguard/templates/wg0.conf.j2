@@ -1,0 +1,15 @@
+# Configuration managed by Ansible
+[Interface]
+Address = {{ wireguard_subnet }}
+ListenPort = 46850
+PrivateKey = {{ wg_priv_key['content'] | b64decode | trim }}
+
+{% for host in hostvars.keys() if not host == inventory_hostname %}
+# Peer config for: {{ host }}
+[Peer]
+AllowedIPs = {{ hostvars[host]['wireguard_subnet'] }}
+PublicKey = {{ hostvars[host]['wg_pub_key']['content'] | b64decode | trim }}
+Endpoint = {{ host }}.box.pydis.wtf:46850
+PersistentKeepalive = 30
+
+{% endfor %}
