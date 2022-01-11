@@ -2,11 +2,16 @@ all:
   hosts:
     turing:
       ansible_host: turing.box.pydis.wtf
+      wireguard_subnet: 10.1.0.0/16
     lovelace:
       ansible_host: lovelace.box.pydis.wtf
+      wireguard_subnet: 10.2.0.0/16
     hopper:
       ansible_host: hopper.box.pydis.wtf
+      wireguard_subnet: 10.3.0.0/16
     ritchie:
       ansible_host: ritchie.box.pydis.wtf
+      wireguard_subnet: 10.4.0.0/16
     neumann:
       ansible_host: neumann.box.pydis.wtf
+      wireguard_subnet: 10.5.0.0/16
