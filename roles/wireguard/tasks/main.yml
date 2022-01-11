@@ -46,6 +46,8 @@
     mode: '0600'
     group: root
     owner: root
+  notify:
+    - reload wg-quick
 
 - name: Start and enable the WireGuard service
   service:
