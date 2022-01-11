@@ -1,3 +1,10 @@
+- name: Install UFW
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+    pkg:
+      - ufw
+
 - name: Allow OpenSSH
   community.general.ufw:
     rule: allow
