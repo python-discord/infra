@@ -9,3 +9,9 @@
     - jumpcloud
   tags:
     - jumpcloud
+
+- hosts: all
+  roles:
+    - wireguard
+  tags:
+    - wireguard
