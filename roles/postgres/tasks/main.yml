@@ -1,0 +1,14 @@
+- name: Install postgres packages.
+  apt:
+    name:
+      - python3-psycopg2
+      - postgresql-{{ postgresql_version }}
+      - postgresql-contrib-{{ postgresql_version }}
+      - libpq-dev
+    state: present
+
+- name: Check postgres is started and enabled on boot.
+  service:
+    name: '{{ postgresql_daemon }}'
+    state: started
+    enabled: true
