@@ -21,3 +21,9 @@
     - wireguard
   tags:
     - wireguard
+
+- hosts: lovelace
+  roles:
+    - postgres
+  tags:
+    - postgres
