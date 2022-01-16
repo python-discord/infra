@@ -12,3 +12,20 @@
     name: '{{ postgresql_daemon }}'
     state: started
     enabled: true
+
+- name: Add postgres users.
+  community.postgresql.postgresql_user:
+    name: "{{ item.name }}"
+    login_user: "{{ item.login_user }}"
+    role_attr_flags: "{{ item.role_attr_flags }}"
+  with_items: "{{ postgresql_users }}"
+  become: true
+  become_user: "{{ postgresql_user }}"
+
+- name: Add postgres databases.
+  community.postgresql.postgresql_db:
+    name: "{{ item.name }}"
+    owner: "{{ item.owner | default(postgresql_user) }}"
+  with_items: "{{ postgresql_databases }}"
+  become: true
+  become_user: "{{ postgresql_user }}"
