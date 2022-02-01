@@ -15,5 +15,13 @@ all:
     neumann:
       ansible_host: neumann.box.pydis.wtf
       wireguard_subnet: 10.5.0.0/16
+
+  children:
+    podman:
+      hosts:
+        turing:
+        lovelace:
+        hopper:
+        ritchie:
   vars:
     wireguard_port: 46850

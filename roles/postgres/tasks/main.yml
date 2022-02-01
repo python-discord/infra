@@ -6,21 +6,29 @@
       - postgresql-contrib-{{ postgresql_version }}
       - libpq-dev
     state: present
+  tags:
+    - role::postgres
 
 - name: Check postgres is started and enabled on boot.
   service:
     name: '{{ postgresql_daemon }}'
     state: started
     enabled: true
+  tags:
+    - role::postgres
 
 - name: Add postgres users.
   community.postgresql.postgresql_user: "{{ item }}"
   with_items: "{{ postgresql_users }}"
   become: true
   become_user: "{{ postgresql_user }}"
+  tags:
+    - role::postgres
 
 - name: Add postgres databases.
   community.postgresql.postgresql_db: "{{ item }}"
   with_items: "{{ postgresql_databases }}"
   become: true
   become_user: "{{ postgresql_user }}"
+  tags:
+    - role::postgres

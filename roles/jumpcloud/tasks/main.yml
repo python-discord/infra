@@ -1,5 +1,7 @@
 - name: Fetch service facts
   service_facts:
+  tags:
+    - role::jumpcloud
 
 - name: Check if JumpCloud service is installed
   set_fact:
@@ -13,9 +15,13 @@
     return_content: true
   register: jc_install_script
   when: not jumpcloud_installed
+  tags:
+    - role::jumpcloud
 
 - name: Execute JumpCloud install script
   command: sh -s -- -y
   args:
     stdin: "{{ jc_install_script.content }}"
   when: not jumpcloud_installed
+  tags:
+    - role::jumpcloud

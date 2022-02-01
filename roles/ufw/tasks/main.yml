@@ -4,16 +4,22 @@
     cache_valid_time: 3600
     pkg:
       - ufw
+  tags:
+    - role::ufw
 
 - name: Allow OpenSSH
   community.general.ufw:
     rule: allow
     name: OpenSSH
+  tags:
+    - role::ufw
 
 - name: Enable UFW and deny all traffic by default
   community.general.ufw:
     state: enabled
     policy: deny
+  tags:
+    - role::ufw
 
 - name: Allow WireGuard
   community.general.ufw:
@@ -21,7 +27,11 @@
     proto: udp
     port: "{{ wireguard_port }}"
     comment: "Allow WireGuard"
+  tags:
+    - role::ufw
 
 - name: Apply service-specific rules
   community.general.ufw: "{{ item }}"
   with_items: "{{ rules }}"
+  tags:
+    - role::ufw
