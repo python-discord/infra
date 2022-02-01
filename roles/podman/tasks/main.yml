@@ -1,0 +1,7 @@
+---
+- name: install podman
+  package:
+    name: podman
+    state: present
+  tags:
+    - role::podman

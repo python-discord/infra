@@ -1,6 +1,8 @@
 - name: Update hostname to match Ansible inventory
   hostname:
     name: "{{ inventory_hostname }}"
+  tags:
+    - role::common
 
 - name: Update /etc/hosts to match Ansible inventory
   template:
@@ -9,6 +11,8 @@
     mode: '0644'
     owner: root
     group: root
+  tags:
+    - role::common
 
 - name: Disable SSH password authentication
   lineinfile:
@@ -18,6 +22,8 @@
     state: present
   notify:
     - restart ssh
+  tags:
+    - role::common
 
 - name: Set timezone to UTC
   file:
@@ -28,3 +34,5 @@
     group: root
   notify:
     - restart systemd-timesyncd
+  tags:
+    - role::common

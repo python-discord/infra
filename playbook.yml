@@ -1,29 +1,17 @@
-- hosts: all
+- name: Deploy common services
+  hosts: all
   roles:
     - common
-  tags:
-    - common
-
-- hosts: all
-  roles:
     - jumpcloud
-  tags:
-    - jumpcloud
-
-- hosts: all
-  roles:
     - ufw
-  tags:
-    - ufw
-
-- hosts: all
-  roles:
-    - wireguard
-  tags:
     - wireguard
 
-- hosts: lovelace
+- name: Deploy podman to container service hosts
+  hosts: podman
   roles:
-    - postgres
-  tags:
+    - podman
+
+- name: Deploy our PostgreSQL database hosts
+  hosts: lovelace
+  roles:
     - postgres
