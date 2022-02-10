@@ -4,6 +4,8 @@ Address = {{ wireguard_subnet }}
 ListenPort = {{ wireguard_port }}
 PrivateKey = {{ wg_priv_key['content'] | b64decode | trim }}
 
+PostUp = ip route add local {{ wireguard_subnet }} dev eth0
+
 {% for host in hostvars.keys() if not host == inventory_hostname %}
 # Peer config for: {{ host }}
 [Peer]
