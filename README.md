@@ -22,3 +22,13 @@ requirements.txt                     # Python requirements
 1. Install project dependancies: `python -m pip install -r requirements.txt`
 1. Install the pre-commit hook: `pre-commit install`
 1. Create a `vault_passwords` file and write the vault password to it
+
+
+## Documentation
+
+Infrastructure-related documentation ("the big picture"), once a sufficient
+level of infrastructure is established, can be found in [`docs/`](./docs/).
+
+Documentation for our Ansible roles can be found in the `README.md` file of
+each role, and role defaults (at `roles/myrole/defaults/main.yml`) contain a
+commented view on which variables are configurable for the given role.

@@ -6,6 +6,13 @@
     - ufw
     - wireguard
 
+- name: Deploy nginx to hosts
+  hosts: nginx
+  roles:
+    - nginx
+    - nginx-ufw
+    - nginx-cloudflare-mtls
+
 - name: Deploy podman to container service hosts
   hosts: podman
   roles:

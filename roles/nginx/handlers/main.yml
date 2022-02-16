@@ -1,0 +1,7 @@
+---
+- name: reload the nginx service
+  service:
+    name: nginx
+    state: reloaded
+  tags:
+    - role::nginx
