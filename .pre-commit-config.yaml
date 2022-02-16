@@ -8,14 +8,3 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
-  - repo: local
-    hooks:
-      - id: ansible-lint
-        name: ansible-lint
-        args: [--offline]
-        description: This hook runs ansible-lint within our project's environment.
-        entry: ansible-lint
-        language: system
-        pass_filenames: false
-        always_run: true
-        require_serial: true
