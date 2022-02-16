@@ -23,5 +23,10 @@ all:
         lovelace:
         hopper:
         ritchie:
+    nginx:
+      hosts:
+        turing:
+        ritchie:
+        neumann:
   vars:
     wireguard_port: 46850
