@@ -4,7 +4,13 @@
     - common
     - jumpcloud
     - ufw
+    - prometheus-node-exporter
     - wireguard
+
+- name: Deploy our monitoring stack
+  hosts: ritchie
+  roles:
+    - prometheus
 
 - name: Deploy nginx to hosts
   hosts: nginx

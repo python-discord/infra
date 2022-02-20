@@ -1,0 +1,14 @@
+---
+- name: reload the prometheus service
+  service:
+    name: prometheus
+    state: reloaded
+  tags:
+    - role::prometheus
+
+- name: restart the prometheus service
+  service:
+    name: prometheus
+    state: restarted
+  tags:
+    - role::prometheus
