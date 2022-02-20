@@ -1,0 +1,33 @@
+---
+- name: install prometheus
+  package:
+    name: prometheus
+    state: present
+  tags:
+    - role::prometheus
+
+- name: configure prometheus command line options
+  lineinfile:
+    path: /etc/default/prometheus
+    regexp: ^ARGS.*
+    line: ARGS="{{ prometheus_cmdline_options }}"
+  tags:
+    - role::prometheus
+  when:
+    - prometheus_cmdline_options is defined
+  notify:
+    - restart the prometheus service
+
+- name: configure prometheus
+  copy:
+    content: |
+      # Ansible managed
+      {{ prometheus_configuration | to_nice_yaml }}
+    dest: /etc/prometheus/prometheus.yml
+    owner: prometheus
+    group: prometheus
+    mode: 0400
+  tags:
+    - role::prometheus
+  notify:
+    - reload the prometheus service

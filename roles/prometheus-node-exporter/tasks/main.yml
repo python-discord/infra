@@ -1,0 +1,7 @@
+---
+- name: install prometheus-node-exporter
+  package:
+    name: prometheus-node-exporter
+    state: present
+  tags:
+    - role::prometheus-node-exporter
