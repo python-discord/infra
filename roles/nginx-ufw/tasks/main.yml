@@ -1,8 +1,7 @@
 ---
 - name: allow https traffic through the firewall
   ufw:
-    app: WWW Secure
+    app: Nginx HTTPS
     rule: allow
-    comment: nginx web server
   tags:
     - role::nginx-ufw
