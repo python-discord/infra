@@ -30,6 +30,9 @@ ExecStart = /usr/bin/podman run \
   --detach \
   --name {{ container.name }} \
   --publish {{ container.port }} \
+  {% for option in container.options | default([]) or [] -%}
+  {{ option }} \
+  {% endfor -%}
   {{ container.image }}
 ExecStop = /usr/bin/podman stop --ignore --cidfile %t/%n-cid
 ExecStopPost = /usr/bin/podman rm --ignore -f --cidfile %t/%n-cid
