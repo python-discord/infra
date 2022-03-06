@@ -35,7 +35,8 @@ ExecStart = /usr/bin/podman run \
   {% endfor -%}
   {{ container.image }}
 ExecStop = /usr/bin/podman stop --ignore --cidfile %t/%n-cid
-ExecStopPost = /usr/bin/podman rm --ignore -f --cidfile %t/%n-cid
+ExecStopPost=/usr/bin/test -f %t/%n-cid
+ExecStopPost=/usr/bin/podman rm --ignore -f --cidfile %t/%n-cid
 
 # TODO: Low values make the OOM mad when initially downloading a package.
 # Downloading packages should likely be done at a different place
