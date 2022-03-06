@@ -41,5 +41,6 @@ ExecStopPost = /usr/bin/podman rm --ignore -f --cidfile %t/%n-cid
 # Downloading packages should likely be done at a different place
 # or as a ExecStartPre with higher limits on CPUQuota and MemoryMax.
 
-#CPUQuota = {{ container.cpu_quota }}
-#MemoryMax = {{ container.mem_max }}
+{% for key, value in (service | default({}) or {}).items() -%}
+{{ key }}={{ value }}
+{% endfor -%}
