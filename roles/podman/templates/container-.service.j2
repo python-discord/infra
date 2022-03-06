@@ -1,0 +1,42 @@
+# vi: ft=systemd
+[Unit]
+Description = Podman container service for {{ container.name }}
+Wants=network-online.target
+After=network-online.target
+RequiresMountsFor=/var/run/container/storage
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+Type = forking
+
+PIDFile=%t/%n-pid
+Restart=on-failure
+RuntimeDirectory= %n
+
+ExecStartPre = /bin/rm -f %t/%n-pid %t/%n-cid
+# QUESTION: Why two cgroups? This was taken from:
+# https://github.com/python-discord/infra/issues/18#issuecomment-1027307623
+# TODO: make publish can be looped over to get multiple
+# ports opened.
+# TODO: look into an alternative for publishing ports
+# to the host adapter. Had issues with ufw conflicting when
+# using --publish directly. See: https://stackoverflow.com/a/51741599
+ExecStart = /usr/bin/podman run \
+  --cgroups=no-conmon \
+  --cgroups=disabled \
+  --log-driver=journald \
+  --cidfile %t/%n-cid \
+  --conmon-pidfile %t/%n-pid \
+  --detach \
+  --name {{ container.name }} \
+  --publish {{ container.port }} \
+  {{ container.image }}
+ExecStop = /usr/bin/podman stop --ignore --cidfile %t/%n-cid
+ExecStopPost = /usr/bin/podman rm --ignore -f --cidfile %t/%n-cid
+
+# TODO: Low values make the OOM mad when initially downloading a package.
+# Downloading packages should likely be done at a different place
+# or as a ExecStartPre with higher limits on CPUQuota and MemoryMax.
+
+#CPUQuota = {{ container.cpu_quota }}
+#MemoryMax = {{ container.mem_max }}

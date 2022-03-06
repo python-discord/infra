@@ -1,0 +1,13 @@
+---
+- name: Install h-asgi systemd file
+  include_role:
+    name: podman
+  vars:
+    - container:
+        name: h-asgi
+        image: ghcr.io/vcokltfre/h:latest
+        mem_max: 25M
+        cpu_quota: 3%
+        port: 8000:8000
+  tags:
+    - role::h-asgi

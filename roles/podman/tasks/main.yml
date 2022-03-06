@@ -1,7 +1,27 @@
 ---
-- name: install podman
+- name: Ensure package is installed
   package:
     name: podman
     state: present
+  tags:
+    - role::podman
+
+- name: Ensure systemd service is present
+  template:
+    src: templates/container-.service.j2
+    dest: "/etc/systemd/system/container-{{ container.name }}.service"
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - reload systemd
+  tags:
+    - role::podman
+
+- name: Ensure the systemd service is started and enabled
+  systemd:
+    name: "container-{{ container.name }}.service"
+    state: started
+    enabled: true
   tags:
     - role::podman
