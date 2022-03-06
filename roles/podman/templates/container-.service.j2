@@ -22,7 +22,6 @@ ExecStartPre=/bin/rm -f %t/%n-pid %t/%n-cid
 # to the host adapter. Had issues with ufw conflicting when
 # using --publish directly. See: https://stackoverflow.com/a/51741599
 ExecStart=/usr/bin/podman run \
-  --cgroups=no-conmon \
   --cgroups=disabled \
   --log-driver=journald \
   --cidfile %t/%n-cid \
