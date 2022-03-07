@@ -1,0 +1,28 @@
+---
+- name: install prometheus-postgres-exporter
+  package:
+    name: prometheus-postgres-exporter
+    state: present
+  tags:
+    - role::prometheus-postgres-exporter
+
+- name: GRANT pg_monitor TO prometheus
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_privs:
+    db: postgres
+    type: group
+    objs: pg_monitor
+    roles: prometheus
+  tags:
+    - role::prometheus-postgres-exporter
+
+- name: setup
+  lineinfile:
+    path: /etc/default/prometheus-postgres-exporter
+    regexp: ^DATA_SOURCE_NAME='.*?'$
+    line: DATA_SOURCE_NAME='user=prometheus host=/run/postgresql dbname=postgres'
+  notify:
+    - restart prometheus-postgres-exporter
+  tags:
+    - role::prometheus-postgres-exporter
