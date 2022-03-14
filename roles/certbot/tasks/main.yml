@@ -54,6 +54,17 @@
   tags:
     - role::certbot
 
+- name: Install rsync + nginx reload script to replica servers
+  when: inventory_hostname != ansible_play_hosts[0]
+  copy:
+    src: rsync.sh
+    dest: /opt/cert_rsync.sh
+    owner: root
+    group: root
+    mode: 0500
+  tags:
+    - role::certbot
+
 - name: Install certificate distribution keys to other NGINX nodes
   when: inventory_hostname != ansible_play_hosts[0]
   ansible.posix.authorized_key:
@@ -65,7 +76,7 @@
       | map(attribute='public_key')
       | first }}
     comment: "certificate distribution key"
-    key_options: 'from="{{ hostvars[ansible_play_hosts_all[0]]["wireguard_subnet"] }}",restrict,command="/usr/bin/rrsync -wo /etc/letsencrypt/live"'
+    key_options: 'from="{{ hostvars[ansible_play_hosts_all[0]]["wireguard_subnet"] }}",restrict,command="/opt/cert_rsync.sh"'
   tags:
     - role::certbot
 
@@ -76,7 +87,7 @@
     dest: /etc/letsencrypt/renewal-hooks/deploy/distribute-certs
     owner: root
     group: root
-    mode: 0500
+    mode: 0700
   tags:
     - role::certbot
 
