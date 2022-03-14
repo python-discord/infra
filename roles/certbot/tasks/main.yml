@@ -101,7 +101,7 @@
     --dns-cloudflare
     --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini
     --deploy-hook /etc/letsencrypt/renewal-hooks/deploy/distribute-certs
-    -d {{ item }} -d *.{{ item }} -d there.was.no.christmas.party.pydis.wtf
+    -d {{ item }} -d *.{{ item }} -d cloud.native.is.fun.and.easy.pydis.wtf
   args:
     creates: "/etc/letsencrypt/live/{{ item }}/fullchain.pem"
   with_items:
