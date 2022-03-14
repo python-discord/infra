@@ -12,9 +12,10 @@
   roles:
     - prometheus
 
-- name: Deploy nginx to hosts
+- name: Deploy nginx & certbot to hosts
   hosts: nginx
   roles:
+    - certbot
     - nginx
     - nginx-geoip
     - nginx-ufw
