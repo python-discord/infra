@@ -6,6 +6,8 @@
 - name: Check if JumpCloud service is installed
   set_fact:
     jumpcloud_installed: "{{ 'jcagent.service' in ansible_facts.services }}"
+  tags:
+    - role::jumpcloud
 
 - name: Grab copy of JumpCloud install script
   uri:
