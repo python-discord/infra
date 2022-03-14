@@ -1,7 +1,7 @@
 ---
-- name: allow https traffic through the firewall
+- name: allow http(s) traffic through the firewall
   ufw:
-    app: Nginx HTTPS
+    app: Nginx Full
     rule: allow
   tags:
     - role::nginx-ufw
