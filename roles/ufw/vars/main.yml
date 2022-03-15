@@ -1,1 +1,6 @@
-rules: []
+rules:
+  - comment: Allow internal traffic
+    interface: wg0
+    direction: in
+    rule: allow
+    from_ip: 10.0.0.0/8
