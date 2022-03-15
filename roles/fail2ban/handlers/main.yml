@@ -1,0 +1,6 @@
+- name: reload fail2ban
+  service:
+    name: fail2ban
+    state: reloaded
+  tags:
+    - role::fail2ban

@@ -6,6 +6,7 @@
     - ufw
     - prometheus-node-exporter
     - wireguard
+    - fail2ban
 
 - name: Deploy our monitoring stack
   hosts: ritchie
