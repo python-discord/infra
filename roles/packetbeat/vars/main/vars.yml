@@ -1,0 +1,6 @@
+packetbeat_elasticsearch_host: "10.5.0.0:9200"
+
+packetbeat_elastic_username: "pydis"
+packetbeat_elastic_password: "{{ encrypted_packetbeat_elastic_password }}"
+packetbeat_elastic_fingerprint: >-
+  e75cfe8591cb5d30ce31f9a094053f4e0090ebd057a120ac9dcbbf5754fb5a73
