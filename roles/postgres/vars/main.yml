@@ -2,6 +2,8 @@ postgresql_version: "13"
 postgresql_daemon: "postgresql@{{ postgresql_version }}-main"
 postgres_user: "postgres"
 
-postgresql_users: []
+postgresql_users:
+  - name: prometheus
+    login_unix_socket: /run/postgresql/
 
 postgresql_databases: []

@@ -31,3 +31,4 @@
   hosts: lovelace
   roles:
     - postgres
+    - prometheus-postgres-exporter
