@@ -1,5 +1,5 @@
 ---
-- name: allow http(s) traffic through the firewall
+- name: Allow http(s) traffic through the firewall
   ufw:
     app: Nginx Full
     rule: allow

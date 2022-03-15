@@ -1,5 +1,5 @@
 ---
-- name: create nginx certificates directory
+- name: Create nginx certificates directory
   file:
     path: /etc/nginx/certs
     state: directory
@@ -9,7 +9,7 @@
   tags:
     - role::nginx-cloudflare-mtls
 
-- name: copy the cloudflare mutual TLS certificate
+- name: Copy the cloudflare mutual TLS certificate
   copy:
     src: cloudflare.crt
     dest: /etc/nginx/certs/cloudflare.crt

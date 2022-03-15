@@ -1,12 +1,12 @@
 ---
-- name: install prometheus
+- name: Install prometheus
   package:
     name: prometheus
     state: present
   tags:
     - role::prometheus
 
-- name: configure prometheus command line options
+- name: Configure prometheus command line options
   lineinfile:
     path: /etc/default/prometheus
     regexp: ^ARGS.*
@@ -18,7 +18,7 @@
   notify:
     - restart the prometheus service
 
-- name: configure prometheus
+- name: Configure prometheus
   copy:
     content: |
       # Ansible managed
