@@ -14,8 +14,9 @@
     - role::packetbeat
 
 - name: Install Elasticsearch signing key
+  # noqa command-instead-of-module
   shell: >-
-    wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch |
+    set -o pipefail && wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch |
     gpg --yes --dearmor -o /usr/share/keyrings/elasticsearch-keyring.gpg
   args:
     creates: /usr/share/keyrings/elasticsearch-keyring.gpg
