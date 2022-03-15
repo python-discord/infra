@@ -1,0 +1,26 @@
+- name: Install Kibana NGINX config
+  copy:
+    dest: /etc/nginx/sites-enabled/kibana
+    mode: 0644
+    group: root
+    owner: root
+    content: |
+      # Managed by Ansible
+      server {
+        listen 443 ssl http2;
+        server_name kibana.pydis.wtf;
+
+        ssl_certificate      /etc/letsencrypt/live/pydis.wtf/fullchain.pem;
+        ssl_certificate_key  /etc/letsencrypt/live/pydis.wtf/privkey.pem;
+        ssl_client_certificate {{ nginx_cloudflare_mtls_certificate_path }};
+        ssl_verify_client on;
+
+        location / {
+          include proxy_params;
+          proxy_pass http://localhost:5601;
+        }
+      }
+  notify:
+    - reload the nginx service
+  tags:
+    - role::kibana-nginx
