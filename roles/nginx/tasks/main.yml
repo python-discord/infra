@@ -1,7 +1,21 @@
 ---
-- name: Install nginx
+- name: Install NGINX & modules
   package:
-    name: nginx
+    name:
+      - nginx
+      - libnginx-mod-http-lua
     state: present
   tags:
     - role::nginx
+
+- name: Copy NGINX default config
+  copy:
+    src: default_server.conf
+    dest: /etc/nginx/conf.d/default_server.conf
+    group: root
+    owner: root
+    mode: 0644
+  tags:
+    - role::nginx
+  notify:
+    - reload the nginx service
