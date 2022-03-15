@@ -1,0 +1,27 @@
+---
+- name: Install Auditbeat
+  apt:
+    pkg: auditbeat
+    state: present
+  tags:
+    - role::auditbeat
+
+- name: Configure Auditbeat
+  template:
+    src: auditbeat.yml.j2
+    dest: /etc/auditbeat/auditbeat.yml
+    mode: 0644
+    owner: root
+    group: root
+  tags:
+    - role::auditbeat
+  notify:
+    - restart auditbeat
+
+- name: Start and enable Auditbeat
+  service:
+    name: auditbeat
+    state: started
+    enabled: true
+  tags:
+    - role::auditbeat

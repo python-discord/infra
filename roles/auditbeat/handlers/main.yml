@@ -1,0 +1,7 @@
+---
+- name: restart auditbeat
+  service:
+    name: auditbeat
+    state: restarted
+  tags:
+    - role::auditbeat

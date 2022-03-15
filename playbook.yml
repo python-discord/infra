@@ -44,3 +44,4 @@
   roles:
     - filebeat
     - packetbeat
+    - auditbeat
