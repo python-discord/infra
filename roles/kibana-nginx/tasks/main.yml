@@ -1,6 +1,6 @@
 - name: Install Kibana NGINX config
   copy:
-    dest: /etc/nginx/sites-enabled/kibana
+    dest: /etc/nginx/conf.d/kibana.conf
     mode: 0644
     group: root
     owner: root
