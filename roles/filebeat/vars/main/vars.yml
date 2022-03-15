@@ -1,0 +1,7 @@
+filebeat_kibana_host: "http://10.5.0.0:5601"
+filebeat_elasticsearch_host: "10.5.0.0:9200"
+
+filebeat_elastic_username: "pydis"
+filebeat_elastic_password: "{{ encrypted_filebeat_elastic_password }}"
+filebeat_elastic_fingerprint: >-
+  e75cfe8591cb5d30ce31f9a094053f4e0090ebd057a120ac9dcbbf5754fb5a73
