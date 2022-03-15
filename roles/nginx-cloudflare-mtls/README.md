@@ -14,6 +14,3 @@ ssl_verify_client on;
 ## Variables
 
 See [role defaults](./defaults/main.yml) for an annotated overview.
-
-
-<!-- vim: set textwidth=80 ts=2 ts=2: -->
