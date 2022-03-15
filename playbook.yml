@@ -31,3 +31,16 @@
   hosts: lovelace
   roles:
     - postgres
+
+- name: Deploy monitoring software
+  hosts: neumann
+  roles:
+    - elasticsearch
+    - kibana
+    - kibana-nginx
+
+- name: Deploy monitoring agents
+  hosts: all
+  roles:
+    - filebeat
+    - packetbeat
