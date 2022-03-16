@@ -1,8 +1,6 @@
 ---
 
 - name: restart prometheus-postgres-exporter
-  become: true
   service:
-    daemon_reload: true
     name: prometheus-postgres-exporter.service
     state: restarted
