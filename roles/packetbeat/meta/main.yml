@@ -1,5 +1,0 @@
----
-dependencies:
-  - role: elasticsearch-repos
-    tags:
-      - role::packetbeat

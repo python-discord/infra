@@ -1,7 +1,0 @@
----
-- name: restart packetbeat
-  service:
-    name: packetbeat
-    state: restarted
-  tags:
-    - role::packetbeat

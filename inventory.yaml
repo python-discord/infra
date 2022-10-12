@@ -28,5 +28,3 @@ all:
         turing:
         ritchie:
         neumann:
-  vars:
-    wireguard_port: 46850
