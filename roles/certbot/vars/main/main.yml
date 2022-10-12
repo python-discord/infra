@@ -1,6 +1,0 @@
----
-certbot_cloudflare_token: "{{ encrypted_cloudflare_token }}"
-certbot_email: "joe@jb3.dev"
-certbot_domains:
-  - pydis.wtf
-  - pythondiscord.com

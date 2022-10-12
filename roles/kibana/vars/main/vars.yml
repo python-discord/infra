@@ -1,3 +1,0 @@
-kibana_elastic_username: "pydis"
-kibana_elastic_password: "{{ encrypted_kibana_elastic_password }}"
-kibana_public_url: "https://kibana.pydis.wtf"

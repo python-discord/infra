@@ -2,25 +2,14 @@
   hosts: all
   roles:
     - common
-    - jumpcloud
     - ufw
     - prometheus-node-exporter
-    - wireguard
     - fail2ban
 
 - name: Deploy our monitoring stack
   hosts: ritchie
   roles:
     - prometheus
-
-- name: Deploy nginx & certbot to hosts
-  hosts: nginx
-  roles:
-    - certbot
-    - nginx
-    - nginx-geoip
-    - nginx-ufw
-    - nginx-cloudflare-mtls
 
 - name: Deploy podman to container service hosts
   hosts: podman
@@ -31,17 +20,3 @@
   hosts: lovelace
   roles:
     - postgres
-
-- name: Deploy monitoring software
-  hosts: neumann
-  roles:
-    - elasticsearch
-    - kibana
-    - kibana-nginx
-
-- name: Deploy monitoring agents
-  hosts: all
-  roles:
-    - filebeat
-    - packetbeat
-    - auditbeat

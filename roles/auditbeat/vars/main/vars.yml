@@ -1,7 +1,0 @@
-auditbeat_kibana_host: "http://10.5.0.0:5601"
-auditbeat_elasticsearch_host: "10.5.0.0:9200"
-
-auditbeat_elastic_username: "pydis"
-auditbeat_elastic_password: "{{ encrypted_auditbeat_elastic_password }}"
-auditbeat_elastic_fingerprint: >-
-  e75cfe8591cb5d30ce31f9a094053f4e0090ebd057a120ac9dcbbf5754fb5a73

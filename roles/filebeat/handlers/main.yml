@@ -1,6 +1,0 @@
-- name: restart filebeat
-  service:
-    state: restarted
-    name: filebeat
-  tags:
-    - role::filebeat
