@@ -1,0 +1,3 @@
+[submodule "kubespray"]
+	path = kubespray
+	url = git@github.com:python-discord/kubespray.git
