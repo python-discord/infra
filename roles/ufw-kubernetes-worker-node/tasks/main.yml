@@ -5,7 +5,7 @@
     rule: allow
     proto: tcp
     port: "{{ item[0].ports }}"
-    comment: "{{ item[0].comment }} (from {{ lookup('dig', item[1], qtype='PTR') }})"
+    comment: "{{ item[0].comment }}"
     src: "{{ item[1] }}"
   with_nested:
     - - ports: 10250
