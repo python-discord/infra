@@ -1,0 +1,23 @@
+---
+# https://kubernetes.io/docs/reference/ports-and-protocols/
+- name: install rules for private Kubernetes worker node services
+  community.general.ufw:
+    rule: allow
+    proto: tcp
+    port: "{{ item[0].ports }}"
+    comment: "{{ item[0].comment }} (from {{ lookup('dig', item[1], qtype='PTR') }})"
+    src: "{{ item[1] }}"
+  with_nested:
+    - - ports: 10250
+        comment: Kubelet API
+    - "{{ groups['k8s_cluster'] | map('extract', hostvars, ['ansible_default_ipv4', 'address']) }}"
+
+- name: install rules for public Kubernetes worker node services
+  community.general.ufw:
+    rule: allow
+    proto: tcp
+    port: "{{ item.ports }}"
+    comment: "{{ item.comment }}"
+  with_items:
+    - ports: 30000:32767
+      comment: NodePort services

@@ -20,18 +20,3 @@
     policy: deny
   tags:
     - role::ufw
-
-- name: Allow WireGuard
-  community.general.ufw:
-    rule: allow
-    proto: udp
-    port: "{{ wireguard_port }}"
-    comment: "Allow WireGuard"
-  tags:
-    - role::ufw
-
-- name: Apply service-specific rules
-  community.general.ufw: "{{ item }}"
-  with_items: "{{ rules }}"
-  tags:
-    - role::ufw
