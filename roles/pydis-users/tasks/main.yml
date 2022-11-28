@@ -1,0 +1,22 @@
+---
+- name: configure user accounts
+  ansible.builtin.user:
+    name: "{{ item.key }}"
+    state: "{{ item.value.state | default('present') }}"
+    shell: "{{ item.value.shell | default('/bin/bash') }}"
+    groups: "{{ item.value.groups | default(omit) }}"
+    comment: "{{ item.value.comment | default(omit) }}"
+    password: "{{ item.value.crypted_password | default(omit) }}"
+    remove: true
+  loop_control:
+    label: "{{ item.key }}"
+  loop: "{{ pydis_system_users | dict2items }}"
+
+- name: configure ssh keys
+  ansible.posix.authorized_key:
+    key: "{{ item.value.ssh_keys | join('\n') }}"
+    exclusive: true
+    user: "{{ item.key }}"
+  loop_control:
+    label: "{{ item.key }}"
+  loop: "{{ pydis_system_users | dict2items }}"

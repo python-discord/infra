@@ -5,6 +5,7 @@
     - ufw
     # - prometheus-node-exporter
     - fail2ban
+    - pydis-users
 
 - name: Deploy Kubernetes control plane firewall rules
   hosts: kube_control_plane
