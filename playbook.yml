@@ -3,20 +3,28 @@
   roles:
     - common
     - ufw
-    - prometheus-node-exporter
+    # - prometheus-node-exporter
     - fail2ban
 
-- name: Deploy our monitoring stack
-  hosts: ritchie
+- name: Deploy Kubernetes control plane firewall rules
+  hosts: kube_control_plane
   roles:
-    - prometheus
+    - ufw-kubernetes-control-plane
 
-- name: Deploy podman to container service hosts
-  hosts: podman
+- name: Deploy Kubernetes worker node firewall rules
+  hosts: "{{ groups['kube_node'] | reject('eq', groups['kube_control_plane']) }}"
   roles:
-    - podman
+    - ufw-kubernetes-worker-node
 
-- name: Deploy our PostgreSQL database hosts
-  hosts: lovelace
-  roles:
-    - postgres
+# - name: Deploy Kubernetes
+#   import_playbook: kubespray/cluster.yml
+
+# - name: Deploy our monitoring stack
+#   hosts: ritchie
+#   roles:
+#     - prometheus
+#
+# - name: Deploy our PostgreSQL database hosts
+#   hosts: lovelace
+#   roles:
+#     - postgres
