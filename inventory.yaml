@@ -1,12 +1,1 @@
-all:
-  hosts:
-    turing:
-      ansible_host: turing.box.pydis.wtf
-    lovelace:
-      ansible_host: lovelace.box.pydis.wtf
-    hopper:
-      ansible_host: hopper.box.pydis.wtf
-    ritchie:
-      ansible_host: ritchie.box.pydis.wtf
-    neumann:
-      ansible_host: neumann.box.pydis.wtf
+kubespray/inventory/mycluster/hosts.yaml
