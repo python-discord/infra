@@ -27,3 +27,8 @@
   with_items:
     - ports: 6443
       comment: Kubernetes API server
+
+- name: allow forwarded traffic
+  community.general.ufw:
+    direction: routed
+    default: allow
