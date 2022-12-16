@@ -17,8 +17,8 @@
   roles:
     - ufw-kubernetes-worker-node
 
-# - name: Deploy Kubernetes
-#   import_playbook: kubespray/cluster.yml
+- name: Deploy Kubernetes
+  import_playbook: kubespray/cluster.yml
 
 # - name: Deploy our monitoring stack
 #   hosts: ritchie
