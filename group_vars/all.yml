@@ -24,8 +24,3 @@ pydis_system_users:
     comment: Hassan Abouelela
     groups: [sudo]
     ssh_keys: [ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQB1EyvFt+yLF21iaCAweUFhuCLqRfFHUYIfGsPeaAg1zFxsYgKyxfXSQCIWQjTOZhrHKJ7SVoN9rIYOtE48LFhW4vUiuOb+fGgQsxRgRiKE7XFW9PzFhb1GKyCuIeQvJcA/LJ7kCXk+CPeYMKtYfmbzLG5LXtko1Znh5pIZODHID9/cXhF++D1hXfJTMMjrCEAruLPPk9/JalF1VbRtEcxGS5Spr4dLvj5aOPkKXNNh9goPbaEajG1drmgP8lROCdzc9VBOD3Abq+4CkUasXvuleS972UwpLef4dT6tiRl9vJCECN/ben01VcQxdU/r9dQqtsIRKIVIAMOrTpxg+jet rsa-key-20200530]
-
-  sofi:
-    comment: Sofi Finnes
-    groups: []
-    ssh_keys: []
