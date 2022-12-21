@@ -1,9 +1,16 @@
 #!/bin/bash
 
 # This script is available via pydis.com/bootstrap
+# Paste the below lines into netcup 'custom script' box to use.
+: '
+#! bin/bash
+apt-get update
+apt-get install -y curl
+curl -fsSL https://raw.githubusercontent.com/python-discord/infra/main/server_bootstrap.sh | bash
+'
+
 set -e
 
-apt-get update
 apt-get upgrade -y
 
 touch /root/.ssh/authorized_keys
