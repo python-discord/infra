@@ -6,7 +6,7 @@
 #! bin/bash
 apt-get update
 apt-get install -y curl
-curl -fsSL https://raw.githubusercontent.com/python-discord/infra/main/server_bootstrap.sh | bash
+curl -fsSL pydis.com/bootstrap | bash
 '
 
 set -e
