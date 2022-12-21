@@ -13,6 +13,7 @@ set -e
 
 apt-get upgrade -y
 
+mkdir -p /root/.ssh
 touch /root/.ssh/authorized_keys
 cat <<EOT >> /root/.ssh/authorized_keys
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDBYx/b++w2CpKyhSl0mY9lL6c093ghb5eD0uNPkgQTa5cCIaYy73q0w3uTmqoIDuaQk3eHVu0Jk2DvUH16u9f5jLXrMIAbeiQv6giPqyGdulqqJ4LsMCXT8xIV1myTpkXwlzJs6R48byOiupALTkO47MUGFMT+dUsKKSYQqZxdXr5EPxYLM0iziYuIvu2D8wF5Hc9HmL86/E6ScxO4iGGEq452k38hH7appQ9BIJDhDKnsxMm/povO7EBwm9q45b7ifnbiDKO+G041hYwpWx78b+ryUrvHoDv9jUjAHc2HDnN95fbXvbYPKRg2naf1A4Ra+4CKywE3sc/u3oZ9UJUHB3fEXir/MgviztrbSkxhMFwWckxEt6l6H3y71HQx0rFXnzYSuj1T647ntxZBeZZUnHw6DkKYbovLzXiOL4wMr9Xq/9tr7kGxEoKgvTYwk69Win8cQfncXyWfacV3311GNOPx6SCFYnWCVNODyPb+s8R8L+6GfGGRy0V8mEwSJu0= chris@mercury
