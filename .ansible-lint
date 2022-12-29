@@ -1,4 +1,6 @@
 ---
+exclude_paths:
+   - inventory/group_vars  # Copied from kubespray, and not necessary to lint
 skip_list:
   - fqcn-builtins
   - meta-no-info
