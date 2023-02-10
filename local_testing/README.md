@@ -15,8 +15,12 @@ vagrant ssh                 # Get a shell, password=vagrant
 /vagrant/scripts/push-keys  # Push the control VM's ssh key to all nodes
 
 # run ansible
+cd infra
+# if you're on Windows, the `infra` directory will be mounted with permissions set to 777
+# which ansible will reject as insecure
+# export the below environment variable to force anisble to accept the writable config
+# export ANSIBLE_CONFIG='/home/vagrant/infra/ansible.cfg'
 ansible-playbook playbook.yml --inventory local_testing/hosts.yaml --user vagrant
-
 ```
 
 Below are the IPs of the VMs on the VirtualBox network
