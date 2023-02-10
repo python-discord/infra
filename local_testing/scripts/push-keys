@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Intended to be used in the "control" VM to push keys to the other hosts
+
+for i in {1..6} ; do
+  ssh-keyscan 192.168.56.$i >> ~/.ssh/known_hosts
+  sshpass -p vagrant ssh-copy-id 192.168.56.$i
+done

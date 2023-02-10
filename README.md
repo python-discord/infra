@@ -13,6 +13,9 @@ requirements.txt                     # Python requirements
 ```
 
 ## Local Environment Setup
+
+To setup a local environment using VMs for testing, [Read here](./local_testing/README.md)
+
 1. Create a virtual environment: `python -m venv venv`
 1. Activate the virtual environment
    - Windows: `.\venv\Scripts\activate`

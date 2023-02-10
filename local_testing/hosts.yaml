@@ -1,0 +1,56 @@
+all:
+  hosts:
+    hopper:
+      ansible_host: 192.168.56.2
+      ip: 192.168.56.2
+      access_ip: 192.168.56.2
+    lovelace:
+      ansible_host: 192.168.56.3
+      ip: 192.168.56.3
+      access_ip: 192.168.56.3
+    neumann:
+      ansible_host: 192.168.56.4
+      ip: 192.168.56.4
+      access_ip: 192.168.56.4
+    ritchie:
+      ansible_host: 192.168.56.5
+      ip: 192.168.56.5
+      access_ip: 192.168.56.5
+    turing:
+      ansible_host: 192.168.56.6
+      ip: 192.168.56.6
+      access_ip: 192.168.56.6
+  children:
+    kube_control_plane:
+      hosts:
+        hopper:
+        turing:
+    kube_node:
+      hosts:
+        hopper:
+        turing:
+        lovelace:
+        neumann:
+        ritchie:
+    etcd:
+      hosts:
+        hopper:
+        turing:
+        lovelace:
+    k8s_cluster:
+      children:
+        kube_control_plane:
+        kube_node:
+    calico_rr:
+      hosts: {}
+    podman:
+      hosts:
+        turing:
+        lovelace:
+        hopper:
+        ritchie:
+    nginx:
+      hosts:
+        turing:
+        ritchie:
+        neumann:
