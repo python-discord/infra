@@ -24,7 +24,7 @@ jobs:
       - name: Add custom PYTHONUSERBASE to PATH
         run: echo '${{ env.PYTHONUSERBASE }}/bin/' >> $GITHUB_PATH
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup Python
         id: python
