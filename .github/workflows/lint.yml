@@ -24,11 +24,11 @@ jobs:
       - name: Add custom PYTHONUSERBASE to PATH
         run: echo '${{ env.PYTHONUSERBASE }}/bin/' >> $GITHUB_PATH
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Setup Python
         id: python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
@@ -39,7 +39,7 @@ jobs:
       #
       # Only when the context is exactly the same, we will restore the cache.
       - name: Python dependency caching
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         id: python_cache
         with:
           path: ${{ env.PYTHONUSERBASE }}
@@ -58,7 +58,7 @@ jobs:
       # do create a new environment when our pre-commit setup changes,
       # we create a cache key based on relevant factors.
       - name: Pre-commit environment caching
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{ env.PRE_COMMIT_HOME }}
           key: "precommit-0-${{ runner.os }}-${{ env.PRE_COMMIT_HOME }}-\
@@ -92,7 +92,7 @@ jobs:
       - name: Upload the PR artifact
         if: always() && steps.prepare-artifact.outcome == 'success'
         continue-on-error: true
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: pull-request-payload
           path: pull_request_payload.json
