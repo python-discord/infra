@@ -21,7 +21,7 @@
     line: "PasswordAuthentication no"
     state: present
   notify:
-    - restart ssh
+    - Restart ssh
   tags:
     - role::common
 
@@ -33,7 +33,7 @@
     owner: root
     group: root
   notify:
-    - restart systemd-timesyncd
+    - Restart systemd-timesyncd
   tags:
     - role::common
 

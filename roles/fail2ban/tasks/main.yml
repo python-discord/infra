@@ -16,7 +16,7 @@
   tags:
     - role::fail2ban
   notify:
-    - reload fail2ban
+    - Reload fail2ban
 
 - name: Enable fail2ban service
   service:
