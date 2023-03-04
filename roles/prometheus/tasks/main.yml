@@ -16,7 +16,7 @@
   when:
     - prometheus_cmdline_options is defined
   notify:
-    - restart the prometheus service
+    - Restart the prometheus service
 
 - name: Configure prometheus
   copy:
@@ -30,4 +30,4 @@
   tags:
     - role::prometheus
   notify:
-    - reload the prometheus service
+    - Reload the prometheus service
