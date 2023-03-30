@@ -1,4 +1,4 @@
 ansible==7.3.0
 ansible-lint[yamllint]==6.12.1
-pre-commit==3.2.0
+pre-commit==3.2.1
 dnspython==2.3.0
