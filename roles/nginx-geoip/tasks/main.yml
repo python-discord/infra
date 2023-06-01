@@ -1,0 +1,13 @@
+---
+- name: Configure the geoip module
+  copy:
+    # ref https://nginx.org/en/docs/http/ngx_http_geoip_module.html
+    content: geoip_country /usr/share/GeoIP/GeoIP.dat;
+    dest: /etc/nginx/conf.d/geoip.conf
+    owner: root
+    group: root
+    mode: 0444
+  tags:
+    - role::nginx-geoip
+  notify:
+    - reload the nginx service

@@ -1,0 +1,72 @@
+- name: Install WireGuard
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+    pkg:
+      - wireguard
+      - wireguard-tools
+      - linux-headers-{{ ansible_kernel }}
+  tags:
+    - role::wireguard
+
+- name: Generate WireGuard private key
+  shell: set -o pipefail && wg genkey > /etc/wireguard/key.priv
+  args:
+    executable: /bin/bash
+    creates: /etc/wireguard/key.priv
+  tags:
+    - role::wireguard
+
+- name: Generate WireGuard public key
+  shell: set -o pipefail && cat /etc/wireguard/key.priv | wg pubkey > /etc/wireguard/key.pub
+  args:
+    executable: /bin/bash
+    creates: /etc/wireguard/key.pub
+  tags:
+    - role::wireguard
+
+- name: Ensure file permissions for keys set correctly
+  file:
+    path: '{{ item }}'
+    owner: root
+    group: root
+    mode: '0600'
+  with_items:
+    - /etc/wireguard/key.priv
+    - /etc/wireguard/key.pub
+  tags:
+    - role::wireguard
+
+- name: Fetch private key for all hosts
+  slurp:
+    src: /etc/wireguard/key.priv
+  register: wg_priv_key
+  tags:
+    - role::wireguard
+
+- name: Fetch public key for all hosts
+  slurp:
+    src: /etc/wireguard/key.pub
+  register: wg_pub_key
+  tags:
+    - role::wireguard
+
+- name: Generate WireGuard configuration file
+  template:
+    src: wg0.conf.j2
+    dest: /etc/wireguard/wg0.conf
+    mode: '0600'
+    group: root
+    owner: root
+  notify:
+    - reload wg-quick
+  tags:
+    - role::wireguard
+
+- name: Start and enable the WireGuard service
+  service:
+    name: wg-quick@wg0
+    enabled: true
+    state: started
+  tags:
+    - role::wireguard

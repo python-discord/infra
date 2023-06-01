@@ -1,4 +1,4 @@
-- name: Install postgres packages.
+- name: Install postgres packages
   apt:
     name:
       - python3-psycopg2
@@ -9,7 +9,7 @@
   tags:
     - role::postgres
 
-- name: Check postgres is started and enabled on boot.
+- name: Check postgres is started and enabled on boot
   service:
     name: '{{ postgresql_daemon }}'
     state: started
@@ -17,7 +17,7 @@
   tags:
     - role::postgres
 
-- name: Add postgres users.
+- name: Add postgres users
   community.postgresql.postgresql_user: "{{ item }}"
   with_items: "{{ postgresql_users }}"
   become: true
@@ -25,7 +25,7 @@
   tags:
     - role::postgres
 
-- name: Add postgres databases.
+- name: Add postgres databases
   community.postgresql.postgresql_db: "{{ item }}"
   with_items: "{{ postgresql_databases }}"
   become: true

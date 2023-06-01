@@ -1,0 +1,25 @@
+# Configuration managed by Ansible
+[Interface]
+Address = {{ wireguard_subnet }}
+ListenPort = {{ wireguard_port }}
+PrivateKey = {{ wg_priv_key['content'] | b64decode | trim }}
+
+PostUp = ip route add local {{ wireguard_subnet }} dev eth0
+
+{% for host in hostvars.keys() if not host == inventory_hostname %}
+# Peer config for: {{ host }}
+[Peer]
+AllowedIPs = {{ hostvars[host]['wireguard_subnet'] }}
+PublicKey = {{ hostvars[host]['wg_pub_key']['content'] | b64decode | trim }}
+Endpoint = {{ host }}.box.pydis.wtf:{{ wireguard_port }}
+PersistentKeepalive = 30
+
+{% endfor %}
+
+{% for key in extra_keys %}
+# DevOps config for: {{ key.name }}
+[Peer]
+AllowedIPs = {{ key.subnet }}
+PublicKey = {{ key.pubkey }}
+
+{% endfor %}
