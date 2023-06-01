@@ -1,0 +1,3 @@
+---
+# The path at which to install the certificate.
+nginx_cloudflare_mtls_certificate_path: /etc/nginx/certs/cloudflare.crt

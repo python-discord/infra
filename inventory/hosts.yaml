@@ -1,25 +1,20 @@
 all:
   hosts:
     turing:
-      ansible_host: 89.58.25.151
-      ip: 89.58.25.151
-      access_ip: 89.58.25.151
-    hopper:
-      ansible_host: 89.58.24.117
-      ip: 89.58.24.117
-      access_ip: 89.58.24.117
+      ansible_host: turing.box.pydis.wtf
+      wireguard_subnet: 10.1.0.0/16
     lovelace:
-      ansible_host: 89.58.26.118
-      ip: 89.58.26.118
-      access_ip: 89.58.26.118
+      ansible_host: lovelace.box.pydis.wtf
+      wireguard_subnet: 10.2.0.0/16
+    hopper:
+      ansible_host: hopper.box.pydis.wtf
+      wireguard_subnet: 10.3.0.0/16
     ritchie:
-      ansible_host: 89.58.25.224
-      ip: 89.58.25.224
-      access_ip: 89.58.25.224
+      ansible_host: ritchie.box.pydis.wtf
+      wireguard_subnet: 10.4.0.0/16
     neumann:
-      ansible_host: 89.58.12.244
-      ip: 89.58.12.244
-      access_ip: 89.58.12.244
+      ansible_host: neumann.box.pydis.wtf
+      wireguard_subnet: 10.5.0.0/16
   children:
     podman:
       hosts:
@@ -29,3 +24,5 @@ all:
     nginx:
       hosts:
         turing:
+  vars:
+    wireguard_port: 46850

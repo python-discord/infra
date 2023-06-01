@@ -1,0 +1,110 @@
+---
+- name: Install certbot and certbot Cloudflare plugin
+  when: inventory_hostname == ansible_play_hosts_all[0]
+  package:
+    name:
+      - python3-certbot
+      - python3-certbot-dns-cloudflare
+    state: present
+  tags:
+    - role::certbot
+
+- name: Install rsync on certbot hosts
+  package:
+    name: rsync
+    state: present
+  tags:
+    - role::certbot
+
+- name: Generate Cloudflare credentials file on designated leader
+  when: inventory_hostname == ansible_play_hosts_all[0]
+  copy:
+    content: |
+      # This file is managed by Ansible
+      dns_cloudflare_api_token = {{ certbot_cloudflare_token }}
+    dest: /etc/letsencrypt/cloudflare.ini
+    owner: root
+    group: root
+    mode: 0400
+  tags:
+    - role::certbot
+
+- name: Generate SSH key for certificate distribution
+  when: inventory_hostname == ansible_play_hosts_all[0]
+  community.crypto.openssh_keypair:
+    path: /root/.ssh/cert_{{ item }}_key_ed25519
+    type: ed25519
+    state: present
+    comment: certificate distribution key for {{ item }}
+  with_items:
+    - "{{ ansible_play_hosts | reject('in', [inventory_hostname]) }}"
+  tags:
+    - role::certbot
+  register: generated_keys
+
+- name: Create certificate directories on replica certificate hosts
+  when: inventory_hostname != ansible_play_hosts[0]
+  file:
+    path: /etc/letsencrypt/live
+    recurse: true
+    state: directory
+    owner: root
+    group: root
+    mode: 0700
+  tags:
+    - role::certbot
+
+- name: Install rsync + nginx reload script to replica servers
+  when: inventory_hostname != ansible_play_hosts[0]
+  copy:
+    src: rsync.sh
+    dest: /opt/cert_rsync.sh
+    owner: root
+    group: root
+    mode: 0500
+  tags:
+    - role::certbot
+
+- name: Install certificate distribution keys to other NGINX nodes
+  when: inventory_hostname != ansible_play_hosts[0]
+  ansible.posix.authorized_key:
+    user: root
+    state: present
+    key: |
+      {{ hostvars[ansible_play_hosts_all[0]]['generated_keys']['results']
+      | selectattr('item', 'equalto', inventory_hostname)
+      | map(attribute='public_key')
+      | first }}
+    comment: "certificate distribution key"
+    key_options: 'from="{{ hostvars[ansible_play_hosts_all[0]]["wireguard_subnet"] }}",restrict,command="/opt/cert_rsync.sh"'
+  tags:
+    - role::certbot
+
+- name: Create renewal hook to synchronize certificates
+  when: inventory_hostname == ansible_play_hosts_all[0]
+  template:
+    src: renewal-hook.sh.j2
+    dest: /etc/letsencrypt/renewal-hooks/deploy/distribute-certs
+    owner: root
+    group: root
+    mode: 0700
+  tags:
+    - role::certbot
+
+- name: Request certificates for configured domains
+  when: inventory_hostname == ansible_play_hosts_all[0]
+  command: |
+    certbot certonly
+    --agree-tos
+    --non-interactive
+    --email {{ certbot_email }}
+    --dns-cloudflare
+    --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini
+    --deploy-hook /etc/letsencrypt/renewal-hooks/deploy/distribute-certs
+    -d {{ item }} -d *.{{ item }} -d cloud.native.is.fun.and.easy.pydis.wtf
+  args:
+    creates: "/etc/letsencrypt/live/{{ item }}/fullchain.pem"
+  with_items:
+    - "{{ certbot_domains }}"
+  tags:
+    - role::certbot
