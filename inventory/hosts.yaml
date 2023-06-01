@@ -21,36 +21,11 @@ all:
       ip: 89.58.12.244
       access_ip: 89.58.12.244
   children:
-    kube_control_plane:
-      hosts:
-        hopper:
-        turing:
-    kube_node:
-      hosts:
-        hopper:
-        turing:
-        lovelace:
-        neumann:
-        ritchie:
-    etcd:
-      hosts:
-        hopper:
-        turing:
-        lovelace:
-    k8s_cluster:
-      children:
-        kube_control_plane:
-        kube_node:
-    calico_rr:
-      hosts: {}
     podman:
       hosts:
         turing:
-        lovelace:
-        hopper:
         ritchie:
+        neumann:
     nginx:
       hosts:
         turing:
-        ritchie:
-        neumann:
