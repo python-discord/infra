@@ -1,11 +1,9 @@
 # Inventory
-The main inventory for the pydis cluster, including configuration for kubespray.
+The main inventory for the pydis cluster.
 
 ## Content
-- `group_vars`: Configuration variables for kubespray in various contexts.
 This directory is not covered by ansible-lint, and should generally not be used to add new configuration.
 Instead, that should be placed appropriately within the project as normal.
-- `patches`
 - `hosts.yaml`: The main hosts file for our infrastructure.
 
 ## Deployment
