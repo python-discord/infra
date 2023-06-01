@@ -80,6 +80,12 @@
   tags:
     - role::certbot
 
+- name: Ensure renewal-hooks deploy directory exists
+  file:
+    path: /etc/letsencrypt/renewal-hooks/deploy
+    recurse: true
+    state: directory
+
 - name: Create renewal hook to synchronize certificates
   when: inventory_hostname == ansible_play_hosts_all[0]
   template:
