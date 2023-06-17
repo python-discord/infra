@@ -1,4 +1,4 @@
-postgresql_version: "13"
+postgresql_version: "15"
 postgresql_daemon: "postgresql@{{ postgresql_version }}-main"
 postgres_user: "postgres"
 
