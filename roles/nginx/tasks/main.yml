@@ -4,6 +4,7 @@
     name:
       - nginx
       - libnginx-mod-http-lua
+      - libnginx-mod-http-geoip
     state: present
   tags:
     - role::nginx
