@@ -26,7 +26,7 @@
     dest: /etc/prometheus/prometheus.yml
     owner: prometheus
     group: prometheus
-    mode: 0400
+    mode: "0400"
   tags:
     - role::prometheus
   notify:

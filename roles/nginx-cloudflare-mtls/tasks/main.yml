@@ -5,7 +5,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0444
+    mode: "0444"
   tags:
     - role::nginx-cloudflare-mtls
 
@@ -15,6 +15,6 @@
     dest: /etc/nginx/certs/cloudflare.crt
     owner: root
     group: root
-    mode: 0444
+    mode: "0444"
   tags:
     - role::nginx-cloudflare-mtls

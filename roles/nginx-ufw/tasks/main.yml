@@ -1,6 +1,6 @@
 ---
 - name: Allow http(s) traffic through the firewall
-  ufw:
+  community.general.ufw:
     app: Nginx Full
     rule: allow
   tags:
