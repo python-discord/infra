@@ -71,5 +71,8 @@
   copy:
     src: /etc/skel/.bashrc
     dest: /root/.bashrc
+    mode: '0644'
+    owner: root
+    group: root
   tags:
     - role::common

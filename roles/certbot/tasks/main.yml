@@ -25,7 +25,7 @@
     dest: /etc/letsencrypt/cloudflare.ini
     owner: root
     group: root
-    mode: 0400
+    mode: "0400"
   tags:
     - role::certbot
 
@@ -50,7 +50,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0700
+    mode: "0700"
   tags:
     - role::certbot
 
@@ -61,7 +61,7 @@
     dest: /opt/cert_rsync.sh
     owner: root
     group: root
-    mode: 0500
+    mode: "0500"
   tags:
     - role::certbot
 
@@ -93,7 +93,7 @@
     dest: /etc/letsencrypt/renewal-hooks/deploy/distribute-certs
     owner: root
     group: root
-    mode: 0700
+    mode: "0700"
   tags:
     - role::certbot
 

@@ -12,7 +12,7 @@
     dest: /etc/fail2ban/jail.local
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   tags:
     - role::fail2ban
   notify:

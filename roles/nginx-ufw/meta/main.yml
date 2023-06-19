@@ -1,4 +1,4 @@
 ---
 dependencies:
-  - nginx
-  - ufw
+  - role: nginx
+  - role: ufw

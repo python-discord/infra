@@ -6,7 +6,7 @@
     dest: /etc/nginx/conf.d/geoip.conf
     owner: root
     group: root
-    mode: 0444
+    mode: "0444"
   tags:
     - role::nginx-geoip
   notify:
