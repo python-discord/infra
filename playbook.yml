@@ -6,9 +6,10 @@
     - prometheus-node-exporter
     - wireguard
     - fail2ban
+    - podman
 
 - name: Deploy our monitoring stack
-  hosts: ritchie
+  hosts: lovelace
   roles:
     - prometheus
 
@@ -20,11 +21,6 @@
     - nginx-geoip
     - nginx-ufw
     - nginx-cloudflare-mtls
-
-- name: Deploy podman to container service hosts
-  hosts: podman
-  roles:
-    - podman
 
 - name: Deploy our PostgreSQL database hosts
   hosts: lovelace
