@@ -1,6 +1,7 @@
 ---
 exclude_paths:
   - .github  # Not ansible roles
+  - infra/roles/certbot/vars/main/vault.yml
 skip_list:
   - fqcn-builtins
   - meta-no-info
