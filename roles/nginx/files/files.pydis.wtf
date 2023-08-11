@@ -1,0 +1,10 @@
+# Managed by Ansible
+server {
+  listen      443;
+  server_name files.pydis.wtf;
+  root        /var/www/turing;
+
+  location / {
+    try_files $uri $uri/;
+  }
+}
