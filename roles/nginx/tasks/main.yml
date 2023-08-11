@@ -20,3 +20,8 @@
     - role::nginx
   notify:
     - reload the nginx service
+
+- name: Remove default nginx site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
