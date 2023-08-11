@@ -6,6 +6,7 @@ all:
     lovelace:
       ansible_host: lovelace.box.pydis.wtf
       wireguard_subnet: 10.2.0.0/16
+  children:
     nginx:
       hosts:
         turing:
