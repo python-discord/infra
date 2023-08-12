@@ -19,4 +19,27 @@
   tags:
     - role::nginx
   notify:
-    - reload the nginx service
+    - Reload the nginx service
+
+- name: Remove default nginx site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Copy file server config
+  copy:
+    src: files.pydis.wtf
+    dest: /etc/nginx/sites-available/files.pydis.wtf
+    group: root
+    owner: root
+    mode: "0644"
+  tags:
+    - role::nginx
+  notify:
+    - Reload the nginx service
+
+- name: Enable file server
+  file:
+    src: /etc/nginx/sites-available/files.pydis.wtf
+    dest: /etc/nginx/sites-enabled/files.pydis.wtf
+    state: link

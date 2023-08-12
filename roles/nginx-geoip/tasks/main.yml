@@ -10,4 +10,4 @@
   tags:
     - role::nginx-geoip
   notify:
-    - reload the nginx service
+    - Reload the nginx service
