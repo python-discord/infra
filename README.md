@@ -15,7 +15,11 @@ ansible/
 ├── ansible.cfg                          # Ansible Configurartion file
 └── playbook.yml                         # Root playbook pulling all roles together
 docs/
-└── meeting_notes/                       # Minutes for previous devops meetings
+└── meeting_notes/                          # Minutes for previous devops meetings
+kubernetes/
+├── cluster-wide-secrets/                # Kubernetes secrets shared by multiple pods across namespaces
+├── namespaces/                          # Kubernetes manifests, separated by namespace
+└── scripts/                             # Scripts used to lint manifests in CI
 .pre-commit-config.yaml                  # pre-commit configuration
 server_bootstrap.sh                      # A bash script used to init our bare metal servers
 ```
