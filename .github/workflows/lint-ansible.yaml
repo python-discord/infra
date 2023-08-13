@@ -1,98 +1,28 @@
-name: Lint Playbook
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+name: Lint Ansible play books
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  workflow_dispatch:
+  workflow_call:
+    secrets:
+      vault-password:
+        required: true
 
 jobs:
   lint:
+    name: Lint
     runs-on: ubuntu-latest
-    env:
-      PIP_NO_CACHE_DIR: false
-      PIP_USER: 1
-      PYTHONUSERBASE: ${{ github.workspace }}/.cache/py-user-base
-      PRE_COMMIT_HOME: ${{ github.workspace }}/.cache/pre-commit-cache
-
     steps:
-      - name: Add custom PYTHONUSERBASE to PATH
-        run: echo '${{ env.PYTHONUSERBASE }}/bin/' >> $GITHUB_PATH
-
       - uses: actions/checkout@v3
 
-      - name: Setup Python
-        id: python
-        uses: actions/setup-python@v4
+      - name: Install Python Dependencies
+        uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.1
         with:
-          python-version: '3.10'
+          python_version: '3.11'
+          install_args: --only ansible
 
-      # This step caches our Python dependencies. To make sure we
-      # only restore a cache when the dependencies, the python version,
-      # the runner operating system, and the dependency location haven't
-      # changed, we create a cache key that is a composite of those states.
-      #
-      # Only when the context is exactly the same, we will restore the cache.
-      - name: Python dependency caching
-        uses: actions/cache@v3
-        id: python_cache
-        with:
-          path: ${{ env.PYTHONUSERBASE }}
-          key: "python-0-${{ runner.os }}-${{ env.PYTHONUSERBASE }}-\
-          ${{ steps.python.outputs.python-version }}-\
-          ${{ hashFiles('./requirements.txt') }}"
-
-      # Install our dependencies if we did not restore a dependency cache
-      - name: Install dependencies using pip
-        if: steps.python_cache.outputs.cache-hit != 'true'
+      - name: Run ansible lint
         run: |
-          pip install -U pip wheel setuptools
-          pip install -r requirements.txt
-
-      # This step caches our pre-commit environment. To make sure we
-      # do create a new environment when our pre-commit setup changes,
-      # we create a cache key based on relevant factors.
-      - name: Pre-commit environment caching
-        uses: actions/cache@v3
-        with:
-          path: ${{ env.PRE_COMMIT_HOME }}
-          key: "precommit-0-${{ runner.os }}-${{ env.PRE_COMMIT_HOME }}-\
-          ${{ steps.python.outputs.python-version }}-\
-          ${{ hashFiles('./.pre-commit-config.yaml') }}"
-
-      - name: Fetch vault password
-        run: 'echo "$VAULT_PASSWORD" > vault_passwords'
+          cd ansible
+          echo "$VAULT_PASSWORD" > vault_passwords
+          ansible-lint --offline
         env:
-          VAULT_PASSWORD: "${{ secrets.ANSIBLE_VAULT_PASSWORD }}"
-
-      # As pre-commit does not support user installs, we set
-      # PIP_USER=0 to not do a user install.
-      - name: Run pre-commit hooks
-        run: export PIP_USER=0; pre-commit run --all-files
-
-      # Prepare the Pull Request Payload artifact. If this fails, we
-      # we fail silently using the `continue-on-error` option. It's
-      # nice if this succeeds, but if it fails for any reason, it
-      # does not mean that our lint checks failed.
-      - name: Prepare PR payload artifact
-        id: prepare-artifact
-        if: always() && github.event_name == 'pull_request'
-        continue-on-error: true
-        run: cat $GITHUB_EVENT_PATH | jq '.pull_request' > pull_request_payload.json
-
-      # This only makes sense if the previous step succeeded. To
-      # get the original outcome of the previous step before the
-      # `continue-on-error` conclusion is applied, we use the
-      # `.outcome` value. This step also fails silently.
-      - name: Upload the PR artifact
-        if: always() && steps.prepare-artifact.outcome == 'success'
-        continue-on-error: true
-        uses: actions/upload-artifact@v3
-        with:
-          name: pull-request-payload
-          path: pull_request_payload.json
+          VAULT_PASSWORD: "${{ secrets.vault-password }}"

@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      ansible: ${{ steps.changes.outputs.ansible }}
+    steps:
+    - uses: actions/checkout@v3
+    - uses: dorny/paths-filter@v2
+      id: changes
+      with:
+        filters: |
+          ansible:
+            - 'ansible/**'
+  lint:
+    uses: ./.github/workflows/lint.yaml
+
+  lint-ansible:
+    needs: changes
+    if: ${{ needs.changes.outputs.ansible == 'true' }}
+    uses: ./.github/workflows/lint-ansible.yaml
+    secrets:
+      vault-password: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}

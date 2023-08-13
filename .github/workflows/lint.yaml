@@ -1,0 +1,45 @@
+name: Lint files using pre-commit
+
+on:
+  workflow_call
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install Python Dependencies
+        uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.1
+        with:
+          python_version: '3.11'
+          install_args: --only main
+
+      - name: Run pre-commit hooks
+        run: SKIP=ruff pre-commit run --all-files
+
+      # Run `ruff` using github formatting to enable automatic inline annotations.
+      - name: Run ruff
+        run: ruff check --format=github .
+
+      # Prepare the Pull Request Payload artifact. If this fails, we
+      # we fail silently using the `continue-on-error` option. It's
+      # nice if this succeeds, but if it fails for any reason, it
+      # does not mean that our lint checks failed.
+      - name: Prepare PR payload artifact
+        id: prepare-artifact
+        if: always() && github.event_name == 'pull_request'
+        continue-on-error: true
+        run: cat $GITHUB_EVENT_PATH | jq '.pull_request' > pull_request_payload.json
+
+      # This only makes sense if the previous step succeeded. To
+      # get the original outcome of the previous step before the
+      # `continue-on-error` conclusion is applied, we use the
+      # `.outcome` value. This step also fails silently.
+      - name: Upload the PR artifact
+        if: always() && steps.prepare-artifact.outcome == 'success'
+        continue-on-error: true
+        uses: actions/upload-artifact@v3
+        with:
+          name: pull-request-payload
+          path: pull_request_payload.json
