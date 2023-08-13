@@ -1,37 +1,28 @@
 # Infra
 
-This repository contains the infrastructure configuration for Python Discord, the file structure is as follows:
+This repository contains the infrastructure configuration for Python Discord, the file structure is shown below, with well known files omitted for brevity:
 
-```yaml
-playbook.yml                         # Root playbook pulling all roles together
-inventory.yaml                       # Ansible Inventory file
-ansible.cfg                          # Ansible Configurartion file
-roles/                               # Directory containing all Ansible roles
-.github/
-  workflows/                        # GitHub Actions Workflows for CI
-requirements.txt                     # Python requirements
+[//]: <> (This structure is generated using https://tree.nathanfriend.io/.)
 ```
-
-## Local Environment Setup
-
-To setup a local environment using VMs for testing, [Read here](./local_testing/README.md)
-
-1. Create a virtual environment: `python -m venv venv`
-1. Activate the virtual environment
-   - Windows: `.\venv\Scripts\activate`
-    - Note: [Ansible cannot run on Windows hosts natively](https://docs.ansible.com/ansible/latest/user_guide/windows_faq.html#can-ansible-run-on-windows)
-   - Linux: `source venv/bin/activate`
-1. Update pip and builder deps: `python -m pip install --upgrade pip wheel setuptools`
-1. Install project dependancies: `python -m pip install -r requirements.txt`
-1. Install the pre-commit hook: `pre-commit install`
-1. Create a `vault_passwords` file and write the vault password to it
-
+.github/
+└── workflows/                           # GitHub Actions Workflows for CI
+ansible/
+├── host_vars/                           # Host specific Ansible variables
+├── inventory/                           # Ansible Inventory files
+├── local_testing/                       # Vagrant configuration to test Ansible playbook locally using VMs
+├── roles/                               # Directory containing all Ansible roles
+├── .ansible-lint                        # Configuration for ansible lint
+├── ansible.cfg                          # Ansible Configurartion file
+└── playbook.yml                         # Root playbook pulling all roles together
+docs/
+└── meeting_notes/                       # Minutes for previous devops meetings
+.pre-commit-config.yaml                  # pre-commit configuration
+server_bootstrap.sh                      # A bash script used to init our bare metal servers
+```
 
 ## Documentation
 
-Infrastructure-related documentation ("the big picture"), once a sufficient
-level of infrastructure is established, can be found in [`docs/`](./docs/).
+Infrastructure-related documentation ("the big picture"), can be found in [`docs/`](./docs/) (Once written).
 
-Documentation for our Ansible roles can be found in the `README.md` file of
-each role, and role defaults (at `roles/myrole/defaults/main.yml`) contain a
-commented view on which variables are configurable for the given role.
+Many folders have a `README.md` file within them, which have more detailed explanations on what
+that folder, and the files within, is used for.
