@@ -1,0 +1,36 @@
+name: Lint kubernetes manifests
+
+on:
+  workflow_call:
+    secrets:
+      kube-config:
+        required: true
+
+jobs:
+  lint:
+    name: Lint manifests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Get list of files
+        run: |
+          echo "manifests<<EOF" >> $GITHUB_OUTPUT
+          python kubernetes/scripts/lint_manifests.py find >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        id: manifest-files
+
+      - uses: azure/setup-kubectl@v3
+
+      - name: Authenticate with Kubernetes
+        uses: azure/k8s-set-context@v3
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.kube-config }}
+
+      - uses: jb3/k8s-lint@master
+        with:
+          lintType: dryrun
+          manifests: |
+            ${{ steps.manifest-files.outputs.manifests }}

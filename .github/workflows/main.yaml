@@ -15,14 +15,19 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       ansible: ${{ steps.changes.outputs.ansible }}
+      kubernetes: ${{ steps.changes.outputs.kubernetes }}
     steps:
     - uses: actions/checkout@v3
+
     - uses: dorny/paths-filter@v2
       id: changes
       with:
         filters: |
           ansible:
             - 'ansible/**'
+          kubernetes:
+            - 'kubernetes/**'
+
   lint:
     uses: ./.github/workflows/lint.yaml
 
@@ -32,3 +37,10 @@ jobs:
     uses: ./.github/workflows/lint-ansible.yaml
     secrets:
       vault-password: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
+
+  lint-kubernetes:
+    needs: changes
+    if: ${{ needs.changes.outputs.kubernetes == 'true' }}
+    uses: ./.github/workflows/lint-kubernetes.yaml
+    secrets:
+      kube-config: ${{ secrets.KUBECONFIG }}
