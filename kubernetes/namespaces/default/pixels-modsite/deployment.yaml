@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pixels-modsite
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pixels-modsite
+  template:
+    metadata:
+      labels:
+        app: pixels-modsite
+    spec:
+      containers:
+        - name: pixels-modsite
+          image: ghcr.io/python-discord/pixels-modsite:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: pixels-modsite-env
+          securityContext:
+            readOnlyRootFilesystem: true
+      imagePullSecrets:
+        - name: ghcr-pull-secret
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sir-lancebot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sir-lancebot
+  template:
+    metadata:
+      labels:
+        app: sir-lancebot
+    spec:
+      containers:
+      - name: sir-lancebot
+        image: ghcr.io/python-discord/sir-lancebot:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 400m
+            memory: 100Mi
+          limits:
+            cpu: 500m
+            memory: 200Mi
+        envFrom:
+        - secretRef:
+            name: sir-lancebot-env
+        - secretRef:
+            name: redis-credentials
+        securityContext:
+          readOnlyRootFilesystem: true
+        volumeMounts:
+            - name: lancebot-data-vol
+              mountPath: /bot/bot/exts/fun/_latex_cache
+            - name: lancebot-logs-vol
+              mountPath: /bot/bot/log
+            - name: lancebot-tmp-vol
+              mountPath: /tmp
+      volumes:
+      - name: lancebot-data-vol
+        emptyDir: {}
+      - name: lancebot-logs-vol
+        emptyDir: {}
+      - name: lancebot-tmp-vol
+        emptyDir:
+          medium: Memory
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true

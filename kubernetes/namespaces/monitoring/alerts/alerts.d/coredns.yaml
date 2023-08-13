@@ -1,0 +1,20 @@
+groups:
+- name: coredns
+  rules:
+
+  - alert: CoreDNSPanics
+    expr: increase(coredns_panics_total[1m]) > 0
+    for: 0m
+    labels:
+      severity: page
+    annotations:
+      summary: "CoreDNS is experiencing panic"
+      description: "Number of CoreDNS panics encountered: {{ $value }}"
+
+  - alert: CoreDNSCacheMisses
+    expr: rate(coredns_cache_misses_total{}[10m]) / rate(coredns_cache_misses_total{}[10m] offset 10m) > 5.00
+    labels:
+      severity: page
+    annotations:
+      summary: "High CoreDNS cache misses in last 10 minutes"
+      description: "This can sometimes be an indication of networking troubles, currently {{ $value | humanizePercentage }} over last 10 minutes."

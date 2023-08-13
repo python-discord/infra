@@ -1,0 +1,11 @@
+# Store all commands used and replay on server startup
+appendonly yes
+
+# Set password
+requirepass <INSERT PASSWORD>
+
+# Set working directory
+dir /data
+
+# Set a memory maximum
+maxmemory 1gb

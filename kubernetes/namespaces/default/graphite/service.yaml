@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: graphite
+spec:
+  ports:
+    - port: 80
+      name: nginx
+    - port: 8125
+      name: statsd
+      protocol: UDP
+    - port: 8126
+      name: statsd-admin
+  selector:
+    app: graphite

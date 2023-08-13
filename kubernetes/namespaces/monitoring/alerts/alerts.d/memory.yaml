@@ -1,0 +1,12 @@
+groups:
+- name: memory
+  rules:
+
+  - alert: NodeHighMemoryUsage
+    expr: node_memory_Active_bytes / node_memory_MemTotal_bytes > 0.8
+    for: 30s
+    labels:
+      severity: page
+    annotations:
+      summary: "Node {{ $labels.kubernetes_node }} has RAM usage >80% for 5 minutes"
+      description: 'RAM usage is currently {{ $value | humanizePercentage }} on {{ $labels.kubernetes_node }}'

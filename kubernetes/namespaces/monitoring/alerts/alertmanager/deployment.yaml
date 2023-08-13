@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager
+  namespace: monitoring
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: alertmanager
+  template:
+    metadata:
+      labels:
+        app: alertmanager
+    spec:
+      serviceAccountName: prometheus
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - alertmanager
+              namespaces:
+              - monitoring
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+      initContainers:
+      - image: debian:bullseye-slim
+        imagePullPolicy: Always
+        name: alertmanager-peering-setup
+        command: [
+          '/opt/pydis/alertmanager/init.d/find-pods.sh'
+        ]
+        volumeMounts:
+        - name: alertmanager-init
+          mountPath: /opt/pydis/alertmanager/init.d
+        - name: alertmanager-tmp
+          mountPath: /tmp
+        securityContext:
+          runAsUser: 0
+      containers:
+      - image: prom/alertmanager:latest
+        imagePullPolicy: Always
+        name: alertmanager
+        command:
+          - /bin/sh
+          - -c
+          - |
+            exec /bin/alertmanager \
+              --config.file=/opt/pydis/alertmanager/config.d/alertmanager.yaml \
+              --web.external-url=https://alertmanager.pythondiscord.com \
+              --storage.path=/data/alertmanager \
+              $(cat /tmp/peers)
+        ports:
+        - name: am
+          containerPort: 9093
+        - name: am-peering
+          containerPort: 9094
+        volumeMounts:
+        - name: alertmanager-config
+          mountPath: /opt/pydis/alertmanager/config.d
+        - name: alertmanager-webhooks
+          mountPath: /opt/pydis/alertmanager/webhooks
+        - name: alertmanager-tmp-data
+          mountPath: /data
+        - name: alertmanager-tmp
+          mountPath: /tmp
+        securityContext:
+          readOnlyRootFilesystem: true
+      restartPolicy: Always
+      volumes:
+        - name: alertmanager-config
+          configMap:
+            name: alertmanager-config
+        - name: alertmanager-webhooks
+          secret:
+            secretName: alert-manager-hook
+        - name: alertmanager-tmp-data
+          emptyDir: {}
+        - name: alertmanager-tmp
+          emptyDir: {}
+        - name: alertmanager-init
+          configMap:
+            name: alertmanager-init
+            defaultMode: 0777
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: forms-backend
+spec:
+  selector:
+    app: forms-backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000

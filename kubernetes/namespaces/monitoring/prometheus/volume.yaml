@@ -1,0 +1,14 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: prometheus-storage
+  namespace: monitoring
+  labels:
+    app: prometheus
+spec:
+  storageClassName: linode-block-storage-retain
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 30Gi

@@ -1,0 +1,21 @@
+groups:
+- name: cpu
+  rules:
+
+  - alert: HighCPUThrottling
+    expr: rate(container_cpu_cfs_throttled_seconds_total{pod=~".+", container_name!="POD", image!=""}[5m]) > 1
+    for: 5m
+    labels:
+      severity: page
+    annotations:
+      summary: "Container {{ $labels.container_name }} in {{ $labels.pod }} high throttling "
+      description: "{{ $labels.container_name }} inside {{ $labels.pod }} is at {{ $value }}"
+
+  - alert: HighNodeCPU
+    expr: 100 - (avg by (kubernetes_node) (irate(node_cpu_seconds_total{job="node-exporter",mode="idle"}[5m])) * 100) > 80
+    for: 5m
+    labels:
+      severity: page
+    annotations:
+      summary: "Node {{ $labels.kubernetes_node }} has CPU over 80% for last 5 minute"
+      description: "CPU on {{ $labels.kubernetes_node }} is averaging {{ $value }}"

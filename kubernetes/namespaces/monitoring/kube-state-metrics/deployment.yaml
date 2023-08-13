@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-state-metrics
+  namespace: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: kube-state-metrics
+  template:
+    metadata:
+      labels:
+        app: kube-state-metrics
+    spec:
+      serviceAccountName: kube-state-metrics
+      containers:
+      - image: ghcr.io/python-discord/kube-state-metrics:v2.1.0
+        imagePullPolicy: Always
+        args:
+        - --metric-labels-allowlist=pods=[*]
+        name: kube-state-metrics
+        securityContext:
+          readOnlyRootFilesystem: true
+      imagePullSecrets:
+        - name: ghcr-pull-secret
+      restartPolicy: Always
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true

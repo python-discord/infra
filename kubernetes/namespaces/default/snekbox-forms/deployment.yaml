@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snekbox-forms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: snekbox-forms
+  template:
+    metadata:
+      labels:
+        app: snekbox-forms
+    spec:
+      initContainers:
+        - name: init-service
+          image: busybox:latest
+          command: ["/bin/sh", "-c"]
+          args:
+          - >
+            wget https://files.pydis.wtf/33649562-5739-4f23-9219-28fc236b86bc/random.png -O /tmp/cj-inputs/random.png;
+            wget https://files.pydis.wtf/33649562-5739-4f23-9219-28fc236b86bc/shuffled1_order.txt -O /tmp/cj-inputs/shuffled1_order.txt;
+            wget https://files.pydis.wtf/33649562-5739-4f23-9219-28fc236b86bc/shuffled1.png -O /tmp/cj-inputs/shuffled1.png;
+            wget https://files.pydis.wtf/33649562-5739-4f23-9219-28fc236b86bc/shuffled4_order.txt -O /tmp/cj-inputs/shuffled4_order.txt;
+            wget https://files.pydis.wtf/33649562-5739-4f23-9219-28fc236b86bc/shuffled4.png -O /tmp/cj-inputs/shuffled4.png;
+            wget https://files.pydis.wtf/33649562-5739-4f23-9219-28fc236b86bc/shuffled8_order.txt -O /tmp/cj-inputs/shuffled8_order.txt;
+            wget https://files.pydis.wtf/33649562-5739-4f23-9219-28fc236b86bc/shuffled8.png -O /tmp/cj-inputs/shuffled8.png;
+            wget https://raw.githubusercontent.com/python-discord/snekbox/main/config/snekbox.cfg -O /tmp/config/snekbox.cfg;
+            echo -e 'mount {\n src:"/snekbox/cj-inputs"\n dst:"/cj-inputs"\n is_bind: true\n rw: false}' >> /tmp/config/snekbox.cfg;
+          volumeMounts:
+            - name: snekbox-cj-inputs
+              mountPath: /tmp/cj-inputs/
+            - name: snekbox-forms-config
+              mountPath: /tmp/config/
+      containers:
+        - name: snekbox-forms
+          image: ghcr.io/python-discord/snekbox:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8060
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: snekbox-forms-user-base-volume
+              mountPath: /snekbox/user_base
+            - name: snekbox-cj-inputs
+              mountPath: /snekbox/cj-inputs
+            - name: snekbox-forms-config
+              mountPath: /snekbox/config/snekbox.cfg
+              subPath: snekbox.cfg
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "/bin/sh"
+                  - "-c"
+                  - >-
+                    PYTHONUSERBASE=/snekbox/user_base
+                    pip install --user --upgrade
+                    pip
+                    pillow==10.0.0
+                    opencv-python-headless==4.8.0.74
+      volumes:
+        - name: snekbox-forms-user-base-volume
+          emptyDir: {}
+        - name: snekbox-cj-inputs
+          emptyDir: {}
+        - name: snekbox-forms-config
+          emptyDir: {}

@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location ~* / {
+        return 308 https://www.pythondiscord.com$request_uri;
+      }
+    nginx.ingress.kubernetes.io/auth-tls-secret: "kube-system/mtls-client-crt-bundle"
+    nginx.ingress.kubernetes.io/auth-tls-error-page: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  name: www-redirect
+spec:
+  tls:
+  - hosts:
+      - "pythondiscord.com"
+    secretName: pythondiscord.com-tls
+  rules:
+  - host: pythondiscord.com
+    http:
+      paths:
+      - path: /(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: site
+            port:
+              number: 80

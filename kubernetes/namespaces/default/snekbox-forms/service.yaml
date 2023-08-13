@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: snekbox-forms
+spec:
+  selector:
+    app: snekbox-forms
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8060

@@ -1,0 +1,49 @@
+groups:
+- name: nodes
+  rules:
+
+  - alert: KubernetesNodeDiskPressure
+    expr: kube_node_status_condition{condition="DiskPressure",status="true"} == 1
+    for: 1m
+    labels:
+      severity: page
+    annotations:
+      summary: Node {{ $labels.kubernetes_node }} is experiencing disk pressure
+      description: "{{ $labels.kubernetes_node }} does not have adequate space to work with."
+
+  - alert: KubernetesNodeMemoryPressure
+    expr: kube_node_status_condition{condition="MemoryPressure",status="true"} == 1
+    for: 15s
+    labels:
+      severity: page
+    annotations:
+      summary: Node {{ $labels.kubernetes_node }} is experiencing memory pressure
+      description: "{{ $labels.kubernetes_node }} does not have adequate RAM to work with."
+
+  - alert: KubernetesNodeNetworkUnavailable
+    expr: kube_node_status_condition{condition="NetworkUnavailable",status="true"} == 1
+    for: 15s
+    labels:
+      severity: page
+    annotations:
+      summary: Node {{ $labels.kubernetes_node }} is experiencing network problems
+      description: "{{ $labels.kubernetes_node }} is experiencing trouble with inbound and outbound connections"
+
+
+  - alert: KubernetesNodePIDPressure
+    expr: kube_node_status_condition{condition="PIDPressure",status="true"} == 1
+    for: 15s
+    labels:
+      severity: page
+    annotations:
+      summary: Node {{ $labels.kubernetes_node }} is experiencing PID exhaustion
+      description: "{{ $labels.kubernetes_node }} does not have enough PIDs to work with."
+
+  - alert: KubernetesNodeReady
+    expr: kube_node_status_condition{condition="Ready",status="true"} == 0
+    for: 5m
+    labels:
+      severity: page
+    annotations:
+      summary: Kubernetes node ({{ $labels.kubernetes_node }} ) is marked as unready
+      description: "Node {{ $labels.kubernetes_node }} has been unready for a long time"

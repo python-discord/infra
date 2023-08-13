@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: king-arthur
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: king-arthur
+  template:
+    metadata:
+      labels:
+        app: king-arthur
+    spec:
+      serviceAccountName: king-arthur
+      containers:
+      - name: king-arthur
+        image: ghcr.io/python-discord/king-arthur:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 400m
+            memory: 100Mi
+          limits:
+            cpu: 500m
+            memory: 200Mi
+        envFrom:
+        - secretRef:
+            name: king-arthur-env
+        securityContext:
+          readOnlyRootFilesystem: true
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true

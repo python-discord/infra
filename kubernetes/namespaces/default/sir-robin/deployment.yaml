@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sir-robin
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sir-robin
+  template:
+    metadata:
+      labels:
+        app: sir-robin
+    spec:
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true
+      containers:
+      - name: sir-robin
+        image: ghcr.io/python-discord/sir-robin:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 500m
+            memory: 300Mi
+          limits:
+            cpu: 750m
+            memory: 500Mi
+        envFrom:
+        - secretRef:
+            name: sir-robin-env
+        - secretRef:
+            name: redis-credentials
+        securityContext:
+          readOnlyRootFilesystem: true

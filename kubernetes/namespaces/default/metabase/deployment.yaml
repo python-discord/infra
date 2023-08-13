@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: metabase
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: metabase
+  template:
+    metadata:
+      labels:
+        app: metabase
+    spec:
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true
+      containers:
+        - name: metabase
+          image: metabase/metabase:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: metabase-env
+          volumeMounts:
+            - mountPath: /plugins
+              name: mb-plugins-volume
+          securityContext:
+            readOnlyRootFilesystem: true
+      volumes:
+        - name: mb-plugins-volume
+          emptyDir: {}

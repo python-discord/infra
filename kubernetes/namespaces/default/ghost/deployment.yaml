@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ghost
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: ghost
+  template:
+    metadata:
+      labels:
+        app: ghost
+    spec:
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true
+      containers:
+        - name: ghost
+          image: ghost:5.38-alpine
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 2368
+          env:
+            - name: url
+              value: https://blog.pythondiscord.com
+            - name: database__client
+              value: sqlite3
+            - name: database__connection__filename
+              value: /var/lib/ghost/content/data/ghost.db
+          volumeMounts:
+            - mountPath: /var/lib/ghost/content
+              name: ghost-data
+          securityContext:
+            readOnlyRootFilesystem: true
+      volumes:
+        - name: ghost-data
+          persistentVolumeClaim:
+            claimName: ghost-storage

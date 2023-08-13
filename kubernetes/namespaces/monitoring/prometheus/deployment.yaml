@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus
+  namespace: monitoring
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      serviceAccountName: prometheus
+      containers:
+      - image: prom/prometheus:latest
+        imagePullPolicy: Always
+        args: [
+          "--storage.tsdb.path", "/opt/prometheus/data",
+          "--config.file", "/etc/prometheus/prometheus.yaml",
+          "--web.external-url", "https://prometheus.pythondiscord.com",
+          "--web.enable-lifecycle",
+          "--web.enable-admin-api",
+          "--web.page-title", "Python Discord Prometheus",
+          "--storage.tsdb.retention.size", "28GB",
+          "--storage.tsdb.retention.time", "100d"
+        ]
+        name: prometheus
+        ports:
+        - name: prometheus
+          containerPort: 9090
+        securityContext:
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - name: prometheus-data
+          mountPath: /opt/prometheus/data
+        - name: prometheus-config
+          mountPath: /etc/prometheus
+        - name: prometheus-alerts
+          mountPath: /opt/pydis/prometheus/alerts.d
+      restartPolicy: Always
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true
+      volumes:
+        - name: prometheus-data
+          persistentVolumeClaim:
+            claimName: prometheus-storage
+        - name: prometheus-config
+          configMap:
+            name: prometheus-config
+        - name: prometheus-alerts
+          configMap:
+            name: prometheus-alert-rules

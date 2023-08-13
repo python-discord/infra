@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bot
+  template:
+    metadata:
+      labels:
+        app: bot
+    spec:
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true
+      containers:
+      - name: bot
+        image: ghcr.io/python-discord/bot:latest
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 750m
+            memory: 600Mi
+          limits:
+            cpu: 1000m
+            memory: 1400Mi
+        envFrom:
+        - secretRef:
+            name: bot-env
+        - secretRef:
+            name: redis-credentials
+        volumeMounts:
+        - mountPath: /bot/logs
+          name: logs-vol
+        - mountPath: /.cache/python-tldextract
+          name: tldextract-cache
+        securityContext:
+          readOnlyRootFilesystem: true
+      volumes:
+      - name: logs-vol
+        emptyDir: {}
+      - name: tldextract-cache
+        emptyDir: {}

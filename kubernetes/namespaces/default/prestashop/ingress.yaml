@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: prestashop-svc
+spec:
+  selector:
+    app.kubernetes.io/instance: prestashop
+    app.kubernetes.io/name: prestashop
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
+    nginx.ingress.kubernetes.io/auth-tls-secret: "kube-system/mtls-client-crt-bundle"
+    nginx.ingress.kubernetes.io/auth-tls-error-page: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  name: merch
+spec:
+  tls:
+  - hosts:
+      - "*.pythondiscord.com"
+    secretName: pythondiscord.com-tls
+  rules:
+  - host: merch.pythondiscord.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: prestashop-svc
+            port:
+              number: 80

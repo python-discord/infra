@@ -1,0 +1,54 @@
+# Exporter for taking statistics on our Redis instance
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-exporter
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-exporter
+  template:
+    metadata:
+      labels:
+        app: redis-exporter
+    spec:
+      containers:
+        - name: redis-exporter
+          image: oliver006/redis_exporter:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 5m
+              memory: 20Mi
+            limits:
+              cpu: 20m
+              memory: 50Mi
+          ports:
+            - containerPort: 9187
+          envFrom:
+            - secretRef:
+                name: redis-exporter-env
+          securityContext:
+            readOnlyRootFilesystem: true
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-exporter
+  namespace: monitoring
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9121"
+spec:
+  selector:
+    app: redis-exporter
+  ports:
+    - protocol: TCP
+      port: 9121
+      targetPort: 9121

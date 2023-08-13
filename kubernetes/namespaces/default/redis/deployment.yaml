@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:latest
+          command:
+          - redis-server
+          args:
+          - /config/redis.conf
+          - --requirepass
+          - $(REDIS_PASSWORD)
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 50m
+              memory: 100Mi
+            limits:
+              cpu: 100m
+              memory: 150Mi
+          ports:
+            - containerPort: 6379
+          envFrom:
+            - secretRef:
+                name: redis-credentials
+          volumeMounts:
+            - name: redis-data-volume
+              mountPath: /data           # Must match the dir in the redis.conf
+            - name: redis-config-volume
+              mountPath: /config
+          securityContext:
+            readOnlyRootFilesystem: true
+
+      volumes:
+        - name: redis-data-volume
+          persistentVolumeClaim:
+            claimName: redis-storage
+        - name: redis-config-volume
+          configMap:
+            name: redis-conf
+
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true

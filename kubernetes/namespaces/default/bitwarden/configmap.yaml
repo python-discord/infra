@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bitwarden-config-env
+data:
+  # Domain to access bitwarden by
+  DOMAIN: "https://bitwarden.pythondiscord.com"
+
+  # Password hint must be sent to an email when this is false.
+  # When it's true, it'll be shown right on the page.
+  SHOW_PASSWORD_HINT: "false"
+
+  # Admins only, please!
+  SIGNUPS_ALLOWED: "false"
+
+  # Used for LiveSync
+  WEBSOCKET_ENABLED: "true"
+
+  # Max conns to the DB
+  DATABASE_MAX_CONNS: "2"
+
+  # Force bitwarden to use postgres, rather than it's own volume
+  I_REALLY_WANT_VOLATILE_STORAGE: "true"

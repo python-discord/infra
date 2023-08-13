@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
+    nginx.ingress.kubernetes.io/auth-tls-secret: "kube-system/mtls-client-crt-bundle"
+    nginx.ingress.kubernetes.io/auth-tls-error-page: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  name: grafana
+spec:
+  tls:
+  - hosts:
+      - "*.pythondiscord.com"
+    secretName: pythondiscord.com-tls
+  rules:
+  - host: grafana.pythondiscord.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: grafana
+            port:
+              number: 3000

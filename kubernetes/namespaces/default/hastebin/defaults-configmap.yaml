@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hastebin-defaults
+data:
+  # Set storage method
+  STORAGE_TYPE: "redis"
+
+  # Set storage host
+  STORAGE_HOST: "redis.default.svc.cluster.local"
+
+  # Set port of storage host
+  STORAGE_PORT: "6379"
+
+  # Expiration of documents in seconds
+  STORAGE_EXPIRE_SECONDS: "2629746" # 1 month
+
+  # Select the Redis DB to use
+  STORAGE_DB: "2"
+
+  # Maximum length in characters of documents
+  MAX_LENGTH: "100000"
+
+  # Logging configuration
+  LOGGING_LEVEL: "verbose"
+  LOGGING_TYPE: "Console"
+  LOGGING_COLORIZE: "true"
+
+  # Host address and port
+  HOST: "0.0.0.0"
+  PORT: "7777"
+
+  # Length of keys
+  KEY_LENGTH: "10"
+
+  # Max length of static asset caching
+  STATIC_MAX_AGE: "86400"
+
+  # Compress assets
+  RECOMPRESS_STATIC_ASSETS: "true"
+
+  # Kegenerator
+  KEYGENERATOR_TYPE: "phonetic"
+
+  # Ratelimits
+  RATELIMITS_NORMAL_TOTAL_REQUESTS: "500"
+  RATELIMITS_NORMAL_EVERY_MILLISECONDS: "60000"
+
+  # Default documents
+  DOCUMENTS: "about=./about.md"

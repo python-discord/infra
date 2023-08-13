@@ -1,0 +1,20 @@
+groups:
+- name: jobs
+  rules:
+  - alert: KubernetesCronjobSuspended
+    expr: kube_cronjob_spec_suspend != 0
+    for: 0m
+    labels:
+      severity: page
+    annotations:
+      summary: "Kubernetes CronJob suspended: {{ $labels.cronjob }}"
+      description: "CronJob {{ $labels.kubernetes_namespace }}/{{ $labels.cronjob }} is suspended"
+
+  - alert: KubernetesJobFailed
+    expr: kube_job_status_failed > 0
+    for: 0m
+    labels:
+      severity: page
+    annotations:
+      summary: "Kubernetes Job failed: {{ $labels.job_name }}"
+      description: "Job {{$labels.kubernetes_namespacenamespace}}/{{$labels.job_name}} failed to complete"

@@ -1,0 +1,13 @@
+groups:
+- name: certificates
+  interval: 1d
+  rules:
+
+  - alert: CertificateExpiringSoon
+    expr: (certmanager_certificate_expiration_timestamp_seconds - time()) / 60 / 60 / 24 < 7
+    for: 0m
+    labels:
+      severity: warning
+    annotations:
+      summary: "Certificate is expiring in < 7 days"
+      description: "The certificate named {{ $labels.name }} is due for expiry in {{ $value | humanize }} days."

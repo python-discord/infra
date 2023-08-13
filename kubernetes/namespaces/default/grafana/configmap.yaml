@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-default
+data:
+  # Root settings
+  GF_INSTANCE_NAME: "pythondiscord"
+  GF_SERVER_DOMAIN: "grafana.pythondiscord.com"
+  GF_SERVER_ROOT_URL: "https://grafana.pythondiscord.com"
+  GF_SECURITY_COOKIE_SECURE: "true"
+
+  # GitHub Auth
+  GF_AUTH_GITHUB_ENABLED: "true"
+  GF_AUTH_GITHUB_SCOPES: "user:email,read:org"
+  # IDs can be retrieved via `gh api orgs/python-discord/teams`.
+  GF_AUTH_GITHUB_TEAM_IDS: "2638565,3854739,3114246"
+  GF_AUTH_GITHUB_AUTH_URL: "https://github.com/login/oauth/authorize"
+  GF_AUTH_GITHUB_TOKEN_URL: "https://github.com/login/oauth/access_token"
+  GF_AUTH_GITHUB_API_URL: "https://api.github.com/user"
+  GF_AUTH_ALLOW_SIGN_UP: "true"
+
+  # Image renderer
+  GF_RENDERING_SERVER_URL: "http://grafana-image-renderer.default.svc.cluster.local:8081/render"
+  GF_RENDERING_CALLBACK_URL: "http://grafana.default.svc.cluster.local:3000/"
+  GF_RENDERING_CONCURRENT_RENDER_REQUEST_LIMIT: "3"
+
+  # Image storage
+  GF_EXTERNAL_IMAGE_STORAGE_PROVIDED: "local"
+
+  # Metrics
+  GF_METRICS_ENABLED: "false"
+
+  # User sign up
+  GF_USERS_AUTO_ASSIGN_ORG: "true"
+  GF_USERS_AUTO_ASSIGN_ORG_ID: "2"
+
+  # Feature toggles
+  GF_FEATURE_TOGGLES_ENABLE: ""

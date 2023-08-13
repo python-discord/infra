@@ -1,0 +1,49 @@
+prestashopHost: merch.pythondiscord.com
+
+prestashopUsername: merch@pythondiscord.com
+prestashopPassword:
+prestashopEmail: merch@pythondiscord.com
+prestashopFirstName: Joe
+prestashopLastName: Banks
+
+allowEmptyPassword: false
+
+smtpHost: smtp.mailgun.org
+smtpPort: 587
+smtpUser: merch@pythondiscord.com
+smtpProtocol: tls
+
+podAnnotations:
+  prometheus.io/scrape: "false"
+
+mariadb:
+  primary:
+    persistence:
+      enabled: true
+      storageClass: linode-block-storage-retain
+      size: 10Gi
+
+containerPorts:
+  http: 8080
+  https: 8443
+
+updateStrategy:
+  type: Recreate
+
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: false
+
+persistence:
+  enabled: true
+  storageClass: "linode-block-storage-retain"
+
+  size: 10Gi
+
+metrics:
+  enabled: false
+
+  podAnnotations:
+    prometheus.io/scrape: "false"

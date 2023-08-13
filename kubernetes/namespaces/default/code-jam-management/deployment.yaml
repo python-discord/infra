@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: code-jam-management
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: code-jam-management
+  template:
+    metadata:
+      labels:
+        app: code-jam-management
+    spec:
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true
+      containers:
+        - name: codejam-management
+          image: ghcr.io/python-discord/code-jam-management:latest
+          imagePullPolicy: Always
+          volumeMounts:
+            - mountPath: /tmp
+              name: code-jam-mgmt-tmp
+            - mountPath: /.cache
+              name: code-jam-mgmt-venv
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: code-jam-management-env
+          securityContext:
+            readOnlyRootFilesystem: true
+      volumes:
+      - name: code-jam-mgmt-tmp
+        emptyDir:
+          medium: Memory
+      - name: code-jam-mgmt-venv
+        emptyDir: {}

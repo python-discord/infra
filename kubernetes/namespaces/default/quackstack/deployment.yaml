@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quackstack
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quackstack
+  template:
+    metadata:
+      labels:
+        app: quackstack
+    spec:
+      containers:
+        - name: quackstack
+          image: ghcr.io/python-discord/quackstack:main
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80

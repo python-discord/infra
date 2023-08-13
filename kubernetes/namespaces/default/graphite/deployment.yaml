@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graphite
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: graphite
+  template:
+    metadata:
+      labels:
+        app: graphite
+    spec:
+      containers:
+        - name: graphite
+          image: graphiteapp/graphite-statsd:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 200m
+              memory: 500Mi
+            limits:
+              cpu: 1000m
+              memory: 750Mi
+          ports:
+            - containerPort: 80
+            - containerPort: 8125
+            - containerPort: 8126
+          volumeMounts:
+            - mountPath: /opt/graphite/storage
+              name: graphite-volume
+      volumes:
+        - name: graphite-volume
+          persistentVolumeClaim:
+            claimName: graphite-storage

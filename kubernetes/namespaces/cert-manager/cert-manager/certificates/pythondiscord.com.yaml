@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: pythondiscord-com
+spec:
+  secretName: pythondiscord.com-tls
+  dnsNames:
+  - pythondiscord.com
+  - '*.pythondiscord.com'
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer

@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: modmail-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: modmail-bot
+  template:
+    metadata:
+      labels:
+        app: modmail-bot
+    spec:
+      containers:
+        - name: modmail-bot
+          image: ghcr.io/python-discord/modmail:latest
+          resources:
+            requests:
+              cpu: 75m
+              memory: 500Mi
+            limits:
+              cpu: 125m
+              memory: 750Mi
+          imagePullPolicy: "Always"
+          volumeMounts:
+          - mountPath: /modmailbot/plugins
+            name: plugins-vol
+          - mountPath: /modmailbot/temp
+            name: temp-vol
+          env:
+          - name: TMPDIR
+            value: /modmailbot/temp
+          envFrom:
+            - secretRef:
+                name: modmail
+          securityContext:
+            readOnlyRootFilesystem: true
+      volumes:
+      - name: plugins-vol
+        emptyDir: {}
+      - name: temp-vol
+        emptyDir:
+          medium: Memory
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true

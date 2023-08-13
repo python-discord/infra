@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: policy-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: policy-bot
+  template:
+    metadata:
+      labels:
+        app: policy-bot
+    spec:
+      containers:
+        - name: policy-bot
+          image: palantirtechnologies/policy-bot:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 50m
+              memory: 50Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /secrets
+              name: policy-bot-config
+          securityContext:
+            readOnlyRootFilesystem: true
+          envFrom:
+            - secretRef:
+                name: policy-bot-secrets
+      volumes:
+        - name: policy-bot-config
+          configMap:
+            name: policy-bot-defaults
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true

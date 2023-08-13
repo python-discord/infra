@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: site
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: site
+  template:
+    metadata:
+      labels:
+        app: site
+    spec:
+      containers:
+        - name: site
+          image: ghcr.io/python-discord/site:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+              httpHeaders:
+                - name: Host
+                  value: pythondiscord.com
+            failureThreshold: 2
+            periodSeconds: 30
+            timeoutSeconds: 5
+            initialDelaySeconds: 10
+          startupProbe:
+            httpGet:
+              path: /
+              port: 8000
+              httpHeaders:
+                - name: Host
+                  value: pythondiscord.com
+            failureThreshold: 15
+            periodSeconds: 2
+            timeoutSeconds: 5
+            initialDelaySeconds: 10
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1000Mi
+            requests:
+              cpu: 250m
+              memory: 400Mi
+          env:
+            # Needs to match with the variable name being read in django-prometheus
+            # https://github.com/korfuri/django-prometheus/blob/434a3ba36bdada45c9633451f5f6cfd145814ccf/django_prometheus/exports.py#L119
+            - name: prometheus_multiproc_dir
+              value: /tmp
+          envFrom:
+            - secretRef:
+                name: site-env
+          volumeMounts:
+            # Used for `gunicorn` worker heartbeats as well as the Prometheus
+            # client library's multiprocessing mode.
+            - name: django-tmp
+              mountPath: /tmp
+          securityContext:
+            readOnlyRootFilesystem: true
+      volumes:
+      - name: django-tmp
+        emptyDir:
+          medium: Memory
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsNonRoot: true

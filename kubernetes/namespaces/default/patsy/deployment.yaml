@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: patsy
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: patsy
+  template:
+    metadata:
+      labels:
+        app: patsy
+    spec:
+      containers:
+        - name: patsy
+          image: ghcr.io/python-discord/patsy:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              name: http
+          envFrom:
+            - secretRef:
+                name: patsy-env
+          startupProbe:
+            httpGet:
+              path: /ping
+              port: http
+              httpHeaders:
+                - name: Host
+                  value: patsy.pythondiscord.com
+            failureThreshold: 3
+            periodSeconds: 1
+            initialDelaySeconds: 10
+          securityContext:
+            readOnlyRootFilesystem: true
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: patsy
+spec:
+  selector:
+    app: patsy
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

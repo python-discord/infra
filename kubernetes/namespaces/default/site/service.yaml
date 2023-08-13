@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: site
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8000"
+spec:
+  selector:
+    app: site
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000

@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pinnwand
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pinnwand
+  template:
+    metadata:
+      labels:
+        app: pinnwand
+    spec:
+      initContainers:
+        - name: init-service
+          image: busybox:latest
+          command: ["wget", "https://raw.githubusercontent.com/python-discord/branding/main/logos/badge/badge_512x172.png", "-O", "/tmp/logo.png"]
+          volumeMounts:
+            - name: pinnwand-logo
+              mountPath: /tmp/
+      containers:
+        - name: pinnwand
+          image: ghcr.io/supakeen/pinnwand:v1.5.0-psql
+          command: ["venv/bin/python3", "-m", "pinnwand", "-vvvvvvvv", "--configuration-path", "/config/config.toml", "http"]
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 5m
+              memory: 70Mi
+            limits:
+              cpu: 100m
+              memory: 100Mi
+          ports:
+            - containerPort: 8000
+          envFrom:
+          - secretRef:
+              name: pinnwand-postgres-connection
+          securityContext:
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - name: pinnwand-config
+              mountPath: /config/
+            - name: pinnwand-logo
+              mountPath: /usr/app/pinnwand/static/logo.png
+              subPath: logo.png
+      volumes:
+        - name: pinnwand-logo
+          emptyDir: {}
+        - name: pinnwand-config
+          configMap:
+            name: pinnwand-config
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true

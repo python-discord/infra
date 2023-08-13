@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-image-renderer
+spec:
+  replicas: 0
+  selector:
+    matchLabels:
+      app: grafana-image-renderer
+  template:
+    metadata:
+      labels:
+        app: grafana-image-renderer
+    spec:
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true
+      containers:
+        - name: grafana-image-renderer
+          image: grafana/grafana-image-renderer:latest
+          resources:
+            requests:
+              cpu: 500m
+              memory: 300Mi
+            limits:
+              cpu: 1000m
+              memory: 500Mi
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081
+          securityContext:
+            readOnlyRootFilesystem: true

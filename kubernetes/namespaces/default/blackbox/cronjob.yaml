@@ -1,0 +1,39 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: blackbox
+spec:
+  schedule: "0 15 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: blackbox
+            image: lemonsaurus/blackbox:main
+            imagePullPolicy: Always
+            envFrom:
+              - secretRef:
+                  name: blackbox-env
+            env:
+              - name: BLACKBOX_CONFIG_PATH
+                value: "/blackbox/config_file/blackbox.yaml"
+            volumeMounts:
+              - mountPath: /blackbox/config_file
+                name: blackbox-config
+              - mountPath: /tmp
+                name: blackbox-tmp
+            securityContext:
+              readOnlyRootFilesystem: true
+          volumes:
+            - name: blackbox-config
+              configMap:
+                name: blackbox-config
+            - name: blackbox-tmp
+              emptyDir: {}
+          restartPolicy: OnFailure
+          nodeSelector:
+            # NOTE: This should be updated to match the highest spec
+            # instance that is being used by the cluster.
+            beta.kubernetes.io/instance-type: g6-standard-4
+      backoffLimit: 3
