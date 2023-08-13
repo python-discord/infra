@@ -1,21 +1,21 @@
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v2.5.0
-    hooks:
-      - id: check-merge-conflict
-      - id: check-toml
-      - id: check-yaml
-      - id: end-of-file-fixer
-      - id: trailing-whitespace
-        args: [--markdown-linebreak-ext=md]
-  - repo: local
-    hooks:
-      - id: ansible-lint
-        name: ansible-lint
-        args: [--offline]
-        description: This hook runs ansible-lint within our project's environment.
-        entry: ansible-lint
-        language: system
-        pass_filenames: false
-        always_run: true
-        require_serial: true
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.4.0
+  hooks:
+    - id: check-merge-conflict
+    - id: check-toml
+    - id: check-yaml
+    - id: end-of-file-fixer
+    - id: trailing-whitespace
+      args: [--markdown-linebreak-ext=md]
+
+- repo: local
+  hooks:
+    - id: ruff
+      name: ruff
+      description: Run ruff linting
+      entry: poetry run ruff check --force-exclude
+      language: system
+      'types_or': [python, pyi]
+      require_serial: true
+      args: [--fix, --exit-non-zero-on-fix]
