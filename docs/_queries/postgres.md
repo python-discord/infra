@@ -232,6 +232,8 @@ CLUSTER [VERBOSE]
 
 When a table is clustered, it is physically reordered based on the index information.
 
+The [clusterdb](https://www.postgresql.org/docs/current/app-clusterdb.html) CLI tool is recommended, and can also be used to cluster all tables at the same time.
+
 ### VACUUM-ing
 
 Proper vacuuming, particularly autovacuum configuration, is crucial to a fast and reliable database.
@@ -239,6 +241,8 @@ Proper vacuuming, particularly autovacuum configuration, is crucial to a fast an
 [Introduction to VACUUM, ANALYZE, EXPLAIN, and COUNT](https://wiki.postgresql.org/wiki/Introduction_to_VACUUM,_ANALYZE,_EXPLAIN,_and_COUNT)
 
 It is not advised to run `VACUUM FULL`, instead look at clustering. VACUUM FULL is a much more intensive task and acquires an ACCESS EXCLUSIVE lock on the table, blocking reads and writes. Whilst `CLUSTER` also does acquire this lock it's a less intensive and faster process.
+
+The [vacuumdb](https://www.postgresql.org/docs/current/app-vacuumdb.html) CLI tool is recommended for manual runs.
 
 #### Finding number of dead rows
 

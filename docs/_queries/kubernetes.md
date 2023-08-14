@@ -25,4 +25,4 @@ $ kubectl top nodes --sort-by='memory'
 
 ## Lens IDE
 
-[Open Lens IDE](https://k8slens.dev){: .btn .btn-purple }{:target="_blank"}
+[OpenLens](https://github.com/MuhammedKalkan/OpenLens){: .btn .btn-purple }{:target="_blank"}
