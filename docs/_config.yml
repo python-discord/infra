@@ -2,7 +2,7 @@ title: PyDis DevOps
 email: joe@jb3.dev
 description: >-
   Knowledgebase for all things DevOps in Python Discord.
-baseurl: "/kubernetes"
+baseurl: "/infra"
 url: "https://python-discord.github.io"
 twitter_username: PythonDiscord
 github_username:  python-discord
