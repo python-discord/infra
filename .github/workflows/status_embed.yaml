@@ -3,7 +3,7 @@ name: Status Embed
 on:
   workflow_run:
     workflows:
-      - Lint Playbook
+      - lint
     types:
       - completed
 
@@ -18,7 +18,7 @@ jobs:
     # - Always for the `pull_request` event, as it only runs one workflow.
     # - Always run for non-success workflows, as they terminate the workflow sequence.
     if: >-
-      (github.event.workflow_run.name == 'Lint' && github.event.workflow_run.conclusion != 'skipped') ||
+      (github.event.workflow_run.name == 'lint' && github.event.workflow_run.conclusion != 'skipped') ||
       github.event.workflow_run.event == 'pull_request' ||
       github.event.workflow_run.conclusion == 'failure' ||
       github.event.workflow_run.conclusion == 'cancelled'
