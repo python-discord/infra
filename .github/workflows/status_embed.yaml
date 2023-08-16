@@ -3,7 +3,7 @@ name: Status Embed
 on:
   workflow_run:
     workflows:
-      - lint
+      - CI
     types:
       - completed
 
@@ -14,7 +14,7 @@ concurrency:
 jobs:
   status_embed:
     # We send the embed in the following situations:
-    # - Always after the `Lint` workflow, as it runs at the end of our workflow sequence regardless of status.
+    # - Always after the `lint` workflow, as it runs at the end of our workflow sequence regardless of status.
     # - Always for the `pull_request` event, as it only runs one workflow.
     # - Always run for non-success workflows, as they terminate the workflow sequence.
     if: >-
