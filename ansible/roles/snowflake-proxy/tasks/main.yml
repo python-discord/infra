@@ -1,0 +1,15 @@
+---
+- name: install snowflake-proxy
+  package:
+    name: snowflake-proxy
+    state: present
+  tags:
+    - role::snowflake-proxy
+
+- name: start and enable snowflake-proxy
+  service:
+    name: snowflake-proxy
+    enabled: true
+    state: started
+  tags:
+    - role::snowflake-proxy
