@@ -1,12 +1,15 @@
 - name: Deploy common services
   hosts: all
   roles:
+    # Backbone
     - common
     - ufw
     - prometheus-node-exporter
     - wireguard
     - fail2ban
     - podman
+    # Applications
+    - snowflake-proxy
 
 - name: Deploy our monitoring stack
   hosts: lovelace
