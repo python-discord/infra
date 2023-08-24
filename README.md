@@ -35,3 +35,4 @@ that folder, and the files within, is used for.
 ## Acknowlegments
 
 This is the coolest project. How can it not be when we have Volcy, the machine.
+Shoutout to all the other members as well :D
