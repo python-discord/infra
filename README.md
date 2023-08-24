@@ -30,3 +30,8 @@ Infrastructure-related documentation ("the big picture"), can be found in [`docs
 
 Many folders have a `README.md` file within them, which have more detailed explanations on what
 that folder, and the files within, is used for.
+
+
+## Acknowlegments
+
+This is the coolest project. How can it not be when we have Volcy, the machine.
