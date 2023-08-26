@@ -6,10 +6,34 @@
   tags:
     - role::snowflake-proxy
 
+- name: create snowflake-proxy override directory
+  file:
+    path: /etc/systemd/system/snowflake-proxy.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  tags:
+    - role::snowflake-proxy
+
+- name: copy snowflake-proxy override options
+  copy:
+    src: snowflake-override.conf
+    dest: /etc/systemd/system/snowflake-proxy.service.d/override.conf
+    owner: root
+    group: root
+    mode: 0444
+  register: snowflake_proxy_override_conf
+  notify:
+    - restart snowflake-proxy
+  tags:
+    - role::snowflake-proxy
+
 - name: start and enable snowflake-proxy
   service:
     name: snowflake-proxy
     enabled: true
+    daemon_reload: "{{ snowflake_proxy_override_conf is changed }}"
     state: started
   tags:
     - role::snowflake-proxy

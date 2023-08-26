@@ -1,0 +1,7 @@
+---
+- name: restart snowflake-proxy
+  service:
+    name: snowflake-proxy
+    state: restarted
+  tags:
+    - role::snowflake-proxy
