@@ -1,35 +1,35 @@
 ---
-- name: install snowflake-proxy
+- name: Install snowflake-proxy
   package:
     name: snowflake-proxy
     state: present
   tags:
     - role::snowflake-proxy
 
-- name: create snowflake-proxy override directory
+- name: Create snowflake-proxy override directory
   file:
     path: /etc/systemd/system/snowflake-proxy.service.d
     state: directory
     owner: root
     group: root
-    mode: 0755
+    mode: 0o755
   tags:
     - role::snowflake-proxy
 
-- name: copy snowflake-proxy override options
+- name: Copy snowflake-proxy override options
   copy:
     src: snowflake-override.conf
     dest: /etc/systemd/system/snowflake-proxy.service.d/override.conf
     owner: root
     group: root
-    mode: 0444
+    mode: 0o444
   register: snowflake_proxy_override_conf
   notify:
     - restart snowflake-proxy
   tags:
     - role::snowflake-proxy
 
-- name: start and enable snowflake-proxy
+- name: Start and enable snowflake-proxy
   service:
     name: snowflake-proxy
     enabled: true

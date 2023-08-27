@@ -1,5 +1,5 @@
 ---
-- name: restart snowflake-proxy
+- name: Restart snowflake-proxy
   service:
     name: snowflake-proxy
     state: restarted
