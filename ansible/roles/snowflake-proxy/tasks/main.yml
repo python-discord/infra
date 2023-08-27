@@ -12,7 +12,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0o755
+    mode: '0755'
   tags:
     - role::snowflake-proxy
 
@@ -22,7 +22,7 @@
     dest: /etc/systemd/system/snowflake-proxy.service.d/override.conf
     owner: root
     group: root
-    mode: 0o444
+    mode: '0444'
   register: snowflake_proxy_override_conf
   notify:
     - restart snowflake-proxy
