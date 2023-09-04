@@ -9,7 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "3.11.*"
 
-pre-commit = "3.3.3"
+pre-commit = "3.4.0"
 ruff = "0.0.286"
 taskipy = "1.12.0"
 
