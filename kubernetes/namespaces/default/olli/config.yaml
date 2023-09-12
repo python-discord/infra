@@ -8,7 +8,7 @@ data:
     interval_minutes = 30
 
     [loki]
-    api_url = "http://loki.loki.svc.cluster.local:3100/"
+    api_url = "http://loki.loki.svc.cluster.local:3100"
     jobs = [
         "default/bot",
         "default/site",
