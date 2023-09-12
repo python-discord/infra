@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: olli-config-env
+data:
+  LOKI_API_URL: http://loki.loki.svc.cluster.local:3100
+  LOKI_JOBS: default/bot,default/site,default/sir-lancebot,default/sir-robin,default/metricity,default/snekbox,default/quackstack,default/black-knight
+  SERVICE_INTERVAL_MINUTES: '30'
+  SERVICE_TOKENS: '[{"token":"CRITICAL","color":"#ff5f5f"},{"token":"ERROR","color":"#ff5f5f"},{"token":"WARN","color":"#ffe24d","case_sensitive":true}]'
