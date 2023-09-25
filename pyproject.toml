@@ -10,7 +10,7 @@ readme = "README.md"
 python = "3.11.*"
 
 pre-commit = "3.4.0"
-ruff = "0.0.290"
+ruff = "0.0.291"
 taskipy = "1.12.0"
 
 [tool.poetry.group.ansible.dependencies]
