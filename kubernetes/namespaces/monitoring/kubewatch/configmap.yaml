@@ -17,18 +17,18 @@ data:
     - cluster-autoscaler-status
     - ingress-controller-leader
     resource:
-      deployment: true
       replicationcontroller: true
-      replicaset: true
-      daemonset: true
-      services: true
-      pod: false
-      job: true
-      node: false
       clusterrole: true
       serviceaccount: true
       persistentvolume: true
+      configmap: true
       namespace: true
       secret: true
-      configmap: true
-      ingress: true
+      deployment: false
+      replicaset: false
+      daemonset: false
+      services: false
+      pod: false
+      job: false
+      node: false
+      ingress: false
