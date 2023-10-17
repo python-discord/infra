@@ -22,7 +22,7 @@ data:
       replicaset: true
       daemonset: true
       services: true
-      pod: true
+      pod: false
       job: true
       node: false
       clusterrole: true
