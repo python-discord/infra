@@ -28,7 +28,7 @@ jobs:
           method: kubeconfig
           kubeconfig: ${{ secrets.kube-config }}
 
-      - uses: jb3/k8s-lint@master
+      - uses: azure/k8s-lint@v2.0
         with:
           lintType: dryrun
           manifests: |
