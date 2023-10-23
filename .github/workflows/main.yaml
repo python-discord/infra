@@ -23,9 +23,13 @@ jobs:
       id: changes
       with:
         filters: |
+          ci: &ci
+            - '.github/workflows/**'
           ansible:
+            - *ci
             - 'ansible/**'
           kubernetes:
+            - *ci
             - 'kubernetes/**'
 
   lint:
