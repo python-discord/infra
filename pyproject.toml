@@ -11,7 +11,7 @@ python = "3.11.*"
 
 pre-commit = "3.5.0"
 ruff = "0.1.6"
-taskipy = "1.12.0"
+taskipy = "1.12.2"
 
 [tool.poetry.group.ansible.dependencies]
 ansible = "8.6.1"
