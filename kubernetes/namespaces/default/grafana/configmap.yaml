@@ -13,7 +13,8 @@ data:
   GF_AUTH_GITHUB_ENABLED: "true"
   GF_AUTH_GITHUB_SCOPES: "user:email,read:org"
   # IDs can be retrieved via `gh api orgs/python-discord/teams`.
-  GF_AUTH_GITHUB_TEAM_IDS: "2638565,3854739,3114246"
+  GF_AUTH_GITHUB_TEAM_IDS: "2638565,3854739,3114246,7361120,9120709"
+  GF_AUTH_GITHUB_ROLE_ATTRIBUTE_PATH: "contains(groups[*], ['@python-discord/directors', '@python-discord/sudo-devops']) && 'Admin' || contains(groups[*], '@python-discord/admins') && 'Editor' || 'Viewer'"
   GF_AUTH_GITHUB_AUTH_URL: "https://github.com/login/oauth/authorize"
   GF_AUTH_GITHUB_TOKEN_URL: "https://github.com/login/oauth/access_token"
   GF_AUTH_GITHUB_API_URL: "https://api.github.com/user"
