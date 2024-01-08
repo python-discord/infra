@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sir-robin-config-env
+data:
+  AOC_YEAR: '2023'
+  BOT_DEBUG: 'False'
+  CATEGORY_SUMMER_CODE_JAM: '1141401271635554334'

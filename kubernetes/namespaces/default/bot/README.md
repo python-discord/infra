@@ -11,8 +11,5 @@ This deployment expects a number of secrets and environment variables to exist i
 | API_KEYS_SITE_API | The token to access our site's API.                         |
 | BOT_SENTRY_DSN    | The sentry DSN to send sentry events to.                    |
 | BOT_TOKEN         | The Discord bot token to run the bot on.                    |
-| BOT_TRACE_LOGGERS | Comma separated list of loggers to enable trace logging for |
-| DEBUG             | Debug mode true/false                                       |
 | METABASE_PASSWORD | Password for Metabase                                       |
 | METABASE_USERNAME | Username for Metabase                                       |
-| URLS_PASTE_URL    | The URL to the paste site                                   |

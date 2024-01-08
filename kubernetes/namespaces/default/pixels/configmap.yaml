@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pixels-config-env
+data:
+  BASE_URL: https://pixels.pythondiscord.com
+  FORCE_LOGIN: 'True'
+  GUILD_ID: '267624335836053506'
+  HELPERS_ROLE: '267630620367257601'
+  LOG_LEVEL: debug
+  MOD_ROLE: '267630620367257601'
+  PRODUCTION: 'true'

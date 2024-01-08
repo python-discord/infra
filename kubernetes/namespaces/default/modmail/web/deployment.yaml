@@ -28,6 +28,8 @@ spec:
           envFrom:
             - secretRef:
                 name: modmail
+            - configMapRef:
+                name: modmail-config-env
           securityContext:
             readOnlyRootFilesystem: true
       securityContext:
