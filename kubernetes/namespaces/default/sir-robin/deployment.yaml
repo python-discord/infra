@@ -32,5 +32,7 @@ spec:
             name: sir-robin-env
         - secretRef:
             name: redis-credentials
+        - configMapRef:
+            name: sir-robin-config-env
         securityContext:
           readOnlyRootFilesystem: true

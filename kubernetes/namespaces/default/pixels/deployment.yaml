@@ -21,6 +21,8 @@ spec:
           envFrom:
             - secretRef:
                 name: pixels-env
+            - configMapRef:
+                name: pixels-config-env
           startupProbe:
             httpGet:
               path: /health

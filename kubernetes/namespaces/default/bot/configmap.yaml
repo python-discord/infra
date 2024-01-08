@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: bot-config-env
+data:
+  BOT_TRACE_LOGGERS: bot.utils.scheduling.ModPingsOnOff,bot.exts.moderation.modpings,bot.exts.backend.sync._syncers
+  DEBUG: 'False'
+  URLS_PASTE_URL: https://paste.pythondiscord.com

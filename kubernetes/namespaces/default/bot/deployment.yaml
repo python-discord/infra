@@ -32,6 +32,8 @@ spec:
             name: bot-env
         - secretRef:
             name: redis-credentials
+        - configMapRef:
+            name: bot-config-env
         volumeMounts:
         - mountPath: /bot/logs
           name: logs-vol
