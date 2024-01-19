@@ -35,16 +35,11 @@ spec:
               mountPath: /bot/bot/exts/fun/_latex_cache
             - name: lancebot-logs-vol
               mountPath: /bot/bot/log
-            - name: lancebot-tmp-vol
-              mountPath: /tmp
       volumes:
       - name: lancebot-data-vol
         emptyDir: {}
       - name: lancebot-logs-vol
         emptyDir: {}
-      - name: lancebot-tmp-vol
-        emptyDir:
-          medium: Memory
       securityContext:
         fsGroup: 1000
         runAsUser: 1000
