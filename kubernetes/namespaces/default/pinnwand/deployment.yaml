@@ -21,7 +21,7 @@ spec:
               mountPath: /tmp/
       containers:
         - name: pinnwand
-          image: ghcr.io/supakeen/pinnwand:v1.5.0-psql
+          image: ghcr.io/supakeen/pinnwand@sha256:567f846336d82c16a6e324df34e0a7dab000cf76768c24ba8d2fa08b4a5aa760
           command: ["venv/bin/python3", "-m", "pinnwand", "-vvvvvvvv", "--configuration-path", "/config/config.toml", "http"]
           imagePullPolicy: Always
           resources:
