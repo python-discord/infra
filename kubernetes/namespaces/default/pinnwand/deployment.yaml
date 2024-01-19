@@ -27,10 +27,10 @@ spec:
           resources:
             requests:
               cpu: 5m
-              memory: 70Mi
+              memory: 100Mi
             limits:
               cpu: 100m
-              memory: 100Mi
+              memory: 200Mi
           ports:
             - containerPort: 8000
           envFrom:
