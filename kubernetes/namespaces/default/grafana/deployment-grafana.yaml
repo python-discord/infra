@@ -16,9 +16,7 @@ spec:
     spec:
       containers:
         - name: grafana
-          # Do not bump to 10.2.X due to issue below., Wait for 10.3.X
-          # https://github.com/grafana/grafana/issues/77082
-          image: grafana/grafana:10.1.5
+          image: grafana/grafana:10.3.1
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
