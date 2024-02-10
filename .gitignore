@@ -2,3 +2,4 @@ vault_passwords
 venv
 .cache/
 .vscode/
+*.config
