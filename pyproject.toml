@@ -10,7 +10,7 @@ readme = "README.md"
 python = "3.11.*"
 
 pre-commit = "3.6.0"
-ruff = "0.2.0"
+ruff = "0.2.1"
 taskipy = "1.12.2"
 
 [tool.poetry.group.ansible.dependencies]
@@ -25,6 +25,11 @@ precommit = "pre-commit install"
 [tool.ruff]
 target-version = "py311"
 extend-exclude = [".cache"]
+line-length = 120
+unsafe-fixes = true
+preview = true
+
+[tool.ruff.lint]
 select = ["ALL"]
 ignore = [
     "ANN002", "ANN003", "ANN101", "ANN102", "ANN204", "ANN206", "ANN401",
@@ -38,12 +43,12 @@ ignore = [
     "RUF005", "RUF012", "RUF015",
     "S311",
     "SIM102", "SIM108",
-]
-line-length = 120
-unsafe-fixes = true
-preview = true
 
-[tool.ruff.isort]
+    # Rules suggested to be ignored when using ruff format
+    "COM812", "COM819", "D206", "E111", "E114", "E117", "E501", "ISC001", "Q000", "Q001", "Q002", "Q003", "W191",
+]
+
+[tool.ruff.lint.isort]
 order-by-type = false
 case-sensitive = true
 combine-as-imports = true
