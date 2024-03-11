@@ -20,7 +20,7 @@ jobs:
           echo "EOF" >> $GITHUB_OUTPUT
         id: manifest-files
 
-      - uses: azure/setup-kubectl@v3
+      - uses: azure/setup-kubectl@v4.0.0
 
       - name: Authenticate with Kubernetes
         uses: azure/k8s-set-context@v4
