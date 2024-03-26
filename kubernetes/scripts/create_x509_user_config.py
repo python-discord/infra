@@ -40,7 +40,8 @@ ROLE_BINDING_PATCH_TEMPLATE = """[
 def run_and_return_output(command: str, cwd: str | None = None) -> str:
     """Run a command in a shell and return the result as a string."""
     return subprocess.run(
-        command,  # noqa: S603
+        command,
+        shell=True,  # noqa: S602
         stdout=subprocess.PIPE,
         text=True,
         check=True,
@@ -84,7 +85,7 @@ def give_user_perms(tmpdir: str) -> None:
 
 def build_kubectl_config(tmpdir: str) -> None:
     """Build up a kubectl config from all the files in the tmpdir."""
-    cluster_public_key = run_and_return_output(r"kubectl get cm kube-root-ca.crt -o jsonpath={['data']['ca\.crt']}")
+    cluster_public_key = run_and_return_output(r"kubectl get cm kube-root-ca.crt -o jsonpath={.data.ca\.crt}")
     with Path(tmpdir, "ca.crt").open("w") as f:
         f.write(cluster_public_key)
     cluster_url = run_and_return_output("kubectl config view --minify --output jsonpath={.clusters[*].cluster.server}")
