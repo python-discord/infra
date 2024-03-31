@@ -10,3 +10,12 @@ groups:
     annotations:
       summary: "Node {{ $labels.kubernetes_node }} has RAM usage >80% for 5 minutes"
       description: 'RAM usage is currently {{ $value | humanizePercentage }} on {{ $labels.kubernetes_node }}'
+
+  - alert: ContainerOOMEvent
+    expr: container_oom_events_total{pod=~".+", container_name!="POD", image!=""} > 0
+    for: 30s
+    labels:
+      severity: page
+    annotations:
+      summary: "Container {{ $labels.container_name }} in {{ $labels.pod }} has OOM killed"
+      description: "{{ $labels.container_name }} inside {{ $labels.pod }} has been OOM killed"
