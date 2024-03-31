@@ -233,7 +233,7 @@ data:
     # * `prometheus.io/path`: If the metrics path is not `/metrics` override this.
     # * `prometheus.io/port`: Scrape the pod on the indicated port instead of the
     # pod's declared ports (default is a port-free target if none are declared).
-    - job_name: 'kubernetes-pods'
+    - job_name: 'kubernetes-pods-port-integers'
 
       kubernetes_sd_configs:
       - role: pod
@@ -259,6 +259,46 @@ data:
       - source_labels: [__meta_kubernetes_pod_name]
         action: replace
         target_label: kubernetes_pod_name
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_port]
+        action: keep
+        regex: '^\d+$'
+      metric_relabel_configs:
+      - source_labels:
+          - namespace
+        action: replace
+        regex: (.+)
+        target_label: kubernetes_namespace
+
+    # Example scrape config for pods
+    - job_name: 'kubernetes-pods-port-names'
+      kubernetes_sd_configs:
+      - role: pod
+
+      relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+        action: keep
+        regex: true
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+        action: replace
+        target_label: __metrics_path__
+        regex: (.+)
+      - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+        action: replace
+        regex: ([^:]+)(?::\d+)?;(\d+)
+        replacement: $1:$2
+        target_label: __address__
+      - action: labelmap
+        regex: __meta_kubernetes_pod_label_(.+)
+      - source_labels: [__meta_kubernetes_namespace]
+        action: replace
+        target_label: kubernetes_namespace
+      - source_labels: [__meta_kubernetes_pod_name]
+        action: replace
+        target_label: kubernetes_pod_name
+      # if we have a text port name (NOT an integer one), drop if it's not the current port
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_port]
+        action: keepequal
+        target_label: __meta_kubernetes_pod_container_port_name
       metric_relabel_configs:
       - source_labels:
           - namespace
