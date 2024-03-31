@@ -1,5 +1,5 @@
 route:
-  group_by: ['alertname', 'cluster', 'service']
+  group_by: ["alertname", "cluster", "service"]
 
   group_wait: 15s
 
@@ -8,17 +8,20 @@ route:
   receiver: devops-team
 
 receivers:
-- name: devops-team
-  slack_configs:
-  - api_url_file: "/opt/pydis/alertmanager/webhooks/DEVOPS_HOOK"
-    send_resolved: true
-    title: '{{ if eq .Status "firing" }}[FIRING]{{ else }}[RESOLVED]{{ end }}'
-    text: |
-      {{ if eq .Status "firing" }}{{ range .Alerts }}
-      **{{ .Annotations.summary }}:**
-      {{ .Annotations.description }} [(Link)]({{.GeneratorURL}})
+  - name: devops-team
+    slack_configs:
+      - api_url_file: "/opt/pydis/alertmanager/webhooks/DEVOPS_HOOK"
+        send_resolved: true
+        title: '{{ if eq .Status "firing" }}[FIRING]{{ else }}[RESOLVED]{{ end }}'
+        text: |
+          {{ if eq .Status "firing" }}{{ range .Alerts }}
+          **{{ .Annotations.summary }}:**
+          {{ .Annotations.description }} [(Link)]({{.GeneratorURL}})
 
-      {{ end }}{{ else }}Alert has resolved.{{ end }}
-    fields:
-    - title: Alert
-      value: "{{ .GroupLabels.alertname }}"
+          {{ end }}{{ else }}Alert has resolved.{{ end }}
+        fields:
+          - title: Alert
+            value: "{{ .GroupLabels.alertname }}"
+    pagerduty_configs:
+      - routing_key_file: "/opt/pydis/alertmanager/webhooks/PAGERDUTY_KEY"
+        url: https://events.pagerduty.com/v2/enqueue
