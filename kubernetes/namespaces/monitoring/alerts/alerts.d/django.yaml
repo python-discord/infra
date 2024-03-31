@@ -1,0 +1,20 @@
+groups:
+  - name: django
+    rules:
+      - alert: DjangoErrors
+        expr: increase(django_http_responses_total_by_status_total{status=~"5.."}[5m]) > 0
+        for: 5m
+        labels:
+          severity: page
+        annotations:
+          summary: "Django is experiencing 5xx errors"
+          description: "Django is experiencing 5xx errors on {{ $labels.namespace }}/{{ $labels.job }}"
+
+      - alert: DjangoLatencyHigh
+        expr: histogram_quantile(0.95, rate(django_http_requests_latency_seconds_by_view_method_bucket[5m])) > 1.0
+        for: 3m
+        labels:
+          severity: page
+        annotations:
+          summary: "Django route is experiencing high latency"
+          description: "Django route {{ $labels.method }} {{ $labels.view }} is experiencing high latency"
