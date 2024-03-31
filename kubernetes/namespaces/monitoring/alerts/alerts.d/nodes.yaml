@@ -41,9 +41,18 @@ groups:
 
   - alert: KubernetesNodeReady
     expr: kube_node_status_condition{condition="Ready",status="true"} == 0
-    for: 5m
+    for: 1m
     labels:
       severity: page
     annotations:
       summary: Kubernetes node ({{ $labels.kubernetes_node }} ) is marked as unready
       description: "Node {{ $labels.kubernetes_node }} has been unready for a long time"
+
+  - alert: KubernetesNodeCordoned
+    expr: kube_node_spec_unschedulable == 1
+    for: 1m
+    labels:
+      severity: page
+    annotations:
+      summary: Kubernetes node ({{ $labels.kubernetes_node }}) is cordoned
+      description: "Node {{ $labels.kubernetes_node }} has been cordoned"
