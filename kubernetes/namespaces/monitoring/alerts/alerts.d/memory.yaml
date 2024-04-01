@@ -17,5 +17,5 @@ groups:
     labels:
       severity: page
     annotations:
-      summary: "Container {{ $labels.container_name }} in {{ $labels.pod }} has OOM killed"
+      summary: "Container {{ $labels.container_name }} in {{ $labels.pod }} was OOM killed"
       description: "{{ $labels.container_name }} inside {{ $labels.pod }} has been OOM killed"
