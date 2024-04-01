@@ -50,7 +50,7 @@ groups:
 
   - alert: KubernetesNodeCordoned
     expr: kube_node_spec_unschedulable == 1
-    for: 1m
+    for: 30m
     labels:
       severity: page
     annotations:
