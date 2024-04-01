@@ -11,7 +11,7 @@ groups:
           description: "Django is experiencing 5xx errors on {{ $labels.namespace }}/{{ $labels.job }}"
 
       - alert: DjangoLatencyHigh
-        expr: histogram_quantile(0.95, rate(django_http_requests_latency_seconds_by_view_method_bucket[5m])) > 1.0
+        expr: histogram_quantile(0.95, rate(django_http_requests_latency_seconds_by_view_method_bucket{view!="api:github-artifacts"}[5m])) > 1.0
         for: 3m
         labels:
           severity: page
