@@ -1,11 +1,18 @@
 route:
   group_by: ["alertname", "cluster", "service"]
+  receiver: devops-team
 
   group_wait: 15s
 
   group_interval: 1m
 
-  receiver: devops-team
+  routes:
+    - receiver: devops-team
+      continue: true
+    - receiver: pagerduty
+      matchers:
+        - severity="page"
+      continue: true
 
 receivers:
   - name: devops-team
@@ -22,6 +29,7 @@ receivers:
         fields:
           - title: Alert
             value: "{{ .GroupLabels.alertname }}"
+  - name: pagerduty
     pagerduty_configs:
       - routing_key_file: "/opt/pydis/alertmanager/webhooks/PAGERDUTY_KEY"
         url: https://events.pagerduty.com/v2/enqueue
