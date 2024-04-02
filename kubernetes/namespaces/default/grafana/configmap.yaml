@@ -36,4 +36,4 @@ data:
   GF_USERS_AUTO_ASSIGN_ORG_ID: "2"
 
   # Feature toggles
-  GF_FEATURE_TOGGLES_ENABLE: ""
+  GF_FEATURE_TOGGLES_ENABLE: "autoMigrateOldPanels,nestedFolders,newVizTooltips,dashgpt"
