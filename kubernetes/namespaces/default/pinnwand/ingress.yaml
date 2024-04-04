@@ -5,6 +5,11 @@ metadata:
     nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
     nginx.ingress.kubernetes.io/auth-tls-secret: "kube-system/mtls-client-crt-bundle"
     nginx.ingress.kubernetes.io/auth-tls-error-page: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    # block HEAD requests
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      if ($request_method = HEAD) {
+        return 444;
+      }
   name: pinnwand
 spec:
   tls:
