@@ -1,7 +1,15 @@
+# We are deploying a replicated single binary (not components)
+deploymentMode: SingleBinary
+
 loki:
+  # Disable authentication, we are in-cluster
   auth_enabled: false
+
+  # Set replication to 3 replicas
   commonConfig:
     replication_factor: 3
+
+  # We have one schemaConfig, storing data in TSDB format in S3
   schemaConfig:
     configs:
       - from: 2024-04-01
@@ -11,19 +19,26 @@ loki:
         index:
           prefix: index_
           period: 24h
+
+  # Storage type is S3 (Minio)
   storage:
     type: s3
+
+  # Enable volume querying endpoint (for Grafana Explore Logs)
   limits_config:
     volume_enabled: true
 
-deploymentMode: SingleBinary
-
 singleBinary:
+  # Set replicas to 3 again
   replicas: 3
+  # Disable any persistence in Loki, all persistence is in S3
   persistence:
     enabled: false
+  # Enable the pattern ingester (for Grafana Explore Logs)
   extraArgs:
     - "--pattern-ingester.enabled=true"
+
+  # Add a tmpfs in /var/loki for temporary data storage
   extraVolumes:
     - name: var-loki-tmpfs
       emptyDir:
@@ -32,9 +47,11 @@ singleBinary:
     - name: var-loki-tmpfs
       mountPath: /var/loki
 
+# Reduce the memory on the memcached cluster (defaults to 8GB)
 chunksCache:
   allocatedMemory: 1024
 
+# Scale the scalable replicas to 0 since we deploy single binary
 read:
   replicas: 0
 write:
@@ -42,5 +59,6 @@ write:
 backend:
   replicas: 0
 
+# Enable Minio for S3 storage
 minio:
   enabled: true
