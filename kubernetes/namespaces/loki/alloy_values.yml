@@ -1,11 +1,14 @@
 alloy:
   configMap:
     content: |-
+      // Set Alloy logging to INFO
       logging {
         level = "info"
         format = "logfmt"
       }
 
+      // Discover all Kubernetes pods that are on the current node
+      // We only want one instance of Alloy to pick up a pod
       discovery.kubernetes "pods" {
         namespaces {
           own_namespace = false
@@ -17,22 +20,26 @@ alloy:
         }
       }
 
+      // Relabel all __meta labels to labels we want to keep
       discovery.relabel "pods" {
         targets    = discovery.kubernetes.pods.targets
 
         rule {
+            // namespace label
             source_labels = ["__meta_kubernetes_namespace"]
             target_label  = "namespace"
             action        = "replace"
         }
 
         rule {
+            // app label
             source_labels = ["__meta_kubernetes_pod_label_app"]
             target_label  = "app"
             action        = "replace"
         }
 
         rule {
+            // concatenated deployment & container name
             source_labels = ["__meta_kubernetes_pod_label_app", "__meta_kubernetes_pod_container_name"]
             separator     = "/"
             target_label  = "app_container"
@@ -40,26 +47,29 @@ alloy:
         }
 
         rule {
+            // boolean for if the container is an init_container
             source_labels = ["__meta_kubernetes_pod_container_init"]
             target_label  = "is_init"
             action        = "replace"
         }
 
         rule {
+            // service_name is the namespace/pod-name
             source_labels = ["__meta_kubernetes_namespace", "__meta_kubernetes_pod_name"]
             separator     = "/"
             target_label  = "service_name"
             action        = "replace"
         }
-
       }
 
+      // Write all values into the Loki receiver
       loki.source.kubernetes "relabelledpods" {
         targets    = discovery.relabel.pods.output
         forward_to = [loki.write.local.receiver]
       }
 
       loki.write "local" {
+        // Ship logs off to the load balanced loki-gateway
         endpoint {
           url = "http://loki-gateway.loki.svc.cluster.local/loki/api/v1/push"
           headers = {
