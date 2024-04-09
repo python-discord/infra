@@ -37,3 +37,6 @@ data:
 
   # Feature toggles
   GF_FEATURE_TOGGLES_ENABLE: "autoMigrateOldPanels,nestedFolders,newVizTooltips,prometheusMetricEncyclopedia,datatrails"
+
+  # Plugins
+  GF_INSTALL_PLUGINS: "https://storage.googleapis.com/integration-artifacts/grafana-lokiexplore-app/grafana-lokiexplore-app-latest.zip;grafana-lokiexplore-app"
