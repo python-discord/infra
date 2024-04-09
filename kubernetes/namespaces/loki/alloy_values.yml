@@ -1,0 +1,69 @@
+alloy:
+  configMap:
+    content: |-
+      logging {
+        level = "info"
+        format = "logfmt"
+      }
+
+      discovery.kubernetes "pods" {
+        namespaces {
+          own_namespace = false
+        }
+        role = "pod"
+        selectors {
+          role = "pod"
+          field = "spec.nodeName=" + coalesce(env("HOSTNAME"), constants.hostname)
+        }
+      }
+
+      discovery.relabel "pods" {
+        targets    = discovery.kubernetes.pods.targets
+
+        rule {
+            source_labels = ["__meta_kubernetes_namespace"]
+            target_label  = "namespace"
+            action        = "replace"
+        }
+
+        rule {
+            source_labels = ["__meta_kubernetes_pod_label_app"]
+            target_label  = "app"
+            action        = "replace"
+        }
+
+        rule {
+            source_labels = ["__meta_kubernetes_pod_label_app", "__meta_kubernetes_pod_container_name"]
+            separator     = "/"
+            target_label  = "app_container"
+            action        = "replace"
+        }
+
+        rule {
+            source_labels = ["__meta_kubernetes_pod_container_init"]
+            target_label  = "is_init"
+            action        = "replace"
+        }
+
+        rule {
+            source_labels = ["__meta_kubernetes_namespace", "__meta_kubernetes_pod_name"]
+            separator     = "/"
+            target_label  = "service_name"
+            action        = "replace"
+        }
+
+      }
+
+      loki.source.kubernetes "relabelledpods" {
+        targets    = discovery.relabel.pods.output
+        forward_to = [loki.write.local.receiver]
+      }
+
+      loki.write "local" {
+        endpoint {
+          url = "http://loki-gateway.loki.svc.cluster.local/loki/api/v1/push"
+          headers = {
+            "X-Scope-OrgID" = "1",
+          }
+        }
+      }
