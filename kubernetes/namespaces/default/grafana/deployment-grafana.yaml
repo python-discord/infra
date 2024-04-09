@@ -35,12 +35,17 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/grafana
               name: grafana-volume
+            - mountPath: /tmp
+              name: grafana-tmp
           securityContext:
             readOnlyRootFilesystem: true
       volumes:
         - name: grafana-volume
           persistentVolumeClaim:
             claimName: grafana-storage
+        - name: grafana-tmp
+          emptyDir:
+            medium: Memory
       securityContext:
         fsGroup: 2000
         runAsUser: 1000
