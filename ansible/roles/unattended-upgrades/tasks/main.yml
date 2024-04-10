@@ -1,0 +1,7 @@
+---
+- name: Install unattended-upgrades
+  package:
+    name: unattended-upgrades
+    state: present
+  tags:
+    - role::unattended-upgrades
