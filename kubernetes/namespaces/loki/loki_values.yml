@@ -47,6 +47,11 @@ singleBinary:
     - name: var-loki-tmpfs
       mountPath: /var/loki
 
+  # Add labels to enable Prometheus scraping of Loki replicas
+  podAnnotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "http-metrics"
+
 # Reduce the memory on the memcached cluster (defaults to 8GB)
 chunksCache:
   allocatedMemory: 1024
@@ -62,3 +67,9 @@ backend:
 # Enable Minio for S3 storage
 minio:
   enabled: true
+
+# Enable Prometheus scraping of the Loki Canaries
+lokiCanary:
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "http-metrics"
