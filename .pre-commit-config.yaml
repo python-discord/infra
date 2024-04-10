@@ -1,4 +1,4 @@
-exclude: (secrets?\.ya?ml)|(ghcr-pull-secrets\.yaml)$
+exclude: (secrets?\.ya?ml)|(ghcr-pull-secrets\.yaml)|pydis-users/vars/main.yml$
 repos:
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v4.5.0

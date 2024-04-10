@@ -1,0 +1,1 @@
+roles/pydis-users/vars/main.yml filter=git-crypt diff=git-crypt

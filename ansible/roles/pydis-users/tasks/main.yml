@@ -1,0 +1,27 @@
+---
+- name: Create users
+  ansible.builtin.user:
+    name: "{{ item.key }}"
+    groups: "{{ item.value.groups | default(omit) }}"
+    password: "{{ item.value.hashed_password | default(omit) }}"
+    shell: /bin/bash
+    state: present
+  loop_control:
+    label: "{{ item.key }}"
+  loop: "{{ pydis_users__users | dict2items }}"
+  tags:
+    - role::pydis-users
+
+- name: Manage authorized keys
+  ansible.posix.authorized_key:
+    comment: Ansible managed
+    exclusive: true
+    key: "{{ item.value.ssh_key }}"
+    key_options: "{{ item.value.ssh_key_options | default(omit) }}"
+    user: "{{ item.key }}"
+    state: present
+  loop_control:
+    label: "{{ item.key }}"
+  loop: "{{ pydis_users__users | dict2items }}"
+  tags:
+    - role::pydis-users

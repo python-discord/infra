@@ -2,6 +2,7 @@
   hosts: all
   roles:
     - common
+    - pydis-users
     - ufw
     - prometheus-node-exporter
     - wireguard
