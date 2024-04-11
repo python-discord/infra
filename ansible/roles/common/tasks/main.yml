@@ -78,6 +78,7 @@
   copy:
     src: /etc/skel/.bashrc
     dest: /root/.bashrc
+    remote_src: true
     mode: '0644'
     owner: root
     group: root
