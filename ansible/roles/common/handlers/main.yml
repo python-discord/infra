@@ -1,9 +1,13 @@
-- name: Restart ssh
+- name: Reload ssh
   service:
     name: ssh
-    state: restarted
+    state: reloaded
+  tags:
+    - role::common
 
 - name: Restart systemd-timesyncd
   service:
     name: systemd-timesyncd
     state: restarted
+  tags:
+    - role::common

@@ -14,14 +14,21 @@
   tags:
     - role::common
 
-- name: Disable SSH password authentication
-  lineinfile:
-    dest: /etc/ssh/sshd_config
-    regexp: "^PasswordAuthentication"
-    line: "PasswordAuthentication no"
-    state: present
+- name: Configure SSH daemon options
+  ansible.builtin.copy:
+    content: |
+      # Ansible managed
+
+      PasswordAuthentication no
+      PermitRootLogin no
+      ClientAliveInterval 300
+      ClientAliveCountMax 3
+    dest: /etc/ssh/sshd_config.d/pydis.conf
+    owner: root
+    group: root
+    mode: "0444"
   notify:
-    - Restart ssh
+    - Reload ssh
   tags:
     - role::common
 
