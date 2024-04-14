@@ -33,7 +33,7 @@ jobs:
         id: pr_info
         if: github.event.workflow_run.event == 'pull_request'
         run: |
-          curl -s -H "Authorization: token $GITHUB_TOKEN" ${{ github.event.workflow_run.artifacts_url }} > artifacts.json
+          curl -s -H "Authorization: token $GITHUB_TOKEN" ${{ github.event.workflow_run.artifacts_url }} | tee artifacts.json
           DOWNLOAD_URL=$(cat artifacts.json | jq -r '.artifacts[] | select(.name == "pull-request-payload") | .archive_download_url')
           [ -z "$DOWNLOAD_URL" ] && exit 1
           wget --quiet --header="Authorization: token $GITHUB_TOKEN" -O pull_request_payload.zip $DOWNLOAD_URL || exit 2
