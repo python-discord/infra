@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: modmail-config-env
+  namespace: modmail
 data:
   DATABASE_TYPE: 'mongodb'  # The type of database to use, only supports mongodb right now
   DATA_COLLECTION: 'false'  # Disable bot metadata collection by modmail devs
