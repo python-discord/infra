@@ -15,3 +15,5 @@ To setup a local environment using VMs for testing, [Read here](./local_testing/
 1. Install project dependencies: `python -m pip install -r requirements.txt`
 1. Install the pre-commit hook: `pre-commit install`
 1. Create a `vault_passwords` file and write the vault password to it
+1. Configure the Ansible Vault git diff driver using `git config --global
+   diff.ansible-vault.textconv "ansible-vault view"` and `git config diff.ansible-vault.cachetextconv false`
