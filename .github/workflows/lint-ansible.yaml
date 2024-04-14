@@ -22,7 +22,6 @@ jobs:
         run: |
           cd ansible
           echo "$VAULT_PASSWORD" > vault_passwords
-          grep -R GITCRYPT --files-with-matches . | xargs rm
           ansible-lint --offline
         env:
           VAULT_PASSWORD: "${{ secrets.vault-password }}"
