@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: metabase
+  namespace: tooling
 spec:
   selector:
     app: metabase
