@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: patsy
+  namespace: apis
 spec:
   replicas: 0
   selector:

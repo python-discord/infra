@@ -1,10 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: patsy
+  name: quackstack
+  namespace: apis
 spec:
   selector:
-    app: patsy
+    app: quackstack
   ports:
     - protocol: TCP
       port: 80
