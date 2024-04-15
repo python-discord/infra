@@ -25,8 +25,10 @@ jobs:
         filters: |
           ansible:
             - 'ansible/**'
+            - 'poetry.lock'
           kubernetes:
             - 'kubernetes/**'
+            - 'poetry.lock'
 
   lint:
     uses: ./.github/workflows/lint.yaml
