@@ -5,6 +5,6 @@ metadata:
   namespace: monitoring
 data:
   LOKI_API_URL: http://loki.loki.svc.cluster.local:3100
-  LOKI_JOBS: default/bot,default/site,default/sir-lancebot,default/sir-robin,default/metricity,default/snekbox,default/quackstack,default/black-knight
+  LOKI_JOBS: bots/bot,web/site,bots/sir-lancebot,bots/sir-robin,bots/metricity,snekbox/snekbox,apis/quackstack,bots/black-knight
   SERVICE_INTERVAL_MINUTES: '30'
   SERVICE_TOKENS: '[{"token":"CRITICAL","color":"#ff5f5f"},{"token":"ERROR","color":"#ff5f5f"},{"token":"WARN","color":"#ffe24d","case_sensitive":true}]'
