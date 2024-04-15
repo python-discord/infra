@@ -15,7 +15,7 @@ taskipy = "1.12.2"
 
 [tool.poetry.group.ansible.dependencies]
 ansible = "9.4.0"
-ansible-lint = { extras = ["yamllint"], version = "6.17.2", markers = "platform_system != 'Windows'" }
+ansible-lint = { version = "24.2.2", markers = "platform_system != 'Windows'" }
 dnspython = "2.6.1"
 
 [tool.taskipy.tasks]
