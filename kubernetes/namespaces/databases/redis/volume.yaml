@@ -2,6 +2,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: redis-storage
+  namespace: databases
   labels:
     app: redis
 spec:

@@ -2,7 +2,7 @@
 appendonly yes
 
 # Set password
-requirepass <INSERT PASSWORD>
+requirepass <INSERT PASS>
 
 # Set working directory
 dir /data
