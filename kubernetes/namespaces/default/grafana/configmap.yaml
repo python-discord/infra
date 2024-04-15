@@ -20,11 +20,6 @@ data:
   GF_AUTH_GITHUB_API_URL: "https://api.github.com/user"
   GF_AUTH_ALLOW_SIGN_UP: "true"
 
-  # Image renderer
-  GF_RENDERING_SERVER_URL: "http://grafana-image-renderer.default.svc.cluster.local:8081/render"
-  GF_RENDERING_CALLBACK_URL: "http://grafana.default.svc.cluster.local:3000/"
-  GF_RENDERING_CONCURRENT_RENDER_REQUEST_LIMIT: "3"
-
   # Image storage
   GF_EXTERNAL_IMAGE_STORAGE_PROVIDED: "local"
 
