@@ -4,10 +4,11 @@ metadata:
   name: ghost-storage
   labels:
     app: ghost
+  namespace: web
 spec:
   storageClassName: linode-block-storage-retain
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteOncePod
   resources:
     requests:
       storage: 10Gi
