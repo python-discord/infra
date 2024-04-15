@@ -4,6 +4,7 @@ metadata:
   name: mongodb-storage
   labels:
     app: mongodb
+  namespace: databases
 spec:
   storageClassName: linode-block-storage-retain
   accessModes:

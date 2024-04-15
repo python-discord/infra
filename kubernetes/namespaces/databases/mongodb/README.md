@@ -19,4 +19,4 @@ It will mount the created volume at `/data/db`.
 It will expose port `27017` to connect to MongoDB.
 
 ## Service
-A service called `mongodb` will be created to give the deployment a cluster local DNS record of `mongodb.default.svc.cluster.local`.
+A service called `mongodb` will be created to give the deployment a cluster local DNS record of `mongodb.databases.svc.cluster.local`.
