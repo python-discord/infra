@@ -2,6 +2,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: blackbox
+  namespace: databases
 spec:
   schedule: "0 15 * * *"
   jobTemplate:
@@ -35,5 +36,5 @@ spec:
           nodeSelector:
             # NOTE: This should be updated to match the highest spec
             # instance that is being used by the cluster.
-            beta.kubernetes.io/instance-type: g6-standard-4
+            node.kubernetes.io/instance-type: g6-standard-4
       backoffLimit: 3
