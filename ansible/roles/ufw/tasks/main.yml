@@ -32,6 +32,6 @@
 
 - name: Apply service-specific rules
   community.general.ufw: "{{ item }}"
-  with_items: "{{ rules }}"
+  with_items: "{{ ufw_rules }}"
   tags:
     - role::ufw

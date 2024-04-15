@@ -1,4 +1,4 @@
-extra_keys:
+wireguard_extra_keys:
   - name: Joe
     pubkey: /dJ+tKXzxv7nrUleNlF+CGyq7OIVlqL8/9Sn8j+cEAc=
     subnet: 10.0.1.0/24

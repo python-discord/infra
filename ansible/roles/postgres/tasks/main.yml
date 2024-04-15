@@ -2,8 +2,8 @@
   apt:
     name:
       - python3-psycopg2
-      - postgresql-{{ postgresql_version }}
-      - postgresql-contrib-{{ postgresql_version }}
+      - postgresql-{{ postgres_version }}
+      - postgresql-contrib-{{ postgres_version }}
       - libpq-dev
     state: present
   tags:
@@ -11,7 +11,7 @@
 
 - name: Check postgres is started and enabled on boot
   service:
-    name: '{{ postgresql_daemon }}'
+    name: '{{ postgres_daemon }}'
     state: started
     enabled: true
   tags:
@@ -19,16 +19,16 @@
 
 - name: Add postgres users
   community.postgresql.postgresql_user: "{{ item }}"
-  with_items: "{{ postgresql_users }}"
+  with_items: "{{ postgres_users }}"
   become: true
-  become_user: "{{ postgresql_user }}"
+  become_user: "{{ postgres_user }}"
   tags:
     - role::postgres
 
 - name: Add postgres databases
   community.postgresql.postgresql_db: "{{ item }}"
-  with_items: "{{ postgresql_databases }}"
+  with_items: "{{ postgres_databases }}"
   become: true
-  become_user: "{{ postgresql_user }}"
+  become_user: "{{ postgres_user }}"
   tags:
     - role::postgres

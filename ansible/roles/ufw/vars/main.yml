@@ -1,4 +1,4 @@
-rules:
+ufw_rules:
   - comment: Allow internal traffic
     interface: wg0
     direction: in

@@ -16,7 +16,7 @@ PersistentKeepalive = 30
 
 {% endfor %}
 
-{% for key in extra_keys %}
+{% for key in wireguard_extra_keys %}
 # DevOps config for: {{ key.name }}
 [Peer]
 AllowedIPs = {{ key.subnet }}
