@@ -21,7 +21,7 @@ groups:
       description: "Rate of 5XX errors is {{ $value | humanizePercentage }} on service `{{ $labels.service }}`"
 
   - alert: NGINXP99Timing
-    expr: histogram_quantile(0.99, sum by(host, service, le) (rate(nginx_ingress_controller_request_duration_seconds_bucket{service!~"(grafana|metabase|prestashop-svc)", host!="pydis-api.default.svc.cluster.local"}[5m]))) > 3 and on(service) increase(nginx_ingress_controller_requests[5m]) > 10
+    expr: histogram_quantile(0.99, sum by(host, service, le) (rate(nginx_ingress_controller_request_duration_seconds_bucket{service!~"(grafana|metabase|prestashop-svc)"}[5m]))) > 3 and on(service) increase(nginx_ingress_controller_requests[5m]) > 10
     for: 5m
     labels:
       severity: page
