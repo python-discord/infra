@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rtex
+  namespace: apis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rtex
+  template:
+    metadata:
+      labels:
+        app: rtex
+    spec:
+      containers:
+        - name: rtex
+          image: ghcr.io/hassanabouelela/rtex:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
