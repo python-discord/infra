@@ -11,6 +11,7 @@ metadata:
         return 444;
       }
   name: pinnwand
+  namespace: web
 spec:
   tls:
   - hosts:
