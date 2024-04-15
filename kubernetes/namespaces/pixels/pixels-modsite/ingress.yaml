@@ -5,20 +5,21 @@ metadata:
     nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
     nginx.ingress.kubernetes.io/auth-tls-secret: "kube-system/mtls-client-crt-bundle"
     nginx.ingress.kubernetes.io/auth-tls-error-page: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-  name: pixels
+  name: pixels-modsite
+  namespace: pixels
 spec:
   tls:
   - hosts:
       - "*.pythondiscord.com"
     secretName: pythondiscord.com-tls
   rules:
-  - host: pixels.pythondiscord.com
+  - host: pixels-modsite.pythondiscord.com
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: pixels
+            name: pixels-modsite
             port:
               number: 80

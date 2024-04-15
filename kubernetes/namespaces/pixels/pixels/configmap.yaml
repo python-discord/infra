@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: pixels-config-env
+  namespace: pixels
 data:
   BASE_URL: https://pixels.pythondiscord.com
   FORCE_LOGIN: 'True'
