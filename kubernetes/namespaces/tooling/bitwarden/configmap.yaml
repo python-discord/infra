@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: bitwarden-config-env
+  namespace: tooling
 data:
   # Domain to access bitwarden by
   DOMAIN: "https://bitwarden.pythondiscord.com"
