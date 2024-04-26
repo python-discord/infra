@@ -13,7 +13,7 @@ data:
         main_postgres:
           username: {{ POSTGRES_USER }}
           password: {{ POSTGRES_PASSWORD }}
-          host: postgres.default.svc.cluster.local
+          host: postgres.databases.svc.cluster.local
           port: "5432"
       redis:
         main_redis:
