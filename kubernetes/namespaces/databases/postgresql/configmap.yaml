@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: postgres-config
+  namespace: databases
 data:
   postgresql.conf: |
     # From pgtune

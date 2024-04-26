@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
+  namespace: databases
 spec:
   replicas: 1
   strategy:
@@ -16,7 +17,7 @@ spec:
     spec:
       containers:
         - name: postgres
-          image: ghcr.io/chrislovering/psql_extended:15
+          image: ghcr.io/owl-corp/psql_extended:16
           imagePullPolicy: "Always"
           ports:
             - name: postgres
