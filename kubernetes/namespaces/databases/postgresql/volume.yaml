@@ -4,10 +4,11 @@ metadata:
   name: postgres-storage
   labels:
     app: postgres
+  namespace: databases
 spec:
   storageClassName: linode-block-storage-retain
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteOncePod
   resources:
     requests:
       storage: 25Gi
