@@ -3,3 +3,4 @@ venv
 .cache/
 .vscode/
 *.config
+.env
