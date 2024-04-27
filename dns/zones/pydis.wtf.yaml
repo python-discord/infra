@@ -1,0 +1,92 @@
+---
+'':
+  - octodns:
+      cloudflare:
+        proxied: true
+    ttl: 300
+    type: A
+    value: 1.2.3.4
+  - octodns:
+      cloudflare:
+        auto-ttl: true
+    ttl: 300
+    type: MX
+    values:
+    - exchange: amir.mx.cloudflare.net.
+      preference: 36
+    - exchange: isaac.mx.cloudflare.net.
+      preference: 60
+    - exchange: linda.mx.cloudflare.net.
+      preference: 85
+  - octodns:
+      cloudflare:
+        auto-ttl: true
+    ttl: 300
+    type: TXT
+    values:
+    - keybase-site-verification=mKEPFr6d5VSGgahHtzy0y7nPRmo7OWyOUQ7s9ds8OFs
+    - v=spf1 include:_spf.mx.cloudflare.net ~all
+
+20220929._domainkey:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: TXT
+  value: v=DKIM1\; k=rsa\; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDadFXuHEGxF9XCb8mUbYfoCrFm01rzFvnkuxtoJt2jwBLQwkx+CD9KfCjdq5vzFzb0nRFP8L9NY0h1m58ZOdFnf9n4ejbMLvDcfVvzxK7W95HiGdt0RzaQ2AUI5QCFeCedj7z/PlOeM772kKzkUcXTATwFTOOxeSoxVyhHYmdlZwIDAQAB
+
+_dmarc:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: TXT
+  value: v=DMARC1\; p=reject\; adkim=s
+
+cloud.native.is.fun.and.easy:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: A
+  value: 89.58.25.151
+
+files:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 89.58.25.151
+
+lovelace.box:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: A
+  value: 89.58.26.118
+
+pddc.devops:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: A
+  value: 89.58.25.151
+
+turing.box:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: A
+  value: 89.58.25.151
+
+www:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 89.58.25.151
