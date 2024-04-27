@@ -15,4 +15,5 @@ description: |
 | Grafana | The primary aggregation dashboard for most resources. | Admins, Moderators, Core Developers and DevOps (with varying permissions) |
 | Prometheus Dashboard | The Prometheus query dashboard. Access is controlled via Cloudflare Access. | Hassan, Joe, Johannes, Chris |
 | Alertmanager Dashboard | The alertmanager control dashboard. Access is controlled via Cloudflare Access. | Hassan, Joe, Johannes, Chris |
-| `git-crypt`ed files in infra repository| `git-crypt` is used to encrypt certain files within the repository. At the time of writing this is limited to kubernetes secret files. | Chris, Joe, Hassan, Johannes, Xithrius |
+| `git-crypt`ed files in infra repository | `git-crypt` is used to encrypt certain files within the repository. At the time of writing this is limited to kubernetes secret files. | Chris, Joe, Hassan, Johannes, Xithrius |
+| Ansible Vault | Used to store sensitive data for the Ansible deployment | Chris, Joe, Johannes, Bella |
