@@ -11,7 +11,7 @@ groups:
           description: "Django is experiencing 5xx errors on {{ $labels.namespace }}/{{ $labels.job }}"
 
       - alert: DjangoLatencyElevated
-        expr: histogram_quantile(0.95, rate(django_http_requests_latency_seconds_by_view_method_bucket{view!="api:github-artifacts", view!="home:home", view!="content:tag"}[5m])) > 1.0
+        expr: histogram_quantile(0.95, rate(django_http_requests_latency_seconds_by_view_method_bucket{view!="api:github-artifacts", view!="api:github-webhook-filter", view!="home:home", view!="content:tag"}[5m])) > 1.0
         for: 3m
         labels:
           severity: warning
@@ -20,7 +20,7 @@ groups:
           description: "Django route {{ $labels.method }} {{ $labels.view }} has raised latency"
 
       - alert: DjangoLatencyHigh
-        expr: histogram_quantile(0.95, rate(django_http_requests_latency_seconds_by_view_method_bucket{view!="api:github-artifacts", view!="home:home", view!="content:tag"}[5m])) > 10.0
+        expr: histogram_quantile(0.95, rate(django_http_requests_latency_seconds_by_view_method_bucket{view!="api:github-artifacts", view!="api:github-webhook-filter", view!="home:home", view!="content:tag"}[5m])) > 10.0
         for: 3m
         labels:
           severity: page
