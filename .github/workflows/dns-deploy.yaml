@@ -1,0 +1,27 @@
+name: Deploy DNS to providers
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  octodns-sync:
+    environment: production
+    name: Sync latest changes to DNS providers
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./dns
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - uses: solvaholic/octodns-sync@main
+        with:
+          config_path: dns/production.yaml
+          doit: '--doit'
+        env:
+          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
