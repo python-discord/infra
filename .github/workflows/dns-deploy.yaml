@@ -9,15 +9,13 @@ jobs:
     environment: production
     name: Sync latest changes to DNS providers
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./dns
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Install Python Dependencies
+        uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.2
         with:
-          python-version: '3.12'
-      - run: pip install -r requirements.txt
+          python_version: '3.12'
+          install_args: --only dns
       - uses: solvaholic/octodns-sync@main
         with:
           config_path: dns/production.yaml

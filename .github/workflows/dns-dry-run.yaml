@@ -6,17 +6,15 @@ jobs:
   octodns-sync:
     name: Run `octodns-sync` with production.yaml
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./dns
     outputs:
       plan: ${{ steps.generate-plan.outputs.plan }}
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Install Python Dependencies
+        uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.2
         with:
-          python-version: '3.12'
-      - run: pip install -r requirements.txt
+          python_version: '3.12'
+          install_args: --only dns
       - uses: solvaholic/octodns-sync@main
         id: generate-plan
         with:
