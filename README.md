@@ -14,8 +14,11 @@ ansible/
 ├── .ansible-lint                        # Configuration for ansible lint
 ├── ansible.cfg                          # Ansible Configurartion file
 └── playbook.yml                         # Root playbook pulling all roles together
+dns/
+├── zones/                               # Zone configuration for each supported DNS Zone
+└── production.yaml                      # Configuration for OctoDNS planning and deployment
 docs/
-└── meeting_notes/                          # Minutes for previous devops meetings
+└── meeting_notes/                       # Minutes for previous devops meetings
 kubernetes/
 ├── cluster-wide-secrets/                # Kubernetes secrets shared by multiple pods across namespaces
 ├── namespaces/                          # Kubernetes manifests, separated by namespace
