@@ -24,6 +24,7 @@ jobs:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
   add-pr-comment:
     name: Add `octodns-sync` plan to comment
+    if: ${{ ! contains(needs.octodns-sync.outputs.plan, 'No changes were planned') }}
     needs: [octodns-sync]
     runs-on: ubuntu-latest
     steps:
