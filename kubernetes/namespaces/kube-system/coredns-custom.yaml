@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-custom
+  namespace: kube-system
+data:
+  log.include: |
+    log postgres.default.svc.cluster.local
+    log postgres.default
+    log postgres
