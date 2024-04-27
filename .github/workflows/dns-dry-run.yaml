@@ -1,0 +1,49 @@
+name: Generate DNS change plan
+
+on:
+  pull_request:
+jobs:
+  octodns-sync:
+    name: Run `octodns-sync` with production.yaml
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: ./dns
+    outputs:
+      plan: ${{ steps.generate-plan.outputs.plan }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - uses: solvaholic/octodns-sync@main
+        id: generate-plan
+        with:
+          config_path: dns/production.yaml
+        env:
+          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+  add-pr-comment:
+    name: Add `octodns-sync` plan to comment
+    needs: [octodns-sync]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Find previous comment, if present
+        uses: peter-evans/find-comment@v1.2.0
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: github-actions[bot]
+          body-includes: "OctoDNS Plan for "
+      - name: Create or update comment
+        id: prcomment
+        uses: peter-evans/create-or-update-comment@v1.4.5
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          body: |
+            # OctoDNS Plan for `${{ github.event.pull_request.head.ref }}`
+
+            ${{ needs.octodns-sync.outputs.plan }}
+          edit-mode: replace
