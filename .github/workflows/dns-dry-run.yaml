@@ -5,15 +5,15 @@ on:
 jobs:
   octodns-sync:
     name: Run `octodns-sync` with production.yaml
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./dns
     outputs:
       plan: ${{ steps.generate-plan.outputs.plan }}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - run: pip install -r requirements.txt
@@ -27,10 +27,10 @@ jobs:
   add-pr-comment:
     name: Add `octodns-sync` plan to comment
     needs: [octodns-sync]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - name: Find previous comment, if present
-        uses: peter-evans/find-comment@v1.2.0
+        uses: peter-evans/find-comment@v3
         id: fc
         with:
           issue-number: ${{ github.event.pull_request.number }}
@@ -38,7 +38,7 @@ jobs:
           body-includes: "OctoDNS Plan for "
       - name: Create or update comment
         id: prcomment
-        uses: peter-evans/create-or-update-comment@v1.4.5
+        uses: peter-evans/create-or-update-comment@v4
         with:
           issue-number: ${{ github.event.pull_request.number }}
           comment-id: ${{ steps.fc.outputs.comment-id }}
