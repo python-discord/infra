@@ -10,17 +10,3 @@ spec:
     - port: 5432
   selector:
     app: postgres
----
-# Fallback service for items relying on svc/postgres in the default namespace
-apiVersion: v1
-kind: Service
-metadata:
-  name: postgres
-  namespace: default
-spec:
-  type: ExternalName
-  externalName: postgres.databases.svc.cluster.local
-  ports:
-    - port: 5432
-  selector:
-    app: postgres
