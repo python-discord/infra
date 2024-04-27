@@ -5,7 +5,15 @@ metadata:
   namespace: databases
 data:
   postgresql.conf: |
-    # From pgtune
+    # From pgtune https://pgtune.leopard.in.ua/
+    # DB Version: 16
+    # OS Type: linux
+    # DB Type: web
+    # Total Memory (RAM): 6 GB
+    # CPUs num: 4
+    # Connections num: 110
+    # Data Storage: ssd
+
     max_connections = 110
     shared_buffers = 1536MB
     effective_cache_size = 4608MB
@@ -15,7 +23,8 @@ data:
     default_statistics_target = 100
     random_page_cost = 1.1
     effective_io_concurrency = 200
-    work_mem = 3574kB
+    work_mem = 7149kB
+    huge_pages = off
     min_wal_size = 1GB
     max_wal_size = 4GB
     max_worker_processes = 4
