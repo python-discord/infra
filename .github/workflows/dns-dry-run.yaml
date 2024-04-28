@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Python Dependencies
-        uses: HassanAbouelela/actions/setup-python@setup-python_v1.4.2
+        uses: HassanAbouelela/actions/setup-python@setup-python_v1.5.0
         with:
           python_version: '3.12'
           install_args: --only dns
