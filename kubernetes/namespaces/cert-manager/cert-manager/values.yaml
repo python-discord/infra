@@ -1,1 +1,7 @@
 installCRDs: true
+startupapicheck:
+  timeout: 5m
+
+webhook:
+  hostNetwork: true
+  securePort: 10260
