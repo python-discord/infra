@@ -14,5 +14,5 @@ spec:
         cloudflare:
           email: cloudflare@pydis.com
           apiTokenSecretRef:
-            name: cloudflare-credentials
-            key: cloudflare-api-key
+            name: cloudflare-api-token
+            key: api-token
