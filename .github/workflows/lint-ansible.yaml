@@ -2,9 +2,6 @@ name: Lint Ansible play books
 
 on:
   workflow_call:
-    secrets:
-      vault-password:
-        required: true
 
 jobs:
   lint-ansible:
@@ -21,7 +18,7 @@ jobs:
       - name: Run ansible lint
         run: |
           cd ansible
-          echo "$VAULT_PASSWORD" > vault_passwords
+          # Remove any Vaulted files and Vault configuration
+          grep -R '$ANSIBLE_VAULT;' --files-with-matches . | xargs rm
+          sed --in-place '/vault_password_file/d' ansible.cfg
           ansible-lint --offline
-        env:
-          VAULT_PASSWORD: "${{ secrets.vault-password }}"
