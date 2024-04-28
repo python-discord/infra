@@ -43,6 +43,22 @@ _dmarc:
   type: TXT
   value: v=DMARC1\; p=reject\; adkim=s
 
+alertmanager:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+bitwarden:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
 cloud.native.is.fun.and.easy:
   octodns:
     cloudflare:
@@ -59,6 +75,14 @@ files:
   type: A
   value: 89.58.25.151
 
+grafana:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
 lovelace.box:
   - octodns:
       cloudflare:
@@ -73,6 +97,22 @@ lovelace.box:
     type: AAAA
     value: 2a03:4000:62:ce0:2496:aeff:fe97:dea4
 
+metabase:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+modmail:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
 pddc.devops:
   octodns:
     cloudflare:
@@ -80,6 +120,30 @@ pddc.devops:
   ttl: 300
   type: A
   value: 89.58.25.151
+
+pixels-mod:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+policy-bot:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+prometheus:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
 
 turing.box:
   - octodns:
