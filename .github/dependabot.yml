@@ -14,3 +14,10 @@ updates:
       interval: "weekly"
     reviewers:
       - "python-discord/devops"
+
+  - package-ecosystem: "gitsubmodule"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    reviewers:
+      - "python-discord/devops"
