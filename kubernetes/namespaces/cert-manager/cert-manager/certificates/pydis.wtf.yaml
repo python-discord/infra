@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: pydis-wtf
+spec:
+  secretName: pydis.wtf-tls
+  dnsNames:
+  - pydis.wtf
+  - '*.pydis.wtf'
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer
