@@ -60,12 +60,18 @@ files:
   value: 89.58.25.151
 
 lovelace.box:
-  octodns:
-    cloudflare:
-      auto-ttl: true
-  ttl: 300
-  type: A
-  value: 89.58.26.118
+  - octodns:
+      cloudflare:
+        auto-ttl: true
+    ttl: 300
+    type: A
+    value: 89.58.26.118
+  - octodns:
+      cloudflare:
+        auto-ttl: true
+    ttl: 300
+    type: AAAA
+    value: 2a03:4000:62:ce0:2496:aeff:fe97:dea4
 
 pddc.devops:
   octodns:
@@ -76,12 +82,18 @@ pddc.devops:
   value: 89.58.25.151
 
 turing.box:
-  octodns:
-    cloudflare:
-      auto-ttl: true
-  ttl: 300
-  type: A
-  value: 89.58.25.151
+  - octodns:
+      cloudflare:
+        auto-ttl: true
+    ttl: 300
+    type: A
+    value: 89.58.25.151
+  - octodns:
+      cloudflare:
+        auto-ttl: true
+    ttl: 300
+    type: AAAA
+    value: 2a03:4000:62:ce1:943b:b2ff:fef4:d3b7
 
 www:
   octodns:
