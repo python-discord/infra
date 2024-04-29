@@ -3,7 +3,6 @@
   roles:
     - common
     - pydis-users
-    - ufw  # can be removed
     - nftables
     - prometheus-node-exporter
     - wireguard
@@ -22,7 +21,6 @@
     - certbot
     - nginx
     - nginx-geoip
-    - nginx-ufw
     - nginx-cloudflare-mtls
 
 - name: Deploy our PostgreSQL database hosts
