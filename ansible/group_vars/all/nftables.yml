@@ -1,0 +1,69 @@
+---
+nftables_configuration: |
+  flush ruleset
+
+  table inet firewall {
+    set tcp_accepted {
+      type inet_service
+      elements = {
+        # OpenSSH
+        ssh,
+        # NGINX
+        http,
+        https
+      }
+    }
+
+    chain input {
+      type filter hook input priority 0
+
+      # Drop anything not explicitly dropped or accepted by default
+      policy drop
+
+      # Drop invalid packets
+      ct state invalid drop
+
+      # Allow already established connections
+      ct state established,related accept
+
+      # Allow loopback
+      iif lo accept
+
+      # Allow certain inbound ICMP types (ping, traceroute).
+      # With these allowed you are a good network citizen.
+      meta l4proto { icmp, ipv6-icmp } counter accept
+
+      # Standard allowed ports
+      iifname {{ ansible_default_ipv4.interface }} tcp dport @tcp_accepted ct state new accept
+  {% if ansible_default_ipv4.interface != ansible_default_ipv6.interface %}
+      iifname {{ ansible_default_ipv6.interface }} tcp dport @tcp_accepted ct state new accept
+  {% endif %}
+
+      # WireGuard client connections
+      iifname {{ ansible_default_ipv4.interface }} udp dport {{ wireguard_port }} ct state new accept
+  {% if ansible_default_ipv4.interface != ansible_default_ipv6.interface %}
+      iifname {{ ansible_default_ipv6.interface }} udp dport {{ wireguard_port }} ct state new accept
+  {% endif %}
+
+    }
+
+    chain forward {
+      type filter hook forward priority 0
+      policy drop
+      ct state invalid drop
+      ct state established,related accept
+
+      iifname wg0 ip daddr 10.0.0.0/8 accept
+    }
+
+    chain output {
+      type filter hook output priority 0
+      policy accept
+
+      ip6 nexthdr ipv6-icmp accept
+    }
+
+    chain postrouting {
+      type nat hook postrouting priority 100;
+    }
+  }

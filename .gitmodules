@@ -1,3 +1,6 @@
 [submodule "hugodocs/themes/hugo-book"]
 	path = docs/themes/hugo-book
 	url = https://github.com/alex-shpak/hugo-book
+[submodule "ansible/roles/nftables"]
+	path = ansible/roles/nftables
+	url = git@github.com:jchristgit/ansible-role-nftables.git

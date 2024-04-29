@@ -3,7 +3,8 @@
   roles:
     - common
     - pydis-users
-    - ufw
+    - ufw  # can be removed
+    - nftables
     - prometheus-node-exporter
     - wireguard
     - fail2ban
