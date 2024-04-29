@@ -1,0 +1,16 @@
+baseURL = 'http://python-discord.github.io/infra/'
+languageCode = 'en-us'
+title = 'PyDis DevOps'
+theme = "hugo-book"
+
+# From the theme:
+# https://github.com/alex-shpak/hugo-book?tab=readme-ov-file#site-configuration
+enableGitInfo = true
+[params]
+  BookTheme = "dark"
+  BookRepo = "https://github.com/python-discord/infra"
+  BookServiceWorker = false  # frontend nonsense
+
+[markup]
+  [markup.highlight]
+    lineNos = true

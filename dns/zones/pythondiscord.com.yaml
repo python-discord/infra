@@ -1,0 +1,265 @@
+---
+'':
+  - octodns:
+      cloudflare:
+        proxied: true
+    ttl: 300
+    type: A
+    value: 194.195.247.228
+
+  - octodns:
+      cloudflare:
+        auto-ttl: true
+    ttl: 300
+    type: MX
+    values:
+    - exchange: amir.mx.cloudflare.net.
+      preference: 19
+    - exchange: linda.mx.cloudflare.net.
+      preference: 40
+    - exchange: isaac.mx.cloudflare.net.
+      preference: 65
+
+  - octodns:
+      cloudflare:
+        auto-ttl: true
+    ttl: 300
+    type: TXT
+    values:
+    - google-site-verification=2-WR3alaLn7r-_pRPyYZhnh0YYYe4Bbydo32bfg4Wxo
+    - google-site-verification=cdfwmXlZDb57NUuy_1EOSrxfEYAYp_P232bOkrWVudM
+    - keybase-site-verification=PeSqpPFVIy3W-YQWurEKeawYsgbH6QUjhDvf9mN3FdU
+    - v=spf1 include:_spf.mx.cloudflare.net ~all
+
+6ed7202cfcfe199921d5b382e200a40e598d20c3.status:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: CNAME
+  value: 0413e56329e93dfd18eed87f6a0566abfdc4fedb.fsverify.freshstatus.io.
+
+_dmarc:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: TXT
+  value: v=DMARC1\;  p=none\; rua=mailto:d043664dc3c6459586f31b10d86a37b7@dmarc-reports.cloudflare.net
+
+alertmanager:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+bitwarden:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+blog:
+  octodns:
+    cloudflare:
+      comment: 89.58.24.117
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+bot-core:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: CNAME
+  value: python-discord.github.io.
+
+challenge:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 1.1.1.1
+
+csp:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: AAAA
+  value: '100::'
+
+forms:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: CNAME
+  value: pydis-forms.netlify.app.
+
+forms-api:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+git:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+grafana:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+mailo._domainkey:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: TXT
+  value: k=rsa\; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCxSyxIyn8hEsmWJQM3bh5LDF0M9qRnOnj4JWnn38EuyhNVl+OV3nKWl2xQ4HUmcKQAwKeYBrnb8CajKvNJH/A9yvYnHgFwRODZ8TJdYzrlG1Uxdse9pHoo2jT5bAycbltD5K78o2xAQ5rPwv3xa26j013Vea4I09BkLJbv/MH7lQIDAQAB
+
+merch:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+metabase:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+modmail:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+paste:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+paypal:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+peps:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: CNAME
+  value: python-discord.github.io.
+
+pixels:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+pixels-modsite:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+policy-bot:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+prometheus:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+quackstack:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+sentry:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+stats:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+status:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: CNAME
+  value: pythondiscord.freshstatus.io.
+
+welcome:
+  octodns:
+    cloudflare:
+       proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
+www:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: CNAME
+  value: pythondiscord.com.

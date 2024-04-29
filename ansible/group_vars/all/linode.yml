@@ -1,0 +1,5 @@
+---
+lke_all_addresses: "{{ lookup('ansible.builtin.url', 'https://geoip.linode.com/', wantlist=True) }}"
+lke_frankfurt_addresses: "{{ lke_all_addresses | select('search', '^.*Frankfurt.*$') | map('split', ',') | map(attribute=0) | list }}"
+lke_frankfurt_ipv4_addresses: "{{ lke_frankfurt_addresses | select('search', '^.*\\..*$') }}"
+lke_frankfurt_ipv6_addresses: "{{ lke_frankfurt_addresses | select('search', '^.*:.*$') }}"

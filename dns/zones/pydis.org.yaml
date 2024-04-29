@@ -1,0 +1,39 @@
+---
+'':
+  - octodns:
+      cloudflare:
+        auto-ttl: true
+    ttl: 300
+    type: ALIAS
+    value: pythondiscord.com.
+  - octodns:
+      cloudflare:
+        auto-ttl: true
+    ttl: 300
+    type: TXT
+    value: keybase-site-verification=cZ4S0PFxbk_QNaQ8uCQUhgAfODykPWOWpuMrUyBF9AQ
+
+'*':
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: CNAME
+  value: pythondiscord.com.
+
+_acme-challenge.forms:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: TXT
+  value: vksE5-PftvlUnw71gBe7X1W14IZX-aTxDSwYMlJLkN0
+
+forms:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+      proxied: true
+  ttl: 300
+  type: CNAME
+  value: forms-frontend.pages.dev.

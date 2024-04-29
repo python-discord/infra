@@ -37,8 +37,6 @@ jobs:
     needs: changes
     if: ${{ needs.changes.outputs.ansible == 'true' }}
     uses: ./.github/workflows/lint-ansible.yaml
-    secrets:
-      vault-password: ${{ secrets.ANSIBLE_VAULT_PASSWORD }}
 
   lint-kubernetes:
     needs: changes

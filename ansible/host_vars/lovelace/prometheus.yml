@@ -9,7 +9,9 @@ prometheus_configuration:
   alerting:
     alertmanagers:
       - static_configs:
-          - targets: []
+          - scheme: https
+            targets:
+              - alertmanager.pythondiscord.com
 
   rule_files:
     # - "first_rules.yml"
