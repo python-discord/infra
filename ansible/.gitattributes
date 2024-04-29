@@ -1,1 +1,2 @@
+* text=auto
 roles/pydis-users/vars/main.yml diff=ansible-vault merge=binary
