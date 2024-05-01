@@ -1,0 +1,7 @@
+---
+- name: Reload ssh
+  service:
+    name: ssh
+    state: reloaded
+  tags:
+    - role::ssh
