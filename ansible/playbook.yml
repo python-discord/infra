@@ -24,6 +24,6 @@
     - nginx-cloudflare-mtls
 
 - name: Deploy our PostgreSQL database hosts
-  hosts: lovelace
+  hosts: databases
   roles:
     - postgres

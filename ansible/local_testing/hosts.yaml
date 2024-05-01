@@ -24,3 +24,6 @@ all:
     nginx:
       hosts:
         turing:
+    databases:
+      hosts:
+        lovelace:
