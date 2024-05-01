@@ -62,6 +62,7 @@
     - Reload wg-quick
   tags:
     - role::wireguard
+  when: (ansible_play_hosts | sort) == (hostvars | sort)
 
 - name: Start and enable the WireGuard service
   service:

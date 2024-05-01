@@ -27,6 +27,7 @@
     owner: prometheus
     group: prometheus
     mode: "0400"
+  when: (ansible_play_hosts | sort) == (hostvars | sort)
   tags:
     - role::prometheus
   notify:
