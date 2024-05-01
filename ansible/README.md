@@ -9,11 +9,13 @@ If you are on Windows, you need to install WSL and run Ansible in there, as
 natively](https://docs.ansible.com/ansible/latest/user_guide/windows_faq.html#can-ansible-run-on-windows).
 Debian Stable is recommended, but any Linux distribution should work.
 
-1. Create a virtual environment: `python -m venv venv`
-1. Activate the virtual environment
-1. Update pip and builder deps: `python -m pip install --upgrade pip wheel setuptools`
-1. Install project dependencies: `python -m pip install -r requirements.txt`
+From the project root directory:
+
 1. Install the pre-commit hook: `pre-commit install`
+1. Install Poetry: `apt install python3-poetry`
+1. Install dependencies: `poetry install`
+1. Head to the `ansible` directory: `cd ansible`
+1. Install Ansible dependencies: `poetry run ansible-galaxy install -r roles/requirements.yml`
 1. Create a `vault_passwords` file and write the vault password to it
 1. Configure the Ansible Vault git diff driver using `git config --global
    diff.ansible-vault.textconv "ansible-vault view"` and `git config diff.ansible-vault.cachetextconv false`
