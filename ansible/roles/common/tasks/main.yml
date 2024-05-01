@@ -14,16 +14,31 @@
   tags:
     - role::common
 
+# Temporary cleanup task. Can be removed later.
+- name: Remove old SSH daemon options file
+  ansible.builtin.file:
+    path: /etc/ssh/sshd_config.d/pydis.conf
+    state: absent
+  tags:
+    - role::common
+
 - name: Configure SSH daemon options
   ansible.builtin.copy:
     content: |
       # Ansible managed
 
+      # Logins
       PasswordAuthentication no
       PermitRootLogin no
+
+      # Forwarding
+      AllowAgentForwarding no
+      X11Forwarding no
+
+      # Connection keepalive
       ClientAliveInterval 300
       ClientAliveCountMax 3
-    dest: /etc/ssh/sshd_config.d/pydis.conf
+    dest: /etc/ssh/sshd_config.d/hardening.conf
     owner: root
     group: root
     mode: "0444"
