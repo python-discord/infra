@@ -31,3 +31,17 @@
     - role::prometheus
   notify:
     - Reload the prometheus service
+
+- name: Configure prometheus rules
+  copy:
+    content: |
+      # Ansible managed
+      {{ prometheus_rules | to_nice_yaml }}
+    dest: /etc/prometheus/rules.yml
+    owner: prometheus
+    group: prometheus
+    mode: "0400"
+  tags:
+    - role::prometheus
+  notify:
+    - Reload the prometheus service
