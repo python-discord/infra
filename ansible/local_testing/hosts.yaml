@@ -21,36 +21,6 @@ all:
       ip: 192.168.56.6
       access_ip: 192.168.56.6
   children:
-    kube_control_plane:
-      hosts:
-        hopper:
-        turing:
-    kube_node:
-      hosts:
-        hopper:
-        turing:
-        lovelace:
-        neumann:
-        ritchie:
-    etcd:
-      hosts:
-        hopper:
-        turing:
-        lovelace:
-    k8s_cluster:
-      children:
-        kube_control_plane:
-        kube_node:
-    calico_rr:
-      hosts: {}
-    podman:
-      hosts:
-        turing:
-        lovelace:
-        hopper:
-        ritchie:
     nginx:
       hosts:
         turing:
-        ritchie:
-        neumann:
