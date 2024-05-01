@@ -14,7 +14,7 @@ ruff = "0.4.2"
 taskipy = "1.12.2"
 
 [tool.poetry.group.ansible.dependencies]
-ansible = "9.5.1"
+ansible-core = "^2.16.6"
 ansible-lint = { version = "24.2.2", markers = "platform_system != 'Windows'" }
 dnspython = "2.6.1"
 
