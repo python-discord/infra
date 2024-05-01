@@ -10,5 +10,8 @@ all:
     nginx:
       hosts:
         turing:
+    databases:
+      hosts:
+        lovelace:
   vars:
     wireguard_port: 46850

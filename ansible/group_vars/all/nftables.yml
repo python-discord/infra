@@ -14,7 +14,7 @@ nftables_configuration: |
       }
     }
 
-  {% if inventory_hostname == 'lovelace' %}
+  {% if "databases" in group_names %}
     # Access control for database server
     set possible_lke_ipv4_addrs {
       type ipv4_addr
@@ -60,7 +60,7 @@ nftables_configuration: |
       iifname {{ ansible_default_ipv6.interface }} udp dport {{ wireguard_port }} ct state new accept
   {% endif %}
 
-  {% if inventory_hostname == 'lovelace' %}
+  {% if "databases" in group_names %}
       # PostgreSQL connections
       iifname {{ ansible_default_ipv4.interface }} ip saddr @possible_lke_ipv4_addrs tcp dport postgresql ct state new accept
   {% if ansible_default_ipv6 is defined %}
