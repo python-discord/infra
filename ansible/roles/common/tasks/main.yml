@@ -47,6 +47,21 @@
   tags:
     - role::common
 
+- name: Configure default security limits
+  ansible.builtin.copy:
+    content: |
+      # Ansible managed
+
+      # <domain>  <type>  <item>  <value>
+      *           soft    nproc   100
+      *           hard    nproc   200
+    dest: /etc/security/limits.d/pydis.conf
+    owner: root
+    group: root
+    mode: "0444"
+  tags:
+    - role::common
+
 - name: Set timezone to UTC
   file:
     src: /usr/share/zoneinfo/Etc/UTC
