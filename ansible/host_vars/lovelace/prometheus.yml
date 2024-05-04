@@ -35,3 +35,41 @@ prometheus_configuration:
       # Scrape node exporters on all hosts
       static_configs:
         - targets: "{{ hostvars.values() | map(attribute='ansible_wg0.ipv4.address') | map('regex_replace', '^(.*)$', '\\1:9100') | list }}"
+
+    - job_name: blackbox-ssh
+      metrics_path: /probe
+      params:
+        module: [ssh_banner]
+
+      static_configs:
+        - targets:
+            - lovelace.box.pydis.wtf
+            - turing.box.pydis.wtf
+
+      relabel_configs:
+        # Ensure that the SSH port is included explicitly
+        - source_labels: [__address__]
+          regex: (.*?)(:.*)?
+          replacement: ${1}:22
+          target_label: __param_target
+
+        - source_labels: [__param_target]
+          target_label: instance
+
+        - target_label: __address__
+          replacement: localhost:9115
+
+    - job_name: blackbox-http
+      metrics_path: /probe
+      params:
+        module: [http_2xx]
+      static_configs:
+        - targets:
+            - https://pydis.wtf/
+            - https://cloud.native.is.fun.and.easy.pydis.wtf/
+      relabel_configs:
+        - source_labels: [__address__]
+          target_label: __param_target
+        - source_labels: [__param_target]
+          target_label: instance
+        - target_label: __address__

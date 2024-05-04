@@ -14,6 +14,7 @@
   hosts: lovelace
   roles:
     - prometheus
+    - prometheus-blackbox-exporter
 
 - name: Deploy nginx & certbot to hosts
   hosts: nginx

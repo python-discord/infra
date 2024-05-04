@@ -1,0 +1,7 @@
+---
+- name: Install prometheus-blackbox-exporter
+  package:
+    name: prometheus-blackbox-exporter
+    state: present
+  tags:
+    - role::prometheus-blackbox-exporter
