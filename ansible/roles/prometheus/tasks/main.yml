@@ -37,7 +37,7 @@
   copy:
     content: |
       # Ansible managed
-      {{ prometheus_rules | to_nice_yaml }}
+      {{ prometheus_rules }}
     dest: /etc/prometheus/rules.yml
     owner: prometheus
     group: prometheus
