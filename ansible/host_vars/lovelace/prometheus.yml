@@ -14,6 +14,7 @@ prometheus_configuration:
               - alertmanager.pythondiscord.com
 
   rule_files:
+    - rules.yml
     # - "first_rules.yml"
     # - "second_rules.yml"
 
