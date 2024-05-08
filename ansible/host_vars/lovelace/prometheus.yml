@@ -73,3 +73,18 @@ prometheus_configuration:
         - source_labels: [__param_target]
           target_label: instance
         - target_label: __address__
+
+prometheus_rules: |
+  {% raw %}
+  groups:
+    - name: node
+      rules:
+        - alert: node/systemd-unit-failed
+          # expr: node_systemd_unit_state{state="failed", name!="openipmi.service", name!="nvmf-autoconnect.service"} != 0
+          expr: node_systemd_unit_state{state="failed"} != 0
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: Node systemd unit {{ $labels.name }} has failed (instance {{ $labels.instance }})
+  {% endraw %}
