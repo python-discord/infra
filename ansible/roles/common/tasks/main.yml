@@ -84,12 +84,23 @@
   tags:
     - role::common
 
-- name: Add sudoers lecture path
+- name: Configure sudo
+  template:
+    src: sudoers.j2
+    dest: /etc/sudoers.d/pydis
+    owner: root
+    group: root
+    mode: '0440'
+    validate: /usr/sbin/visudo -cf %s
+  tags:
+    - role::common
+
+- name: Remove sudoers lecture path
   lineinfile:
     dest: /etc/sudoers
     regexp: '^Defaults +?lecture_file ?= ?".+?"$'
     line: 'Defaults    lecture_file = "/etc/sudo_lecture"'
-    state: present
+    state: absent
     validate: /usr/sbin/visudo -cf %s
   tags:
     - role::common
