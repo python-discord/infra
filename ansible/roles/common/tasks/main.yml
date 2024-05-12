@@ -14,14 +14,6 @@
   tags:
     - role::common
 
-# Temporary cleanup task. Can be removed later.
-- name: Remove old SSH daemon options file
-  ansible.builtin.file:
-    path: /etc/ssh/sshd_config.d/pydis.conf
-    state: absent
-  tags:
-    - role::common
-
 - name: Configure SSH daemon options
   ansible.builtin.copy:
     content: |
@@ -91,16 +83,6 @@
     owner: root
     group: root
     mode: '0440'
-    validate: /usr/sbin/visudo -cf %s
-  tags:
-    - role::common
-
-- name: Remove sudoers lecture path
-  lineinfile:
-    dest: /etc/sudoers
-    regexp: '^Defaults +?lecture_file ?= ?".+?"$'
-    line: 'Defaults    lecture_file = "/etc/sudo_lecture"'
-    state: absent
     validate: /usr/sbin/visudo -cf %s
   tags:
     - role::common
