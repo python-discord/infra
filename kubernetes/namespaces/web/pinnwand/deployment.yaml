@@ -22,7 +22,7 @@ spec:
               mountPath: /tmp/
       containers:
         - name: pinnwand
-          image: ghcr.io/supakeen/pinnwand:v1.5.0-psql
+          image: ghcr.io/python-discord/pinnwand:latest-psql
           command: ["venv/bin/python3", "-m", "pinnwand", "-vvvvvvvv", "--configuration-path", "/config/config.toml", "http"]
           imagePullPolicy: Always
           resources:
