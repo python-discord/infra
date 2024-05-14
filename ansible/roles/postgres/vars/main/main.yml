@@ -1,0 +1,12 @@
+postgres_version: "15"
+postgres_daemon: "postgresql@{{ postgres_version }}-main"
+postgres_user: "postgres"
+
+postgres_users:
+  - name: pinnwand
+    password: "{{ vault_postgres_user_passwords.pinnwand }}"
+
+
+postgres_databases:
+  - name: pinnwand
+    owner: pinnwand
