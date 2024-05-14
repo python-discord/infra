@@ -1,7 +1,0 @@
-postgres_version: "15"
-postgres_daemon: "postgresql@{{ postgres_version }}-main"
-postgres_user: "postgres"
-
-postgres_users: []
-
-postgres_databases: []
