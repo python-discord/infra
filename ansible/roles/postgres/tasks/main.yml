@@ -18,21 +18,30 @@
     - role::postgres
 
 - name: Add postgres users
-  community.postgresql.postgresql_user: "{{ item }}"
-  with_items: "{{ postgres_users }}"
   become: true
   become_user: "{{ postgres_user }}"
+  community.postgresql.postgresql_user:
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
+    state: present
+  loop_control:
+    label: "{{ item.name }}"
+  loop: "{{ postgres_users }}"
+  environment:
+    PGOPTIONS: "-c password_encryption=scram-sha-256"
   tags:
     - role::postgres
 
 - name: Add postgres databases
-  community.postgresql.postgresql_db: "{{ item }}"
-  with_items: "{{ postgres_databases }}"
   become: true
   become_user: "{{ postgres_user }}"
+  community.postgresql.postgresql_db:
+    name: "{{ item.name }}"
+    owner: "{{ item.owner }}"
+    state: present
+  loop: "{{ postgres_databases }}"
   tags:
     - role::postgres
-
 
 - name: Set host based authentication rules for all postgres users at once
   ansible.builtin.blockinfile:
