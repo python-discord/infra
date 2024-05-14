@@ -10,3 +10,9 @@ spec:
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer
+  secretTemplate:
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "apis,forms,modmail,monitoring,pixels,prestashop,tooling,web"
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "apis,forms,modmail,monitoring,pixels,prestashop,tooling,web"
