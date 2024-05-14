@@ -7,7 +7,7 @@ metadata:
     nginx.ingress.kubernetes.io/auth-tls-error-page: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
     nginx.ingress.kubernetes.io/affinity: "cookie"
     nginx.ingress.kubernetes.io/session-cookie-name: "AlertManager_LB"
-    nginx.ingress.kubernetes.io/session-cookie-domain: "alertmanager.pythondiscord.com"
+    nginx.ingress.kubernetes.io/session-cookie-domain: "alertmanager.pydis.wtf"
     nginx.ingress.kubernetes.io/session-cookie-samesite: "Strict"
     nginx.ingress.kubernetes.io/session-cookie-expires: "3600"
   name: alertmanager
@@ -15,9 +15,10 @@ metadata:
 spec:
   tls:
   - hosts:
-      - "*.pythondiscord.com"
+      - "*.pydis.wtf"
+    secretName: pydis.wtf-tls
   rules:
-  - host: alertmanager.pythondiscord.com
+  - host: alertmanager.pydis.wtf
     http:
       paths:
       - path: /

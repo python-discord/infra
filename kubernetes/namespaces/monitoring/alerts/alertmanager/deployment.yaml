@@ -52,7 +52,7 @@ spec:
           - |
             exec /bin/alertmanager \
               --config.file=/opt/pydis/alertmanager/config.d/alertmanager.yaml \
-              --web.external-url=https://alertmanager.pythondiscord.com \
+              --web.external-url=https://alertmanager.pydis.wtf \
               --storage.path=/data/alertmanager \
               $(cat /tmp/peers)
         ports:
