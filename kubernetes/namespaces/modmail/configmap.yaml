@@ -8,6 +8,6 @@ data:
   DATA_COLLECTION: 'false'  # Disable bot metadata collection by modmail devs
   DISABLE_AUTOUPDATES: 'yes'
   GUILD_ID: '267624335836053506'
-  LOG_URL: https://modmail.pythondiscord.com/
+  LOG_URL: https://modmail.pydis.wtf/
   OWNERS: 165023948638126080,95872159741644800,336843820513755157
   REGISTRY_PLUGINS_ONLY: 'false'  # Allow the usage of plugins outside of the official registry
