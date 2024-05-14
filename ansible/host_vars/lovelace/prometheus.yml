@@ -11,7 +11,7 @@ prometheus_configuration:
       - scheme: https
         static_configs:
           - targets:
-              - alertmanager.pythondiscord.com
+              - alertmanager.pydis.wtf
 
   rule_files:
     - rules.yml
