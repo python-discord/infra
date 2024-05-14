@@ -32,3 +32,19 @@
   become_user: "{{ postgres_user }}"
   tags:
     - role::postgres
+
+
+- name: Set host based authentication rules for all postgres users at once
+  ansible.builtin.blockinfile:
+    path: /etc/postgresql/{{ postgres_version }}/main/pg_hba.conf
+    insertafter: "# Put your actual configuration here"
+    marker: "# {mark} ANSIBLE MANAGED HBA CONF BLOCK"
+    block: |
+      {% for db in postgres_databases %}
+      host    {{ db.name }}    {{ db.owner }}    all    scram-sha-256
+      {% endfor %}
+  loop: "{{ postgres_databases }}"
+  notify:
+    - Reload the postgres service
+  tags:
+    - role::postgres
