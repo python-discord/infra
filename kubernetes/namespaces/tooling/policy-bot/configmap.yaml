@@ -11,7 +11,7 @@ data:
       address: "0.0.0.0"
       port: 8080
       # The public URL, used for URL generation when the server is behind a proxy
-      public_url: https://policy-bot.pythondiscord.com/
+      public_url: https://policy-bot.pydis.wtf/
 
     # Options for logging output
     logging:
