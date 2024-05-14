@@ -5,7 +5,7 @@ metadata:
   namespace: tooling
 data:
   # Domain to access bitwarden by
-  DOMAIN: "https://bitwarden.pythondiscord.com"
+  DOMAIN: "https://bitwarden.pydis.wtf"
 
   # Password hint must be sent to an email when this is false.
   # When it's true, it'll be shown right on the page.

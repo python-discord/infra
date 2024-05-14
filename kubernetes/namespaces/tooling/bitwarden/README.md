@@ -1,6 +1,6 @@
 # BitWarden
 
-Our internal password manager, used by the admins to share passwords for our services. Hosted at https://bitwarden.pythondiscord.com
+Our internal password manager, used by the admins to share passwords for our services. Hosted at https://bitwarden.pydis.wtf
 
 To deploy this, first set up the secrets (see below) and then run `kubectl apply -f .` in this folder.
 
