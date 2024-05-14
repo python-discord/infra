@@ -5,7 +5,7 @@ Actual review policy is stored inside our GitHub repositories in the `.github/re
 
 ## GitHub Configuration
 
-Follow the instructions in the [repository](https://github.com/palantir/policy-bot#deployment) to provision a GitHub application. Our manifests are configured to run the policy bot at https://policy-bot.pythondiscord.com/.
+Follow the instructions in the [repository](https://github.com/palantir/policy-bot#deployment) to provision a GitHub application. Our manifests are configured to run the policy bot at https://policy-bot.pydis.wtf/.
 
 ## Secrets
 
@@ -21,4 +21,4 @@ This app requires a `policy-bot-defaults` secret with the following entries:
 
 Run `kubectl apply -f .` inside this directory to apply the the configuration.
 
-Access the running application over [policy-bot.pythondiscord.com]([https://policy-bot.pythondiscord.com/])!
+Access the running application over [policy-bot.pydis.wtf]([https://policy-bot.pydis.wtf/])!
