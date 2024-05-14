@@ -40,7 +40,7 @@ listed below:
 Accessed via a GitHub login, with permission for anyone in the dev-core or
 dev-ops team.
 
-## [Prometheus Dashboard](https://prometheus.pythondiscord.com/) (☁️))
+## [Prometheus Dashboard](https://prometheus.pydis.wtf/) (☁️))
 
 This provides access to the Prometheus query console. You may also enjoy the
 [Alertmanager Console](https://alertmanager.pythondiscord.com/).

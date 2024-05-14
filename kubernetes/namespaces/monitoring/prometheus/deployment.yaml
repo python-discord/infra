@@ -21,7 +21,7 @@ spec:
         args: [
           "--storage.tsdb.path", "/opt/prometheus/data",
           "--config.file", "/etc/prometheus/prometheus.yaml",
-          "--web.external-url", "https://prometheus.pythondiscord.com",
+          "--web.external-url", "https://prometheus.pydis.wtf",
           "--web.enable-lifecycle",
           "--web.enable-admin-api",
           "--web.page-title", "Python Discord Prometheus",
