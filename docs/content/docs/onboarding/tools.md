@@ -16,7 +16,7 @@ to the [DevOps Team](https://github.com/orgs/python-discord/teams/devops) on
 GitHub. These are marked with the ☁️ emoji. If you don’t have access, please
 contact Chris or Joe.
 
-## [Grafana](https://grafana.pythondiscord.com/)
+## [Grafana](https://grafana.pydis.wtf/)
 
 Grafana provides access to some of the most important resources at your
 disposal. It acts as an aggregator and frontend for a large amount of data.
