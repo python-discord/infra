@@ -6,8 +6,8 @@ metadata:
 data:
   # Root settings
   GF_INSTANCE_NAME: "pythondiscord"
-  GF_SERVER_DOMAIN: "grafana.pythondiscord.com"
-  GF_SERVER_ROOT_URL: "https://grafana.pythondiscord.com"
+  GF_SERVER_DOMAIN: "grafana.pydis.wtf"
+  GF_SERVER_ROOT_URL: "https://grafana.pydis.wtf"
   GF_SECURITY_COOKIE_SECURE: "true"
 
   # GitHub Auth
