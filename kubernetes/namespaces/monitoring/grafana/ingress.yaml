@@ -10,10 +10,10 @@ metadata:
 spec:
   tls:
   - hosts:
-      - "*.pythondiscord.com"
-    secretName: pythondiscord.com-tls
+      - "*.pydis.wtf"
+    secretName: pydis.wtf-tls
   rules:
-  - host: grafana.pythondiscord.com
+  - host: grafana.pydis.wtf
     http:
       paths:
       - path: /
