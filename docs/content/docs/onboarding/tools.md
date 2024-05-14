@@ -43,7 +43,7 @@ dev-ops team.
 ## [Prometheus Dashboard](https://prometheus.pydis.wtf/) (☁️))
 
 This provides access to the Prometheus query console. You may also enjoy the
-[Alertmanager Console](https://alertmanager.pythondiscord.com/).
+[Alertmanager Console](https://alertmanager.pydis.wtf/).
 
 ## [King Arthur](https://github.com/python-discord/king-arthur/)
 
