@@ -128,6 +128,14 @@ grafana:
   type: A
   value: 194.195.247.228
 
+lovelace-paste:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
 mailo._domainkey:
   octodns:
     cloudflare:
