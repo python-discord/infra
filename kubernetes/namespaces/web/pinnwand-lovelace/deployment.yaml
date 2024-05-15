@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pinnwand-lovelace
+  namespace: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pinnwand-lovelace
+  template:
+    metadata:
+      labels:
+        app: pinnwand-lovelace
+    spec:
+      initContainers:
+        - name: init-service
+          image: busybox:latest
+          command: ["wget", "https://raw.githubusercontent.com/python-discord/branding/main/logos/badge/badge_512x172.png", "-O", "/tmp/logo.png"]
+          volumeMounts:
+            - name: pinnwand-lovelace-logo
+              mountPath: /tmp/
+      containers:
+        - name: pinnwand-lovelace
+          image: ghcr.io/python-discord/pinnwand:latest-psql
+          command: ["venv/bin/python3", "-m", "pinnwand", "-vvvvvvvv", "--configuration-path", "/config/config.toml", "http"]
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 5m
+              memory: 100Mi
+            limits:
+              cpu: 100m
+              memory: 200Mi
+          ports:
+            - containerPort: 8000
+          envFrom:
+          - secretRef:
+              name: pinnwand-lovelace-postgres-connection
+          securityContext:
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - name: pinnwand-lovelace-config
+              mountPath: /config/
+            - name: pinnwand-lovelace-logo
+              mountPath: /usr/app/pinnwand/static/logo.png
+              subPath: logo.png
+      volumes:
+        - name: pinnwand-lovelace-logo
+          emptyDir: {}
+        - name: pinnwand-lovelace-config
+          configMap:
+            name: pinnwand-lovelace-config
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true
