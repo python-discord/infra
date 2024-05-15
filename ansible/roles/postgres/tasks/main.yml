@@ -57,3 +57,17 @@
     - Reload the postgres service
   tags:
     - role::postgres
+
+- name: Grant specified roles to users
+  community.postgresql.postgresql_membership:
+    groups: "{{ user.roles }}"
+    target_role: "{{ user.name }}"
+  loop: "{{ postgres_users }}"
+  when: user.roles != None
+  loop_control:
+    loop_var: user
+    label: "{{ user.name }}"
+  become: true
+  become_user: "{{ postgres_user }}"
+  tags:
+    - role::postgres
