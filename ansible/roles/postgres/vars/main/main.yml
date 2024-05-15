@@ -5,6 +5,12 @@ postgres_user: "postgres"
 postgres_users:
   - name: pinnwand
     password: "{{ vault_postgres_user_passwords.pinnwand }}"
+    roles:
+
+  - name: blackbox
+    password: "{{ vault_postgres_user_passwords.blackbox }}"
+    roles:
+      - pg_read_all_data
 
 
 postgres_databases:
