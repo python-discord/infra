@@ -18,9 +18,9 @@ data:
 
         lovelace_postgres:
           username: {{ LOVELACE_BLACKBOX_POSTGRES_USER }}
-            password: {{ LOVELACE_BLACKBOX_POSTGRES_PASSWORD }}
-            host: lovelace.box.pydis.wtf
-            port: "5432"
+          password: {{ LOVELACE_BLACKBOX_POSTGRES_PASSWORD }}
+          host: lovelace.box.pydis.wtf
+          port: "5432"
 
       redis:
         main_redis:
