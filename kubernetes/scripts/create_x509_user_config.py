@@ -67,7 +67,7 @@ def approve_cert_signing_request(csr: str, tmpdir: str) -> None:
     run_and_return_output(f"kubectl apply -f {csr_path}", tmpdir)
     run_and_return_output(f"kubectl certificate approve {user}")
     approved_cert = run_and_return_output(f"kubectl get csr {user} -o jsonpath='{{.status.certificate}}'")
-    with Path(tmpdir, f"{user}.crt").open("w") as f:
+    with Path(tmpdir, f"{user}.crt").open("w", encoding="locale") as f:
         f.write(base64.b64decode(approved_cert).decode("utf-8"))
     run_and_return_output(f"kubectl delete csr {user}")
 
@@ -86,7 +86,7 @@ def give_user_perms(tmpdir: str) -> None:
 def build_kubectl_config(tmpdir: str) -> None:
     """Build up a kubectl config from all the files in the tmpdir."""
     cluster_public_key = run_and_return_output(r"kubectl get cm kube-root-ca.crt -o jsonpath={.data.ca\.crt}")
-    with Path(tmpdir, "ca.crt").open("w") as f:
+    with Path(tmpdir, "ca.crt").open("w", encoding="locale") as f:
         f.write(cluster_public_key)
     cluster_url = run_and_return_output("kubectl config view --minify --output jsonpath={.clusters[*].cluster.server}")
 

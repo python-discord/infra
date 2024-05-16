@@ -10,7 +10,7 @@ readme = "README.md"
 python = ">3.11,<4.0"
 
 pre-commit = "3.7.1"
-ruff = "0.4.2"
+ruff = "0.4.4"
 taskipy = "1.12.2"
 
 [tool.poetry.group.ansible.dependencies]
@@ -32,6 +32,7 @@ extend-exclude = [".cache"]
 line-length = 120
 unsafe-fixes = true
 preview = true
+output-format = "concise"
 
 [tool.ruff.lint]
 select = ["ALL"]
