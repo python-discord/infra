@@ -71,3 +71,15 @@
   become_user: "{{ postgres_user }}"
   tags:
     - role::postgres
+
+- name: Import postgresql.conf
+  copy:
+    src: postgresql.conf
+    dest: /etc/postgresql/{{ postgres_version }}/main/postgresql.conf
+    owner: postgres
+    group: postgres
+    mode: "0644"
+  tags:
+    - role::postgres
+  notify:
+    - Restart the postgres service
