@@ -19,10 +19,10 @@ spec:
           resources:
             requests:
               cpu: 75m
-              memory: 500Mi
+              memory: 600Mi
             limits:
               cpu: 125m
-              memory: 750Mi
+              memory: 1000Mi
           imagePullPolicy: "Always"
           volumeMounts:
           - mountPath: /modmailbot/plugins
