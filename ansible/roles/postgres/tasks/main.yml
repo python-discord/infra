@@ -49,10 +49,10 @@
     insertafter: "# Put your actual configuration here"
     marker: "# {mark} ANSIBLE MANAGED HBA CONF BLOCK"
     block: |
-      {% for db in postgres_databases %}
-      host    {{ db.name }}    {{ db.owner }}    all    scram-sha-256
+      {% for rule in postgres_hba_rules %}
+      {{ rule.conn_type }}    {{ rule.database }}    {{ rule.user }}    {{ rule.address }}    {{ rule.method }}
       {% endfor %}
-  loop: "{{ postgres_databases }}"
+  loop: "{{ postgres_hba_rules }}"
   notify:
     - Reload the postgres service
   tags:

@@ -13,6 +13,20 @@ postgres_users:
       - pg_read_all_data
 
 
+postgres_hba_rules:
+  - conn_type: host
+    database: pinnwand
+    user: pinnwand
+    address: all
+    method: scram-sha-256
+
+  - conn_type: host
+    database: all
+    user: blackbox
+    address: all
+    method: scram-sha-256
+
+
 postgres_databases:
   - name: pinnwand
     owner: pinnwand
