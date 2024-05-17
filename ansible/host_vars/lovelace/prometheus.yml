@@ -81,8 +81,7 @@ prometheus_rules: |
     - name: node
       rules:
         - alert: node/systemd-unit-failed
-          # expr: node_systemd_unit_state{state="failed", name!="openipmi.service", name!="nvmf-autoconnect.service"} != 0
-          expr: node_systemd_unit_state{state="failed"} != 0
+          expr: node_systemd_unit_state{state="failed", name!="openipmi.service", name!="nvmf-autoconnect.service"} != 0
           for: 15m
           labels:
             severity: warning
