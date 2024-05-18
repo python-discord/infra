@@ -4,3 +4,6 @@
 [submodule "ansible/roles/nftables"]
 	path = ansible/roles/nftables
 	url = git@github.com:jchristgit/ansible-role-nftables.git
+[submodule "ansible/roles/prometheus-postgres-exporter"]
+	path = ansible/roles/prometheus-postgres-exporter
+	url = git@github.com:jchristgit/ansible-role-prometheus-postgres-exporter.git
