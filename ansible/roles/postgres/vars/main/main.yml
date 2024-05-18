@@ -20,6 +20,10 @@ postgres_users:
     password: "{{ vault_postgres_user_passwords.blackknight }}"
     roles:
 
+  - name: codejam_management
+    password: "{{ vault_postgres_user_passwords.codejam_management }}"
+    roles:
+
 postgres_hba_rules:
   - conn_type: host
     database: pinnwand
@@ -45,6 +49,12 @@ postgres_hba_rules:
     address: all
     method: scram-sha-256
 
+  - conn_type: host
+    database: codejam_management
+    user: codejam_management
+    address: all
+    method: scram-sha-256
+
 
 postgres_databases:
   - name: pinnwand
@@ -53,3 +63,5 @@ postgres_databases:
     owner: bitwarden
   - name: blackknight
     owner: blackknight
+  - name: codejam_management
+    owner: codejam_management
