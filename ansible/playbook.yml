@@ -28,3 +28,4 @@
   hosts: databases
   roles:
     - postgres
+    - prometheus-postgres-exporter
