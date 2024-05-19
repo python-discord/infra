@@ -25,31 +25,31 @@ postgres_users:
     roles:
 
 postgres_hba_rules:
-  - conn_type: host
+  - conn_type: hostssl
     database: pinnwand
     user: pinnwand
     address: all
     method: scram-sha-256
 
-  - conn_type: host
+  - conn_type: hostssl
     database: all
     user: blackbox
     address: all
     method: scram-sha-256
 
-  - conn_type: host
+  - conn_type: hostssl
     database: bitwarden
     user: bitwarden
     address: all
     method: scram-sha-256
 
-  - conn_type: host
+  - conn_type: hostssl
     database: blackknight
     user: blackknight
     address: all
     method: scram-sha-256
 
-  - conn_type: host
+  - conn_type: hostssl
     database: codejam_management
     user: codejam_management
     address: all
