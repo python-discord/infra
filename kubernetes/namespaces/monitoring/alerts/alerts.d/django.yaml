@@ -12,7 +12,7 @@ groups:
 
       - alert: DjangoLatencyElevated
         expr: histogram_quantile(0.95, rate(django_http_requests_latency_seconds_by_view_method_bucket{view!="api:github-artifacts", view!="api:github-webhook-filter", view!="home:home", view!="content:tag"}[5m])) > 1.0
-        for: 3m
+        for: 15m
         labels:
           severity: warning
         annotations:
@@ -21,7 +21,7 @@ groups:
 
       - alert: DjangoLatencyHigh
         expr: histogram_quantile(0.95, rate(django_http_requests_latency_seconds_by_view_method_bucket{view!="api:github-artifacts", view!="api:github-webhook-filter", view!="home:home", view!="content:tag"}[5m])) > 10.0
-        for: 3m
+        for: 15m
         labels:
           severity: page
         annotations:
