@@ -4,3 +4,4 @@ certbot_email: "joe@jb3.dev"
 certbot_domains:
   - pydis.wtf
   - pythondiscord.com
+  - prometheus.lovelace.box.pydis.wtf
