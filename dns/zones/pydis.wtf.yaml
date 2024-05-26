@@ -153,6 +153,20 @@ prometheus:
   type: A
   value: 194.195.247.228
 
+prometheus.lovelace.box:
+  - octodns:
+      cloudflare:
+        auto-ttl: true
+    ttl: 300
+    type: A
+    value: 89.58.26.118
+  - octodns:
+      cloudflare:
+        auto-ttl: true
+    ttl: 300
+    type: AAAA
+    value: 2a03:4000:62:ce0:2496:aeff:fe97:dea4
+
 turing.box:
   - octodns:
       cloudflare:
