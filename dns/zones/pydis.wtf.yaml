@@ -59,6 +59,14 @@ bitwarden:
   type: A
   value: 194.195.247.228
 
+bounca:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
 cloud.native.is.fun.and.easy:
   octodns:
     cloudflare:
