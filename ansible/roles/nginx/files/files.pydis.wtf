@@ -1,7 +1,7 @@
 # Managed by Ansible
 server {
   listen      443;
-  server_name files.pydis.wtf;
+  server_name files.pydis.wtf cloud.native.is.fun.and.easy.pydis.wtf;
   root        /var/www/turing;
 
   location / {
