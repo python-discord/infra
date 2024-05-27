@@ -20,7 +20,7 @@ dnspython = "2.6.1"
 
 [tool.poetry.group.dns.dependencies]
 octodns = "^1.7.0"
-octodns-cloudflare = "^0.0.5"
+octodns-cloudflare = "^0.0.6"
 
 [tool.taskipy.tasks]
 lint = "pre-commit run --all-files"

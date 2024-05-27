@@ -719,13 +719,13 @@ dev = ["black (>=24.3.0,<25.0.0)", "build (>=0.7.0)", "docutils (<=0.20.1)", "is
 
 [[package]]
 name = "octodns-cloudflare"
-version = "0.0.5"
+version = "0.0.6"
 description = "Cloudflare provider for octoDNS"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "octodns_cloudflare-0.0.5-py3-none-any.whl", hash = "sha256:7537156c890593c15fd7bd1b78ae715d50a6d477505a59af1ed78eb2dfdcb7ed"},
-    {file = "octodns_cloudflare-0.0.5.tar.gz", hash = "sha256:09a1ae91cbdb24bd703a21b805c0c6cf76aaa32549545ee533b403324db876f6"},
+    {file = "octodns_cloudflare-0.0.6-py3-none-any.whl", hash = "sha256:4b20b8f32dbbda1ad414e7cc2c25e9879556c29548590b6eaa27af780047987b"},
+    {file = "octodns_cloudflare-0.0.6.tar.gz", hash = "sha256:9db6324198c3800c542bfa01a17dd7484a76635ecef93609613cdaa694649f73"},
 ]
 
 [package.dependencies]
@@ -733,7 +733,7 @@ octodns = ">=0.9.20"
 requests = ">=2.27.0"
 
 [package.extras]
-dev = ["black (>=24.3.0,<25.0.0)", "build (>=0.7.0)", "isort (>=5.11.5)", "pyflakes (>=2.2.0)", "pytest", "pytest-cov", "pytest-network", "readme-renderer[md] (>=26.0)", "requests-mock", "twine (>=3.4.2)"]
+dev = ["black (>=24.3.0,<25.0.0)", "build (>=0.7.0)", "docutils (<=0.20.1)", "isort (>=5.11.5)", "pyflakes (>=2.2.0)", "pytest", "pytest-cov", "pytest-network", "readme-renderer[md] (>=26.0)", "requests-mock", "twine (>=3.4.2)"]
 test = ["pytest", "pytest-cov", "pytest-network", "requests-mock"]
 
 [[package]]
@@ -1343,4 +1343,4 @@ dev = ["doc8", "flake8", "flake8-import-order", "rstcheck[sphinx]", "sphinx"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">3.11,<4.0"
-content-hash = "7a3f37cb30ec46a8545f4b364e88f0aa800007b7638c1f5b87ffdf6a4ff1fe18"
+content-hash = "d056fd7d199eec71be036b631defe017574a4a17f31536980a82721393317674"
