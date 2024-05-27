@@ -22,7 +22,7 @@ receivers:
         title: '{{ if eq .Status "firing" }}[FIRING]{{ else }}[RESOLVED]{{ end }}'
         text: |
           {{ if eq .Status "firing" }}{{ range .Alerts }}
-          `{{ .Labels.instance }}`: **{{ .Annotations.summary }}:**
+          {{ if .Labels.instance }}`{{ .Labels.instance }}`: {{ end }}**{{ .Annotations.summary }}:**
           {{ .Annotations.description }} [(Link)]({{.GeneratorURL}})
 
           {{ end }}{{ else }}Alert has resolved.{{ end }}
