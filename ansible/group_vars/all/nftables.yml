@@ -60,6 +60,15 @@ nftables_configuration: |
       iifname {{ ansible_default_ipv6.interface }} udp dport {{ wireguard_port }} ct state new accept
   {% endif %}
 
+
+  {% if "monitoring" in group_names %}
+      # Prometheus connections
+      iifname {{ ansible_default_ipv4.interface }} tcp dport 9090 ct state new accept
+  {% if ansible_default_ipv6 is defined %}
+      iifname {{ ansible_default_ipv6.interface }} tcp dport 9090 ct state new accept
+  {% endif %}
+  {% endif %}
+
   {% if "databases" in group_names %}
       # PostgreSQL connections
       iifname {{ ansible_default_ipv4.interface }} ip saddr @possible_lke_ipv4_addrs tcp dport postgresql ct state new accept

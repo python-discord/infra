@@ -12,7 +12,7 @@
     - unattended-upgrades
 
 - name: Deploy our monitoring stack
-  hosts: lovelace
+  hosts: monitoring
   roles:
     - prometheus
     - prometheus-blackbox-exporter

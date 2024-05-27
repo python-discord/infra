@@ -18,12 +18,26 @@
   notify:
     - Restart the prometheus service
 
-- name: Configure prometheus
+- name: Deploy prometheus general config
   copy:
     content: |
       # Ansible managed
       {{ prometheus_configuration | to_nice_yaml }}
     dest: /etc/prometheus/prometheus.yml
+    owner: prometheus
+    group: prometheus
+    mode: "0400"
+  tags:
+    - role::prometheus
+  notify:
+    - Reload the prometheus service
+
+- name: Deploy prometheus web server config
+  copy:
+    content: |
+      # Ansible managed
+      {{ prometheus_web_configuration | to_nice_yaml }}
+    dest: /etc/prometheus/web_config.yml
     owner: prometheus
     group: prometheus
     mode: "0400"

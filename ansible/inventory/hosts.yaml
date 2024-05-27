@@ -13,5 +13,8 @@ all:
     databases:
       hosts:
         lovelace:
+    monitoring:
+      hosts:
+        lovelace:
   vars:
     wireguard_port: 46850
