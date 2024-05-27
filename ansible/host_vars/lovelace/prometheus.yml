@@ -11,6 +11,9 @@ prometheus_web_configuration:
     cert_file: "/etc/letsencrypt/live/prometheus.{{ inventory_hostname }}.box.pydis.wtf/fullchain.pem"
     key_file: "/etc/letsencrypt/live/prometheus.{{ inventory_hostname }}.box.pydis.wtf/privkey.pem"
 
+    # mTLS preferences
+    client_auth_type: RequireAndVerifyClientCert
+    client_ca_file: /opt/pydis/ca.pem
 
 prometheus_configuration:
   global:
