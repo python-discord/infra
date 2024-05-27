@@ -1,6 +1,7 @@
 - name: Deploy common services
   hosts: all
   roles:
+    - certbot
     - common
     - pydis-users
     - nftables
@@ -16,10 +17,9 @@
     - prometheus
     - prometheus-blackbox-exporter
 
-- name: Deploy nginx & certbot to hosts
+- name: Deploy nginx to hosts
   hosts: nginx
   roles:
-    - certbot
     - nginx
     - nginx-geoip
     - nginx-cloudflare-mtls

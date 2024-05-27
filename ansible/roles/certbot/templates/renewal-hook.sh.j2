@@ -1,6 +1,0 @@
-#!/bin/sh
-set -ex
-
-{% for host in ansible_play_hosts if host != inventory_hostname %}
-rsync --copy-links --delete --recursive -e "ssh -i /root/.ssh/cert_{{ host }}_key_ed25519 -o StrictHostKeyChecking=accept-new" /etc/letsencrypt/live/* root@{{ hostvars[host]['wireguard_subnet'] | split("/") | first }}:/etc/letsencrypt/live
-{% endfor %}
