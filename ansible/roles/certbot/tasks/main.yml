@@ -22,14 +22,25 @@
     - role::certbot
 
 
+- name: Create cert-users group
+  group:
+    name: cert-users
+    state: present
+  tags:
+    - role::certbot
+
+
 - name: Create certificate directories on hosts
   file:
-    path: /etc/letsencrypt/live
+    path: '{{ item }}'
     recurse: true
     state: directory
     owner: root
-    group: root
-    mode: "0700"
+    group: cert-users
+    mode: "0750" # User rwx, Group rx
+  with_items:
+    - /etc/letsencrypt/live
+    - /etc/letsencrypt/archive
   tags:
     - role::certbot
 
@@ -47,5 +58,17 @@
     creates: "/etc/letsencrypt/live/{{ item }}/fullchain.pem"
   with_items:
     - "{{ certbot_domains[inventory_hostname] }}"
+  tags:
+    - role::certbot
+
+
+- name: Add authorized users to cert-users group
+  user:
+    name: '{{ item }}'
+    groups: cert-users
+    append: true
+  with_items:
+    - "{{ certbot_cert_users[inventory_hostname] }}"
+  when: "inventory_hostname in certbot_cert_users"
   tags:
     - role::certbot
