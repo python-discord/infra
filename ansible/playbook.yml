@@ -1,6 +1,7 @@
 - name: Deploy common services
   hosts: all
   roles:
+    - pydis-mtls
     - certbot
     - common
     - pydis-users

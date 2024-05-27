@@ -1,0 +1,17 @@
+- name: Ensure directory to store mTLS CA in is created
+  file:
+    path: '{{ pydis_mtls_location | dirname }}'
+    state: directory
+    mode: '0755'
+  tags:
+    - role::pydis-mtls
+
+- name: Copy mTLS Certificate Authority to host
+  copy:
+    content: '{{ pydis_mtls_certificate }}'
+    dest: '{{ pydis_mtls_location }}'
+    owner: root
+    group: root
+    mode: '0744'
+  tags:
+    - role::pydis-mtls
