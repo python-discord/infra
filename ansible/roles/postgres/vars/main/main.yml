@@ -24,6 +24,11 @@ postgres_users:
     password: "{{ vault_postgres_user_passwords.codejam_management }}"
     roles:
 
+  - name: metricity
+    password: "{{ vault_postgres_user_passwords.metricity }}"
+    roles:
+
+
 postgres_hba_rules:
   - conn_type: hostssl
     database: pinnwand
@@ -55,6 +60,11 @@ postgres_hba_rules:
     address: all
     method: scram-sha-256
 
+  - conn_type: hostssl
+    database: metricity
+    user: metricity
+    address: all
+    method: scram-sha-256
 
 postgres_databases:
   - name: pinnwand
@@ -65,3 +75,5 @@ postgres_databases:
     owner: blackknight
   - name: codejam_management
     owner: codejam_management
+  - name: metricity
+    owner: metricity
