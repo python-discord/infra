@@ -17,9 +17,9 @@ spec:
     spec:
       containers:
         - name: redis
-          image: redis:latest
+          image: eqalpha/keydb:latest
           command:
-          - redis-server
+          - keydb-server
           args:
           - /config/redis.conf
           - --requirepass
