@@ -28,17 +28,24 @@ postgres_users:
     password: "{{ vault_postgres_user_passwords.metricity }}"
     roles:
 
+  - name: metabase
+    password: "{{ vault_postgres_user_passwords.metabase }}"
+    roles:
+      - pg_read_all_data
+
+  - name: grafana
+    password: "{{ vault_postgres_user_passwords.grafana }}"
+    roles:
+      - pg_read_all_data
+
 
 postgres_hba_rules:
+  #
+  # Service HBA rules
+  #
   - conn_type: hostssl
     database: pinnwand
     user: pinnwand
-    address: all
-    method: scram-sha-256
-
-  - conn_type: hostssl
-    database: all
-    user: blackbox
     address: all
     method: scram-sha-256
 
@@ -63,6 +70,30 @@ postgres_hba_rules:
   - conn_type: hostssl
     database: metricity
     user: metricity
+    address: all
+    method: scram-sha-256
+
+  #
+  # Backup service HBA rules
+  #
+  - conn_type: hostssl
+    database: all
+    user: blackbox
+    address: all
+    method: scram-sha-256
+
+  #
+  # Analytics HBA rules
+  #
+  - conn_type: hostssl
+    database: metricity
+    user: metabase
+    address: all
+    method: scram-sha-256
+
+  - conn_type: hostssl
+    database: metricity
+    user: grafana
     address: all
     method: scram-sha-256
 
