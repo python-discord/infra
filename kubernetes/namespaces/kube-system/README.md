@@ -24,10 +24,11 @@ trigger them to replicate to a selected set of other namespaces.
 
 See the README.md in the folder for more information.
 
-## Other components
+### `metrics-server`
 
-We deploy the Kubernetes [`metrics-server`](https://github.com/kubernetes-sigs/metrics-server) using the
-manifests specified in the project repository. This allows commands like
-`kubectl top` to work.
+This is the metrics server component for Kubernetes that allows commands like
+`kubectl top` to work successfully. It is deployed from a Helm chart.
+
+## Other components
 
 We also deploy [`kube-state-metrics`](https://github.com/kubernetes/kube-state-metrics) again using the manifests located in the repository.
