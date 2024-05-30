@@ -27,6 +27,7 @@
     dest: "{{ prometheus_release_tarball_dest }}"
     owner: prometheus
     group: prometheus
+    mode: "0400"
   tags:
     - role::prometheus
 
