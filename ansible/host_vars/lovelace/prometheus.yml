@@ -15,6 +15,9 @@ prometheus_web_configuration:
     client_auth_type: RequireAndVerifyClientCert
     client_ca_file: /opt/pydis/ca.pem
 
+    client_allowed_sans:
+      - prometheus.access.tls.pydis.wtf
+
 prometheus_configuration:
   global:
     scrape_interval: 15s  # Set the scrape interval to every 15 seconds. Default is every 1 minute.
