@@ -1,0 +1,13 @@
+---
+prometheus_version: "2.52.0"
+prometheus_release_name: prometheus-{{ prometheus_version }}.linux-amd64
+prometheus_release_url: https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/{{ prometheus_release_name }}.tar.gz
+prometheus_release_sha256sum_url: https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/sha256sums.txt
+prometheus_base_directory: /opt/prometheus
+prometheus_installation_directory: "{{ prometheus_base_directory }}/versions"
+prometheus_tarball_name: "{{ prometheus_release_url | basename }}"
+prometheus_base_release_dest: "{{ prometheus_base_directory }}/sources"
+prometheus_release_tarball_dest: "{{ prometheus_base_release_dest }}/{{ prometheus_tarball_name }}"
+
+# web assets?
+# prometheus_cmdline_options: "--config.file=/etc/prometheus/prometheus.yml --web.page-title='Python Discord Helper Monitoring And Supervision Service'"

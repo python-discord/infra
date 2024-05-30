@@ -1,8 +1,42 @@
 ---
-- name: Install prometheus
+- name: Install prometheus package
   package:
     name: prometheus
     state: present
+  tags:
+    - role::prometheus
+
+- name: Create directories for Prometheus versions and tarballs
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: prometheus
+    mode: "0750"
+  tags:
+    - role::prometheus
+  loop:
+    - "{{ prometheus_base_directory }}"
+    - "{{ prometheus_installation_directory }}"
+    - "{{ prometheus_base_release_dest }}"
+
+- name: Download Prometheus from GitHub
+  ansible.builtin.get_url:
+    url: "{{ prometheus_release_url }}"
+    checksum: sha256:{{ prometheus_release_sha256sum_url }}
+    dest: "{{ prometheus_release_tarball_dest }}"
+    owner: prometheus
+    group: prometheus
+  tags:
+    - role::prometheus
+
+- name: Uncompress Prometheus archive
+  ansible.builtin.unarchive:
+    src: "{{ prometheus_release_tarball_dest }}"
+    dest: "{{ prometheus_installation_directory }}"
+    owner: prometheus
+    group: prometheus
+    remote_src: true
   tags:
     - role::prometheus
 
@@ -59,3 +93,30 @@
     - role::prometheus
   notify:
     - Reload the prometheus service
+
+- name: Create service override directory
+  ansible.builtin.file:
+    path: /etc/systemd/system/prometheus.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  tags:
+    - role::prometheus
+
+- name: Create service dropin
+  ansible.builtin.copy:
+    content: |
+      # Ansible managed
+      [Service]
+      ExecStart =
+      ExecStart = {{ prometheus_installation_directory }}/{{ prometheus_release_name }}/prometheus $ARGS
+    dest: /etc/systemd/system/prometheus.service.d/override.conf
+    owner: root
+    group: root
+    mode: "0444"
+  tags:
+    - role::prometheus
+  notify:
+    - Reload the systemd daemon
+    - Restart the prometheus service

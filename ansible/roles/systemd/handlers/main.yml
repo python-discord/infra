@@ -1,0 +1,6 @@
+---
+- name: Reload the systemd daemon
+  systemd:
+    daemon_reload: true
+  tags:
+    - role::systemd
