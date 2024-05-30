@@ -17,6 +17,7 @@ prometheus_web_configuration:
 
     client_allowed_sans:
       - prometheus.access.tls.pydis.wtf
+      - sudo.access.tls.pydis.wtf
 
 prometheus_configuration:
   global:
