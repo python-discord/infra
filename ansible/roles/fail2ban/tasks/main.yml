@@ -7,8 +7,8 @@
     - role::fail2ban
 
 - name: Copy fail2ban config
-  copy:
-    src: jail.local
+  template:
+    src: jail.local.j2
     dest: /etc/fail2ban/jail.local
     owner: root
     group: root
