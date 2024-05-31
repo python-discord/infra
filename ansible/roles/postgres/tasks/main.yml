@@ -72,6 +72,23 @@
   tags:
     - role::postgres
 
+- name: Grant specified grants to particular roles
+  community.postgresql.postgresql_privs:
+    database: "{{ grant.database }}"
+    state: "{{ grant.state }}"
+    privs: "{{ grant.privs }}"
+    objs: "{{ grant.objs }}"
+    roles: "{{ grant.roles }}"
+  when: postgres_grants is defined
+  loop: "{{ postgres_grants }}"
+  loop_control:
+    loop_var: grant
+    label: "{{ grant.privs }} --> {{ grant.roles }}"
+  become: true
+  become_user: "{{ postgres_user }}"
+  tags:
+    - role::postgres
+
 - name: Import postgresql.conf
   copy:
     src: postgresql.conf
