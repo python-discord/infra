@@ -7,10 +7,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install hugo
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y hugo
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: '0.124.0'
+          extended: true
       - name: Run hugo
         run: |
           cd docs
