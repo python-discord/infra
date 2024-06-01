@@ -77,8 +77,9 @@
     database: "{{ grant.database }}"
     state: "{{ grant.state }}"
     privs: "{{ grant.privs }}"
-    objs: "{{ grant.objs }}"
+    objs: "{{ grant.objs | default(omit) }}"
     roles: "{{ grant.roles }}"
+    type: "{{ grant.type }}"
   when: postgres_grants is defined
   loop: "{{ postgres_grants }}"
   loop_control:

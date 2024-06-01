@@ -3,6 +3,10 @@ postgres_daemon: "postgresql@{{ postgres_version }}-main"
 postgres_user: "postgres"
 
 postgres_users:
+  - name: site
+    password: "{{ vault_postgres_user_passwords.site }}"
+    roles:
+
   - name: pinnwand
     password: "{{ vault_postgres_user_passwords.pinnwand }}"
     roles:
@@ -46,6 +50,18 @@ postgres_hba_rules:
   - conn_type: hostssl
     database: pinnwand
     user: pinnwand
+    address: all
+    method: scram-sha-256
+
+  - conn_type: hostssl
+    database: site
+    user: grafana
+    address: all
+    method: scram-sha-256
+
+  - conn_type: hostssl
+    database: site
+    user: site
     address: all
     method: scram-sha-256
 
@@ -108,3 +124,21 @@ postgres_databases:
     owner: codejam_management
   - name: metricity
     owner: metricity
+  - name: site
+    owner: site
+
+
+postgres_grants:
+  - objs: api_nomination,api_infraction,api_user,api_nominationentry,pg_stat_statements,pg_stat_statements_info
+    privs: SELECT
+    state: present
+    roles: grafana
+    database: site
+    type: table
+
+  - objs: site
+    privs: CONNECT
+    state: present
+    roles: grafana
+    database: site
+    type: database
