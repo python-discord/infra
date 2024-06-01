@@ -16,6 +16,11 @@ postgres_users:
     roles:
       - pg_read_all_data
 
+  - name: metabase
+    password: "{{ vault_postgres_user_passwords.metabase }}"
+    roles:
+      - pg_read_all_data
+
   - name: bitwarden
     password: "{{ vault_postgres_user_passwords.bitwarden }}"
     roles:
@@ -103,6 +108,12 @@ postgres_hba_rules:
   #
   - conn_type: hostssl
     database: metricity
+    user: metabase
+    address: all
+    method: scram-sha-256
+
+  - conn_type: hostssl
+    database: site
     user: metabase
     address: all
     method: scram-sha-256
