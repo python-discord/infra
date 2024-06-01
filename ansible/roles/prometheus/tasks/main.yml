@@ -57,7 +57,7 @@
   copy:
     content: |
       # Ansible managed
-      {{ prometheus_configuration | to_nice_yaml }}
+      {{ prometheus_configuration }}
     dest: /etc/prometheus/prometheus.yml
     owner: prometheus
     group: prometheus
