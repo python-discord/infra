@@ -19,7 +19,9 @@ prometheus_web_configuration:
       - prometheus.access.tls.pydis.wtf
       - sudo.access.tls.pydis.wtf
 
-prometheus_configuration:
+prometheus_configuration: |
+  #jinja2: trim_blocks:False
+
   global:
     scrape_interval: 15s  # Set the scrape interval to every 15 seconds. Default is every 1 minute.
     evaluation_interval: 15s  # Evaluate rules every 15 seconds. The default is every 1 minute.
@@ -55,7 +57,18 @@ prometheus_configuration:
     - job_name: node
       # Scrape node exporters on all hosts
       static_configs:
-        - targets: "{{ hostvars.values() | map(attribute='ansible_wg0.ipv4.address') | map('regex_replace', '^(.*)$', '\\1:9100') | list }}"
+        - targets:
+          {%- for host in hostvars.values() %}
+          - {{ host['ansible_wg0']['ipv4']['address'] }}:9100
+          {%- endfor %}
+
+    - job_name: postgres
+      # Scrape PostgreSQL metrics from database hosts
+      static_configs:
+        - targets:
+          {%- for host in groups['databases'] %}
+          - {{ hostvars[host]['ansible_wg0']['ipv4']['address'] }}:9187
+          {%- endfor %}
 
     - job_name: blackbox-ssh
       metrics_path: /probe
