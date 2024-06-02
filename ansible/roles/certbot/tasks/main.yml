@@ -53,10 +53,11 @@
     --email {{ certbot_email }}
     --dns-cloudflare
     --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini
-    -d {{ item }} -d {{inventory_hostname}}.box.pydis.wtf
+    -d {{ item }}
   args:
     creates: "/etc/letsencrypt/live/{{ item }}/fullchain.pem"
   with_items:
+    - "{{ inventory_hostname }}.box.pydis.wtf"
     - "{{ certbot_domains[inventory_hostname] }}"
   tags:
     - role::certbot
