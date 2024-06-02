@@ -9,13 +9,8 @@ data:
       mongodb:
         main_mongodb:
           connection_string: mongodb://{{ MONGO_INITDB_ROOT_USERNAME }}:{{ MONGO_INITDB_ROOT_PASSWORD }}@mongodb.databases.svc.cluster.local:27017
-      postgres:
-        main_postgres:
-          username: {{ POSTGRES_USER }}
-          password: {{ POSTGRES_PASSWORD }}
-          host: postgres.databases.svc.cluster.local
-          port: "5432"
 
+      postgres:
         lovelace_postgres:
           username: {{ LOVELACE_BLACKBOX_POSTGRES_USER }}
           password: {{ LOVELACE_BLACKBOX_POSTGRES_PASSWORD }}
