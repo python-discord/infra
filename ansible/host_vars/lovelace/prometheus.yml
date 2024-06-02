@@ -1,23 +1,9 @@
 ---
 
 prometheus_cmdline_options: >-
-  --web.config.file=/etc/prometheus/web_config.yml
   --config.file=/etc/prometheus/prometheus.yml
   --web.page-title='Python Discord Helper Monitoring And Supervision Service'
   --storage.tsdb.path='/var/lib/prometheus/metrics2/'
-
-prometheus_web_configuration:
-  tls_server_config:
-    cert_file: "/etc/letsencrypt/live/prometheus.{{ inventory_hostname }}.box.pydis.wtf/fullchain.pem"
-    key_file: "/etc/letsencrypt/live/prometheus.{{ inventory_hostname }}.box.pydis.wtf/privkey.pem"
-
-    # mTLS preferences
-    client_auth_type: RequireAndVerifyClientCert
-    client_ca_file: /opt/pydis/ca.pem
-
-    client_allowed_sans:
-      - prometheus.access.tls.pydis.wtf
-      - sudo.access.tls.pydis.wtf
 
 prometheus_configuration: |
   #jinja2: trim_blocks:False
