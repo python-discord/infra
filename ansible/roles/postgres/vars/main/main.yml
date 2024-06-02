@@ -94,6 +94,12 @@ postgres_hba_rules:
     address: all
     method: scram-sha-256
 
+  - conn_type: hostssl
+    database: metabase
+    user: metabase
+    address: all
+    method: scram-sha-256
+
   #
   # Backup service HBA rules
   #
@@ -137,6 +143,8 @@ postgres_databases:
     owner: metricity
   - name: site
     owner: site
+  - name: metabase
+    owner: metabase
 
 
 postgres_grants:
