@@ -60,6 +60,9 @@ nftables_configuration: |
       iifname {{ ansible_default_ipv6.interface }} udp dport {{ wireguard_port }} ct state new accept
   {% endif %}
 
+      # Node Exporter port for Prometheus scraping over WireGuard
+      iifname wg0 tcp dport 9100 ct state new accept
+
   {% if "databases" in group_names %}
       # PostgreSQL connections
       iifname {{ ansible_default_ipv4.interface }} ip saddr @possible_lke_ipv4_addrs tcp dport postgresql ct state new accept
