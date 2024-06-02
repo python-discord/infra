@@ -106,4 +106,34 @@ prometheus_rules: |
             severity: warning
           annotations:
             summary: Node systemd unit {{ $labels.name }} has failed (instance {{ $labels.instance }})
+
+    - name: postgres
+      rules:
+      - alert: postgres/up
+        expr: pg_up == 0
+        for: 0m
+        labels:
+          severity: page
+        annotations:
+          summary: "PostgreSQL is offline"
+          description: "Postgres Exporter cannot connect to PostgreSQL."
+
+      - alert: postgres/connection-limit
+        expr: (sum(pg_stat_activity_count) by (instance)) / on (instance) pg_settings_max_connections * 100 > 80
+        for: 1m
+        labels:
+          severity: page
+        annotations:
+          summary: PostgreSQL connections near max_connections setting
+          description: "PostgreSQL instance is near the maximum connection limit, currently {{ $value }} connections"
+
+      - alert: postgres/deadlocked-table
+        expr: increase(pg_stat_database_deadlocks{datname!~"template.*|postgres"}[1m]) > 3
+        for: 1m
+        labels:
+          severity: page
+        annotations:
+          summary: Too many deadlocked tables
+          description: "PostgreSQL has dead-locks, value: {{ $value }}"
+
   {% endraw %}
