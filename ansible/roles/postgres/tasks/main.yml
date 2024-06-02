@@ -23,6 +23,7 @@
   community.postgresql.postgresql_user:
     name: "{{ item.name }}"
     password: "{{ item.password }}"
+    role_attr_flags: "{{ item['role_attr_flags'] | default('') }}"
     state: present
   loop_control:
     label: "{{ item.name }}"
@@ -50,7 +51,7 @@
     marker: "# {mark} ANSIBLE MANAGED HBA CONF BLOCK"
     block: |
       {% for rule in postgres_hba_rules %}
-      {{ rule.conn_type }}    {{ rule.database }}    {{ rule.user }}    {{ rule.address }}    {{ rule.method }}
+      {{ rule.conn_type }}    {{ rule.database }}    {{ rule.user }}    {{ rule.address }}    {{ rule.method }}   {{ rule['options'] | default('') }}
       {% endfor %}
   loop: "{{ postgres_hba_rules }}"
   notify:
@@ -94,6 +95,18 @@
   copy:
     src: postgresql.conf
     dest: /etc/postgresql/{{ postgres_version }}/main/postgresql.conf
+    owner: postgres
+    group: postgres
+    mode: "0644"
+  tags:
+    - role::postgres
+  notify:
+    - Restart the postgres service
+
+- name: Import PostgreSQL identity map (pg_ident.conf)
+  copy:
+    src: ident.conf
+    dest: /etc/postgresql/{{ postgres_version }}/main/pg_ident.conf
     owner: postgres
     group: postgres
     mode: "0644"
