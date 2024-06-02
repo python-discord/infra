@@ -51,6 +51,11 @@ postgres_users:
     roles:
       - pg_read_all_data
 
+  - name: devops
+    password: "{{ vault_postgres_user_passwords.devops }}"
+    roles:
+    role_attr_flags: SUPERUSER
+
 
 postgres_hba_rules:
   #
@@ -146,6 +151,23 @@ postgres_hba_rules:
     address: all
     method: scram-sha-256
 
+  #
+  # DevOps Administration rules
+  #
+  - conn_type: hostssl
+    database: all
+    user: devops
+    address: 127.0.0.1/32
+    method: cert
+    options: map=mtls_cn_map
+
+  - conn_type: hostssl
+    database: all
+    user: devops
+    address: "::1/128"
+    method: cert
+    options: map=mtls_cn_map
+
 postgres_databases:
   - name: pinnwand
     owner: pinnwand
@@ -163,6 +185,8 @@ postgres_databases:
     owner: metabase
   - name: pixels
     owner: pixels
+  - name: devops
+    owner: devops
 
 
 postgres_grants:
