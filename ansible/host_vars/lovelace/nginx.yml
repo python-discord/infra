@@ -13,6 +13,14 @@ nginx_configs:
       ssl_verify_client       on;
 
       location / {
+        if ($reject) { return 403; }
+
         proxy_pass http://localhost:9090;
       }
+    }
+
+    map $ssl_client_s_dn $reject {
+      default 1;
+      CN=sudo.access.tls.pydis.wtf 0;
+      CN=prometheus.access.tls.pydis.wtf 0;
     }
