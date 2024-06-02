@@ -7,6 +7,10 @@ postgres_users:
     password: "{{ vault_postgres_user_passwords.site }}"
     roles:
 
+  - name: pixels
+    password: "{{ vault_postgres_user_passwords.pixels }}"
+    roles:
+
   - name: pinnwand
     password: "{{ vault_postgres_user_passwords.pinnwand }}"
     roles:
@@ -89,6 +93,12 @@ postgres_hba_rules:
     method: scram-sha-256
 
   - conn_type: hostssl
+    database: pixels
+    user: pixels
+    address: all
+    method: scram-sha-256
+
+  - conn_type: hostssl
     database: metricity
     user: metricity
     address: all
@@ -130,6 +140,12 @@ postgres_hba_rules:
     address: all
     method: scram-sha-256
 
+  - conn_type: hostssl
+    database: pixels
+    user: metabase
+    address: all
+    method: scram-sha-256
+
 postgres_databases:
   - name: pinnwand
     owner: pinnwand
@@ -145,6 +161,8 @@ postgres_databases:
     owner: site
   - name: metabase
     owner: metabase
+  - name: pixels
+    owner: pixels
 
 
 postgres_grants:
