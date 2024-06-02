@@ -10,6 +10,7 @@ all:
     nginx:
       hosts:
         turing:
+        lovelace:
     databases:
       hosts:
         lovelace:
