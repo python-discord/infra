@@ -10,7 +10,7 @@
     - role::nginx
 
 - name: Copy NGINX default config
-  copy:
+  template:
     src: default_server.conf
     dest: /etc/nginx/conf.d/default_server.conf
     group: root
@@ -26,20 +26,32 @@
     path: /etc/nginx/sites-enabled/default
     state: absent
 
-- name: Copy file server config
+- name: Copy host-specific configs
   copy:
-    src: files.pydis.wtf
-    dest: /etc/nginx/sites-available/files.pydis.wtf
+    content: |
+      # Ansible managed
+      {{ item.value }}
+    dest: "/etc/nginx/sites-available/{{ item.key }}"
+    mode: "0644"
     group: root
     owner: root
-    mode: "0644"
+  with_items:
+    - "{{ nginx_configs | dict2items }}"
   tags:
     - role::nginx
+  when: nginx_configs is defined
   notify:
     - Reload the nginx service
 
-- name: Enable file server
+- name: Enable host-specific sites
   file:
-    src: /etc/nginx/sites-available/files.pydis.wtf
-    dest: /etc/nginx/sites-enabled/files.pydis.wtf
+    src: "/etc/nginx/sites-available/{{ item }}"
+    dest: "/etc/nginx/sites-enabled/{{ item }}"
     state: link
+  with_items:
+    - "{{ nginx_configs.keys() }}"
+  tags:
+    - role::nginx
+  when: nginx_configs is defined
+  notify:
+    - Reload the nginx service
