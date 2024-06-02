@@ -23,7 +23,7 @@
   community.postgresql.postgresql_user:
     name: "{{ item.name }}"
     password: "{{ item.password }}"
-    role_attr_flags: "{{ item['role_attr_flags'] | default('') }}"
+    role_attr_flags: "{{ item.role_attr_flags | default('') }}"
     state: present
   loop_control:
     label: "{{ item.name }}"
@@ -50,8 +50,14 @@
     insertafter: "# Put your actual configuration here"
     marker: "# {mark} ANSIBLE MANAGED HBA CONF BLOCK"
     block: |
+      # Manually configured HBA rules
       {% for rule in postgres_hba_rules %}
-      {{ rule.conn_type }}    {{ rule.database }}    {{ rule.user }}    {{ rule.address }}    {{ rule.method }}   {{ rule['options'] | default('') }}
+      {{ rule.conn_type }}    {{ rule.database }}    {{ rule.user }}    {{ rule.address }}    {{ rule.method }}   {{ rule.options | default('') }}
+      {% endfor %}
+
+      # Automatically configured mTLS HBA rules
+      {% for user in postgres_users if user.name != 'devops' %}
+      hostssl {{ user.name }} {{ user.name }} all cert map=mtls_cn_map
       {% endfor %}
   loop: "{{ postgres_hba_rules }}"
   notify:
@@ -113,4 +119,4 @@
   tags:
     - role::postgres
   notify:
-    - Restart the postgres service
+    - Reload the postgres service
