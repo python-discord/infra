@@ -1,0 +1,18 @@
+nginx_default_cert_name: lovelace.box.pydis.wtf
+
+nginx_configs:
+  prometheus.lovelace.box.wtf.conf: |
+    server {
+      listen      443;
+      server_name prometheus.lovelace.box.pydis.wtf;
+
+      ssl_certificate         /etc/letsencrypt/live/prometheus.lovelace.box.pydis.wtf/fullchain.pem;
+      ssl_certificate_key     /etc/letsencrypt/live/prometheus.lovelace.box.pydis.wtf/privkey.pem;
+
+      ssl_client_certificate  /opt/pydis/ca.pem;
+      ssl_verify_client       on;
+
+      location / {
+        proxy_pass http://localhost:9090;
+      }
+    }
