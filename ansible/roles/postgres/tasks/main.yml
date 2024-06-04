@@ -4,6 +4,7 @@
       - python3-psycopg2
       - postgresql-{{ postgres_version }}
       - postgresql-contrib-{{ postgres_version }}
+      - postgresql-doc-{{ postgres_version }}
       - libpq-dev
     state: present
   tags:
