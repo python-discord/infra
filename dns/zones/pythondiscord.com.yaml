@@ -86,7 +86,7 @@ challenge:
       proxied: true
   ttl: 300
   type: A
-  value: 1.1.1.1
+  value: 192.0.2.0 # Placeholder IPv4 address
 
 csp:
   octodns:
