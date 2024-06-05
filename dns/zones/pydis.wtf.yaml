@@ -5,7 +5,7 @@
         proxied: true
     ttl: 300
     type: A
-    value: 1.2.3.4
+    value: 192.0.2.0 # Reserved placeholder IPv4 address
   - octodns:
       cloudflare:
         auto-ttl: true
@@ -127,7 +127,7 @@ paste:
       proxied: true
   ttl: 300
   type: A
-  value: 1.2.3.4
+  value: 192.0.2.0
 
 pddc.devops:
   octodns:
