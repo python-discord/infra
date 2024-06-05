@@ -124,7 +124,7 @@ ops:
 paste:
   octodns:
     cloudflare:
-      auto-ttl: true
+      proxied: true
   ttl: 300
   type: A
   value: 1.2.3.4
