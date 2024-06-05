@@ -5,6 +5,8 @@ metadata:
   namespace: bots
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: king-arthur
@@ -30,7 +32,14 @@ spec:
             name: king-arthur-env
         securityContext:
           readOnlyRootFilesystem: true
+        volumeMounts:
+          - name: tmpfs
+            mountPath: /tmp
       securityContext:
         fsGroup: 2000
         runAsUser: 1000
         runAsNonRoot: true
+      volumes:
+        - name: tmpfs
+          emptyDir:
+            medium: Memory
