@@ -121,6 +121,14 @@ ops:
   type: CNAME
   value: ops-site.netlify.app.
 
+paste:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: A
+  value: 1.2.3.4
+
 pddc.devops:
   octodns:
     cloudflare:
