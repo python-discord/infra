@@ -37,7 +37,8 @@
     state: directory
     owner: root
     group: cert-users
-    mode: "0750" # User rwx, Group rx
+    # User read/write/dir execute (list), group read/dir execute (list)
+    mode: "u=rwX,g=rX"
   with_items:
     - /etc/letsencrypt/live
     - /etc/letsencrypt/archive
