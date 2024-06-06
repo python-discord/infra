@@ -7,8 +7,8 @@ port = 5432
 unix_socket_directories = '/var/run/postgresql'
 
 ssl = on
-ssl_cert_file = '/etc/ssl/certs/ssl-cert-snakeoil.pem'
-ssl_key_file = '/etc/ssl/private/ssl-cert-snakeoil.key'
+ssl_cert_file = '/etc/letsencrypt/live/{{ inventory_hostname }}.box.pydis.wtf/fullchain.pem'
+ssl_key_file = '/etc/letsencrypt/live/{{ inventory_hostname }}.box.pydis.wtf/privkey.pem'
 ssl_ca_file = '/opt/pydis/ca.pem'
 
 dynamic_shared_memory_type = posix

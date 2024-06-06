@@ -99,8 +99,8 @@
     - role::postgres
 
 - name: Import postgresql.conf
-  copy:
-    src: postgresql.conf
+  template:
+    src: postgresql.conf.j2
     dest: /etc/postgresql/{{ postgres_version }}/main/postgresql.conf
     owner: postgres
     group: postgres
