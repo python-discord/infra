@@ -1,0 +1,4 @@
+---
+alloy_loki_endpoint: "https://loki-gateway.pydis.wtf"
+alloy_loki_user: "loki-user"
+alloy_loki_password: "{{ vault_alloy_loki_password }}"
