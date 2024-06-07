@@ -63,7 +63,7 @@ alloy:
       }
 
       // Write all values into the Loki receiver
-      loki.source.kubernetes "relabelledpods" {
+      loki.source.kubernetes "pods" {
         targets    = discovery.relabel.pods.output
         forward_to = [loki.write.local.receiver]
       }
