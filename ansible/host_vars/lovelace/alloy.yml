@@ -1,0 +1,4 @@
+---
+alloy_extra_files:
+  - name: postgresql
+    path: "/var/log/postgresql/postgresql-*-main.log"
