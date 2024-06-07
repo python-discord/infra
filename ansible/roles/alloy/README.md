@@ -3,17 +3,18 @@
 This role deploys an instance of Grafana Alloy with configuration that by
 default:
 - Exports the system journal to the configured Loki instance
-- Exports other log files to the configured Loki instance, including:
-  - `/var/log/auth.log`
+- Exports other log files as configured below
 
 It requires the addition of the Grafana package repository to allow Alloy to be
 installed with `apt`. This is handled by the role.
 
 ## Configuration values
 
-Required user configuration options:
+Loki configuration options:
 
 - `alloy_loki_endpoint`: The Loki log push endpoint to stream logs into.
+- `alloy_loki_user`: Basic authentication username for Loki.
+- `alloy_loki_password`: Basic authentication password for Loki.
 
 Optional configuration options:
 
