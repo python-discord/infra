@@ -1,6 +1,6 @@
 ---
 alloy_grafana_signing_key: "https://apt.grafana.com/gpg.key"
 alloy_grafana_signing_key_fingerprint: "B53AE77BADB630A683046005963FA27710458545"
-alloy_grafana_repository: "deb https://apt.grafana.com stable main"
+alloy_grafana_repository: "https://apt.grafana.com stable main"
 
 alloy_extra_files: []

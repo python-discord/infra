@@ -5,13 +5,13 @@
     url: "{{ alloy_grafana_signing_key }}"
     state: present
     id: "{{ alloy_grafana_signing_key_fingerprint }}"
-    keyring: "/etc/apt/trusted.gpg.d/grafana.gpg"
+    keyring: "/etc/apt/keyrings/grafana.gpg"
   tags:
     - role::alloy
 
 - name: Add Grafana apt repository to apt lists
   ansible.builtin.apt_repository:
-    repo: "{{ alloy_grafana_repository }}"
+    repo: "deb [signed-by=/etc/apt/keyrings/grafana.gpg] {{ alloy_grafana_repository }}"
     filename: grafana
     state: present
   tags:
