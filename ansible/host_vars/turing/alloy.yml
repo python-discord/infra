@@ -1,7 +1,5 @@
 ---
 alloy_extra_files:
-  - name: postgresql
-    path: "/var/log/postgresql/postgresql-*-main.log"
   - name: nginx_access
     path: "/var/log/nginx/access.log"
   - name: nginx_error
