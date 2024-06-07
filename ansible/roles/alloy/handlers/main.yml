@@ -1,0 +1,7 @@
+---
+- name: Reload the alloy service
+  service:
+    name: alloy
+    state: reloaded
+  tags:
+    - role::alloy
