@@ -83,6 +83,15 @@ grafana:
   type: A
   value: 194.195.247.228
 
+loki-gateway:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+      proxied: false
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
 lovelace.box:
   - octodns:
       cloudflare:
