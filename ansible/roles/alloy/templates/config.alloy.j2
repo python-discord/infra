@@ -6,14 +6,7 @@ logging {
 
 loki.source.journal "system_journal" {
   format_as_json = true
-  forward_to = []
-}
-
-loki.source.file "auth_log" {
-  targets = [
-    {__path__ = "/var/log/auth.log"},
-  ]
-  forward_to = []
+  forward_to = [loki.write.pydis_gateway.receiver]
 }
 
 {% for extra in alloy_extra_files %}
@@ -24,7 +17,23 @@ local.file_match "match_{{ extra.name }}" {
 
 loki.source.file "log_{{ extra.name }}" {
   targets = local.file_match.match_{{ extra.name }}.targets
-  forward_to = []
+  forward_to = [loki.write.pydis_gateway.receiver]
 }
 
 {% endfor %}
+
+loki.write "pydis_gateway" {
+  external_labels = {
+    hostname = env("HOSTNAME"),
+  }
+  endpoint {
+    url = "{{ alloy_loki_endpoint }}/loki/api/v1/push"
+    basic_auth {
+      username = "{{ alloy_loki_user }}"
+      password = "{{ alloy_loki_password }}"
+    }
+    headers = {
+      "X-Scope-OrgID" = "1",
+    }
+  }
+}
