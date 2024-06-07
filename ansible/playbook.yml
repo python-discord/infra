@@ -5,6 +5,7 @@
     - certbot
     - common
     - pydis-users
+    - alloy
     - nftables
     - prometheus-node-exporter
     - wireguard
