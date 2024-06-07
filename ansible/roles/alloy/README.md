@@ -15,6 +15,13 @@ Required user configuration options:
 
 - `alloy_loki_endpoint`: The Loki log push endpoint to stream logs into.
 
+Optional configuration options:
+
+- `alloy_extra_files`: A list of objects with `name` and `path` that configure
+  extra file sources to be shipped to Loki (in addition to the journal and paths
+  mentioned above). Wildcards are supported. The `name` attribute must be
+  alphanumeric or `_`.
+
 Defaulted configuration options:
 
 - `alloy_grafana_signing_key`: Signing key URL to use for Grafana packages
