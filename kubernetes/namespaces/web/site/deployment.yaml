@@ -17,7 +17,7 @@ spec:
         - name: migrations
           image: ghcr.io/python-discord/site:latest
           imagePullPolicy: Always
-          command:
+          args:
             - python
             - manage.py
             - migrate
