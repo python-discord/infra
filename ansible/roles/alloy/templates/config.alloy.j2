@@ -17,7 +17,18 @@ local.file_match "match_{{ extra.name }}" {
 
 loki.source.file "log_{{ extra.name }}" {
   targets = local.file_match.match_{{ extra.name }}.targets
+  forward_to = [loki.process.ansible_{{ extra.name }}.receiver]
+}
+
+loki.process "ansible_{{ extra.name }}" {
   forward_to = [loki.write.pydis_gateway.receiver]
+
+  stage.static_labels {
+    values = {
+      job = "ansible_{{ extra.name }}",
+      log_name = "{{ extra.name }}",
+    }
+  }
 }
 
 {% endfor %}
