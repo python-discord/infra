@@ -1,3 +1,30 @@
+// Managed by Ansible
+
 logging {
   level = "info"
 }
+
+loki.source.journal "system_journal" {
+  format_as_json = true
+  forward_to = []
+}
+
+loki.source.file "auth_log" {
+  targets = [
+    {__path__ = "/var/log/auth.log"},
+  ]
+  forward_to = []
+}
+
+{% for extra in alloy_extra_files %}
+
+local.file_match "match_{{ extra.name }}" {
+  path_targets = [{"__path__" = "{{ extra.path }}"}]
+}
+
+loki.source.file "log_{{ extra.name }}" {
+  targets = local.file_match.match_{{ extra.name }}.targets
+  forward_to = []
+}
+
+{% endfor %}
