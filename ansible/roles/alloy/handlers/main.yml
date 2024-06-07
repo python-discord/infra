@@ -5,3 +5,10 @@
     state: reloaded
   tags:
     - role::alloy
+
+- name: Restart the alloy service
+  service:
+    name: alloy
+    state: restarted
+  tags:
+    - role::alloy

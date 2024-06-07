@@ -36,6 +36,29 @@
   notify:
     - Reload the alloy service
 
+- name: Create service override directory
+  file:
+    path: /etc/systemd/system/alloy.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  tags:
+    - role::alloy
+
+- name: Create service dropin with security overrides
+  copy:
+    src: alloy-override.conf
+    dest: /etc/systemd/system/alloy.service.d/override.conf
+    owner: root
+    group: root
+    mode: "0444"
+  tags:
+    - role::alloy
+  notify:
+    - Reload the systemd daemon
+    - Restart the alloy service
+
 - name: Start and enable the Alloy service
   service:
     name: alloy
