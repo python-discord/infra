@@ -18,9 +18,9 @@ spec:
           image: ghcr.io/python-discord/site:latest
           imagePullPolicy: Always
           command:
-            - sh
-            - -c
-            - "poetry run python manage.py migrate"
+            - python
+            - manage.py
+            - migrate
           envFrom:
             - secretRef:
                 name: site-env
