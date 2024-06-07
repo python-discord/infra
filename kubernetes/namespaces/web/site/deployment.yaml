@@ -19,6 +19,10 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 8000
+          lifecyle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "python manage.py close_db_connections"]
           livenessProbe:
             httpGet:
               path: /
