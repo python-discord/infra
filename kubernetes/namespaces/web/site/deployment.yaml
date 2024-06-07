@@ -13,6 +13,19 @@ spec:
       labels:
         app: site
     spec:
+      initContainers:
+        - name: migrations
+          image: ghcr.io/python-discord/site:latest
+          imagePullPolicy: Always
+          command:
+            - sh
+            - -c
+            - "poetry run python manage.py migrate"
+          envFrom:
+            - secretRef:
+                name: site-env
+          securityContext:
+            readOnlyRootFilesystem: true
       containers:
         - name: site
           image: ghcr.io/python-discord/site:latest
