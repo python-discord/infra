@@ -16,7 +16,7 @@ spec:
       initContainers:
         - name: init-service
           image: busybox:latest
-          command: ["wget", "https://raw.githubusercontent.com/python-discord/branding/main/logos/badge/badge_512x172.png", "-O", "/tmp/logo.png"]
+          command: ["wget", "https://raw.githubusercontent.com/python-discord/branding/main/logos/logo_discord/logo_discord_256.png", "-O", "/tmp/logo.png"]
           volumeMounts:
             - name: pinnwand-logo
               mountPath: /tmp/
