@@ -44,6 +44,27 @@ spec:
           mountPath: /etc/prometheus
         - name: prometheus-alerts
           mountPath: /opt/pydis/prometheus/alerts.d
+      - image: ghcr.io/owl-corp/inotify-base:latest
+        imagePullPolicy: Always
+        name: prometheus-reloader
+        securityContext:
+          readOnlyRootFilesystem: true
+        volumeMounts:
+        - name: prometheus-config
+          mountPath: /opt/monitor/prom-config
+        - name: prometheus-alerts
+          mountPath: /opt/monitor/prom-alerts
+        - name: reloader-hook
+          mountPath: /opt/pydis
+        env:
+          - name: INOTIFY_HOOK_SCRIPT
+            value: /opt/pydis/hook.sh
+          # When a ConfigMap volume updates we see a delete event for the old
+          # container timestamp
+          - name: INOTIFY_WATCH_EVENTS
+            value: delete
+          - name: INOTIFY_HOOK_DELAY
+            value: "5"
       restartPolicy: Always
       securityContext:
         fsGroup: 2000
@@ -59,3 +80,7 @@ spec:
         - name: prometheus-alerts
           configMap:
             name: prometheus-alert-rules
+        - name: reloader-hook
+          configMap:
+            name: prometheus-reloader-script
+            defaultMode: 0777
