@@ -24,8 +24,13 @@ loki:
   storage:
     type: s3
 
-  # Enable volume querying endpoint (for Grafana Explore Logs)
+  compactor:
+    retention_enabled: true
+    delete_request_store: s3
+    delete_request_cancel_period: 1h
+
   limits_config:
+    # Enable volume querying endpoint (for Grafana Explore Logs)
     volume_enabled: true
 
 singleBinary:
