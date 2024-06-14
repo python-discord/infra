@@ -29,7 +29,7 @@ server_bootstrap.sh                      # A bash script used to init our bare m
 
 ## Documentation
 
-Infrastructure-related documentation ("the big picture"), can be found in [`docs/`](./docs/) (Once written).
+Infrastructure-related documentation ("the big picture"), can be found in [`docs/`](./docs/).
 
 Many folders have a `README.md` file within them, which have more detailed explanations on what
 that folder, and the files within, is used for.
