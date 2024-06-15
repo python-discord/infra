@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
+    nginx.ingress.kubernetes.io/auth-tls-secret: "kube-system/mtls-client-crt-bundle"
+    nginx.ingress.kubernetes.io/auth-tls-error-page: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  name: ff-bot
+  namespace: tooling
+spec:
+  tls:
+  - hosts:
+      - "*.pydis.wtf"
+    secretName: pydis.wtf-tls
+  rules:
+  - host: ff-bot.pydis.wtf
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ff-bot
+            port:
+              number: 4000

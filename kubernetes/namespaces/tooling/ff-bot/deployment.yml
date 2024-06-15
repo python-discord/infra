@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ff-bot
+  namespace: tooling
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ff-bot
+  template:
+    metadata:
+      labels:
+        app: ff-bot
+    spec:
+      containers:
+        - name: ff-bot
+          image: ghcr.io/jb3/ff_bot:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4000
+          envFrom:
+            - secretRef:
+                name: ff-bot-env
+          securityContext:
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - name: tmpfs
+              mountPath: /tmp
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true
+      volumes:
+        - name: tmpfs
+          emptyDir:
+            medium: Memory
+            sizeLimit: 500Mi
