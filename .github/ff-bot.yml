@@ -1,3 +1,13 @@
+# We have a ff-bot.yml policy file to determine who can use the "/merge"
+# command in Pull Requests to run an automated fast-forward merge onto
+# main.
+
+# Users or teams can be specified and when "/merge" is run a permission
+# check will be performed against the latest version of the policy on the
+# default branch.
+
+# Find all information at https://github.com/jb3/ff_bot
+
 users: []
 teams:
 - python-discord/sudo-devops
