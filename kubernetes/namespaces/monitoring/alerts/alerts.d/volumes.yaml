@@ -1,0 +1,11 @@
+groups:
+- name: volumes
+  rules:
+  - alert: KubernetesVolumeOutOfDiskSpace
+    expr: kubelet_volume_stats_available_bytes{persistentvolumeclaim!="prometheus-storage"} / kubelet_volume_stats_capacity_bytes * 100 < 10
+    for: 2m
+    labels:
+      severity: page
+    annotations:
+      summary: Kubernetes Volume {{ $labels.kubernetes_namespace }}/{{ $labels.persistentvolumeclaim }} is running low on disk space
+      description: "Volume is almost full (< 10% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
