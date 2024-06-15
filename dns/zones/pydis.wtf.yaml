@@ -67,6 +67,14 @@ cloud.native.is.fun.and.easy:
   type: A
   value: 89.58.25.151
 
+ff-bot:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
 files:
   octodns:
     cloudflare:
