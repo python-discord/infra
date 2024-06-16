@@ -184,6 +184,14 @@ prometheus.lovelace.box:
     type: AAAA
     value: 2a03:4000:62:ce0:2496:aeff:fe97:dea4
 
+soviet:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: CNAME
+  value: turing.box.pydis.wtf.
+
 turing.box:
   - octodns:
       cloudflare:
