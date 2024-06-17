@@ -107,3 +107,10 @@
     group: root
   tags:
     - role::common
+
+- name: Install system administration tools
+  package:
+    name: vim
+    state: present
+  tags:
+    - role::common
