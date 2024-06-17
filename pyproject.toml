@@ -20,7 +20,7 @@ ansible-lint = { version = "24.2.2", markers = "platform_system != 'Windows'" }
 dnspython = "2.6.1"
 
 [tool.poetry.group.dns.dependencies]
-octodns = "^1.7.0"
+octodns = "^1.8.0"
 octodns-cloudflare = "^0.0.6"
 
 [tool.taskipy.tasks]
