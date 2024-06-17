@@ -110,7 +110,9 @@
 
 - name: Install system administration tools
   package:
-    name: vim
+    name:
+      - tmux
+      - vim
     state: present
   tags:
     - role::common
