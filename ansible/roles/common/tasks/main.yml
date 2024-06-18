@@ -116,3 +116,11 @@
     state: present
   tags:
     - role::common
+
+- name: Install larger system administration tools
+  apt:
+    name: emacs-nox
+    install_recommends: false
+    state: present
+  tags:
+    - role::common
