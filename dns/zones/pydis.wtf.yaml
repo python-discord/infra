@@ -2,10 +2,10 @@
 '':
   - octodns:
       cloudflare:
-        proxied: true
+        proxied: false
     ttl: 300
     type: A
-    value: 192.0.2.0 # Reserved placeholder IPv4 address
+    value: 89.58.25.151
   - octodns:
       cloudflare:
         auto-ttl: true
