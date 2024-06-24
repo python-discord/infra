@@ -694,13 +694,13 @@ files = [
 
 [[package]]
 name = "octodns"
-version = "1.8.0"
+version = "1.9.1"
 description = "OctoDNS: DNS as code - Tools for managing DNS across multiple providers"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "octodns-1.8.0-py3-none-any.whl", hash = "sha256:7c6b214305298f1d9905e7e8f9ec32eb64953a8724f408a154fdcf9eb419de60"},
-    {file = "octodns-1.8.0.tar.gz", hash = "sha256:ac32c603af061f11404f12197d44abb47c3c277ac5e517fd2d89f6337c24f7c5"},
+    {file = "octodns-1.9.1-py3-none-any.whl", hash = "sha256:33165111c8e6cb2c419867ce7e0b7b7315f385f48c0e20689fabad2e7cf986f5"},
+    {file = "octodns-1.9.1.tar.gz", hash = "sha256:e8693bb49e6e64d0f5de1dacfcbd4972655aa9741661f8dc3377e957e1d392ec"},
 ]
 
 [package.dependencies]
@@ -1323,4 +1323,4 @@ dev = ["doc8", "flake8", "flake8-import-order", "rstcheck[sphinx]", "sphinx"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">3.11,<4.0"
-content-hash = "8cd72c1210c9c78ab07c5015acb3d1968f5daf26c1ac1e9caaf3d58196088d93"
+content-hash = "c72092a5bdb9c0ea3c1e2edb0bf2613ac0f971ab04e737ab6f0785e9711caa8b"
