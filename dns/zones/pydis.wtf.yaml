@@ -91,6 +91,14 @@ grafana:
   type: A
   value: 194.195.247.228
 
+id:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 194.195.247.228
+
 loki-gateway:
   octodns:
     cloudflare:
