@@ -41,6 +41,10 @@ postgres_users:
     password: "{{ vault_postgres_user_passwords.metricity }}"
     roles:
 
+  - name: keycloak
+    password: "{{ vault_postgres_user_passwords.keycloak }}"
+    roles:
+
   - name: metabase
     password: "{{ vault_postgres_user_passwords.metabase }}"
     roles:
@@ -112,6 +116,12 @@ postgres_hba_rules:
   - conn_type: hostssl
     database: metabase
     user: metabase
+    address: all
+    method: scram-sha-256
+
+  - conn_type: hostssl
+    database: keycloak
+    user: keycloak
     address: all
     method: scram-sha-256
 
@@ -187,6 +197,8 @@ postgres_databases:
     owner: pixels
   - name: devops
     owner: devops
+  - name: keycloak
+    owner: keycloak
 
 
 postgres_grants:
