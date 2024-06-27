@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: keycloak
+  labels:
+    app: keycloak
+  namespace: tooling
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keycloak
+  template:
+    metadata:
+      labels:
+        app: keycloak
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/agent-init-first: "true"
+        vault.hashicorp.com/agent-inject-secret-server.key: "internal-tls/issue/internal-tls"
+        vault.hashicorp.com/agent-inject-template-server.key: |
+          {{- with secret "internal-tls/issue/internal-tls" "common_name=id.pydis.wtf" -}}
+          {{ .Data.private_key }}
+          {{- end }}
+        vault.hashicorp.com/agent-inject-secret-server.crt: "internal-tls/issue/internal-tls"
+        vault.hashicorp.com/agent-inject-template-server.crt: |
+          {{- with secret "internal-tls/issue/internal-tls" "common_name=id.pydis.wtf" -}}
+          {{ .Data.certificate }}
+          {{- end }}
+        vault.hashicorp.com/role: "internal-tls-issuer"
+    spec:
+      serviceAccountName: internal-tls-issuer
+      containers:
+        - name: keycloak
+          image: quay.io/keycloak/keycloak:25.0.1
+          args: ["start"]
+          envFrom:
+            - secretRef:
+                name: keycloak-secret-env
+            - configMapRef:
+                name: keycloak-config-env
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: https
+              containerPort: 8443
+          readinessProbe:
+            httpGet:
+              path: /realms/master
+              port: 8443
+              scheme: HTTPS
