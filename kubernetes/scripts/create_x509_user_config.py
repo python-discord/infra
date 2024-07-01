@@ -39,9 +39,9 @@ ROLE_BINDING_PATCH_TEMPLATE = """[
 
 def run_and_return_output(command: str, cwd: str | None = None) -> str:
     """Run a command in a shell and return the result as a string."""
-    return subprocess.run(
+    return subprocess.run(  # noqa: S602
         command,
-        shell=True,  # noqa: S602
+        shell=True,
         stdout=subprocess.PIPE,
         text=True,
         check=True,
