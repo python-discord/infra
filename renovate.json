@@ -23,5 +23,6 @@
       "groupName": "github-actions"
     }
   ],
-  "prHourlyLimit": 0
+  "prHourlyLimit": 0,
+  "commitBodyTable": true
 }
