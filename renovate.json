@@ -8,5 +8,19 @@
   },
   "git-submodules": {
     "enabled": true
-  }
+  },
+  "packageRules": [
+    {
+      "matchManagers": ["ansible", "ansible-galaxy"],
+      "groupName": "ansible"
+    },
+    {
+      "matchManagers": ["poetry"],
+      "groupName": "poetry"
+    },
+    {
+      "matchManagers": ["github-actions"],
+      "groupName": "github-actions"
+    }
+  ]
 }
