@@ -22,5 +22,6 @@
       "matchManagers": ["github-actions"],
       "groupName": "github-actions"
     }
-  ]
+  ],
+  "prHourlyLimit": 0
 }
