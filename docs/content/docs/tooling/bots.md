@@ -45,6 +45,10 @@ if allof (header :is "X-GitHub-Sender" ["coveralls", "github-actions[bot]", "net
 }
 ```
 
+If you also want to filter out notifications from renovate, which we use for
+dependency updates, you can add `renovate[bot]` to the `X-GitHub-Sender` list
+above.
+
 
 
 [^craig-dazey-legal-team-threats]: Craig Dazey Emulator Bot stands in no
