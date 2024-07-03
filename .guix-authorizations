@@ -1,5 +1,10 @@
 ;; To retrieve a fingerprint, run:
+;;
 ;;   gpg --fingerprint userid
+;;
+;; The fingerprints in here have their corresponding public keys stored on the
+;; `keyring` branch. If you add a new key here, you will want to add it there
+;; as well.
 (authorizations
   (version 0)
   (("509C DFFC 2D07 83A3 3CF8  7D2B 703E E21D E4D4 D9C9"
@@ -9,6 +14,8 @@
    ("1DA9 1E6C E87E 3C1F CE32  BC0C B6ED 85CC 5872 D5E4"
     (name "chris"))
    ("1C9F 6546 FF9B 7C1B 097C  B9D6 8A4B F233 DB1D 650A"
-    (name "bella"))))
+    (name "bella"))
+   ("9684 79A1 AFF9 27E3 7D1A  566B B569 0EEE BB95 2194"
+    (name "github-bot"))))
 
 ;; vim: ft=scheme:

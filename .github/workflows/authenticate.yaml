@@ -1,0 +1,19 @@
+name: Verify commit authenticity
+on:
+  push:
+jobs:
+  verify-commits:
+    name: Verify commit authenticity using Guix
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Fetch the entire history
+          fetch-depth: 0
+      - name: Fetch keyring branch
+        run: git fetch origin keyring && git checkout keyring && git checkout -
+      - name: Install Guix
+        run: sudo apt-get update -y && sudo apt-get install -y guix
+      - name: Authenticate git commits
+        # guix git authenticate $INITIAL_AUTHENTICATED_COMMIT_SHA $SIGNER_PGP_FINGERPRINT
+        run: guix git authenticate 31c3821ce936b4d70924f76431b0ce25235f76f0 8C05D0E98B7914EDEBDCC8CC8E8E09282F2E17AF --stats
