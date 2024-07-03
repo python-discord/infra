@@ -1,0 +1,14 @@
+;; To retrieve a fingerprint, run:
+;;   gpg --fingerprint userid
+(authorizations
+  (version 0)
+  (("509C DFFC 2D07 83A3 3CF8  7D2B 703E E21D E4D4 D9C9"
+    (name "joe"))
+   ("8C05 D0E9 8B79 14ED EBDC  C8CC 8E8E 0928 2F2E 17AF"
+    (name "jc"))
+   ("1DA9 1E6C E87E 3C1F CE32  BC0C B6ED 85CC 5872 D5E4"
+    (name "chris"))
+   ("1C9F 6546 FF9B 7C1B 097C  B9D6 8A4B F233 DB1D 650A"
+    (name "bella"))))
+
+;; vim: ft=scheme:
