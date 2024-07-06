@@ -63,7 +63,6 @@ prometheus_configuration: |
       static_configs:
         - targets:
             - lovelace.box.pydis.wtf
-            - turing.box.pydis.wtf
 
       relabel_configs:
         # Ensure that the SSH port is included explicitly

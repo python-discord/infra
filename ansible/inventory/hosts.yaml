@@ -1,8 +1,5 @@
 all:
   hosts:
-    turing:
-      ansible_host: turing.box.pydis.wtf
-      wireguard_subnet: 10.1.0.0/16
     lovelace:
       ansible_host: lovelace.box.pydis.wtf
       wireguard_subnet: 10.2.0.0/16
@@ -15,7 +12,6 @@ all:
         lovelace:
     nginx:
       hosts:
-        turing:
         lovelace:
     databases:
       hosts:

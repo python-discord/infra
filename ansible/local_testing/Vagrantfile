@@ -82,16 +82,4 @@ Vagrant.configure("2") do |config|
           v.memory = 2048
         end
     end
-
-    config.vm.define "turing" do |turing|
-        turing.vm.hostname = "turing"
-        turing.vm.network "private_network", ip: "192.168.56.6",
-            virtualbox__intnet: true
-        turing.vm.synced_folder '.', '/vagrant', disabled: true
-
-        turing.vm.provider "virtualbox" do |v|
-          v.name = "pydis_turing"
-          v.memory = 2048
-        end
-    end
 end
