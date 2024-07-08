@@ -2,21 +2,19 @@
 
 set -eu
 
-HERE="$(dirname "$0")"
-DATA="$HERE/data"
+if [ "$STATE_DIRECTORY" = "" ]; then
+    echo "The \$STATE_DIRECTORY parameter must be set"
+    exit 1
+fi
 
-MESSAGES_RRD="$DATA/messages.rrd"
-THREADS_RRD="$DATA/threads.rrd"
-USERS_RRD="$DATA/users.rrd"
-LAST_RUN_FILE="$DATA/last_run"
+MESSAGES_RRD="$STATE_DIRECTORY/messages.rrd"
+THREADS_RRD="$STATE_DIRECTORY/threads.rrd"
+USERS_RRD="$STATE_DIRECTORY/users.rrd"
+LAST_RUN_FILE="$STATE_DIRECTORY/last_run"
 
 if [ "$DB_DSN" = "" ]; then
     echo "The \$DB_DSN parameter must be set"
     exit 1
-fi
-
-if [ ! -d "$DATA" ]; then
-    mkdir "$DATA"
 fi
 
 #  critter crunch crumbling
