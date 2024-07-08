@@ -1,0 +1,6 @@
+---
+rrdstats_script_path: /opt/pydis/generate-rrdtool-stats.sh
+rrdstats_env_path: /etc/opt/pydis-rrdstats.env
+
+rrdstats_pg_username: rrdtool
+rrdstats_pg_password: "{{ vault_rrdstats_pg_password }}"

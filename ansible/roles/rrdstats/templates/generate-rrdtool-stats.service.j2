@@ -1,0 +1,26 @@
+# Ansible managed
+[Unit]
+Description = Generate Python Discord statistics via rrdtool
+After = postgresql.service
+Requires = postgresql.service
+
+[Service]
+ExecStart = {{ rrdstats_script_path }}
+DynamicUser = true
+User = pydis-rrdstats
+EnvironmentFile = {{ rrdstats_env_path }}
+
+# Sandboxing
+NoNewPrivileges = true
+
+# Resource control
+# Most of the resource expenditure of this unit will be dished out in the psql connection.
+# The rest here is just to ensure it doesn't impede the server's stability.
+Nice = 10
+# Default of 6
+IOSchedulingClass = 5
+CPUQuota = 10%
+MemoryMax = 100M
+TasksMax = 20
+
+# vim: ft=dosini.jinja2:

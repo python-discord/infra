@@ -1,0 +1,146 @@
+#!/bin/sh
+
+set -eu
+
+HERE="$(dirname "$0")"
+DATA="$HERE/data"
+
+MESSAGES_RRD="$DATA/messages.rrd"
+THREADS_RRD="$DATA/threads.rrd"
+USERS_RRD="$DATA/users.rrd"
+LAST_RUN_FILE="$DATA/last_run"
+
+if [ "$DB_DSN" = "" ]; then
+    echo "The \$DB_DSN parameter must be set"
+    exit 1
+fi
+
+if [ ! -d "$DATA" ]; then
+    mkdir "$DATA"
+fi
+
+#  critter crunch crumbling
+if [ ! -f "$MESSAGES_RRD" ]; then
+    rrdtool create "$MESSAGES_RRD" \
+        --step 5m \
+        DS:python_general:ABSOLUTE:5m:0:U \
+        DS:python_help:ABSOLUTE:5m:0:U \
+        DS:off_topic_0:ABSOLUTE:5m:0:U \
+        DS:off_topic_1:ABSOLUTE:5m:0:U \
+        DS:off_topic_2:ABSOLUTE:5m:0:U \
+        DS:staff_social:ABSOLUTE:5m:0:U \
+        DS:staff_log:ABSOLUTE:5m:0:U \
+        DS:others:ABSOLUTE:5m:0:U \
+        DS:off_topic:COMPUTE:off_topic_0,off_topic_1,off_topic_2,+,+ \
+        DS:total:COMPUTE:python_help,off_topic,+,staff_social,staff_log,+,others,python_general,+,+,+ \
+        RRA:AVERAGE:0.5:5m:3d \
+        RRA:AVERAGE:0.5:1h:1M \
+        RRA:AVERAGE:0.5:6h:6M \
+        RRA:AVERAGE:0.5:1d:15y
+fi
+
+if [ ! -f "$THREADS_RRD" ]; then
+    rrdtool create "$THREADS_RRD" \
+        --step 5m \
+        DS:archived:GAUGE:5m:0:U \
+        DS:unarchived:GAUGE:5m:0:U \
+        RRA:LAST:0.5:5m:3d \
+        RRA:LAST:0.5:1h:1M \
+        RRA:LAST:0.5:6h:6M \
+        RRA:LAST:0.5:1d:15y
+fi
+
+if [ ! -f "$USERS_RRD" ]; then
+    rrdtool create "$USERS_RRD" \
+        --step 5m \
+        DS:users:GAUGE:5m:0:U \
+        RRA:LAST:0.5:5m:3d \
+        RRA:LAST:0.5:1h:1M \
+        RRA:LAST:0.5:6h:6M \
+        RRA:LAST:0.5:1d:15y
+fi
+
+now="$(date +%s)"
+if [ -f "$LAST_RUN_FILE" ]; then
+    last_run="$(cat "$LAST_RUN_FILE")"
+else
+    last_run="$(( $now - 60 * 1 ))"
+fi
+
+# Messages
+# At this point I would like to mention that Snowflake and its complete
+# inability to handle big integer IDs is a really annoying waste of memory. Oh
+# well.
+#
+# There is some way to make this SQL command directly output things in the rrdtool update
+# format, but I'm not there yet. Chris could probably do it. I still have to learn some SQL.
+psql --tuples-only --csv "$DB_DSN" -c "
+    WITH messages_by_category AS (
+        SELECT
+            id,
+    	   CASE WHEN channel_id = '267624335836053506' THEN 'python_general'
+    	        WHEN channel_id = '1035199133436354600' THEN 'python_help'
+    	        WHEN channel_id = '291284109232308226' THEN 'off_topic_0'
+                 WHEN channel_id = '463035241142026251' THEN 'off_topic_1'
+                 WHEN channel_id = '463035268514185226' THEN 'off_topic_2'
+    	        WHEN channel_id IN ('365960823622991872', '563594791770914816', '464469101889454091', '385474242440986624', '714214212200562749', '720668923636351037', '473092532147060736', '775412552795947058', '305126844661760000', '822920136150745168', '798959130634747914', '822853512709931008', '551789653284356126') THEN 'staff_social'
+    	        WHEN channel_id IN ('649243850006855680', '1014943924185473094', '467752170159079424', '282638479504965634', '833371042046148738', '528976905546760203', '640292421988646961') THEN 'staff_log'
+    	        ELSE 'others'
+    	    END AS category
+        FROM messages
+        WHERE created_at > to_timestamp($last_run)
+    )
+    SELECT COUNT(id), category FROM messages_by_category GROUP BY category
+" | awk -F, '
+  BEGIN {
+    counts["python_general"]=0
+    counts["python_help"]=0
+    counts["off_topic_0"]=0
+    counts["off_topic_1"]=0
+    counts["off_topic_2"]=0
+    counts["staff_social"]=0
+    counts["staff_log"]=0
+    counts["others"]=0
+  }
+
+  {
+    counts[$2]=$1
+  }
+
+  END {
+    print "N:" counts["python_general"] ":" counts["python_help"] ":" counts["off_topic_0"] ":" counts["off_topic_1"] ":" counts["off_topic_2"] ":" counts["staff_social"] ":" counts["staff_log"] ":" counts["others"]
+  }
+' | xargs -t rrdtool update --template "python_general:python_help:off_topic_0:off_topic_1:off_topic_2:staff_social:staff_log:others" "$MESSAGES_RRD" --
+
+# Threads
+psql --tuples-only --csv "$DB_DSN" -c "
+  WITH threads_by_archived AS (
+    SELECT CASE WHEN archived THEN 'archived' 
+                ELSE 'unarchived' 
+           END AS archived 
+    FROM threads
+  ) 
+  SELECT COUNT(*), archived FROM threads_by_archived GROUP BY archived
+" | awk -F, '
+  BEGIN {
+    counts["archived"]=0
+    counts["unarchived"]=0
+  }
+  {
+    counts[$2]=$1
+  }
+
+  END {
+    print "N:" counts["archived"] ":" counts["unarchived"]
+  }
+' | xargs -t rrdtool update --template "archived:unarchived" "$THREADS_RRD" --
+
+# Users
+# The sed call works around python-discord/metricity#157 by explicitly telling rrdtool 
+# that the current amount of users is unknown. It may be removed once this is fixed upstream.
+(
+ echo -n 'N:' &&
+ psql --tuples-only --csv "$DB_DSN" -c 'SELECT COUNT(*) FROM users WHERE in_guild = true'
+) | sed -e 's/^N:0$/N:U/' | xargs -t rrdtool update "$USERS_RRD" --
+
+echo -n "$now" > "$LAST_RUN_FILE"
