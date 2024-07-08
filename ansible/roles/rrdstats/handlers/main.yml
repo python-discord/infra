@@ -1,0 +1,7 @@
+---
+- name: Restart the rrdstats timer
+  ansible.builtin.service:
+    name: generate-rrdtool-stats.timer
+    state: restarted
+  tags:
+    - role::rrdstats

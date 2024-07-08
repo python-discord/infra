@@ -1,0 +1,12 @@
+# Ansible managed
+
+[Unit]
+Description = Generate rrdtool stats minutely
+
+[Timer]
+OnCalendar = minutely
+
+[Install]
+WantedBy = timers.target
+
+# vim: ft=dosini.j2:
