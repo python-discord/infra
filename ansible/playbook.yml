@@ -28,6 +28,7 @@
 - name: Deploy our monitoring stack
   hosts: monitoring
   roles:
+    - rrdstats
     - prometheus
     - prometheus-blackbox-exporter
 
