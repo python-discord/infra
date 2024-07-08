@@ -1,0 +1,99 @@
+---
+- name: Install rrdtool
+  ansible.builtin.package:
+    name: rrdtool
+    state: present
+  tags:
+    - role::rrdstats
+
+- name: Template the statistics script
+  ansible.builtin.template:
+    src: generate-rrd-stats.sh.j2
+    dest: "{{ rrdstats_script_path }}"
+    owner: root
+    group: root
+    mode: "0555"
+  tags:
+    - role::rrdstats
+
+- name: Configure PostgreSQL user
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_user:
+    comment: Python Discord RRDTool-based longterm statistic gatherer
+    conn_limit: 2
+    name: "{{ rrdstats_pg_username }}"
+    password: "{{ rrdstats_pg_password }}"
+    state: present
+  tags:
+    - role::rrdstats
+
+- name: Configure PostgreSQL privileges to connect to database
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_privs:
+    database: metricity
+    objs: metricity
+    privs: CONNECT
+    role: "{{ rrdstats_pg_username }}"
+    type: database
+  tags:
+    - role::rrdstats
+
+- name: Configure PostgreSQL privileges to read tables
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_privs:
+    database: metricity
+    role: "{{ rrdstats_pg_username }}"
+    # Unfortunately we cannot be more granular here.
+    # https://github.com/ansible/ansible-modules-core/issues/1529
+    # -> https://github.com/ansible/ansible/issues/18955
+    # -> https://github.com/ansible-collections/community.general/issues/118
+    # -> https://github.com/ansible-collections/community.postgresql/issues/15
+    # Otherwise, we would need:
+    # - messages: id, channel_id, created_at
+    # - threads: id, archived
+    # - users: id, in_guild
+    # The `id` columns are almost purely needed for counting.
+    privs: SELECT
+    objs: messages,threads,users
+  tags:
+    - role::rrdstats
+
+- name: Template environment variables
+  ansible.builtin.copy:
+    content: |
+      DB_DSN="postgresql://{{ rrdstats_pg_username }}:{{ rrdstats_pg_password }}@localhost:5432/metricity?application_name=rrdstats"
+    dest: "{{ rrdstats_env_path }}"
+    # This must only be readable by root because systemd will read it and
+    # inject the environment variables into the target process.
+    owner: root
+    group: root
+    mode: "0400"
+  tags:
+    - role::rrdstats
+
+- name: Template systemd units
+  ansible.builtin.template:
+    src: generate-rrdtool-stats.{{ item }}.j2
+    dest: /etc/systemd/system/generate-rrdtool-stats.{{ item }}
+    owner: root
+    group: root
+    mode: "0444"
+  tags:
+    - role::rrdstats
+  loop:
+    - service
+    - timer
+  notify:
+    - Reload the systemd daemon
+    - Restart the rrdstats timer
+
+- name: Start and enable the timer
+  ansible.builtin.service:
+    name: generate-rrdtool-stats.timer
+    enabled: true
+    state: started
+  tags:
+    - role::rrdstats
