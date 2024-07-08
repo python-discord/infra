@@ -134,11 +134,9 @@ psql --tuples-only --csv "$DB_DSN" -c "
 ' | xargs -t rrdtool update --template "archived:unarchived" "$THREADS_RRD" --
 
 # Users
-# The sed call works around python-discord/metricity#157 by explicitly telling rrdtool 
-# that the current amount of users is unknown. It may be removed once this is fixed upstream.
 (
  echo -n 'N:' &&
  psql --tuples-only --csv "$DB_DSN" -c 'SELECT COUNT(*) FROM users WHERE in_guild = true'
-) | sed -e 's/^N:0$/N:U/' | xargs -t rrdtool update "$USERS_RRD" --
+) | xargs -t rrdtool update "$USERS_RRD" --
 
 echo -n "$now" > "$LAST_RUN_FILE"
