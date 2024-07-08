@@ -7,6 +7,7 @@ Requires = postgresql.service
 [Service]
 ExecStart = {{ rrdstats_script_path }}
 DynamicUser = true
+Statedirectory = rrdstats
 User = pydis-rrdstats
 EnvironmentFile = {{ rrdstats_env_path }}
 
