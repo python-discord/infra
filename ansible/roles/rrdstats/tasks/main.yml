@@ -8,7 +8,7 @@
 
 - name: Template the statistics script
   ansible.builtin.template:
-    src: generate-rrd-stats.sh.j2
+    src: generate-rrdtool-stats.sh.j2
     dest: "{{ rrdstats_script_path }}"
     owner: root
     group: root
