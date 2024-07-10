@@ -16,7 +16,7 @@ taskipy = "1.13.0"
 
 [tool.poetry.group.ansible.dependencies]
 ansible-core = "^2.17.0"
-ansible-lint = { version = "24.6.1", markers = "platform_system != 'Windows'" }
+ansible-lint = { version = "24.7.0", markers = "platform_system != 'Windows'" }
 dnspython = "2.6.1"
 
 [tool.poetry.group.dns.dependencies]
