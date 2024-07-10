@@ -24,10 +24,10 @@ spec:
           resources:
             requests:
               cpu: 100m
-              memory: 300Mi
+              memory: 500Mi
             limits:
               cpu: 200m
-              memory: 500Mi
+              memory: 900Mi
           volumeMounts:
             - mountPath: /data/db
               name: mongodb-volume
