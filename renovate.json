@@ -24,5 +24,6 @@
     }
   ],
   "prHourlyLimit": 0,
-  "commitBodyTable": true
+  "commitBodyTable": true,
+  "rebaseWhen": "behind-base-branch"
 }
