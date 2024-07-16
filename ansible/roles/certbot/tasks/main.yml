@@ -74,3 +74,16 @@
   when: "inventory_hostname in certbot_cert_users"
   tags:
     - role::certbot
+
+
+- name: Reload nginx after certificate renewal
+  ansible.builtin.copy:
+    content: |
+      #!/bin/sh
+      set -ex
+
+      systemctl reload nginx
+    dest: /etc/letsencrypt/renewal-hooks/deploy/reload-nginx
+    owner: root
+    group: root
+    mode: "0500"

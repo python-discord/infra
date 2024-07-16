@@ -16,11 +16,12 @@ A service called `redis` will be created to give the deployment a cluster local 
 
 ## Databases
 
-Redis provides 32 databases by default, which are 0-indexed. CUrrent database usage is as follows:
+Redis provides 32 databases by default, which are 0-indexed. Current database usage is as follows:
 
 0 - Python bot, Sir-Lancebot, Sir-Robin
 1 - Forms Backend
 3 - Pixels
+
 ## Secrets
 
 Redis requires a `redis-credentials` secret with the following entries:
