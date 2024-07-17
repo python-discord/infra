@@ -1,4 +1,11 @@
 ---
+- name: Create sudo group
+  ansible.builtin.group:
+    name: sudo
+    state: present
+  tags:
+    - role::pydis-users
+
 - name: Create users
   ansible.builtin.user:
     name: "{{ item.key }}"
@@ -37,6 +44,7 @@
     group: root
     mode: "0444"
   notify:
-    - Reload ssh
+    - Reload ssh (Debian)
+    - Reload sshd (Rocky)
   tags:
     - role::pydis-users
