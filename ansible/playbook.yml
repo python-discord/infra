@@ -1,10 +1,14 @@
 - name: Deploy common services
   hosts: all
   roles:
-    - pydis-mtls
-    - certbot
-    - common
     - pydis-users
+    - common
+    - pydis-mtls
+
+- name: Deploy services to Netcup nodes
+  hosts: netcup
+  roles:
+    - certbot
     - alloy
     - nftables
     - prometheus-node-exporter
