@@ -8,7 +8,7 @@
   template:
     src: etc-hosts.j2
     dest: /etc/hosts
-    mode: '0644'
+    mode: "0644"
     owner: root
     group: root
   tags:
@@ -35,7 +35,8 @@
     group: root
     mode: "0444"
   notify:
-    - Reload ssh
+    - Reload ssh (Debian)
+    - Reload sshd (Rocky)
   tags:
     - role::common
 
@@ -58,7 +59,7 @@
   file:
     src: /usr/share/zoneinfo/Etc/UTC
     dest: /etc/localtime
-    mode: '0644'
+    mode: "0644"
     owner: root
     group: root
   notify:
@@ -70,7 +71,7 @@
   template:
     src: sudo_lecture.j2
     dest: /etc/sudo_lecture
-    mode: '0644'
+    mode: "0644"
     owner: root
     group: root
   tags:
@@ -82,7 +83,7 @@
     dest: /etc/sudoers.d/pydis
     owner: root
     group: root
-    mode: '0440'
+    mode: "0440"
     validate: /usr/sbin/visudo -cf %s
   tags:
     - role::common
@@ -91,7 +92,7 @@
   template:
     src: motd.j2
     dest: /etc/motd
-    mode: '0644'
+    mode: "0644"
     owner: root
     group: root
   tags:
@@ -102,7 +103,7 @@
     src: /etc/skel/.bashrc
     dest: /root/.bashrc
     remote_src: true
-    mode: '0644'
+    mode: "0644"
     owner: root
     group: root
   tags:
@@ -117,10 +118,19 @@
   tags:
     - role::common
 
-- name: Install larger system administration tools
+- name: Install larger system administration tools (Debian)
   apt:
     name: emacs-nox
     install_recommends: false
     state: present
+  when: ansible_distribution == "Debian"
+  tags:
+    - role::common
+
+- name: Install larger system administration tools (Rocky)
+  package:
+    name: emacs-nox
+    state: present
+  when: ansible_distribution == "Rocky"
   tags:
     - role::common
