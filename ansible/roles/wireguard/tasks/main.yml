@@ -27,10 +27,10 @@
 
 - name: Ensure file permissions for keys set correctly
   file:
-    path: '{{ item }}'
+    path: "{{ item }}"
     owner: root
     group: root
-    mode: '0600'
+    mode: "0600"
   with_items:
     - /etc/wireguard/key.priv
     - /etc/wireguard/key.pub
@@ -55,7 +55,7 @@
   template:
     src: wg0.conf.j2
     dest: /etc/wireguard/wg0.conf
-    mode: '0600'
+    mode: "0600"
     group: root
     owner: root
   notify:

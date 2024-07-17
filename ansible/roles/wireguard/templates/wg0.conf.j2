@@ -6,7 +6,7 @@ PrivateKey = {{ wg_priv_key['content'] | b64decode | trim }}
 
 PostUp = ip route add local {{ wireguard_subnet }} dev eth0
 
-{% for host in hostvars.keys() if not host == inventory_hostname %}
+{% for host in groups["netcup"] if not host == inventory_hostname %}
 # Peer config for: {{ host }}
 [Peer]
 AllowedIPs = {{ hostvars[host]['wireguard_subnet'] }}
