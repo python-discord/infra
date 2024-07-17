@@ -1,5 +1,4 @@
 ---
-
 prometheus_cmdline_options: >-
   --config.file=/etc/prometheus/prometheus.yml
   --web.page-title='Python Discord Helper Monitoring And Supervision Service'
@@ -44,8 +43,8 @@ prometheus_configuration: |
       # Scrape node exporters on all hosts
       static_configs:
         - targets:
-          {%- for host in hostvars.values() %}
-          - {{ host['ansible_wg0']['ipv4']['address'] }}:9100
+          {%- for host in groups['netcup'] %}
+          - {{ hostvars[host]['ansible_wg0']['ipv4']['address'] }}:9100
           {%- endfor %}
 
     - job_name: postgres
