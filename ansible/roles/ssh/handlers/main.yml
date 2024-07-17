@@ -1,7 +1,16 @@
 ---
-- name: Reload ssh
+- name: Reload ssh (Debian)
   service:
     name: ssh
     state: reloaded
+  when: ansible_distribution == "Debian"
+  tags:
+    - role::ssh
+
+- name: Reload sshd (Rocky)
+  service:
+    name: sshd
+    state: reloaded
+  when: ansible_distribution == "Rocky"
   tags:
     - role::ssh
