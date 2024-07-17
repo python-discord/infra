@@ -1,5 +1,5 @@
 ---
-'':
+"":
   - octodns:
       cloudflare:
         proxied: true
@@ -12,20 +12,20 @@
     ttl: 300
     type: MX
     values:
-    - exchange: amir.mx.cloudflare.net.
-      preference: 36
-    - exchange: isaac.mx.cloudflare.net.
-      preference: 60
-    - exchange: linda.mx.cloudflare.net.
-      preference: 85
+      - exchange: amir.mx.cloudflare.net.
+        preference: 36
+      - exchange: isaac.mx.cloudflare.net.
+        preference: 60
+      - exchange: linda.mx.cloudflare.net.
+        preference: 85
   - octodns:
       cloudflare:
         auto-ttl: true
     ttl: 300
     type: TXT
     values:
-    - keybase-site-verification=mKEPFr6d5VSGgahHtzy0y7nPRmo7OWyOUQ7s9ds8OFs
-    - v=spf1 include:_spf.mx.cloudflare.net ~all
+      - keybase-site-verification=mKEPFr6d5VSGgahHtzy0y7nPRmo7OWyOUQ7s9ds8OFs
+      - v=spf1 include:_spf.mx.cloudflare.net ~all
 
 20220929._domainkey:
   octodns:
@@ -98,6 +98,15 @@ id:
   ttl: 300
   type: A
   value: 194.195.247.228
+
+ldap01.box:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+      proxied: false
+  ttl: 300
+  type: A
+  value: 139.162.163.212
 
 loki-gateway:
   octodns:
