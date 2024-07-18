@@ -17,8 +17,6 @@ spec:
       labels:
         name: node-exporter
         phase: prod
-      annotations:
-        seccomp.security.alpha.kubernetes.io/pod: 'docker/default'
     spec:
       affinity:
         nodeAffinity:
@@ -30,13 +28,15 @@ spec:
                   values:
                   - linux
               - matchExpressions:
-                - key: beta.kubernetes.io/os
+                - key: kubernetes.io/os
                   operator: In
                   values:
                   - linux
       securityContext:
         runAsNonRoot: true
         runAsUser: 65534
+        seccompProfile:
+          type: RuntimeDefault
       hostPID: true
       containers:
       - name: node-exporter
