@@ -35,7 +35,7 @@ loki.process "ansible_{{ extra.name }}" {
 
 loki.write "pydis_gateway" {
   external_labels = {
-    hostname = env("HOSTNAME"),
+    hostname = "{{ inventory_hostname }}",
   }
   endpoint {
     url = "{{ alloy_loki_endpoint }}/loki/api/v1/push"
