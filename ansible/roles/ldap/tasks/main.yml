@@ -1,0 +1,25 @@
+---
+- name: Install IPA server packages
+  package:
+    name:
+      - ipa-server
+    state: present
+  tags:
+    - role::ldap
+
+- name: Create firewall rules for FreeIPA
+  ansible.posix.firewalld:
+    service: "{{ item }}"
+    permanent: true
+    state: enabled
+  loop:
+    - http
+    - https
+    - dns
+    - ntp
+    - freeipa-ldap
+    - freeipa-ldaps
+  notify:
+    - Reload the firewall
+  tags:
+    - role::ldap
