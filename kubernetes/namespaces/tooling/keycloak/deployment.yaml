@@ -49,3 +49,10 @@ spec:
               path: /realms/master
               port: 8443
               scheme: HTTPS
+          volumeMounts:
+            - name: ca-store
+              mountPath: /opt/pydis/ca-store
+      volumes:
+        - name: ca-store
+          configMap:
+            name: keycloak-ca-configmap
