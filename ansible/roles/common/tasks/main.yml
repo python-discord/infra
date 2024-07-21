@@ -52,6 +52,7 @@
     owner: root
     group: root
     mode: "0444"
+  when: ansible_distribution == "Debian"
   tags:
     - role::common
 
