@@ -1,6 +1,6 @@
 - name: Update hostname to match Ansible inventory
   hostname:
-    name: "{{ inventory_hostname }}"
+    name: "{{ ansible_host }}"
   tags:
     - role::common
 
