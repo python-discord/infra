@@ -23,5 +23,8 @@ all:
     monitoring:
       hosts:
         lovelace:
+    ldap:
+      hosts:
+        ldap01:
   vars:
     wireguard_port: 46850
