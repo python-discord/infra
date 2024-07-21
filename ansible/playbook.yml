@@ -35,3 +35,8 @@
   roles:
     - postgres
     - prometheus-postgres-exporter
+
+- name: Deploy our LDAP server environment to the LDAP host
+  hosts: ldap
+  roles:
+    - ldap
