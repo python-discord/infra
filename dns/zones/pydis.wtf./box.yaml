@@ -1,4 +1,12 @@
 ---
+"*.lovelace.box":
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: CNAME
+  value: lovelace.box.pydis.wtf.
+
 ldap01.box:
   octodns:
     cloudflare:

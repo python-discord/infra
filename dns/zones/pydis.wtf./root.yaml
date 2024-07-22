@@ -172,15 +172,6 @@ prometheus:
   type: CNAME
   value: linode-lb.box.pydis.wtf.
 
-prometheus.lovelace.box:
-  octodns:
-    cloudflare:
-      auto-ttl: true
-      proxied: false
-  ttl: 300
-  type: CNAME
-  value: lovelace.box.pydis.wtf.
-
 vault:
   octodns:
     cloudflare:
