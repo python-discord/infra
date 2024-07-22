@@ -19,6 +19,7 @@ jobs:
         id: generate-plan
         with:
           config_path: dns/production.yaml
+          force: "Yes"
         env:
           CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_RO_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
