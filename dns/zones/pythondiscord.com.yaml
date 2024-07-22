@@ -66,8 +66,7 @@ bitwarden:
 blog:
   octodns:
     cloudflare:
-      comment: 89.58.24.117
-      proxied: true
+      auto-ttl: true
   ttl: 300
   type: CNAME
   value: pydis-blog.netlify.app.
