@@ -4,9 +4,7 @@ certbot_email: "joe@jb3.dev"
 certbot_domains:
   lovelace:
     - prometheus.lovelace.box.pydis.wtf
-    - pydis.wtf
-    - "*.pydis.wtf"
-    - cloud.native.is.fun.and.easy.pydis.wtf
+    - "pydis.wtf,*.pydis.wtf,cloud.native.is.fun.and.easy.pydis.wtf"
 
 certbot_cert_users:
   lovelace:

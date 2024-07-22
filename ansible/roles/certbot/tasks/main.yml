@@ -56,7 +56,7 @@
     --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini
     -d {{ item }}
   args:
-    creates: "/etc/letsencrypt/live/{{ item }}/fullchain.pem"
+    creates: "/etc/letsencrypt/live/{{ item | split(',') | first }}/fullchain.pem"
   with_items:
     - "{{ inventory_hostname }}.box.pydis.wtf"
     - "{{ certbot_domains[inventory_hostname] }}"
