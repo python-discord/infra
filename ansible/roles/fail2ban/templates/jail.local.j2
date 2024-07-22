@@ -1,7 +1,7 @@
 [DEFAULT]
 ignoreip = 127.0.0.1/8 ::1 192.168.1.0/24 10.0.0.0/8
     # netcup ips
-    89.58.26.118  2a03:4000:62:ce0:2496:aeff:fe97:dea4 89.58.25.151 2a03:4000:62:ce1:943b:b2ff:fef4:d3b7
+    89.58.26.118  2a03:4000:62:ce0:2496:aeff:fe97:dea4
     # linode ips
     {{ lke_frankfurt_ipv4_addresses | join(" ") }} {{ lke_frankfurt_ipv6_addresses | join(" ") }}
 
