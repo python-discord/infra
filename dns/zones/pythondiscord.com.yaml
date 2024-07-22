@@ -1,11 +1,11 @@
 ---
-'':
+"":
   - octodns:
       cloudflare:
         proxied: true
     ttl: 300
-    type: A
-    value: 194.195.247.228
+    type: ALIAS
+    value: linode-lb.box.pydis.wtf.
 
   - octodns:
       cloudflare:
@@ -13,12 +13,12 @@
     ttl: 300
     type: MX
     values:
-    - exchange: amir.mx.cloudflare.net.
-      preference: 19
-    - exchange: linda.mx.cloudflare.net.
-      preference: 40
-    - exchange: isaac.mx.cloudflare.net.
-      preference: 65
+      - exchange: amir.mx.cloudflare.net.
+        preference: 19
+      - exchange: linda.mx.cloudflare.net.
+        preference: 40
+      - exchange: isaac.mx.cloudflare.net.
+        preference: 65
 
   - octodns:
       cloudflare:
@@ -26,10 +26,10 @@
     ttl: 300
     type: TXT
     values:
-    - google-site-verification=2-WR3alaLn7r-_pRPyYZhnh0YYYe4Bbydo32bfg4Wxo
-    - google-site-verification=cdfwmXlZDb57NUuy_1EOSrxfEYAYp_P232bOkrWVudM
-    - keybase-site-verification=PeSqpPFVIy3W-YQWurEKeawYsgbH6QUjhDvf9mN3FdU
-    - v=spf1 include:_spf.mx.cloudflare.net ~all
+      - google-site-verification=2-WR3alaLn7r-_pRPyYZhnh0YYYe4Bbydo32bfg4Wxo
+      - google-site-verification=cdfwmXlZDb57NUuy_1EOSrxfEYAYp_P232bOkrWVudM
+      - keybase-site-verification=PeSqpPFVIy3W-YQWurEKeawYsgbH6QUjhDvf9mN3FdU
+      - v=spf1 include:_spf.mx.cloudflare.net ~all
 
 6ed7202cfcfe199921d5b382e200a40e598d20c3.status:
   octodns:
@@ -52,16 +52,16 @@ alertmanager:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 bitwarden:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 blog:
   octodns:
@@ -93,7 +93,7 @@ csp:
       proxied: true
   ttl: 300
   type: AAAA
-  value: '100::'
+  value: "100::"
 
 forms:
   octodns:
@@ -108,24 +108,24 @@ forms-api:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 git:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 grafana:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 mailo._domainkey:
   octodns:
@@ -140,40 +140,40 @@ merch:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 metabase:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 modmail:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 paste:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 paypal:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 peps:
   octodns:
@@ -188,48 +188,48 @@ pixels:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 policy-bot:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 prometheus:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 quackstack:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 sentry:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 stats:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 status:
   octodns:
@@ -242,10 +242,10 @@ status:
 welcome:
   octodns:
     cloudflare:
-       proxied: true
+      proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 www:
   octodns:
