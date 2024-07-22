@@ -10,6 +10,7 @@ providers:
     directory: dns/zones
     default_ttl: 300
     enforce_order: true
+    split_extension: "."
   cloudflare:
     class: octodns_cloudflare.CloudflareProvider
     token: env/CLOUDFLARE_TOKEN
@@ -17,7 +18,7 @@ providers:
     pagerules: false
 
 zones:
-  '*':
+  "*":
     sources:
       - zone_config
     targets:
