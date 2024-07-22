@@ -48,56 +48,56 @@ alertmanager:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 bitwarden:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 cloud.native.is.fun.and.easy:
   octodns:
     cloudflare:
       auto-ttl: true
   ttl: 300
-  type: A
-  value: 89.58.25.151
+  type: CNAME
+  value: lovelace.box.pydis.wtf.
 
 ff-bot:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 files:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 89.58.26.118
+  type: CNAME
+  value: lovelace.box.pydis.wtf.
 
 grafana:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 id:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 loki-gateway:
   octodns:
@@ -105,24 +105,24 @@ loki-gateway:
       auto-ttl: true
       proxied: false
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 metabase:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 modmail:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 ops:
   octodns:
@@ -145,59 +145,54 @@ pddc.devops:
     cloudflare:
       auto-ttl: true
   ttl: 300
-  type: A
-  value: 89.58.25.151
+  type: CNAME
+  value: lovelace.box.pydis.wtf.
 
 pixels-mod:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 policy-bot:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 prometheus:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 prometheus.lovelace.box:
-  - octodns:
-      cloudflare:
-        auto-ttl: true
-    ttl: 300
-    type: A
-    value: 89.58.26.118
-  - octodns:
-      cloudflare:
-        auto-ttl: true
-    ttl: 300
-    type: AAAA
-    value: 2a03:4000:62:ce0:2496:aeff:fe97:dea4
+  octodns:
+    cloudflare:
+      auto-ttl: true
+      proxied: false
+  ttl: 300
+  type: CNAME
+  value: lovelace.box.pydis.wtf.
 
 vault:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 194.195.247.228
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
 
 www:
   octodns:
     cloudflare:
       proxied: true
   ttl: 300
-  type: A
-  value: 89.58.25.151
+  type: CNAME
+  value: lovelace.box.pydis.wtf.
