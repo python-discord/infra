@@ -4,10 +4,6 @@ manager:
     html:
       class: octodns.provider.plan.PlanMarkdown
 
-processors:
-  meta:
-    class: octodns.processor.meta.MetaProcessor
-
 providers:
   zone_config:
     class: octodns.provider.yaml.YamlProvider
