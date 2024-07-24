@@ -49,6 +49,8 @@ ignore = [
     "RUF005", "RUF012", "RUF015",
     "S311",
     "SIM102", "SIM108",
+    # Docs
+    "A001", "INP001",
 
     # Rules suggested to be ignored when using ruff format
     "COM812", "COM819", "D206", "E111", "E114", "E117", "E501", "ISC001", "Q000", "Q001", "Q002", "Q003", "W191",

@@ -1,5 +1,5 @@
 [submodule "hugodocs/themes/hugo-book"]
-	path = docs/themes/hugo-book
+	path = olddocs/themes/hugo-book
 	url = https://github.com/alex-shpak/hugo-book
 [submodule "ansible/roles/nftables"]
 	path = ansible/roles/nftables

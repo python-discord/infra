@@ -1,0 +1,42 @@
+DevOps Meeting Notes
+====================
+
+Secret management improvements
+------------------------------
+
+To allow for **better management of our Kubernetes secrets**, Chris set
+out to configure ``git-crypt`` in GPG key mode. For comparison, the
+previous approach was that secrets were stored in Kubernetes only and
+had to be accessed via ``kubectl``, and now ``git-crypt`` allows us to
+transparently work with the files in unencrypted manner locally, whilst
+having them secure on the remote, all via ``.gitattributes``.
+
+The following people currently have access to this:
+
+-  Johannes Christ jc@jchri.st
+   (``8C05D0E98B7914EDEBDCC8CC8E8E09282F2E17AF``)
+-  Chris Lovering chris.lovering.95@gmail.com
+   (``1DA91E6CE87E3C1FCE32BC0CB6ED85CC5872D5E4``)
+-  Joe Banks joe@jb3.dev (``509CDFFC2D0783A33CF87D2B703EE21DE4D4D9C9``)
+
+For Hassan, we are still waiting on response regarding his GPG key
+accuracy.
+
+The pull request for the work can be found `at
+python-discord/kubernetes#156 <https://github.com/python-discord/kubernetes/pull/156>`__.
+
+**To have your key added, please contact any of the existing key
+holders**. More documentation on this topic is pending to be written,
+see
+`python-discord/kubernetes#157 <https://github.com/python-discord/kubernetes/issues/157>`__.
+
+Infrastructure migration decision
+---------------------------------
+
+The voting started `last week <./2023-07-11.md>`__ will be properly
+talked about `next week <./2023-07-25.md>`__, so far it looks like we’re
+definitely not selfhosting Kubernetes at the very least.
+
+.. raw:: html
+
+   <!-- vim: set textwidth=80 sw=2 ts=2: -->

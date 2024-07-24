@@ -1,0 +1,74 @@
+DevOps Meeting Notes
+====================
+
+*Migrated from Notion*.
+
+Agenda
+------
+
+-  Joe will grant Chris access to the netcup hosts.
+
+NetKube status
+~~~~~~~~~~~~~~
+
+-  **Rollout**
+
+   -  ☒ RBAC configuration and access granting
+   -  ☒ Most nodes are enrolled, Joe will re-check
+   -  ``turing``, ``ritchie``, ``lovelace`` and ``neumann`` will be
+      Kubernetes nodes
+   -  ``hopper`` will be the storage server
+
+-  **Storage drivers**
+
+   -  Not needed, everything that needs persistent storage will run on
+      hopper
+   -  Netcup does not support storage resize
+   -  We can download more RAM if we need it
+   -  A couple of services still need volume mounts: Ghost, Grafana &
+      Graphite
+
+-  **Control plane high availability**
+
+   -  Joe mentions that in the case the control plane dies, everything
+      else will die as well
+   -  If the control plane in Germany dies, so will Johannes
+
+-  **Early plans for migration**
+
+   -  We can use the Ansible repository issues for a good schedule
+   -  Hopper runs ``nginx``
+   -  Statement from Joe: > “There is an nginx ingress running on every
+      node in the cluster, okay, > okay? We don’t, the way that’s,
+      that’s as a service is a NodePort, right? > So it has a normal IP,
+      but the port will be like a random port in the range > of the
+      30,000s. Remember that? Hold on. Is he writing rude nodes? And
+      then… > We have nginx, so this is where it’s like a little bit,
+      like, not nice, I > guess we just like, cronjob it, to pull the
+      nodes, like, every minute or > so, and then update the config if
+      they change. But then it’s just like… > nginx is like a catalogue
+      of nodes. Wahhh, you drive me crazy.”
+
+      -  “Nah, it makes sense!”
+
+         -  “It does!”
+
+      -  Joe will figure this out with assistance from his voices.
+
+Open authentication
+~~~~~~~~~~~~~~~~~~~
+
+-  Joe and Johannes will check out OpenLDAP as a JumpCloud alternative
+   starting from this evening
+-  Sofi has experience with OpenLDAP
+
+Sponsorship
+-----------
+
+This meeting has been sponsored by Chris Hemsworth Lovering’s
+relationship therapy company, “Love To Love By Lovering”. You can sign
+up by sending a mail to chris@jb3.dev.
+
+.. raw:: html
+
+   <!-- vim: set textwidth=80 sw=2 ts=2: -->

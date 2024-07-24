@@ -1,0 +1,17 @@
+DevOps Meeting Notes
+====================
+
+*Migrated from Notion*.
+
+Agenda
+------
+
+-  Investigation into deploying a VPN tool such as WireGuard to have
+   inter-node communication between the Netcup hosts.
+
+*(The rest of this meeting was mostly about NetKube, which has since
+been scrapped)*.
+
+.. raw:: html
+
+   <!-- vim: set textwidth=80 sw=2 ts=2: -->

@@ -1,0 +1,31 @@
+DevOps Meeting Notes
+====================
+
+*Migrated from Notion*.
+
+Agenda
+------
+
+-  One hour of gartic phone, for team spirit.
+-  Created user accounts for Sofi and Hassan
+-  Joe created an architecture diagram of the NGINX setup
+
+   -  *This is still in Notion*
+
+-  Joe explained his NGINX plans: > “It’s not actually that hard, right?
+   So you spawn 5 instances of nginx in a > DaemonSet, because then one
+   gets deployed to every node okay, following? > Then we get NodePort,
+   instead of LoadBalancers or whatever, which will get > a random port
+   allocatead in the 35000 range, and that will go to nginx, and > on
+   each of those ports, it will go to nginx, right? And then we poll the
+   > Kubernetes API and what is the port that each of these nginx
+   instances is > running on, and add that into a roundrobin on the
+   fifth node. Right? Yeah. > That’s correct. That won’t do TLS though,
+   so that will just HAProxy. Yeah.”
+-  Joe will terminate our JumpCloud account
+-  Chris reset the Minecraft server
+-  Email alerting needs to be configured
+
+.. raw:: html
+
+   <!-- vim: set textwidth=80 sw=2 ts=2: -->

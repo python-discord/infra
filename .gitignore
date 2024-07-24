@@ -1,8 +1,7 @@
 /ansible/.ansible/
 vault_passwords
-/docs/.hugo_build.lock
-/docs/public/
-/docs/resources/
+/docs/_build/
+!/docs/_build/.gitkeep
 venv
 .venv
 .cache/

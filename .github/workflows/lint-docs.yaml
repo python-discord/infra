@@ -10,12 +10,6 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v3
+      - uses: ammaraskar/sphinx-action@master
         with:
-          hugo-version: '0.124.0'
-          extended: true
-      - name: Run hugo
-        run: |
-          cd docs
-          hugo --panicOnWarning --renderToMemory
+          docs-folder: "docs/"

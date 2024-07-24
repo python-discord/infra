@@ -1,0 +1,31 @@
+DevOps Meeting Notes
+====================
+
+*Migrated from Notion*.
+
+Agenda
+------
+
+Reusable status embed workflows
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  Further discussion with Bella followed
+-  Upstream pull request can be found at
+   `python-discord/bot#2400 <https://github.com/python-discord/bot/pull/2400>`__
+
+Local vagrant testing setup
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  Our new `testing setup using Vagrant
+   VMs <https://github.com/python-discord/infra/pull/78>`__ has been
+   merged.
+
+A visit from Mina
+~~~~~~~~~~~~~~~~~
+
+Mina checked in to make sure we’re operating at peak Volkswagen-like
+efficiency.
+
+.. raw:: html
+
+   <!-- vim: set textwidth=80 sw=2 ts=2: -->

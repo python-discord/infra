@@ -1,0 +1,54 @@
+DevOps Meeting Notes
+====================
+
+Agenda
+------
+
+-  Configuration of PostgreSQL and the PostgreSQL exporter
+
+   -  **No time so far**. Chris has been busy with renovating his living
+      room, and Johannes has been busy with renovating his bedroom.
+      Bradley prefers to remain quiet.
+
+   -  Chris will try to work on this in the coming week and will try to
+      have Bella around as well, since he wanted to join the setup.
+
+-  **Potential slot for GPG key signing of DevOps members**. External
+   verification will be necessary.
+
+   -  Skipped. No webcam on Chris.
+
+-  We need to assign a **librarian** to keep our documents organized
+   according to a system. Johannes is happy to do this for now.
+
+   -  Let’s move the existing documentation from the Kubernetes
+      repository into the infra repository. See
+      `kubernetes#161 <https://github.com/python-discord/kubernetes/issues/161>`__.
+
+   -  **Our Notion DevOps space is full of junk**. Outside of that, it’s
+      not open to read for outside contributors, and does not leave much
+      choice over which client to use for editing content.
+
+      -  Chris agrees, without looking on it - just from memory. We
+         should move it to the infra repository. (The meeting notes have
+         already been transferred).
+
+   -  Bella suggests to add some automation to make keeping everything
+      in clean order less tedious.
+
+-  We may want to integrate the **Kubernetes repository** and the infra
+   repository together altogether, however there are a lot of
+   repositories referencing the deployment manifests that would need to
+   be updated.
+
+   -  Chris mentions that regardless of what we do, we should - at the
+      very least move all documentation into the ``infra`` repository,
+      including the static site generator. At the moment we’re using
+      Jekyll but we’re open to trying alternatives such as Hugo.
+
+-  We closed some issues and pull requests in the repositories for late
+   spring cleaning.
+
+.. raw:: html
+
+   <!-- vim: set textwidth=80 sw=2 ts=2 autoindent conceallevel=2: -->
