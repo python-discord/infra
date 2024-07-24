@@ -10,7 +10,7 @@ providers:
     directory: dns/zones
     default_ttl: 300
     enforce_order: true
-    split_extension: "."
+    split_extension: ".zone"
   cloudflare:
     class: octodns_cloudflare.CloudflareProvider
     token: env/CLOUDFLARE_TOKEN
