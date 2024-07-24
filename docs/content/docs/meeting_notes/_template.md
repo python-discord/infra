@@ -9,6 +9,8 @@ title: "YYYY-MM-DD: Devops meeting template"
 
 Useful links
 
+- DevOps Kanban Board: https://github.com/orgs/python-discord/projects/17/views/4
+
 - Infra open issues: https://github.com/python-discord/infra/issues
 
 - infra open pull requests: https://github.com/python-discord/infra/pulls
