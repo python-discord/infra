@@ -1,0 +1,19 @@
+---
+- name: Install OpenSMTPD
+  package:
+    name: opensmtpd
+    state: present
+  tags:
+    - role::opensmtpd
+
+- name: Configure OpenSMTPD
+  template:
+    src: smtpd.conf.j2
+    dest: /etc/smtpd.conf
+    owner: root
+    group: root
+    mode: "0o444"
+  tags:
+    - role::opensmtpd
+  notify:
+    - Restart opensmtpd
