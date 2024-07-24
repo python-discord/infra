@@ -113,11 +113,11 @@ psql --tuples-only --csv "$DB_DSN" -c "
 # Threads
 psql --tuples-only --csv "$DB_DSN" -c "
   WITH threads_by_archived AS (
-    SELECT CASE WHEN archived THEN 'archived' 
-                ELSE 'unarchived' 
-           END AS archived 
+    SELECT CASE WHEN archived THEN 'archived'
+                ELSE 'unarchived'
+           END AS archived
     FROM threads
-  ) 
+  )
   SELECT COUNT(*), archived FROM threads_by_archived GROUP BY archived
 " | awk -F, '
   BEGIN {
