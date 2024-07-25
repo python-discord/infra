@@ -15,7 +15,7 @@
     - wireguard
     - fail2ban
     - podman
-    - opensmtpd
+    - postfix
     - unattended-upgrades
 
 - name: Deploy our monitoring stack

@@ -1,0 +1,7 @@
+---
+- name: Install postfix
+  package:
+    name: postfix
+    state: present
+  tags:
+    - role::postfix
