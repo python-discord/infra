@@ -36,5 +36,5 @@ html_theme_options = {
         "git: Infra": "https://github.com/python-discord/infra/",
         "git: King Arthur": "https://github.com/python-discord/king-arthur/",
         "Kanban Board": "https://github.com/orgs/python-discord/projects/17/views/4",
-    }
+    },
 }
