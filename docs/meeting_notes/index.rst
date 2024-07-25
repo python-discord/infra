@@ -29,3 +29,4 @@ Minutes for previous Devops meetings.
    2023-09-05
    2023-09-12
    2024-07-02
+   2024-07-25
