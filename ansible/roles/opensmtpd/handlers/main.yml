@@ -1,7 +1,0 @@
----
-- name: Restart OpenSMTPD
-  service:
-    name: opensmtpd
-    state: restarted
-  tags:
-    - role::opensmtpd
