@@ -5,7 +5,7 @@ At 03:01 UTC on Tuesday 12th January we experienced a momentary outage
 of our PostgreSQL database, causing some very minor service downtime.
 
 ⚠️ Leadup
-=========
+---------
 
 *List the sequence of events that led to the incident*
 
@@ -35,7 +35,7 @@ before 3:40 where no statistics were reported is the actual outage
 period where the Kubernetes node had some networking errors.
 
 🥏 Impact
-=========
+---------
 
 *Describe how internal and external users were impacted during the
 incident*
@@ -48,7 +48,7 @@ Most services stayed up that did not depend on PostgreSQL, and the site
 remained stable after the sync had been cancelled.
 
 👁️ Detection
-============
+---------------
 
 *Report when the team detected the incident, and how we could improve
 detection time*
@@ -69,7 +69,7 @@ time of crashing by examining the logs which pointed us towards the user
 sync process.
 
 🙋🏿‍♂️ Response
-================
+-----------------------
 
 *Who responded to the incident, and what obstacles did they encounter?*
 
@@ -78,7 +78,7 @@ encountered other than the node being less performant than we would like
 due to the CPU starvation.
 
 🙆🏽‍♀️ Recovery
-================
+---------------------------
 
 *How was the incident resolved? How can we improve future mitigation?*
 
@@ -113,7 +113,7 @@ as you can see site hit this twice (during the periods where it was
 trying to sync 80k users at once)
 
 🔎 Five Why’s
-=============
+---------------------------
 
 *Run a 5-whys analysis to understand the true cause of the incident.*
 
@@ -125,7 +125,7 @@ trying to sync 80k users at once)
    resulting in 80k users needing updating.
 
 🌱 Blameless root cause
-=======================
+-----------------------
 
 *Note the final root cause and describe what needs to change to prevent
 reoccurrance*
@@ -137,14 +137,14 @@ See the follow up tasks on exactly how we can avoid this in future, it’s
 a relatively easy mitigation.
 
 🤔 Lessons learned
-==================
+-----------------------
 
 *What did we learn from this incident?*
 
 -  Django (or DRF) does not like huge update queries.
 
 ☑️ Follow-up tasks
-==================
+------------------
 
 *List any tasks we should complete that are relevant to this incident*
 
