@@ -7,7 +7,6 @@ Minutes for previous Devops meetings.
    :maxdepth: 2
    :caption: Contents:
 
-   template
    2022-04-07
    2022-09-18
    2022-10-05
