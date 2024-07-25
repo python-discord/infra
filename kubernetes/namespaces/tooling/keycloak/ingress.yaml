@@ -8,21 +8,25 @@ metadata:
     nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
     nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location = / {
+        return 302 https://id.pydis.wtf/realms/pydis/account;
+      }
   name: keycloak
   namespace: tooling
 spec:
   tls:
-  - hosts:
-      - "*.pydis.wtf"
-    secretName: pydis.wtf-tls
+    - hosts:
+        - "*.pydis.wtf"
+      secretName: pydis.wtf-tls
   rules:
-  - host: id.pydis.wtf
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: keycloak
-            port:
-              number: 8443
+    - host: id.pydis.wtf
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: keycloak
+                port:
+                  number: 8443
