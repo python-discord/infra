@@ -4,7 +4,7 @@ Meeting notes
 Minutes for previous Devops meetings.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
    2022-04-07
