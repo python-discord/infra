@@ -23,12 +23,12 @@ Within this set of pages you will find:
    :caption: Contents:
 
    general/index
-   meeting_notes/index
    onboarding/index
    postmortems/index
    queries/index
    runbooks/index
    tooling/index
+   meeting_notes/index
 
 
 Indices and tables
