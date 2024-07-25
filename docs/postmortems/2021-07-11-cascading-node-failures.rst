@@ -7,7 +7,7 @@ affected node volumes were placed into a state where they could not be
 mounted.
 
 ⚠️ Leadup
-=========
+----------
 
 *List the sequence of events that led to the incident*
 
@@ -32,7 +32,7 @@ mounted.
    service was not healthy.
 
 🥏 Impact
-=========
+----------
 
 *Describe how internal and external users were impacted during the
 incident*
@@ -48,7 +48,7 @@ PostgreSQL was restored early on so for the most part Moderation could
 continue.
 
 👁️ Detection
-============
+---------------
 
 *Report when the team detected the incident, and how we could improve
 detection time*
@@ -61,7 +61,7 @@ conn delta vs. conn total), but for the most part alerting time was
 satisfactory here.
 
 🙋🏿‍♂️ Response
-================
+-----------------
 
 *Who responded to the incident, and what obstacles did they encounter?*
 
@@ -70,7 +70,7 @@ at Linode to remount the affected volumes, a support ticket has been
 created.
 
 🙆🏽‍♀️ Recovery
-================
+------------------
 
 *How was the incident resolved? How can we improve future mitigation?*
 
@@ -262,7 +262,7 @@ Joe
    </details>
 
 🔎 Five Why’s
-=============
+---------------
 
 *Run a 5-whys analysis to understand the true cause of the incident.*
 
@@ -305,7 +305,7 @@ have. I presume it’s some sort of worker race condition, but I’ve not
 been able to reproduce it.
 
 🌱 Blameless root cause
-=======================
+-----------------------
 
 *Note the final root cause and describe what needs to change to prevent
 reoccurrence*
@@ -315,7 +315,7 @@ mounting was difficult, it took multiple hours for this to be resolved
 since we had to wait for the volumes to unlock so they could be cloned.
 
 🤔 Lessons learned
-==================
+------------------
 
 *What did we learn from this incident?*
 
@@ -325,7 +325,7 @@ We need to look at why Django is doing this and mitigations of the fault
 to prevent this from occurring again.
 
 ☑️ Follow-up tasks
-==================
+------------------
 
 *List any tasks we should complete that are relevant to this incident*
 
