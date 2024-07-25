@@ -110,6 +110,16 @@
   tags:
     - role::common
 
+- name: Install EPEL Release repository & system administration tools
+  package:
+    name:
+      - epel-release
+      - htop
+    state: present
+  tags:
+    - role::common
+  when: ansible_distribution == "Rocky"
+
 - name: Install system administration tools
   package:
     name:
