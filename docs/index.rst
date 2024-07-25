@@ -18,9 +18,12 @@ Within this set of pages you will find:
 
 - Runbooks
 
+
+Table of contents
+-----------------
+
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
    general/index
    onboarding/index
@@ -28,6 +31,14 @@ Within this set of pages you will find:
    queries/index
    runbooks/index
    tooling/index
+
+
+Meeting notes
+-------------
+
+.. toctree::
+   :maxdepth: 2
+
    meeting_notes/index
 
 
