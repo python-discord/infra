@@ -23,14 +23,16 @@ spec:
             - containerPort: 3000
           resources:
             requests:
-             cpu: 200m
-             memory: 100Mi
+              cpu: 200m
+              memory: 100Mi
             limits:
               cpu: 300m
               memory: 250Mi
           envFrom:
             - configMapRef:
                 name: grafana-default
+            - configMapRef:
+                name: grafana-ldap
             - secretRef:
                 name: grafana-secret-env
           volumeMounts:
@@ -38,15 +40,25 @@ spec:
               name: grafana-volume
             - mountPath: /tmp
               name: grafana-tmp
+            - mountPath: /opt/pydis
+              name: grafana-ldap-toml
+            - mountPath: /opt/ipa-ca
+              name: ipa-ca
           securityContext:
             readOnlyRootFilesystem: true
       volumes:
         - name: grafana-volume
           persistentVolumeClaim:
             claimName: grafana-storage
+        - name: grafana-ldap-toml
+          configMap:
+            name: grafana-ldap-toml
         - name: grafana-tmp
           emptyDir:
             medium: Memory
+        - name: ipa-ca
+          configMap:
+            name: ipa-ca-configmap
       securityContext:
         fsGroup: 2000
         runAsUser: 1000
