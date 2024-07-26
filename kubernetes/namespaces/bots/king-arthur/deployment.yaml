@@ -17,24 +17,26 @@ spec:
     spec:
       serviceAccountName: king-arthur
       containers:
-      - name: king-arthur
-        image: ghcr.io/python-discord/king-arthur:latest
-        imagePullPolicy: Always
-        resources:
-          requests:
-            cpu: 600m
-            memory: 500Mi
-          limits:
-            cpu: 800m
-            memory: 800Mi
-        envFrom:
-        - secretRef:
-            name: king-arthur-env
-        securityContext:
-          readOnlyRootFilesystem: true
-        volumeMounts:
-          - name: tmpfs
-            mountPath: /tmp
+        - name: king-arthur
+          image: ghcr.io/python-discord/king-arthur:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 600m
+              memory: 500Mi
+            limits:
+              cpu: 800m
+              memory: 800Mi
+          envFrom:
+            - secretRef:
+                name: king-arthur-env
+          securityContext:
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - name: tmpfs
+              mountPath: /tmp
+            - name: ipa-ca-cert
+              mountPath: /opt/ipa
       securityContext:
         fsGroup: 2000
         runAsUser: 1000
@@ -43,3 +45,6 @@ spec:
         - name: tmpfs
           emptyDir:
             medium: Memory
+        - name: ipa-ca-cert
+          configMap:
+            name: ipa-ca-configmap
