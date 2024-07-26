@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-ldap
+  namespace: monitoring
+data:
+  # Enable LDAP Auth
+  GF_AUTH_LDAP_ENABLED: "true"
+
+  # Set config file to the LDAP toml we mount in
+  GF_AUTH_LDAP_CONFIG_FILE: "/opt/pydis/grafana-ldap.toml"
+
+  # Allow new users to be created from LDAP data
+  GF_AUTH_LDAP_ALLOW_SIGN_UP: "true"

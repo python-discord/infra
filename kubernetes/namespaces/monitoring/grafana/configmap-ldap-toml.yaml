@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-ldap-toml
+  namespace: monitoring
+data:
+  grafana-ldap.toml: |
+    [[servers]]
+    # Ldap server host (specify multiple hosts space separated)
+    host = "ldap01.box.pydis.wtf"
+    # Default port is 389 or 636 if use_ssl = true
+    port = 636
+    # Set to true if LDAP server should use an encrypted TLS connection (either with STARTTLS or LDAPS)
+    use_ssl = true
+    # If set to true, use LDAP with STARTTLS instead of LDAPS
+    start_tls = false
+
+    root_ca_cert = "/opt/ipa-ca/pydis-ipa-cert.pem"
+
+    # Search user bind dn
+    bind_dn = "uid=grafana,cn=users,cn=accounts,dc=box,dc=pydis,dc=wtf"
+    bind_password = "${LDAP_GRAFANA_PASSWORD}"
+
+    timeout = 10
+
+    # Allow login using both username or username@email
+    search_filter = "(|(uid=%s)(mail=%s))"
+
+    search_base_dns = ["cn=users,cn=accounts,dc=box,dc=pydis,dc=wtf"]
+
+    [servers.attributes]
+    member_of = "memberOf"
+    email =  "mail"
+    username = "uid"
+    name = "displayName"
+
+    [[servers.group_mappings]]
+    group_dn = "cn=devops,cn=groups,cn=accounts,dc=box,dc=pydis,dc=wtf"
+    org_role = "Admin"
+    org_id = 2
+    grafana_admin = true
+
+    [[servers.group_mappings]]
+    group_dn = "cn=administrators,cn=groups,cn=accounts,dc=box,dc=pydis,dc=wtf"
+    org_id = 2
+    org_role = "Editor"
+
+    [[servers.group_mappings]]
+    group_dn = "*"
+    org_id = 2
+    org_role = "Viewer"
