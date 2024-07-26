@@ -55,4 +55,4 @@ spec:
       volumes:
         - name: ca-store
           configMap:
-            name: keycloak-ca-configmap
+            name: ipa-ca-configmap
