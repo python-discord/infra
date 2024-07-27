@@ -10,3 +10,4 @@ certbot_cert_users:
   lovelace:
     - prometheus
     - postgres
+    - postfix
