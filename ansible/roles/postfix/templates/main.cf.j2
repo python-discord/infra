@@ -1,0 +1,47 @@
+# Ansible Managed
+
+smtpd_banner = $myhostname ESMTP $mail_name (Debian/GNU)
+biff = no
+
+append_dot_mydomain = no
+
+# Warn on delivery delays greater than 4 hours
+delay_warning_time = 4h
+
+readme_directory = no
+
+compatibility_level = 3.6
+
+smtpd_tls_cert_file=/etc/letsencrypt/live/pydis.wtf/fullchain.pem
+smtpd_tls_key_file=/etc/letsencrypt/live/pydis.wtf/privkey.pem
+smtpd_tls_security_level=may
+smtpd_tls_auth_only=yes
+
+smtp_tls_security_level = encrypt
+
+smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination
+
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+myorigin = /etc/mailname
+myhostname = mail.pydis.wtf
+
+sender_canonical_maps = tcp:localhost:10001
+sender_canonical_classes = envelope_sender
+recipient_canonical_maps = tcp:localhost:10002
+recipient_canonical_classes = envelope_recipient,header_recipient
+
+virtual_alias_maps =
+    ldap:/etc/postfix/ldap-registeredaddress.cf,
+    ldap:/etc/postfix/ldap-uid.cf
+
+relay_recipient_maps =
+    ldap:/etc/postfix/ldap-relay-recipients.cf
+
+mydestination = mail.pydis.wtf, pydis.wtf, localhost
+relayhost =
+mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
+mailbox_size_limit = 0
+recipient_delimiter = +
+inet_interfaces = all
+inet_protocols = all
