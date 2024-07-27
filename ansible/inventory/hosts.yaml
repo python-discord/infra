@@ -21,5 +21,8 @@ all:
     ldap:
       hosts:
         ldap01:
+    mail:
+      hosts:
+        lovelace:
   vars:
     wireguard_port: 46850
