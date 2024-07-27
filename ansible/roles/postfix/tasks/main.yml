@@ -1,7 +1,54 @@
 ---
-- name: Install postfix
+- name: Install postfix & mail client
   package:
-    name: postfix
+    name:
+      - postfix
+      - postfix-ldap
+      - neomutt
+      - postsrsd
     state: present
   tags:
     - role::postfix
+
+- name: Configure /etc/mailname to mail hostname
+  copy:
+    content: "{{ postfix_mailname }}\n"
+    dest: /etc/mailname
+    owner: root
+    group: root
+    mode: "0644"
+  tags:
+    - role::postfix
+  notify:
+    - Reload postfix
+
+- name: Template Postfix main.cf config file
+  template:
+    src: main.cf.j2
+    dest: /etc/postfix/main.cf
+    owner: root
+    group: root
+    mode: "0644"
+  tags:
+    - role::postfix
+  notify:
+    - Reload postfix
+
+- name: Template Postfix LDAP config files
+  template:
+    src: "{{ item.template }}"
+    dest: "/etc/postfix/{{ item.filename }}"
+    owner: root
+    group: root
+    mode: "0644"
+  loop:
+    - template: ldap/ldap-registeredaddress.cf.j2
+      filename: ldap-registeredaddress.cf
+    - template: ldap/ldap-uid.cf.j2
+      filename: ldap-uid.cf
+    - template: ldap/ldap-relay-recipients.cf.j2
+      filename: ldap-relay-recipients.cf
+  tags:
+    - role::postfix
+  notify:
+    - Reload postfix
