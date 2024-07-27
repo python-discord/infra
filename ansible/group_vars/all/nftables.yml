@@ -14,6 +14,16 @@ nftables_configuration: |
       }
     }
 
+  {% if "mail" in group_names %}
+    set mail_accepted {
+      type inet_service
+      elements = {
+        smtp,
+        smtps
+      }
+    }
+  {% endif %}
+
   {% if "databases" in group_names %}
     # Access control for database server
     set possible_lke_ipv4_addrs {
@@ -68,6 +78,14 @@ nftables_configuration: |
       iifname {{ ansible_default_ipv4.interface }} ip saddr @possible_lke_ipv4_addrs tcp dport postgresql ct state new accept
   {% if ansible_default_ipv6 is defined %}
       iifname {{ ansible_default_ipv6.interface }} ip6 saddr @possible_lke_ipv6_addrs tcp dport postgresql ct state new accept
+  {% endif %}
+  {% endif %}
+
+  {% if "mail" in group_names %}
+      # Inbound mail
+      iifname {{ ansible_default_ipv4.interface }} tcp dport @mail_accepted ct state new accept
+  {% if ansible_default_ipv6 is defined %}
+      iifname {{ ansible_default_ipv6.interface }} tcp dport @mail_accepted ct state new accept
   {% endif %}
   {% endif %}
     }
