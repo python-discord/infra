@@ -1,0 +1,30 @@
+---
+- name: Install OpenDMARC
+  package:
+    name:
+      - opendmarc
+    state: present
+  tags:
+    - role::opendmarc
+
+- name: Create spool location for OpenDMARC aggregation
+  file:
+    state: directory
+    path: /var/spool/opendmarc
+    owner: opendmarc
+    group: opendmarc
+    mode: "0700"
+  tags:
+    - role::opendmarc
+
+- name: Template OpenDMARC configuration
+  template:
+    src: opendmarc.conf.j2
+    dest: /etc/opendmarc.conf
+    mode: "0644"
+    owner: root
+    group: root
+  tags:
+    - role::opendmarc
+  notify:
+    - Reload OpenDMARC
