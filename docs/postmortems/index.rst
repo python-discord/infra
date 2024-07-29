@@ -5,7 +5,7 @@ Browse the pages under this category to view historical postmortems for
 Python Discord outages.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    2020-12-11-all-services-outage
    2020-12-11-postgres-conn-surge
