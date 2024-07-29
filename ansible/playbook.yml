@@ -21,6 +21,7 @@
   hosts: mail
   roles:
     - opendkim
+    - opendmarc
     - postfix
 
 - name: Deploy our monitoring stack
