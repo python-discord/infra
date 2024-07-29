@@ -23,10 +23,10 @@ smtpd_relay_restrictions =
                          permit_mynetworks,
                          permit_sasl_authenticated,
                          reject_unauth_destination,
-                         reject_unauth_pipelining
+                         reject_unauth_pipelining,
                          check_policy_service unix:private/policyd-spf,
 
-smtpd_milters = inet:localhost:8891
+smtpd_milters = inet:localhost:8891,inet:localhost:8893
 non_smtpd_milters = $smtpd_milters
 
 myorigin = /etc/mailname
