@@ -10,6 +10,6 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      - uses: ammaraskar/sphinx-action@master
+      - uses: jchristgit/sphinx-action@master
         with:
           docs-folder: "docs/"
