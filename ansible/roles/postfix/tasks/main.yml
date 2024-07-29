@@ -2,10 +2,15 @@
 - name: Install postfix & mail client
   package:
     name:
+      # Postfix & routing plugins
       - postfix
       - postfix-ldap
-      - neomutt
+      # Relay routing utilities
       - postsrsd
+      # Security and anti-spam tools
+      - postfix-policyd-spf-python
+      # Mail clients
+      - neomutt
     state: present
   tags:
     - role::postfix
@@ -67,3 +72,28 @@
   notify:
     - Regenerate virtual table
     - Reload postfix
+
+- name: Copy policyd-spf config
+  copy:
+    src: policyd-spf.conf
+    dest: /etc/postfix-policyd-spf-python/policyd-spf.conf
+    mode: "0644"
+    group: root
+    owner: root
+  tags:
+    - role::postfix
+  notify:
+    - Restart postfix
+
+- name: Add custom services to master.cf
+  blockinfile:
+    path: /etc/postfix/master.cf
+    append_newline: true
+    prepend_newline: true
+    block: |
+      policyd-spf  unix  -       n       n       -       0       spawn
+        user=policyd-spf argv=/usr/bin/policyd-spf
+  tags:
+    - role::postfix
+  notify:
+    - Restart postfix
