@@ -1,0 +1,11 @@
+# Ansible Managed
+
+server_host = {{ postfix_bind_server }}
+bind = yes
+bind_dn = {{ postfix_bind_user }}
+bind_pw = {{ postfix_bind_password }}
+search_base = cn=groups,cn=accounts,dc=box,dc=pydis,dc=wtf
+query_filter = (cn=%u)
+special_result_attribute = member
+result_attribute = mail
+version = 3
