@@ -1,5 +1,5 @@
-General documentation
-=====================
+General
+=======
 
 
 .. toctree::
