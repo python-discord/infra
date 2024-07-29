@@ -4,6 +4,11 @@
     name: postfix
     state: reloaded
 
+- name: Restart postfix
+  service:
+    name: postfix
+    state: restarted
+
 - name: Regenerate virtual table
   command: postmap /etc/postfix/virtual
   changed_when: true
