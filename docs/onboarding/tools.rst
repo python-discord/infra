@@ -19,7 +19,7 @@ disposal. It acts as an aggregator and frontend for a large amount of
 data. These range from metrics, to logs, to stats. Some of the most
 important are listed below:
 
--  Service Logs/All App Logs Dashboard
+-  **Service Logs / All App Logs Dashboard**
 
    Service logs is a simple log viewer which gives you access to a large
    majority of the applications deployed in the default namespace. The
@@ -27,7 +27,7 @@ important are listed below:
    access to all apps in all namespaces, and allows some more in-depth
    querying.
 
--  Kubernetes Dashboard
+-  **Kubernetes Dashboard**
 
    This dashboard gives quick overviews of all the most important
    metrics of the Kubernetes system. For more detailed information,
