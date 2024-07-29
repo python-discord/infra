@@ -5,3 +5,5 @@ postfix_bind_user: "uid=postfix,cn=users,cn=accounts,dc=box,dc=pydis,dc=wtf"
 postfix_bind_password: "{{ vault_postfix_bind_password }}"
 postfix_bind_server: "ldaps://ldap01.box.pydis.wtf:636"
 postfix_bind_search_base: "cn=users,cn=accounts,dc=box,dc=pydis,dc=wtf"
+
+postfix_postmaster_email: "devops@pydis.wtf"
