@@ -1,0 +1,6 @@
+---
+opendkim_domains:
+  - pydis.wtf
+  - pydis.com
+  - pythondiscord.com
+opendkim_selector: lovelace

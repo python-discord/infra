@@ -1,0 +1,27 @@
+# Ansible Managed
+
+# Common signing and verification parameters. In Debian, the "From" header is
+# oversigned, because it is often the identity key used by reputation systems
+# and thus somewhat security sensitive.
+Canonicalization        relaxed/simple
+#Mode                   sv
+#SubDomains             no
+OversignHeaders         From
+
+# Configure which keys reference which private key on the filesystem and which
+# key we use for each domain
+KeyTable /etc/opendkim/keytable
+SigningTable refile:/etc/opendkim/signingtable
+
+# In Debian, opendkim runs as user "opendkim". A umask of 007 is required when
+# using a local socket with MTAs that access the socket as a non-privileged
+# user (for example, Postfix). You may need to add user "postfix" to group
+# "opendkim" in that case.
+UserID                  opendkim
+UMask                   007
+
+Socket                 inet:8891@localhost
+
+PidFile                 /run/opendkim/opendkim.pid
+
+TrustAnchorFile         /usr/share/dns/root.key
