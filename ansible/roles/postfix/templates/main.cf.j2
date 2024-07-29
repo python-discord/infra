@@ -19,10 +19,17 @@ smtpd_tls_auth_only=yes
 
 smtp_tls_security_level = encrypt
 
-smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_unauth_destination reject_unauth_pipelining
+smtpd_relay_restrictions =
+                         permit_mynetworks,
+                         permit_sasl_authenticated,
+                         reject_unauth_destination,
+                         reject_unauth_pipelining
+                         check_policy_service unix:private/policyd-spf,
 
 myorigin = /etc/mailname
 myhostname = mail.pydis.wtf
+
+policyd-spf_time_limit = 3600
 
 sender_canonical_maps = tcp:localhost:10001
 sender_canonical_classes = envelope_sender
@@ -37,7 +44,7 @@ virtual_alias_maps =
 
 relay_recipient_maps =
     ldap:/etc/postfix/ldap-relay-recipients.cf,
-    ldap:/etc/postfix/ldap-group-aliases.cf.j2,
+    ldap:/etc/postfix/ldap-group-aliases.cf,
     hash:/etc/postfix/virtual
 
 mydestination = mail.pydis.wtf, pydis.wtf, localhost
