@@ -3,3 +3,7 @@
   service:
     name: postfix
     state: reloaded
+
+- name: Regenerate virtual table
+  command: postmap /etc/postfix/virtual
+  changed_when: true
