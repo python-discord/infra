@@ -52,3 +52,16 @@
     - role::postfix
   notify:
     - Reload postfix
+
+- name: Copy virtual address table
+  template:
+    src: virtual.j2
+    dest: /etc/postfix/virtual
+    owner: root
+    group: root
+    mode: "0644"
+  tags:
+    - role::postfix
+  notify:
+    - Regenerate virtual table
+    - Reload postfix
