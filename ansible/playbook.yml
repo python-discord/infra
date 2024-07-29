@@ -20,6 +20,7 @@
 - name: Deploy mailservers
   hosts: mail
   roles:
+    - opendkim
     - postfix
 
 - name: Deploy our monitoring stack
