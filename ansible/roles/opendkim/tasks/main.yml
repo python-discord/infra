@@ -1,0 +1,95 @@
+---
+- name: Install OpenDKIM
+  package:
+    name:
+      - opendkim
+      - opendkim-tools
+    state: present
+  tags:
+    - role::opendkim
+
+- name: Re-own OpenDKIM key directory
+  file:
+    state: directory
+    owner: opendkim
+    group: opendkim
+    mode: "0700"
+    path: "/etc/dkimkeys"
+  tags:
+    - role::opendkim
+
+- name: Create key directories
+  file:
+    state: directory
+    owner: opendkim
+    group: opendkim
+    mode: "0700"
+    path: "/etc/dkimkeys/{{ item }}"
+  with_items:
+    - "{{ opendkim_domains }}"
+  tags:
+    - role::opendkim
+
+- name: Generate OpenDKIM keys
+  become: true
+  become_user: opendkim
+  command: |
+    opendkim-genkey -D /etc/dkimkeys/{{ item }} -d {{ item }} -s {{ opendkim_selector }}
+  with_items:
+    - "{{ opendkim_domains }}"
+  args:
+    creates: /etc/dkimkeys/{{ item }}/{{ opendkim_selector }}.private
+  tags:
+    - role::opendkim
+
+- name: Template OpenDKIM configuration file
+  template:
+    src: opendkim.conf.j2
+    dest: /etc/opendkim.conf
+    mode: "0644"
+    owner: opendkim
+    group: opendkim
+  tags:
+    - role::opendkim
+  notify:
+    - Reload OpenDKIM
+
+- name: Create OpenDKIM key & signing table directory
+  file:
+    state: directory
+    owner: opendkim
+    group: opendkim
+    mode: "0755"
+    path: "/etc/opendkim"
+  tags:
+    - role::opendkim
+
+- name: Create OpenDKIM KeyTable
+  copy:
+    content: |
+      {% for item in opendkim_domains %}
+      {{ item }} {{ item }}:{{ opendkim_selector }}:/etc/dkimkeys/{{ item }}/{{ opendkim_selector}}.private
+      {% endfor %}
+    dest: /etc/opendkim/keytable
+    owner: opendkim
+    group: opendkim
+    mode: "0644"
+  tags:
+    - role::opendkim
+  notify:
+    - Reload OpenDKIM
+
+- name: Create OpenDKIM SigningTable
+  copy:
+    content: |
+      {% for item in opendkim_domains %}
+      *@{{ item }} {{ item }}
+      {% endfor %}
+    dest: /etc/opendkim/signingtable
+    owner: opendkim
+    group: opendkim
+    mode: "0644"
+  tags:
+    - role::opendkim
+  notify:
+    - Reload OpenDKIM

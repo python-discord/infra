@@ -1,0 +1,5 @@
+---
+- name: Reload OpenDKIM
+  service:
+    name: opendkim
+    state: reloaded
