@@ -1,13 +1,16 @@
+Bots
+====
+
 Our GitHub repositories are supported by two custom bots:
 
 -  Our **Fast Forward Bot**, which ensures that commits merged into main
    are either merged manually on the command line or via a fast-forward,
    ensuring that cryptographic signatures of commits remain intact.
-   Information on the bot can be found `in the ``ff-bot.yml``
+   Information on the bot can be found `in the ff-bot.yml
    configuration <https://github.com/python-discord/infra/blob/main/.github/ff-bot.yml>`__.
    Merges over the GitHub UI are discouraged for this reason. You can
    use it by running ``/merge`` on a pull request. Note that attempting
-   to use it without permission to will be reported.
+   to use it without permission to do so will be reported.
 
 -  Our **Craig Dazey Emulator Bot**, which ensures team morale stays
    high at all times by thanking team members for submitted pull
