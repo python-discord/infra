@@ -26,6 +26,9 @@ smtpd_relay_restrictions =
                          reject_unauth_pipelining
                          check_policy_service unix:private/policyd-spf,
 
+smtpd_milters = inet:localhost:8891
+non_smtpd_milters = $smtpd_milters
+
 myorigin = /etc/mailname
 myhostname = mail.pydis.wtf
 
