@@ -32,10 +32,12 @@ recipient_canonical_classes = envelope_recipient,header_recipient
 virtual_alias_maps =
     ldap:/etc/postfix/ldap-registeredaddress.cf,
     ldap:/etc/postfix/ldap-uid.cf,
+    ldap:/etc/postfix/ldap-group-aliases.cf,
     hash:/etc/postfix/virtual
 
 relay_recipient_maps =
     ldap:/etc/postfix/ldap-relay-recipients.cf,
+    ldap:/etc/postfix/ldap-group-aliases.cf.j2,
     hash:/etc/postfix/virtual
 
 mydestination = mail.pydis.wtf, pydis.wtf, localhost
