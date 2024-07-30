@@ -1,0 +1,23 @@
+---
+- name: Install neomutt
+  package:
+    name: neomutt
+    state: present
+  tags:
+    - role::neomutt
+
+- name: Configure neomutt folder to standard destination
+  copy:
+    content: |
+      # Ansible managed
+
+      # neomutt will user ~/Mail by default, whilst our postfix installation
+      # will deliver mail to /var/mail/$USER instead. neomutt will also figure that out,
+      # but not without prompting whether to create ~/Mail on every startup first.
+      set folder = /var/mail/$USER
+    owner: root
+    group: root
+    mode: "0o444"
+    dest: /etc/neomuttrc.d/pydis.rc
+  tags:
+    - role::neomutt

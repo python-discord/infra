@@ -1,5 +1,5 @@
 ---
-- name: Install postfix & mail client
+- name: Install postfix & tools
   package:
     name:
       # Postfix & routing plugins
@@ -9,8 +9,6 @@
       - postsrsd
       # Security and anti-spam tools
       - postfix-policyd-spf-python
-      # Mail clients
-      - neomutt
     state: present
   tags:
     - role::postfix
