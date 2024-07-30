@@ -47,4 +47,6 @@ nginx_configs:
 
       ssl_certificate         /etc/letsencrypt/live/pydis.wtf/fullchain.pem;
       ssl_certificate_key     /etc/letsencrypt/live/pydis.wtf/privkey.pem;
+
+      add_header "X-Robots-Tag" "noindex" always;
     }
