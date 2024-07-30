@@ -38,3 +38,13 @@ nginx_configs:
         try_files $uri $uri/ =404;
       }
     }
+
+  propaganda.pydis.wtf.conf: |
+    server {
+      listen      443;
+      server_name propaganda.pydis.wtf;
+      root        /var/www/propaganda.pydis.wtf;
+
+      ssl_certificate         /etc/letsencrypt/live/pydis.wtf/fullchain.pem;
+      ssl_certificate_key     /etc/letsencrypt/live/pydis.wtf/privkey.pem;
+    }
