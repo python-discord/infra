@@ -33,3 +33,13 @@ Infrastructure-related documentation ("the big picture"), can be found in [`docs
 
 Many folders have a `README.md` file within them, which have more detailed explanations on what
 that folder, and the files within, is used for.
+
+## Linting
+
+To lint everything with `pre-commit` locally, run the command
+
+```sh
+$ poetry run task lint
+```
+
+Any trivial errors (formatting, minor linting problems) will automatically be fixed.
