@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'dns/**'
 jobs:
   octodns-sync:
     environment: production
