@@ -63,3 +63,19 @@ mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all
 inet_protocols = all
+
+# Basic anti-abuse ratelimits.
+# The time window is specified with anvil_rate_time_unit,
+# which defaults to 60 seconds.
+smtpd_client_auth_rate_limit = 1000
+smtpd_client_connection_rate_limit = 1000
+smtpd_client_message_rate_limit = 1000
+smtpd_client_new_tls_session_rate_limit = 1000
+smtpd_client_recipient_rate_limit = 100
+# Sleep for $smtpd_error_sleep_time (default 1s) after getting 1 junk command.
+smtpd_junk_command_limit = 1
+# One error counts $smtpd_junk_command_limit junk commands received.
+# Once the client has performed enough bullshit, disconnect.
+smtpd_hard_error_limit = 10
+anvil_rate_time_unit = 24h
+anvil_status_update_time = 12h
