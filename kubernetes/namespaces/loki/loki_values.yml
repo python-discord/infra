@@ -28,8 +28,10 @@ loki:
     retention_enabled: true
     delete_request_store: s3
     delete_request_cancel_period: 1h
+    retention_delete_delay: 5m
 
   limits_config:
+    retention_period: 30d
     # Enable volume querying endpoint (for Grafana Explore Logs)
     volume_enabled: true
 
