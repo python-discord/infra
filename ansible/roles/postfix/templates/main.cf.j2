@@ -14,10 +14,16 @@ compatibility_level = 3.6
 
 smtpd_tls_cert_file=/etc/letsencrypt/live/pydis.wtf/fullchain.pem
 smtpd_tls_key_file=/etc/letsencrypt/live/pydis.wtf/privkey.pem
-smtpd_tls_security_level=may
-smtpd_tls_auth_only=yes
 
-smtp_tls_security_level = encrypt
+# Configure TLS in high security mode, via https://mecsa.jrc.ec.europa.eu/en/postfix:
+# - mails must be sent via TLS, optionally with DANE, and STARTTLS offer logged
+# - mails must be received via TLS
+# - authentication must be performed via TLS
+smtp_tls_security_level = dane
+smtp_dns_support_level = dnssec
+smtp_tls_note_starttls_offer = yes
+smtpd_tls_security_level = encrypt
+smtpd_tls_auth_only = yes
 
 smtpd_relay_restrictions =
                          permit_mynetworks,
