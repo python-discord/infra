@@ -10,22 +10,9 @@
       cloudflare:
         auto-ttl: true
     ttl: 300
-    type: MX
-    values:
-    - exchange: route3.mx.cloudflare.net.
-      preference: 7
-    - exchange: route2.mx.cloudflare.net.
-      preference: 15
-    - exchange: route1.mx.cloudflare.net.
-      preference: 34
-  - octodns:
-      cloudflare:
-        auto-ttl: true
-    ttl: 300
     type: TXT
     values:
     - keybase-site-verification=rtJ28Y8bGMHa1qJ_Qk6TAM6ktqebuWDwUtbMFCt_5qg
-    - v=spf1 include:_spf.mx.cloudflare.net ~all
 '*':
   octodns:
     cloudflare:

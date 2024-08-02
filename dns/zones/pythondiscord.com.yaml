@@ -6,20 +6,6 @@
     ttl: 300
     type: ALIAS
     value: linode-lb.box.pydis.wtf.
-
-  - octodns:
-      cloudflare:
-        auto-ttl: true
-    ttl: 300
-    type: MX
-    values:
-      - exchange: amir.mx.cloudflare.net.
-        preference: 19
-      - exchange: linda.mx.cloudflare.net.
-        preference: 40
-      - exchange: isaac.mx.cloudflare.net.
-        preference: 65
-
   - octodns:
       cloudflare:
         auto-ttl: true
@@ -29,7 +15,6 @@
       - google-site-verification=2-WR3alaLn7r-_pRPyYZhnh0YYYe4Bbydo32bfg4Wxo
       - google-site-verification=cdfwmXlZDb57NUuy_1EOSrxfEYAYp_P232bOkrWVudM
       - keybase-site-verification=PeSqpPFVIy3W-YQWurEKeawYsgbH6QUjhDvf9mN3FdU
-      - v=spf1 include:_spf.mx.cloudflare.net ~all
 
 6ed7202cfcfe199921d5b382e200a40e598d20c3.status:
   octodns:
@@ -126,14 +111,6 @@ grafana:
   ttl: 300
   type: CNAME
   value: linode-lb.box.pydis.wtf.
-
-mailo._domainkey:
-  octodns:
-    cloudflare:
-      auto-ttl: true
-  ttl: 300
-  type: TXT
-  value: k=rsa\; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCxSyxIyn8hEsmWJQM3bh5LDF0M9qRnOnj4JWnn38EuyhNVl+OV3nKWl2xQ4HUmcKQAwKeYBrnb8CajKvNJH/A9yvYnHgFwRODZ8TJdYzrlG1Uxdse9pHoo2jT5bAycbltD5K78o2xAQ5rPwv3xa26j013Vea4I09BkLJbv/MH7lQIDAQAB
 
 merch:
   octodns:
