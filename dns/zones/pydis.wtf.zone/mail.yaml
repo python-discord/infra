@@ -14,7 +14,8 @@
     ttl: 300
     type: TXT
     values:
-      - v=spf1 include:_spf.mx.cloudflare.net mx a ~all
+      - v=spf1 mx ~all
+      - google-site-verification=LqJ_7byLrR4ZFSPrKZwq_wluebmrJZN68SUSpGdetuY
 
 _dmarc:
   octodns:
