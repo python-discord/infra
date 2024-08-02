@@ -1,7 +1,21 @@
-postmaster@pydis.wtf           {{ postfix_postmaster_email }}
-root@pydis.wtf                 {{ postfix_postmaster_email }}
-webmaster@pydis.wtf            {{ postfix_postmaster_email }}
-abuse@pydis.wtf                {{ postfix_postmaster_email }}
+# DevOps Aliases
+postmaster                     {{ postfix_postmaster_email }}
+root                           {{ postfix_postmaster_email }}
+webmaster                      {{ postfix_postmaster_email }}
+abuse                          {{ postfix_postmaster_email }}
+ops                            {{ postfix_postmaster_email }}
 
 # For now, forward DMARC reports to Joe
-dmarc@pydis.wtf                joe
+dmarc                          joe
+
+# Events Emails
+merch-support                  events
+streamyard                     events
+
+# Director Emails
+owners                         directors
+patreon                        directors
+donations                      directors
+
+# Admins Emails
+admins                         administrators
