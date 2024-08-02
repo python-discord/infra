@@ -11,20 +11,9 @@
       cloudflare:
         auto-ttl: true
     ttl: 300
-    type: MX
-    values:
-    - exchange: mxa.mailgun.org.
-      preference: 10
-    - exchange: mxb.mailgun.org.
-      preference: 10
-  - octodns:
-      cloudflare:
-        auto-ttl: true
-    ttl: 300
     type: TXT
     values:
     - keybase-site-verification=nPFHPag1t4_lbDluRl2ey0GDyz8gdhucyWi5r3DsbzU
-    - v=spf1 include:mailgun.org ~all
 
 '*':
   octodns:
@@ -33,11 +22,3 @@
   ttl: 300
   type: CNAME
   value: pythondiscord.com.
-
-krs._domainkey:
-  octodns:
-    cloudflare:
-      auto-ttl: true
-  ttl: 300
-  type: TXT
-  value: k=rsa\; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDVxMVxyTI2tCukkCwsTOJBWh2LReAekANQMA4DwbHSEZNVNI1pkIHASSA3Z4WheWz9dkGyrgxwlUX8MdWukckPj8FsGm/oENXd3+5hm8BYJUPym/xA7skqmRNiYHnstdCIE9u8+EnOrH2iYyGcAqSqkQtng4C6iYPkBLg8zSdcYQIDAQAB
