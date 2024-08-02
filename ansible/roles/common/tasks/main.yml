@@ -120,6 +120,15 @@
     - role::common
   when: ansible_distribution == "Rocky"
 
+- name: Install IPA client on Debian systems
+  package:
+    name:
+      - freeipa-client
+    state: present
+  tags:
+    - role::common
+  when: ansible_distribution == "Debian"
+
 - name: Install system administration tools
   package:
     name:
