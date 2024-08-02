@@ -11,9 +11,18 @@
       cloudflare:
         auto-ttl: true
     ttl: 300
+    type: MX
+    values:
+      - exchange: mail.pydis.wtf.
+        preference: 10
+  - octodns:
+      cloudflare:
+        auto-ttl: true
+    ttl: 300
     type: TXT
     values:
     - keybase-site-verification=nPFHPag1t4_lbDluRl2ey0GDyz8gdhucyWi5r3DsbzU
+    - v=spf1 mx ~all
 
 '*':
   octodns:
@@ -22,3 +31,21 @@
   ttl: 300
   type: CNAME
   value: pythondiscord.com.
+
+_dmarc:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: TXT
+  values:
+    - v=DMARC1\; p=quarantine\; rua=mailto:dmarc+reports@pydis.wtf\; ruf=mailto:dmarc+forensics@pydis.wtf\; fo=1\; adkim=s\; aspf=s
+
+lovelace._domainkey:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: TXT
+  values:
+    - v=DKIM1\; h=sha256\; k=rsa\; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAthNW4foQYsmIwZtIu9omk6oup5nGXBnj0mkzFd56nzC8S9uhumhYFvPVe3DBcPH4lt6FXE0bz2WzrqvkgMgeaZWwcNdOJ5gp3XQrYzAceC3EXs8oGvNOUMsoclmXuoJ7aTrH3hZZCVLG1gNOJU/BwCmijgGEfJPNRZx51HVEkvFk3ZXFEvBI0djsiQ03R+8X8VooUNhKerkGSZ3BRg1VhnCVZu7VO42mQx1LMsPcm9WOwqIPCTzyfCPxBvLKKJDbPb4jZL0CSIO3KcxdC9k5Q60V+DmUaQMi2F6hpxpsUi0aLHvr4Eiqee08LnlckqC5H0XDKU+7RaB9H27ICfdAqwIDAQAB
