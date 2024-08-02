@@ -10,11 +10,20 @@
       cloudflare:
         auto-ttl: true
     ttl: 300
+    type: MX
+    values:
+      - exchange: mail.pydis.wtf.
+        preference: 10
+  - octodns:
+      cloudflare:
+        auto-ttl: true
+    ttl: 300
     type: TXT
     values:
       - google-site-verification=2-WR3alaLn7r-_pRPyYZhnh0YYYe4Bbydo32bfg4Wxo
       - google-site-verification=cdfwmXlZDb57NUuy_1EOSrxfEYAYp_P232bOkrWVudM
       - keybase-site-verification=PeSqpPFVIy3W-YQWurEKeawYsgbH6QUjhDvf9mN3FdU
+      - v=spf1 mx ~all
 
 6ed7202cfcfe199921d5b382e200a40e598d20c3.status:
   octodns:
@@ -30,7 +39,8 @@ _dmarc:
       auto-ttl: true
   ttl: 300
   type: TXT
-  value: v=DMARC1\;  p=none\; rua=mailto:d043664dc3c6459586f31b10d86a37b7@dmarc-reports.cloudflare.net
+  values:
+    - v=DMARC1\; p=quarantine\; rua=mailto:dmarc+reports@pydis.wtf\; ruf=mailto:dmarc+forensics@pydis.wtf\; fo=1\; adkim=s\; aspf=s
 
 alertmanager:
   octodns:
@@ -111,6 +121,15 @@ grafana:
   ttl: 300
   type: CNAME
   value: linode-lb.box.pydis.wtf.
+
+lovelace._domainkey:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: TXT
+  values:
+    - v=DKIM1\; h=sha256\; k=rsa\; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzOSIkdA12tPDmP7eDQqCEBWeg9J9qcpHsXueKmXHRUWxlPXmN9s08TcRtrrwuKvaGyn3zcj825/ZEa04EfQ7xkdeakHV41Oo79YRJahD9u75wyRqUbnTaTnZjW85LPW/1jr7zcXqtbMNwsfDA++6JfcUCm3TOKmFxjJDrZ5g62nMitTHLvhQ6MXkY1yD14lXC6G3/gX7wESTJlfep4vFkATdniypBC4bpqWJHxDDpdiRbB3UTzTPK6eMFUNVQBZ7RMqrWyRQBucEM+o+vTEez2VEyrLxkaPuQW3+m2OmJOeEDWf7qdVIb2t346bsjjgrToT4UBMw+VzEl3BwaOopowIDAQAB
 
 merch:
   octodns:
