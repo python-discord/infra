@@ -12,8 +12,8 @@ readme_directory = no
 
 compatibility_level = 3.6
 
-smtpd_tls_cert_file=/etc/letsencrypt/live/pydis.wtf/fullchain.pem
-smtpd_tls_key_file=/etc/letsencrypt/live/pydis.wtf/privkey.pem
+smtpd_tls_cert_file={{ postfix_tls_cert }}
+smtpd_tls_key_file={{ postfix_tls_key }}
 
 # Configure TLS in high security mode, via https://mecsa.jrc.ec.europa.eu/en/postfix:
 # - mails must be sent via TLS, optionally with DANE, and STARTTLS offer logged
@@ -36,7 +36,7 @@ smtpd_milters = inet:localhost:8891,inet:localhost:8893
 non_smtpd_milters = $smtpd_milters
 
 myorigin = /etc/mailname
-myhostname = mail.pydis.wtf
+myhostname = {{ postfix_mailserver_name }}
 
 policyd-spf_time_limit = 3600
 
@@ -56,7 +56,7 @@ relay_recipient_maps =
     ldap:/etc/postfix/ldap-group-aliases.cf,
     hash:/etc/postfix/virtual
 
-mydestination = mail.pydis.wtf, pydis.wtf, localhost
+mydestination = {{ postfix_mailserver_name }}, localhost, {{ postfix_destination_domains | join(', ') }}
 relayhost =
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 mailbox_size_limit = 0

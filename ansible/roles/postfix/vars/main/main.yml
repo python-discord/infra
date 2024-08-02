@@ -7,3 +7,12 @@ postfix_bind_server: "ldaps://ldap01.box.pydis.wtf:636"
 postfix_bind_search_base: "cn=users,cn=accounts,dc=box,dc=pydis,dc=wtf"
 
 postfix_postmaster_email: "devops@pydis.wtf"
+
+postfix_tls_cert: /etc/letsencrypt/live/pydis.wtf/fullchain.pem
+postfix_tls_key: /etc/letsencrypt/live/pydis.wtf/privkey.pem
+
+postfix_mailserver_name: "mail.pydis.wtf"
+postfix_destination_domains:
+  - pydis.wtf
+  - pydis.com
+  - pythondiscord.com
