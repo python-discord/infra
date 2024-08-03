@@ -1,5 +1,5 @@
 ---
-opendmarc_failures: "dmarc+failures@pydis.wtf"
-opendmarc_failure_reports: "dmarc+failurereports@pydis.wtf"
-opendmarc_failure_reports_from: "dmarc+noreply@pydis.wtf"
+opendmarc_failures: "dmarc+failures@int.pydis.wtf"
+opendmarc_failure_reports: "dmarc+failurereports@int.pydis.wtf"
+opendmarc_failure_reports_from: "dmarc+noreply@int.pydis.wtf"
 opendmarc_authserv_id: "PyDisDMARC"
