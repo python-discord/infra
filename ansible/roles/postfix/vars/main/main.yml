@@ -14,5 +14,6 @@ postfix_tls_key: /etc/letsencrypt/live/pydis.wtf/privkey.pem
 postfix_mailserver_name: "mail.pydis.wtf"
 postfix_destination_domains:
   - pydis.wtf
+  - int.pydis.wtf
   - pydis.com
   - pythondiscord.com
