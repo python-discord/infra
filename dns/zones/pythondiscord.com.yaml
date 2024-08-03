@@ -40,7 +40,7 @@ _dmarc:
   ttl: 300
   type: TXT
   values:
-    - v=DMARC1\; p=quarantine\; rua=mailto:dmarc+reports@pydis.wtf\; ruf=mailto:dmarc+forensics@pydis.wtf\; fo=1\; adkim=s\; aspf=s
+    - v=DMARC1\; p=quarantine\; rua=mailto:dmarc+reports@int.pydis.wtf\; ruf=mailto:dmarc+forensics@int.pydis.wtf\; fo=1\; adkim=s\; aspf=s
 
 alertmanager:
   octodns:

@@ -1,12 +1,12 @@
 ---
-'':
+"":
   - octodns:
       cloudflare:
         auto-ttl: true
         proxied: true
     ttl: 300
     type: AAAA
-    value: '100::'
+    value: "100::"
   - octodns:
       cloudflare:
         auto-ttl: true
@@ -21,10 +21,10 @@
     ttl: 300
     type: TXT
     values:
-    - keybase-site-verification=nPFHPag1t4_lbDluRl2ey0GDyz8gdhucyWi5r3DsbzU
-    - v=spf1 mx ~all
+      - keybase-site-verification=nPFHPag1t4_lbDluRl2ey0GDyz8gdhucyWi5r3DsbzU
+      - v=spf1 mx ~all
 
-'*':
+"*":
   octodns:
     cloudflare:
       auto-ttl: true
@@ -39,7 +39,7 @@ _dmarc:
   ttl: 300
   type: TXT
   values:
-    - v=DMARC1\; p=quarantine\; rua=mailto:dmarc+reports@pydis.wtf\; ruf=mailto:dmarc+forensics@pydis.wtf\; fo=1\; adkim=s\; aspf=s
+    - v=DMARC1\; p=quarantine\; rua=mailto:dmarc+reports@int.pydis.wtf\; ruf=mailto:dmarc+forensics@int.pydis.wtf\; fo=1\; adkim=s\; aspf=s
 
 lovelace._domainkey:
   octodns:
