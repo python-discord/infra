@@ -24,7 +24,33 @@ _dmarc:
   ttl: 300
   type: TXT
   values:
-    - v=DMARC1\; p=quarantine\; rua=mailto:dmarc+reports@pydis.wtf\; ruf=mailto:dmarc+forensics@pydis.wtf\; fo=1\; adkim=s\; aspf=s
+    - v=DMARC1\; p=quarantine\; rua=mailto:dmarc+reports@int.pydis.wtf\; ruf=mailto:dmarc+forensics@int.pydis.wtf\; fo=1\; adkim=s\; aspf=s
+
+_dmarc.int:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: TXT
+  values:
+    - v=DMARC1\; p=quarantine\; rua=mailto:dmarc+reports@int.pydis.wtf\; ruf=mailto:dmarc+forensics@int.pydis.wtf\; fo=1\; adkim=s\; aspf=s
+
+int:
+  - octodns:
+      cloudflare:
+        auto-ttl: true
+    ttl: 300
+    type: MX
+    values:
+      - exchange: mail.pydis.wtf.
+        preference: 10
+  - octodns:
+      cloudflare:
+        auto-ttl: true
+    ttl: 300
+    type: TXT
+    values:
+      - v=spf1 mx ~all
 
 lovelace._domainkey:
   octodns:
@@ -32,8 +58,16 @@ lovelace._domainkey:
       auto-ttl: true
   ttl: 300
   type: TXT
-  values:
+  values: &rootkey
     - v=DKIM1\; h=sha256\; k=rsa\; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt8p85cxTzWgdR+qHR+B69+hAbVHJSXU7/rsJx9yCnFMFARYSsxeoAZo7SXsH1Y6WxSXcEZMkSC1mY6c9Tw1nPgW/cO59k3WGCD6qn0Ekkv5x3BKy6y5ChTfXyh+R+QWX8iyvPk8rPAkrOT/8AVyHynCX25YpXwbkrLHJIlZh7eh6tNFWBsGk4FT2qjwOvKtilBmP9KqOj/37ZJXe9I9lMxmSLhT4SrmDEhgZCl4DXUTdm+Cxf/SJYPrYw9APSFluNReGL9KC7fueM4kkdeezEN6ifKp9ZhGDEZEs9MWMgN8438TzXQR3qnmczDGltRP+ZrSnahNIinXhszjwv07/uQIDAQAB
+
+lovelace._domainkey.int:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: TXT
+  values: *rootkey
 
 mail:
   - octodns:
