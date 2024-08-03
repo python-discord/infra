@@ -71,6 +71,14 @@ id:
   type: CNAME
   value: linode-lb.box.pydis.wtf.
 
+jitsi:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: CNAME
+  value: lovelace.box.pydis.wtf.
+
 loki-gateway:
   octodns:
     cloudflare:
