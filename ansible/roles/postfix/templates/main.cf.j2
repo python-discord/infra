@@ -49,11 +49,13 @@ virtual_alias_maps =
     ldap:/etc/postfix/ldap-registeredaddress.cf,
     ldap:/etc/postfix/ldap-uid.cf,
     ldap:/etc/postfix/ldap-group-aliases.cf,
+    ldap:/etc/postfix/ldap-service-mail.cf,
     hash:/etc/postfix/virtual
 
 relay_recipient_maps =
     ldap:/etc/postfix/ldap-relay-recipients.cf,
     ldap:/etc/postfix/ldap-group-aliases.cf,
+    ldap:/etc/postfix/ldap-service-mail.cf,
     hash:/etc/postfix/virtual
 
 mydestination = {{ postfix_mailserver_name }}, localhost, {{ postfix_destination_domains | join(', ') }}

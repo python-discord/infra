@@ -53,6 +53,8 @@
       filename: ldap-relay-recipients.cf
     - template: ldap/ldap-group-aliases.cf.j2
       filename: ldap-group-aliases.cf
+    - template: ldap/ldap-service-mail.cf.j2
+      filename: ldap-service-mail.cf
   tags:
     - role::postfix
   notify:
