@@ -68,7 +68,10 @@
   copy:
     content: |
       {% for item in opendkim_domains %}
-      {{ item }} {{ item }}:{{ opendkim_selector }}:/etc/dkimkeys/{{ item }}/{{ opendkim_selector}}.private
+      {{ item }} {{ item }}:{{ opendkim_selector }}:/etc/dkimkeys/{{ item }}/{{ opendkim_selector }}.private
+      {% endfor %}
+      {% for item in opendkim_extra_signings %}
+      {{ item['domain'] }} {{ item['domain'] }}:{{ opendkim_selector }}:/etc/dkimkeys/{{ item['use_key'] }}/{{ opendkim_selector }}.private
       {% endfor %}
     dest: /etc/opendkim/keytable
     owner: opendkim
@@ -84,6 +87,9 @@
     content: |
       {% for item in opendkim_domains %}
       *@{{ item }} {{ item }}
+      {% endfor %}
+      {% for item in opendkim_extra_signings %}
+      *@{{ item['domain'] }} {{ item['domain'] }}
       {% endfor %}
     dest: /etc/opendkim/signingtable
     owner: opendkim

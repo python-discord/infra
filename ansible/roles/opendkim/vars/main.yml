@@ -3,4 +3,7 @@ opendkim_domains:
   - pydis.wtf
   - pydis.com
   - pythondiscord.com
+opendkim_extra_signings:
+  - domain: int.pydis.wtf
+    use_key: pydis.wtf
 opendkim_selector: lovelace
