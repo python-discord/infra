@@ -26,10 +26,10 @@ Table of contents
    :maxdepth: 2
 
    general/index
+   services/index
    onboarding/index
    postmortems/index
    queries/index
-   runbooks/index
    tooling/index
 
 
