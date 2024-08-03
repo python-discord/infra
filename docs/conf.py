@@ -6,14 +6,17 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "DevOps"
+project = "PyDis DevOps"
 copyright = "2024, Python Discord"
 author = "Joe Banks <joe@jb3.dev>, King Arthur <king-arthur@pydis.wtf>"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = []
+extensions = [
+    "sphinx.ext.graphviz",
+    "sphinx.ext.todo",
+]
 
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]

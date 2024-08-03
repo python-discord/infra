@@ -4,7 +4,8 @@ PostgreSQL
 Our main PostgreSQL instance runs on lovelace. This is our only supported PostgreSQL
 instance and managed by DevOps.
 
-.. toctree::
+.. contents::
+   :depth: 3
 
 
 User manual
