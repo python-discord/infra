@@ -33,3 +33,16 @@ for.
 
 `opendkim_selector` is the selector used for these, normally a hostname or
 `default` suffices.
+
+`opendkim_extra_signings` is primarily for reuse of a DKIM key on a subdomain of
+another signed domain, for example:
+
+```yaml
+opendkim_extra_signings:
+  - domain: int.pydis.wtf
+    use_key: pydis.wtf
+```
+
+This will reuse the key for pydis.wtf on int.pydis.wtf, you will still need to
+configure the relevant DKIM keys for the subdomain (i.e. `TXT
+selector._domainkey.int.pydis.wtf_`).
