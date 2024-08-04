@@ -2,4 +2,4 @@
 opendmarc_failures: "dmarc+failures@int.pydis.wtf"
 opendmarc_failure_reports: "dmarc+failurereports@int.pydis.wtf"
 opendmarc_failure_reports_from: "dmarc+noreply@int.pydis.wtf"
-opendmarc_authserv_id: "PyDisDMARC"
+opendmarc_authserv_id: "mail.pydis.wtf"

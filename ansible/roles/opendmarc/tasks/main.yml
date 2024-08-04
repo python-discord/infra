@@ -27,4 +27,4 @@
   tags:
     - role::opendmarc
   notify:
-    - Reload OpenDMARC
+    - Restart OpenDMARC

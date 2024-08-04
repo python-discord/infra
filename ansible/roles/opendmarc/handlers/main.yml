@@ -1,5 +1,5 @@
 ---
-- name: Reload OpenDMARC
+- name: Restart OpenDMARC
   service:
     name: opendmarc
-    state: reloaded
+    state: restarted
