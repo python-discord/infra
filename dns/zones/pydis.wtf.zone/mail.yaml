@@ -14,7 +14,7 @@
     ttl: 300
     type: TXT
     values:
-      - v=spf1 mx ~all
+      - v=spf1 mx -all
       - google-site-verification=LqJ_7byLrR4ZFSPrKZwq_wluebmrJZN68SUSpGdetuY
 
 _dmarc:
@@ -50,7 +50,7 @@ int:
     ttl: 300
     type: TXT
     values:
-      - v=spf1 mx ~all
+      - v=spf1 mx -all
 
 lovelace._domainkey:
   octodns:

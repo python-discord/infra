@@ -22,7 +22,7 @@
     type: TXT
     values:
       - keybase-site-verification=nPFHPag1t4_lbDluRl2ey0GDyz8gdhucyWi5r3DsbzU
-      - v=spf1 mx ~all
+      - v=spf1 mx -all
 
 "*":
   octodns:

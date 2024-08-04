@@ -23,7 +23,7 @@
       - google-site-verification=2-WR3alaLn7r-_pRPyYZhnh0YYYe4Bbydo32bfg4Wxo
       - google-site-verification=cdfwmXlZDb57NUuy_1EOSrxfEYAYp_P232bOkrWVudM
       - keybase-site-verification=PeSqpPFVIy3W-YQWurEKeawYsgbH6QUjhDvf9mN3FdU
-      - v=spf1 mx ~all
+      - v=spf1 mx -all
 
 6ed7202cfcfe199921d5b382e200a40e598d20c3.status:
   octodns:
