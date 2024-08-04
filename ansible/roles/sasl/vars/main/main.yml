@@ -1,0 +1,5 @@
+---
+sasl_ldap_server: "ldaps://ldap01.box.pydis.wtf"
+sasl_ldap_bind_dn: "uid=postfix,cn=users,cn=accounts,dc=box,dc=pydis,dc=wtf"
+sasl_ldap_bind_pw: "{{ vault_sasl_ldap_bind_pw }}"
+sasl_ldap_search_base: "cn=users,cn=accounts,dc=box,dc=pydis,dc=wtf"
