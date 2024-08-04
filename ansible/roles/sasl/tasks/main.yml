@@ -1,0 +1,72 @@
+---
+- name: Install SASL dependencies
+  package:
+    name:
+      - sasl2-bin
+      - libsasl2-modules
+      - libsasl2-modules-ldap
+    state: present
+  tags:
+    - role::sasl
+
+- name: Copy Postfix SASL configuration
+  copy:
+    src: smtpd.conf
+    dest: /etc/postfix/sasl/smtpd.conf
+    mode: "0644"
+    owner: root
+    group: root
+  tags:
+    - role::sasl
+  notify:
+    - Reload postfix
+
+- name: Update SASL authentication daemon preferences
+  lineinfile:
+    path: /etc/default/saslauthd
+    regexp: '^{{ item[''key''] }}="'
+    line: '{{ item["key"] }}="{{ item["value"] }}"'
+    mode: "0644"
+    owner: root
+    group: root
+  loop:
+    - key: START
+      value: "yes"
+    - key: MECHANISMS
+      value: ldap
+    # Postfix runs in a CHROOT so we need to create the SASLAUTHD socket there
+    # to allow Postfix to communicate with it.
+    - key: OPTIONS
+      value: "-c -m /var/spool/postfix/var/run/saslauthd"
+  tags:
+    - role::sasl
+  notify:
+    - Restart SASL
+
+- name: Copy SASL LDAP configuration
+  template:
+    src: saslauthd.conf.j2
+    dest: /etc/saslauthd.conf
+    mode: "0640"
+    owner: root
+    group: sasl
+  tags:
+    - role::sasl
+  notify:
+    - Reload SASL
+
+- name: Add Postfix to SASL group
+  user:
+    name: postfix
+    groups: sasl
+    append: true
+  tags:
+    - role::sasl
+
+- name: Enable and start SASL authentication daemon
+  service:
+    name: saslauthd
+    state: started
+    enabled: true
+  tags:
+    - role::sasl
