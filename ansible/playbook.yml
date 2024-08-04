@@ -22,6 +22,7 @@
   roles:
     - opendkim
     - opendmarc
+    - sasl
     - postfix
 
 - name: Deploy our monitoring stack
