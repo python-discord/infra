@@ -1,0 +1,10 @@
+---
+- name: Reload SASL
+  service:
+    name: saslauthd
+    state: reloaded
+
+- name: Restart SASL
+  service:
+    name: saslauthd
+    state: restarted
