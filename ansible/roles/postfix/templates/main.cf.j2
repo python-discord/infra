@@ -66,6 +66,8 @@ relay_recipient_maps =
     hash:/etc/postfix/virtual
 
 local_recipient_maps = $relay_recipient_maps
+# The trailing slash instructs postfix to deliver as maildir.
+mail_spool_directory = /var/mail/
 
 mydestination = {{ postfix_mailserver_name }}, localhost, {{ postfix_destination_domains | join(', ') }}
 relayhost =
