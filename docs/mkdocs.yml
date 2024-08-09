@@ -31,6 +31,15 @@ markdown_extensions:
           format: !!python/name:pymdownx.superfences.fence_code_format
 
 plugins:
+  # Git document contributors
+  - git-committers:
+      repository: python-discord/infra
+      branch: main
+      enabled: !ENV [ENABLE_GIT_PLUGINS, false]
+  # Git change information
+  - git-revision-date-localized:
+      enable_creation_date: true
+      enabled: !ENV [ENABLE_GIT_PLUGINS, false]
   # Interactive images
   - glightbox
   # Offline search

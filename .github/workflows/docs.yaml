@@ -47,6 +47,9 @@ jobs:
           install_args: --with docs
       - name: Build docs
         run: poetry run mkdocs build-docs
+        env:
+          MKDOCS_GIT_COMMITTERS_APIKEY: ${{ secrets.GITHUB_TOKEN }}
+          ENABLE_GIT_PLUGINS: true
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

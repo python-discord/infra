@@ -27,6 +27,8 @@ octodns-cloudflare = "^0.0.6"
 [tool.poetry.group.docs.dependencies]
 mkdocs-material = {extras = ["imaging"], version = "^9.5.31"}
 mkdocs-glightbox = "^0.4.0"
+mkdocs-git-committers-plugin-2 = "^2.3.0"
+mkdocs-git-revision-date-localized-plugin = "^1.2.6"
 
 [tool.taskipy.tasks]
 lint = "pre-commit run --all-files"
