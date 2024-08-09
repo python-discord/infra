@@ -40,13 +40,17 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
-      - uses: ammaraskar/sphinx-action@master
+      - name: Install Python Dependencies
+        uses: HassanAbouelela/actions/setup-python@setup-python_v1.6.0
         with:
-          docs-folder: "docs/"
+          python_version: "3.12"
+          install_args: --only docs
+      - name: Build docs
+        run: poetry run mkdocs build-docs
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./docs/_build/html
+          path: ./docs/site/
 
   # Deployment job
   deploy:
