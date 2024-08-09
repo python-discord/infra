@@ -10,6 +10,10 @@ jobs:
         with:
           submodules: recursive
           fetch-depth: 0
-      - uses: jchristgit/sphinx-action@master
+      - name: Install Python Dependencies
+        uses: HassanAbouelela/actions/setup-python@setup-python_v1.6.0
         with:
-          docs-folder: "docs/"
+          python_version: "3.12"
+          install_args: --only docs
+      - name: Build docs
+        run: poetry run task build-docs
