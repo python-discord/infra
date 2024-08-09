@@ -1,7 +1,6 @@
 /ansible/.ansible/
 vault_passwords
-/docs/_build/
-!/docs/_build/.gitkeep
+docs/site/
 venv
 .venv
 .cache/

@@ -23,9 +23,16 @@ dnspython = "2.6.1"
 octodns = "^1.8.0"
 octodns-cloudflare = "^0.0.6"
 
+
+[tool.poetry.group.docs.dependencies]
+mkdocs-material = {extras = ["imaging"], version = "^9.5.31"}
+mkdocs-glightbox = "^0.4.0"
+
 [tool.taskipy.tasks]
 lint = "pre-commit run --all-files"
 precommit = "pre-commit install"
+serve-docs = "cd docs && mkdocs serve"
+build-docs = "cd docs && mkdocs build"
 
 [tool.ruff]
 target-version = "py311"
