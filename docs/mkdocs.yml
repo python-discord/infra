@@ -37,7 +37,7 @@ plugins:
       repository: python-discord/infra
       branch: main
       enabled: !ENV [ENABLE_GIT_PLUGINS, false]
-      docs_path: "docs/docs"
+      docs_path: "docs/docs/"
   # Git change information
   - git-revision-date-localized:
       enable_creation_date: true
