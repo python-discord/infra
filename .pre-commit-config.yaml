@@ -1,31 +1,32 @@
 exclude: (secrets?\.ya?ml)|(ghcr-pull-secrets\.yaml)|pydis-users/vars/main.yml$
 repos:
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.5.0
-  hooks:
-    - id: check-merge-conflict
-    - id: check-toml
-    - id: check-yaml
-      args: [--allow-multiple-documents]
-    - id: end-of-file-fixer
-    - id: trailing-whitespace
-      args: [--markdown-linebreak-ext=md]
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: check-merge-conflict
+      - id: check-toml
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+        exclude: ^docs/mkdocs.yml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
 
-- repo: local
-  hooks:
-    - id: ruff-lint
-      name: ruff linting
-      description: Run ruff linting
-      entry: poetry run ruff check --force-exclude
-      language: system
-      'types_or': [python, pyi]
-      require_serial: true
-      args: [--fix, --exit-non-zero-on-fix]
+  - repo: local
+    hooks:
+      - id: ruff-lint
+        name: ruff linting
+        description: Run ruff linting
+        entry: poetry run ruff check --force-exclude
+        language: system
+        "types_or": [python, pyi]
+        require_serial: true
+        args: [--fix, --exit-non-zero-on-fix]
 
-    - id: ruff-format
-      name: ruff formatting
-      description: Run ruff formatting
-      entry: poetry run ruff format --force-exclude
-      language: system
-      'types_or': [python, pyi]
-      require_serial: true
+      - id: ruff-format
+        name: ruff formatting
+        description: Run ruff formatting
+        entry: poetry run ruff format --force-exclude
+        language: system
+        "types_or": [python, pyi]
+        require_serial: true
