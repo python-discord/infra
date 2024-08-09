@@ -1,0 +1,100 @@
+---
+# Set some important site metadata attributes
+site_name: PyDis DevOps
+site_url: https://python-discord.github.io/infra/
+
+# Set GitHub repository metadata
+repo_url: https://github.com/python-discord/infra
+repo_name: python-discord/infra
+
+# Enable markdown features
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tilde
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+plugins:
+  # Interactive images
+  - glightbox
+  # Offline search
+  - offline
+  # Download assets to serve from local URL
+  - privacy
+  # Search functionality
+  - search
+  # Auto-generated social cards
+  - social
+  # Blog-style content for post-mortems and meeting notes
+  - blog:
+      blog_dir: post-mortems
+  - blog:
+      blog_dir: meeting-notes
+
+# Theme preferences
+theme:
+  # Use mkdocs-material
+  name: material
+  # Set the logo
+  logo: assets/logo.svg
+
+  # Enable theme features
+  features:
+    # Add codeblock annotations
+    - content.code.annotate
+    # Add nicer tooltips
+    - content.tooltips
+    # Use instant navigation for faster page loading, with a progress bar
+    - navigation.instant
+    - navigation.instant.progress
+    # Top level sections appear on the top horizontal navbar
+    - navigation.sections
+    # Add a sticky top navigation bar
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    # Searchbar features
+    - search.highlight
+    - search.suggest
+
+  # Override some icons
+  icon:
+    repo: fontawesome/brands/github
+
+  # Define palettes that are used to switch between light and dark mode
+  palette:
+    - media: "(prefers-color-scheme)"
+      primary: blue
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    - media: "(prefers-color-scheme: light)"
+      primary: blue
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    - media: "(prefers-color-scheme: dark)"
+      primary: blue
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
