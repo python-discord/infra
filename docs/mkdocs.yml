@@ -6,7 +6,7 @@ site_url: https://python-discord.github.io/infra/
 # Set GitHub repository metadata
 repo_url: https://github.com/python-discord/infra
 repo_name: python-discord/infra
-edit_uri: edit/main/docs/
+edit_uri: edit/main/docs/docs/
 
 # Enable markdown features
 markdown_extensions:
@@ -70,6 +70,7 @@ theme:
     - content.code.annotate
     # Git edits call-to-action
     - content.action.edit
+    - content.action.view
     # Add nicer tooltips
     - content.tooltips
     # Use instant navigation for faster page loading, with a progress bar
