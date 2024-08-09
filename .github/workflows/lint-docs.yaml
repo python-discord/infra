@@ -14,6 +14,6 @@ jobs:
         uses: HassanAbouelela/actions/setup-python@setup-python_v1.6.0
         with:
           python_version: "3.12"
-          install_args: --only docs
+          install_args: --with docs
       - name: Build docs
         run: poetry run task build-docs
