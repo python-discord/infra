@@ -1,7 +1,7 @@
 import argparse
 import base64
 import shutil
-import subprocess  # noqa: S404
+import subprocess
 import tempfile
 from pathlib import Path
 
@@ -34,7 +34,7 @@ ROLE_BINDING_PATCH_TEMPLATE = """[
         }}
     }}
 ]
-"""  # noqa: RUF027
+"""
 
 
 def run_and_return_output(command: str, cwd: str | None = None) -> str:
