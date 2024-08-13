@@ -134,6 +134,7 @@
     name:
       - tmux
       - vim
+      - fortune-mod
     state: present
   tags:
     - role::common
