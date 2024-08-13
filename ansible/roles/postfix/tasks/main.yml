@@ -85,6 +85,28 @@
   notify:
     - Restart postfix
 
+- name: Copy Postfix scripts directory
+  copy:
+    src: services/
+    dest: /etc/postfix/service-scripts/
+    directory_mode: "0755"
+    mode: "0744"
+    owner: servicemailer
+    group: servicemailer
+  tags:
+    - role::postfix
+
+- name: Template Postfix mail transport map
+  template:
+    src: transport.j2
+    dest: /etc/postfix/transport
+    mode: "0644"
+    owner: root
+    group: root
+  tags:
+    - role::postfix
+  notify: Regenerate transport table
+
 - name: Add custom services to master.cf
   blockinfile:
     path: /etc/postfix/master.cf
@@ -99,6 +121,10 @@
         -o smtpd_tls_security_level=encrypt
         -o smtpd_sasl_auth_enable=yes
         -o smtpd_client_restrictions=permit_sasl_authenticated,reject
+
+      # Service Mail pipes
+      fortune-pipe unix  -       n       n       -       -       pipe
+        flags=Fq user=servicemailer argv=/etc/postfix/service-scripts/fortune-reply.sh
   tags:
     - role::postfix
   notify:
