@@ -135,6 +135,7 @@
       - tmux
       - vim
       - fortune-mod
+      - cowsay
     state: present
   tags:
     - role::common
