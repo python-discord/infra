@@ -65,7 +65,11 @@ relay_recipient_maps =
     ldap:/etc/postfix/ldap-service-mail.cf,
     hash:/etc/postfix/virtual
 
-local_recipient_maps = $relay_recipient_maps
+local_recipient_maps =
+    $relay_recipient_maps,
+    hash:/etc/postfix/transport
+
+transport_maps = hash:/etc/postfix/transport
 
 mydestination = {{ postfix_mailserver_name }}, localhost, {{ postfix_destination_domains | join(', ') }}
 relayhost =
