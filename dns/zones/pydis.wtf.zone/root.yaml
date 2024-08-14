@@ -39,6 +39,14 @@ cloud.native.is.fun.and.easy:
   type: CNAME
   value: lovelace.box.pydis.wtf.
 
+docs:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: A
+  value: 192.0.2.0
+
 ff-bot:
   octodns:
     cloudflare:
