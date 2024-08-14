@@ -62,3 +62,29 @@ Ideal use-cases for service mail are:
 Anything that is sensitive or otherwise not suited should instead be implemented
 as a feature on King Arthur or any other system with fine-grained access
 control.
+
+### Parsing Mail
+
+In scripts, you should use
+[`mblaze`](https://manpages.ubuntu.com/manpages/focal/en/man7/mblaze.7.html)
+utilities to parse inbound mail to scripts to avoid issues that may arise from
+manually parsing email files.
+
+As an example, from the `fortune@int.pydis.wtf` service:
+
+```sh
+# Read the entire email into a variable
+EMAIL=$(cat)
+
+# Extract the sender's email address
+SENDER=$(echo "$EMAIL" | maddr -a -h from -)
+
+# Extract the Message-ID of the original email
+MESSAGE_ID=$(echo "$EMAIL" | mhdr -h message-id -)
+
+# Extract the original Subject and prefix it with "Re: " if necessary
+ORIGINAL_SUBJECT=$(echo "$EMAIL" | mhdr -h subject -)
+
+# Construct the reply subject
+REPLY_SUBJECT="Re: $ORIGINAL_SUBJECT"
+```
