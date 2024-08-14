@@ -9,6 +9,8 @@
       - postsrsd
       # Security and anti-spam tools
       - postfix-policyd-spf-python
+      # Mail scripting utilities
+      - mblaze
     state: present
   tags:
     - role::postfix
