@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Ensure Poetry is accessible in the current session
 export PATH=“/opt/render/project/poetry/bin:$PATH”
