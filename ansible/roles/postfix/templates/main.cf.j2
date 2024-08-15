@@ -71,9 +71,6 @@ local_recipient_maps =
 
 transport_maps = hash:/etc/postfix/transport
 
-# The trailing slash instructs postfix to deliver as maildir.
-mail_spool_directory = /var/mail/
-
 mydestination = {{ postfix_mailserver_name }}, localhost, {{ postfix_destination_domains | join(', ') }}
 relayhost =
 mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
