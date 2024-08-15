@@ -42,10 +42,10 @@ cloud.native.is.fun.and.easy:
 docs:
   octodns:
     cloudflare:
-      proxied: true
+      auto-ttl: true
   ttl: 300
-  type: A
-  value: 192.0.2.0
+  type: CNAME
+  value: python-discord.github.io.
 
 ff-bot:
   octodns:
