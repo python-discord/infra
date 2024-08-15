@@ -40,7 +40,9 @@ receive:
 ``` sieve
 require ["envelope", "fileinto", "imap4flags"];
 
-if allof (header :is "X-GitHub-Sender" ["coveralls", "github-actions[bot]", "netlify[bot]"],
+if allof (header :is "X-GitHub-Sender" [
+              "coveralls", "github-actions[bot]", "render[bot]", "netlify[bot]"
+          ],
           address :is "from" "notifications@github.com") {
     setflag "\\seen";
     fileinto "Trash";
