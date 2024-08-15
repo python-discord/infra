@@ -18,7 +18,7 @@ issue on the infra
 repository](https://github.com/python-discord/infra/issues/new) or ask in the
 `#dev-oops` channel.
 
-## [Knowledge base](https://python-discord.github.io/infra/)
+## [Knowledge base](https://docs.pydis.wtf/)
 
 This website.
 

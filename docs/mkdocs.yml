@@ -1,7 +1,7 @@
 ---
 # Set some important site metadata attributes
 site_name: PyDis DevOps
-site_url: https://python-discord.github.io/infra/
+site_url: https://docs.pydis.wtf/
 
 # Set GitHub repository metadata
 repo_url: https://github.com/python-discord/infra
