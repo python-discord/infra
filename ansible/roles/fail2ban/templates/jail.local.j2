@@ -34,4 +34,11 @@ enabled = true
 maxretry = 3
 bantime = 7d
 backend = systemd
+
+[postfix-sasl]
+filter = postfix[mode=auth]
+enabled = true
+maxretry = 3
+bantime = 1d
+backend = systemd
 {% endif %}
