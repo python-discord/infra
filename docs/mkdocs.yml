@@ -8,6 +8,8 @@ repo_url: https://github.com/python-discord/infra
 repo_name: python-discord/infra
 edit_uri: edit/main/docs/docs/
 
+copyright: Python Discord
+
 # Enable markdown features
 markdown_extensions:
   - abbr
@@ -62,6 +64,8 @@ plugins:
 theme:
   # Use mkdocs-material
   name: material
+  # Partial overrides directory
+  custom_dir: overrides
   # Set the logo
   logo: assets/logo.svg
 
