@@ -4,8 +4,8 @@
       cloudflare:
         proxied: true
     ttl: 300
-    type: A
-    value: 192.0.2.0 # Reserved placeholder IPv4 address
+    type: ALIAS
+    value: lovelace.box.pydis.wtf.
 
 20220929._domainkey:
   octodns:
