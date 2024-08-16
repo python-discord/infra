@@ -14,3 +14,24 @@ banaction_allports = nftables[type=allports]
 [sshd]
 mode = aggressive
 backend=systemd
+
+{% if "mail" in group_names %}
+[postfix]
+enabled = true
+bantime = 1d
+backend = systemd
+
+[postfix-submission]
+filter = postfix
+port = submission
+enabled = true
+bantime = 1d
+backend = systemd
+
+[postfix-errors]
+filter = postfix[mode=errors]
+enabled = true
+maxretry = 3
+bantime = 7d
+backend = systemd
+{% endif %}
