@@ -18,6 +18,16 @@
   notify:
     - Reload fail2ban
 
+- name: Update Postfix unit name
+  lineinfile:
+    path: /etc/fail2ban/filter.d/postfix.conf
+    regexp: "^journalmatch ="
+    line: "journalmatch = _SYSTEMD_UNIT=postfix@-.service"
+  tags:
+    - role::fail2ban
+  notify:
+    - Reload fail2ban
+
 - name: Enable fail2ban service
   service:
     name: fail2ban
