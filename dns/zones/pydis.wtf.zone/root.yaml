@@ -96,7 +96,7 @@ loki-gateway:
   type: CNAME
   value: linode-lb.box.pydis.wtf.
 
-metabase:
+merch:
   octodns:
     cloudflare:
       proxied: true
@@ -104,7 +104,7 @@ metabase:
   type: CNAME
   value: linode-lb.box.pydis.wtf.
 
-merch:
+metabase:
   octodns:
     cloudflare:
       proxied: true
