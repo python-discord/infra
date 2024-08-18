@@ -37,7 +37,7 @@ language](https://datatracker.ietf.org/doc/html/rfc5228.html), which it should,
 you can adapt the following script to customize the amount of notifications you
 receive:
 
-``` sieve
+```sieve
 require ["envelope", "fileinto", "imap4flags"];
 
 if allof (header :is "X-GitHub-Sender" [
@@ -49,6 +49,13 @@ if allof (header :is "X-GitHub-Sender" [
     stop;
 }
 ```
+
+| Service Name   | `X-GitHub-Sender`     | Description                                          |
+| -------------- | --------------------- | ---------------------------------------------------- |
+| Coveralls      | `coveralls`           | Hosted coverage reports on unit tests                |
+| GitHub Actions | `github-actions[bot]` | Craig Dazey Emulator                                 |
+| Render         | `render[bot]`         | Hosted previews of infra documentation changes       |
+| Netlify        | `netlify[bot]`        | Hosted previews of other projects (e.g. site, forms) |
 
 If you also want to filter out notifications from renovate, which we use for
 dependency updates, you can add `renovate[bot]` to the `X-GitHub-Sender` list
