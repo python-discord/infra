@@ -102,7 +102,7 @@ merch:
       proxied: true
   ttl: 300
   type: CNAME
-  value: thallium.netlify.app
+  value: thallium.netlify.app.
 
 merch-api:
   octodns:
