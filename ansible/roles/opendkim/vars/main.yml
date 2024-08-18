@@ -3,6 +3,7 @@ opendkim_domains:
   - pydis.wtf
   - pydis.com
   - pythondiscord.com
+  - owlcorp.uk
 opendkim_extra_signings:
   - domain: int.pydis.wtf
     use_key: pydis.wtf
