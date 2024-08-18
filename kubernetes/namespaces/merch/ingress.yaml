@@ -8,30 +8,30 @@ metadata:
   namespace: merch
 spec:
   tls:
-  - hosts:
-    - "*.owlcorp.uk"
-    secretName: owlcorp.uk-tls
-  - hosts:
-    - "*.pydis.wtf"
-    secretName: pydis.wtf-tls
+    - hosts:
+        - "*.owlcorp.uk"
+      secretName: owlcorp.uk-tls
+    - hosts:
+        - "*.pydis.wtf"
+      secretName: pydis.wtf-tls
   rules:
-  - host: merch.owlcorp.uk
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: thallium-backend-svc
-            port:
-              number: 80
-  - host: merch.pydis.wtf
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: thallium-backend-svc
-            port:
-              number: 80
+    - host: merch-api.owlcorp.uk
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: thallium-backend-svc
+                port:
+                  number: 80
+    - host: merch-api.pydis.wtf
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: thallium-backend-svc
+                port:
+                  number: 80
