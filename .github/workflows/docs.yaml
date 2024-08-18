@@ -49,6 +49,7 @@ jobs:
         with:
           python_version: "3.12"
           install_args: --with docs
+          checkout: false
       - name: Build docs
         working-directory: docs
         run: |
