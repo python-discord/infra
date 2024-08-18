@@ -5,14 +5,14 @@ metadata:
 spec:
   secretName: pydis.wtf-tls
   dnsNames:
-  - pydis.wtf
-  - '*.pydis.wtf'
+    - pydis.wtf
+    - "*.pydis.wtf"
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer
   secretTemplate:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "monitoring,modmail,tooling,pixels,vault,loki"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "monitoring,modmail,tooling,pixels,vault,loki,merch"
       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
-      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "monitoring,modmail,tooling,pixels,vault,loki"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "monitoring,modmail,tooling,pixels,vault,loki,merch"
