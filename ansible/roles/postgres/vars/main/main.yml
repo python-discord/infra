@@ -49,6 +49,10 @@ postgres_users:
     password: "{{ vault_postgres_user_passwords.polonium }}"
     roles:
 
+  - name: thallium
+    password: "{{ vault_postgres_user_passwords.thallium }}"
+    roles:
+
   - name: metabase
     password: "{{ vault_postgres_user_passwords.metabase }}"
     roles:
@@ -135,6 +139,12 @@ postgres_hba_rules:
     address: all
     method: scram-sha-256
 
+  - conn_type: hostssl
+    database: thallium
+    user: thallium
+    address: all
+    method: scram-sha-256
+
   #
   # Backup service HBA rules
   #
@@ -217,6 +227,8 @@ postgres_databases:
     owner: keycloak
   - name: polonium
     owner: polonium
+  - name: thallium
+    owner: thallium
 
 
 postgres_grants:
