@@ -8,7 +8,7 @@ spec:
     - owlcorp.uk
     - "*.owlcorp.uk"
   issuerRef:
-    name: letsencrypt-staging
+    name: letsencrypt
     kind: ClusterIssuer
   secretTemplate:
     annotations:
