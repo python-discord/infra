@@ -43,6 +43,7 @@ plugins:
   # Git change information
   - git-revision-date-localized:
       enable_creation_date: true
+      strict: true
       enabled: !ENV [ENABLE_GIT_PLUGINS, false]
   # Interactive images
   - glightbox

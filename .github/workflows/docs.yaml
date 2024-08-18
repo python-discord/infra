@@ -46,7 +46,9 @@ jobs:
           python_version: "3.12"
           install_args: --with docs
       - name: Build docs
-        run: poetry run task build-docs
+        working-directory: docs
+        run: |
+          poetry run mkdocs build --strict
         env:
           MKDOCS_GIT_COMMITTERS_APIKEY: ${{ secrets.GITHUB_TOKEN }}
           ENABLE_GIT_PLUGINS: true
