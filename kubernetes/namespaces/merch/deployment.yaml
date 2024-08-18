@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thallium-backend
+  namespace: merch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: thallium-backend
+  template:
+    metadata:
+      labels:
+        app: thallium-backend
+    spec:
+      containers:
+        - name: thallium-backend
+          image: ghcr.io/owl-corp/thallium-backend:latest
+          imagePullPolicy: "Always"
+          envFrom:
+            - secretRef:
+                name: thallium-backend-env
+          securityContext:
+            readOnlyRootFilesystem: true
+      imagePullSecrets:
+        - name: ghcr-pull-secret
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true

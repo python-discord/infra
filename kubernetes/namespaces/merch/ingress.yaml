@@ -1,0 +1,37 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
+    nginx.ingress.kubernetes.io/auth-tls-secret: "kube-system/mtls-client-crt-bundle"
+  name: thallium-backend
+  namespace: merch
+spec:
+  tls:
+  - hosts:
+    - "*.owlcorp.uk"
+    secretName: owlcorp.uk-tls
+  - hosts:
+    - "*.pydis.wtf"
+    secretName: pydis.wtf-tls
+  rules:
+  - host: merch.owlcorp.uk
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: thallium-backend-svc
+            port:
+              number: 80
+  - host: merch.pydis.wtf
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: thallium-backend-svc
+            port:
+              number: 80

@@ -104,6 +104,14 @@ metabase:
   type: CNAME
   value: linode-lb.box.pydis.wtf.
 
+merch:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: CNAME
+  value: linode-lb.box.pydis.wtf.
+
 modmail:
   octodns:
     cloudflare:
