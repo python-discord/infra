@@ -20,6 +20,8 @@ spec:
           envFrom:
             - secretRef:
                 name: thallium-backend-env
+            - configMapRef:
+                name: thallium-config-env
           securityContext:
             readOnlyRootFilesystem: true
       imagePullSecrets:
