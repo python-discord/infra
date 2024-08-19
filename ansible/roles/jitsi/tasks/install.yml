@@ -21,7 +21,6 @@
   tags:
     - role::jitsi
 
-
 - name: Fetch Jitsi GPG key
   ansible.builtin.get_url:
     url: https://download.jitsi.org/jitsi-key.gpg.key
