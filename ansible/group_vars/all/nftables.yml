@@ -88,6 +88,20 @@ nftables_configuration: |
       iifname {{ ansible_default_ipv6.interface }} tcp dport @mail_accepted ct state new accept
   {% endif %}
   {% endif %}
+
+  {% if "jitsi" in group_names %}
+      # Ports needed by Jitsi
+      define jitsi_tcp_ports = {5349}
+      define jitsi_udp_ports = {3478, 10000}
+
+      iifname {{ ansible_default_ipv4.interface }} tcp dport $jitsi_tcp_ports ct state new accept
+      iifname {{ ansible_default_ipv4.interface }} udp dport $jitsi_udp_ports ct state new accept
+  {% if ansible_default_ipv6 is defined %}
+      iifname {{ ansible_default_ipv6.interface }} tcp dport $jitsi_tcp_ports ct state new accept
+      iifname {{ ansible_default_ipv6.interface }} udp dport $jitsi_udp_ports ct state new accept
+  {% endif %}
+
+  {% endif %}
     }
 
     chain forward {

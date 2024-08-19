@@ -24,5 +24,8 @@ all:
     mail:
       hosts:
         lovelace:
+    jitsi:
+      hosts:
+        lovelace:
   vars:
     wireguard_port: 46850
