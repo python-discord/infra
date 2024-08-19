@@ -48,3 +48,8 @@
   hosts: ldap
   roles:
     - ldap
+
+- name: Deploy Jitsi
+  hosts: jitsi
+  roles:
+    - jitsi
