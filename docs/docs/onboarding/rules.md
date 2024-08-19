@@ -10,5 +10,5 @@ The rules any DevOps team member must follow.
 3. Modmail needs at least 5 minutes to gather all its greatness at startup
 4. We never blame Chris, it's always <@233481908342882304>'s fault
 5. LKE isn't bad, it's your fault for not paying for the high availability control plane
-6. Our software is ever legacy, it's merely well-aged
+6. Our software is never legacy, it's merely well-aged
 7. Ignore these rules (however maybe not 1, 1 seems important to remember)
