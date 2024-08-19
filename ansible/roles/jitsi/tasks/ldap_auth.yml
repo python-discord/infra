@@ -53,11 +53,10 @@
   tags:
     - role::jitsi
 
-- name: Install mod_auth_cyrus
+- name: Install mod_auth_cyrus # noqa: no-changed-when
   ansible.builtin.command:
     # Neccessary because support for Cyrus SASL has been removed from mainline Prosody
     cmd: prosodyctl install --server=https://modules.prosody.im/rocks/ mod_auth_cyrus
-    changed_when: true
   tags:
     - role::jitsi
 
