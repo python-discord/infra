@@ -1,0 +1,84 @@
+---
+- name: Enable LDAP auth
+  ansible.builtin.lineinfile:
+    path: /etc/prosody/conf.avail/jitsi.pydis.wtf.cfg.lua
+    regexp: 'authentication = "jitsi-anonymous"'
+    line: '    authentication = "cyrus"'
+  tags:
+    - role::jitsi
+
+- name: Enable anonymous authentication for guests in prosody
+  ansible.builtin.blockinfile:
+    path: /etc/prosody/conf.avail/jitsi.pydis.wtf.cfg.lua
+    insertbefore: 'Component "conference.jitsi.pydis.wtf" "muc"'
+    marker: "-- {mark} ANSIBLE MANAGED BLOCK"
+    block: |
+      VirtualHost "guest.jitsi.pydis.wtf"
+          authentication = "anonymous"
+          c2s_require_encryption = false
+  tags:
+    - role::jitsi
+
+- name: Enable anonymous authentication for guests in Jitsi meet
+  ansible.builtin.blockinfile:
+    path: /etc/jitsi/meet/jitsi.pydis.wtf-config.js
+    insertafter: "domain: 'jitsi.pydis.wtf',"
+    block: "        anonymousdomain: 'guest.jitsi.pydis.wtf',"
+    marker: "// {mark} ANSIBLE MANAGED BLOCK"
+  tags:
+    - role::jitsi
+
+- name: Enable authentication in Jicofo
+  ansible.builtin.blockinfile:
+    path: /etc/jitsi/jicofo/jicofo.conf
+    insertafter: "jicofo {"
+    block: |
+      authentication: {
+          enabled: true
+          type: XMPP
+          login-url: "jitsi.pydis.wtf"
+       }
+  tags:
+    - role::jitsi
+
+- name: Install necessary Cyrus packages
+  ansible.builtin.apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - sasl2-bin  # Necessary for Cyrus' saslauthd
+    - libsasl2-modules-ldap  # Necessary for Cyrus' saslauthdp
+    - lua-cyrussasl  # Necessary for Prosody to access Cyrusd
+    - liblua5.2-dev  # Necessary for Prosody to access Cyrus
+  tags:
+    - role::jitsi
+
+- name: Install mod_auth_cyrus
+  ansible.builtin.command:
+    # Neccessary because support for Cyrus SASL has been removed from mainline Prosody
+    cmd: prosodyctl install --server=https://modules.prosody.im/rocks/ mod_auth_cyrus
+  tags:
+    - role::jitsi
+
+- name: Create Cyrus SASL Configuration file
+  copy:
+    dest: /etc/sasl/prosody.conf
+    content: |
+      pwcheck_method: saslauthd
+      mech_list: PLAIN
+      saslauthd_path: /var/spool/postfix/var/run/saslauthd/mux
+  tags:
+    - role::jitsi
+
+- name: Give prosody perms to access the saslauthd socker
+  ansible.builtin.user:
+    name: prosody
+    groups: sasl
+    append: yes
+
+  notify:
+    - Restart the Jitsi video bridge service
+    - Restart the Jitsi prosody service
+    - Restart the Jitsi jicofo service
+  tags:
+    - role::jitsi
