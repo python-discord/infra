@@ -6,6 +6,7 @@ bind_dn = {{ postfix_bind_user }}
 bind_pw = {{ postfix_bind_password }}
 search_base = cn=groups,cn=accounts,dc=box,dc=pydis,dc=wtf
 query_filter = (cn=%u)
+domain = {{ postfix_destination_domains | join(', ') }}
 special_result_attribute = member
 result_attribute = mail
 version = 3
