@@ -12,4 +12,3 @@ The rules any DevOps team member must follow.
 5. Our software is ever legacy, it's merely well-aged
 6. Ignore these rules (however maybe not 1, 1 seems important to remember)
 7. Contributions made by AI tooling will be met with a Bengal Tiger, and it will be very, very hungry.
-
