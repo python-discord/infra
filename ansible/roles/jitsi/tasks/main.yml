@@ -1,3 +1,6 @@
 ---
 - name: Install jitsi
   include_tasks: install.yml
+
+- name: Enable LDAP auth for Jitsi
+  include_tasks: ldap_auth.yml
