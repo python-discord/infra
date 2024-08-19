@@ -11,4 +11,4 @@ The rules any DevOps team member must follow.
 4. We never blame Chris, it's always <@233481908342882304>'s fault
 5. LKE isn't bad, it's your fault for not paying for the high availability control plane
 6. Our software is ever legacy, it's merely well-aged
-7.  Ignore these rules (however maybe not 1, 1 seems important to remember)
+7. Ignore these rules (however maybe not 1, 1 seems important to remember)
