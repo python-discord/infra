@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: thallium-config-env
+  namespace: merch
+data:
+  BACKEND_CORS_ORIGINS: "https://merch.pydis.wtf,https://merch.owlcorp.uk"
