@@ -57,12 +57,14 @@
   ansible.builtin.command:
     # Neccessary because support for Cyrus SASL has been removed from mainline Prosody
     cmd: prosodyctl install --server=https://modules.prosody.im/rocks/ mod_auth_cyrus
+    changed_when: true
   tags:
     - role::jitsi
 
 - name: Create Cyrus SASL Configuration file
   copy:
     dest: /etc/sasl/prosody.conf
+    mode: "u=rw,g=r,o=r"
     content: |
       pwcheck_method: saslauthd
       mech_list: PLAIN
@@ -74,7 +76,7 @@
   ansible.builtin.user:
     name: prosody
     groups: sasl
-    append: yes
+    append: true
 
   notify:
     - Restart the Jitsi video bridge service
