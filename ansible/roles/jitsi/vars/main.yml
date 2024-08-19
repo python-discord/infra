@@ -1,0 +1,29 @@
+---
+
+
+jitsi_debconf_questions:
+  - name: 'jitsi-meet-web-config'
+    question: 'jitsi-meet/cert-choice'
+    value: 'I want to use my own certificate'
+    vtype: 'select'
+
+  - name: 'jitsi-meet-web-config'
+    question: 'jitsi-meet/cert-path-crt'
+    value: '/etc/letsencrypt/live/pydis.wtf/fullchain.pem'
+    vtype: 'string'
+
+  - name: 'jitsi-meet-web-config'
+    question: 'jitsi-meet/cert-path-key'
+    value: '/etc/letsencrypt/live/pydis.wtf/privkey.pem'
+    vtype: 'string'
+
+  - name: 'jitsi-meet-web-config'
+    question: 'jitsi-meet/jaas-choice'
+    value: 'false'
+    vtype: 'boolean'
+
+
+  - name: 'jitsi-videobridge2'
+    question: 'jitsi-videobridge/jvb-hostname'
+    value: 'jitsi.pydis.wtf'
+    vtype: 'string'

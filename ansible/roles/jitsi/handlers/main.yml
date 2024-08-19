@@ -1,0 +1,15 @@
+---
+- name: Restart the Jitsi video bridge service
+  service:
+    name: jitsi-videobridge2
+    state: restarted
+
+- name: Restart the Jitsi jicofo service
+  service:
+    name: jicofo
+    state: restarted
+
+- name: Restart the Jitsi prosody service
+  service:
+    name: prosody
+    state: restarted
