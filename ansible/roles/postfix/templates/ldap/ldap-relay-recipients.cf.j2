@@ -6,6 +6,7 @@ bind_dn = {{ postfix_bind_user }}
 bind_pw = {{ postfix_bind_password }}
 search_base = {{ postfix_bind_search_base }}
 query_filter = (mail=%u@{{ postfix_mailname }})
+domain = {{ postfix_destination_domains | join(', ') }}
 result_attribute = mail
 result_format = %s
 version = 3
