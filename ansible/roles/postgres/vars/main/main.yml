@@ -68,6 +68,10 @@ postgres_users:
     roles:
     role_attr_flags: SUPERUSER
 
+  - name: rrdtool
+    password: "{{ vault_postgres_user_passwords.rrdtool }}"
+    roles:
+
 
 postgres_hba_rules:
   #
@@ -245,3 +249,27 @@ postgres_grants:
     roles: grafana
     database: site
     type: database
+
+  - objs: metricity
+    privs: CONNECT
+    state: present
+    roles: rrdtool
+    database: metricity
+    type: database
+
+  # Unfortunately we cannot be more granular here.
+  # https://github.com/ansible/ansible-modules-core/issues/1529
+  # -> https://github.com/ansible/ansible/issues/18955
+  # -> https://github.com/ansible-collections/community.general/issues/118
+  # -> https://github.com/ansible-collections/community.postgresql/issues/15
+  # Otherwise, we would need:
+  # - messages: id, channel_id, created_at
+  # - threads: id, archived
+  # - users: id, in_guild
+  # The `id` columns are almost purely needed for counting.
+  - objs: messages,threads,users
+    privs: SELECT
+    state: present
+    roles: rrdtool
+    database: metricity
+    type: table
