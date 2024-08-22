@@ -11,10 +11,20 @@
     content: |
       # Ansible managed
 
-      # neomutt will user ~/Mail by default, whilst our postfix installation
-      # will deliver mail to /var/mail/$USER instead. neomutt will also figure that out,
-      # but not without prompting whether to create ~/Mail on every startup first.
-      set folder = /var/mail/$USER
+      # neomutt will use ~/Mail by default, which with our mailserver
+      # being backed by Dovecot we do not support. Hence, we configure
+      # IMAP here to allow mail to be read by users logged in via SSH.
+
+      set spoolfile="imaps://mail.pydis.wtf/"
+      set imap_user="$USER"
+
+      set folder = $spoolfile
+      set postponed  = "+Drafts"
+      set record     = "+Sent"
+      set trash      = "+Trash"
+
+      mailboxes $postponed $record $trash
+
     owner: root
     group: root
     mode: "0o444"
