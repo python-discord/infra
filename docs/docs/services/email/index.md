@@ -21,7 +21,8 @@ flowchart TD
     L[LDAP]
     EX[/External Mail Gateways/]
     IX[/Inbound Mail/]
-    UX[/Unix Mailboxes/]
+    DC[Dovecot]
+    IM[/IMAP Mailboxes/]
     subgraph V[Validation Services]
     ODK[OpenDKIM]
     ODM[OpenDMARC]
@@ -35,7 +36,8 @@ flowchart TD
     P-- Validates Inbound Mail ----> ODM
     P-- Validates Inbound Mail ----> SPF
     P-- Sends Outbound Mail ---> EX
-    P-- Delivers Inbound Mail ---> UX
+    P-- Forwards locally destined mail ---> DC
+    DC-- Places mail into IMAP folders ---> IM
 ```
 
 Find an overview of the services we use for email below:
@@ -44,3 +46,4 @@ Find an overview of the services we use for email below:
 - [LDAP](../LDAP/index.md)
 - [OpenDKIM, OpenDMARC & SPF validation](components/validation.md)
 - [DKIM signing](components/signing.md)
+- [Dovecot](components/dovecot/index.md)
