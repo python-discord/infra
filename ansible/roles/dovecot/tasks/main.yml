@@ -63,24 +63,18 @@
 
 - name: Template Dovecot component configurations
   template:
-    src: "configs/{{ item.template }}"
-    dest: "/etc/dovecot/conf.d/{{ item.path }}"
+    src: "configs/{{ item }}.j2"
+    dest: "/etc/dovecot/conf.d/{{ item }}"
     group: root
     owner: root
     mode: "0644"
   loop:
-    - template: 10-mail.conf.j2
-      path: 10-mail.conf
-    - template: 10-master.conf.j2
-      path: 10-master.conf
-    - template: 10-auth.conf.j2
-      path: 10-auth.conf
-    - template: 10-ssl.conf.j2
-      path: 10-ssl.conf
-    - template: 15-mailboxes.conf.j2
-      path: 15-mailboxes.conf
-    - template: auth-ldap.conf.ext.j2
-      path: auth-ldap.conf.ext
+    - 10-mail.conf
+    - 10-master.conf
+    - 10-auth.conf
+    - 10-ssl.conf
+    - 15-mailboxes.conf
+    - auth-ldap.conf.ext
   tags:
     - role::dovecot
   notify:
