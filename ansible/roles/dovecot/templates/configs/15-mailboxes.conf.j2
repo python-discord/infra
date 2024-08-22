@@ -49,21 +49,29 @@
 # NOTE: Assumes "namespace inbox" has been defined in 10-mail.conf.
 namespace inbox {
   # These mailboxes are widely used and could perhaps be created automatically:
+  mailbox Archive {
+    special_use = \Archive
+    auto = subscribe
+  }
   mailbox Drafts {
     special_use = \Drafts
+    auto = subscribe
   }
   mailbox Junk {
     special_use = \Junk
+    auto = subscribe
   }
   mailbox Trash {
     autoexpunge = 60d
     special_use = \Trash
+    auto = subscribe
   }
 
   # For \Sent mailboxes there are two widely used names. We'll mark both of
   # them as \Sent. User typically deletes one of them if duplicates are created.
   mailbox Sent {
     special_use = \Sent
+    auto = subscribe
   }
   mailbox "Sent Messages" {
     special_use = \Sent
