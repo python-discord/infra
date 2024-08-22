@@ -1,0 +1,85 @@
+---
+- name: Install Dovecot packages
+  package:
+    state: present
+    name:
+      - dovecot-core
+      - dovecot-imapd
+      - dovecot-lmtpd
+      - dovecot-ldap
+  tags:
+    - role::dovecot
+
+- name: Create the vmail group
+  group:
+    name: vmail
+    state: present
+    gid: 5000
+  tags:
+    - role::dovecot
+
+- name: Create the vmail user
+  user:
+    name: vmail
+    uid: 5000
+    group: vmail
+    home: /var/vmail
+  tags:
+    - role::dovecot
+
+- name: Add Dovecot to mail group
+  user:
+    name: dovecot
+    groups: mail
+    append: true
+  tags:
+    - role::dovecot
+  notify:
+    - Restart Dovecot
+
+- name: Template Dovecot configuration
+  template:
+    src: dovecot.conf.j2
+    dest: /etc/dovecot/dovecot.conf
+    group: root
+    owner: root
+    mode: "0644"
+  tags:
+    - role::dovecot
+  notify:
+    - Reload Dovecot
+
+- name: Template Dovecot LDAP config
+  template:
+    src: dovecot-ldap.conf.ext.j2
+    dest: /etc/dovecot/dovecot-ldap.conf.ext
+    group: root
+    owner: root
+    mode: "0600"
+  tags:
+    - role::dovecot
+  notify:
+    - Reload Dovecot
+
+- name: Template Dovecot component configurations
+  template:
+    src: "configs/{{ item.template }}"
+    dest: "/etc/dovecot/conf.d/{{ item.path }}"
+    group: root
+    owner: root
+    mode: "0644"
+  loop:
+    - template: 10-mail.conf.j2
+      path: 10-mail.conf
+    - template: 10-master.conf.j2
+      path: 10-master.conf
+    - template: 10-auth.conf.j2
+      path: 10-auth.conf
+    - template: 10-ssl.conf.j2
+      path: 10-ssl.conf
+    - template: auth-ldap.conf.ext.j2
+      path: auth-ldap.conf.ext
+  tags:
+    - role::dovecot
+  notify:
+    - Reload Dovecot
