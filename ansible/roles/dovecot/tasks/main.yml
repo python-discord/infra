@@ -27,16 +27,6 @@
   tags:
     - role::dovecot
 
-- name: Add Dovecot to mail group
-  user:
-    name: dovecot
-    groups: mail
-    append: true
-  tags:
-    - role::dovecot
-  notify:
-    - Restart Dovecot
-
 - name: Template Dovecot configuration
   template:
     src: dovecot.conf.j2
