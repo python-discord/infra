@@ -19,12 +19,14 @@ backend=systemd
 [postfix]
 enabled = true
 bantime = 1d
+maxretry = 20
 backend = systemd
 
 [postfix-submission]
 filter = postfix
 port = submission
 enabled = true
+maxretry = 20
 bantime = 1d
 backend = systemd
 
