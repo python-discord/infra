@@ -18,8 +18,13 @@ nftables_configuration: |
     set mail_accepted {
       type inet_service
       elements = {
+        # Mail submission
         smtp,
-        smtps
+        smtps,
+        submission,
+        # Mail receiving
+        imap,
+        imaps
       }
     }
   {% endif %}
