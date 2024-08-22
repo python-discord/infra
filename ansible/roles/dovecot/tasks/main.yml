@@ -77,6 +77,8 @@
       path: 10-auth.conf
     - template: 10-ssl.conf.j2
       path: 10-ssl.conf
+    - template: 15-mailboxes.conf.j2
+      path: 15-mailboxes.conf
     - template: auth-ldap.conf.ext.j2
       path: auth-ldap.conf.ext
   tags:
