@@ -118,6 +118,12 @@ Note, you should remove the symbol from the end of the queue ID when using
 
 ### Viewing DMARC reports
 
+!!! warning "Outdated section"
+
+    This section was written before the move to IMAP and Dovecot provided mail
+    directories. It will require updating to factor in that we no longer use
+    mailbox files.
+
 DMARC reports are delivered into the `/var/mail/dmarc` mailbox. You can quickly
 get an overview of the reports using `neomutt`
 
