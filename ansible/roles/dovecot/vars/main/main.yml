@@ -1,0 +1,5 @@
+---
+dovecot_ldap_host: "ldaps://ldap01.box.pydis.wtf:636"
+dovecot_ldap_user: "uid=dovecot,cn=users,cn=accounts,dc=box,dc=pydis,dc=wtf"
+dovecot_ldap_password: "{{ vault_dovecot_ldap_password }}"
+dovecot_ldap_tls_ca: "/etc/ipa/ca.crt"
