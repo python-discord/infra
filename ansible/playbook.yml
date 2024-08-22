@@ -23,6 +23,7 @@
     - opendkim
     - opendmarc
     - sasl
+    - dovecot
     - postfix
 
 - name: Deploy our monitoring stack
