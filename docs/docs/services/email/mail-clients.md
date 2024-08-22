@@ -40,8 +40,56 @@ To summarise:
 | SMTP Username        | `username@pydis.wtf` |
 | SMTP Password        | Your LDAP password   |
 
+If you need any extra help or believe your client requires other settings that
+are not provided by the PyDis mailserver please let us know in `#dev-oops`.
 
-### Contact List
+## Neomutt via SSH
+
+Previously, before we had configured IMAP, local mail delivery was read with
+`neomutt`.
+
+We have reconfigured `neomutt` to attempt to connect via IMAP, however we
+obviously cannot complete the transaction entirely without user passwords.
+
+For this reason, when attempting to read mail with `neomutt` via SSH you will be
+asked for your IMAP password.
+
+You can enter your password here and you will be able to browse your inbox,
+archives, drafts and sent mail (all are automatically configured to the IMAP
+equivalent).
+
+Whilst strongly advised against, you can set the `imap_pass` attribute in your
+`neomuttrc` to automatically connect to IMAP.
+
+You can read more about neomutt's IMAP support
+[here](https://neomutt.org/test-doc/bestpractice/nativimap).
+
+You can view the default configuration that PyDis injects to neomutt in the
+`/etc/neomuttrc.d/pydis.rc` file, at time of writing:
+
+```bash
+# neomutt will use ~/Mail by default, which with our mailserver
+# being backed by Dovecot we do not support. Hence, we configure
+# IMAP here to allow mail to be read by users logged in via SSH.
+
+set spoolfile="imaps://mail.pydis.wtf/"
+set imap_user="$USER"
+
+set folder = $spoolfile
+set postponed  = "+Drafts"
+set record     = "+Sent"
+set trash      = "+Trash"
+
+mailboxes $postponed $record $trash
+```
+
+## Bonus: Contact Lists
+
+!!! example "Untested Functionality"
+
+    Whilst this feature is shipped natively with Thunderbird, we have not tested
+    this extensively. Results returned by the LDAP server may be confusing, inaccurate
+    or otherwise not useful.
 
 Whilst mostly unsupported, you can use the LDAP server as a contact directory in
 some email clients.
