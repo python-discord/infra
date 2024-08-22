@@ -1,0 +1,17 @@
+# Managed by Ansible
+
+# Authentication for LDAP users. Included from 10-auth.conf.
+#
+# <doc/wiki/AuthDatabase.LDAP.txt>
+
+passdb {
+  driver = ldap
+
+  # Path for LDAP configuration file, see example-config/dovecot-ldap.conf.ext
+  args = /etc/dovecot/dovecot-ldap.conf.ext
+}
+
+userdb {
+  driver = static
+  args = uid=vmail gid=vmail home=/var/vmail/%u
+}
