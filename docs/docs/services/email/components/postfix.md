@@ -7,7 +7,7 @@ This document describes the Postfix setup for Python Discord.
 
 We use Postfix for sending and receiving mail in the following ways:
 
-- Mail destined for mailboxes is delivered to the Unix mailboxes on the host
+- Mail destined for mailboxes is passed to Dovecot for local delivery
 - Mail destined for users with forwarding preferences set in LDAP is forwarded
   to the external mail gateways
 - Mail from services is sent to the external mail gateways for delivery
@@ -30,10 +30,12 @@ flowchart TD
     D1[Deliver Mail]
     D2[Reject Mail - Unknown Recipient]
     D3[Reject Mail - Validation Failed]
+    D4[Pass to Dovecot]
 
     style D1 fill:#5d945a
     style D2 fill:#94635a
     style D3 fill:#94635a
+    style D4 fill:#5d945a
 
     M--->V1
 
@@ -41,11 +43,11 @@ flowchart TD
     V1--Validation Failed-->D3
     A1--Yes, forward to external gateway-->D1
     A1--No -->A2
-    A2--Yes, deliver to local UNIX mailbox -->D1
+    A2--Yes, pass to Dovecot for delivery-->D4
     A2--No -->A3
     A3--Yes, expand users and apply delivery rules -->M
     A3--No -->A4
-    A4--Yes, deliver to service UNIX mailbox -->D1
+    A4--Yes, pass to Dovecot for delivery -->D4
     A4--No -->A5
     A5--Yes, expand alias and apply delivery rules -->M
     A5--No, no further matching rules, reject mail-->D2
@@ -53,15 +55,10 @@ flowchart TD
 
 ## SASL Authentication
 
-Service accounts are able to send mail through Postfix by authenticating with
-SASL. SASL is a method of authenticating with a mail server using a username and
-password.
+Users authenticate via Postfix using SASL. We hand off to Dovecot to perform the
+SASL authentication against the LDAP database.
 
-We configure `saslauthd` to authenticate using LDAP against FreeIPA. This allows
-service accounts to authenticate with Postfix using their LDAP credentials.
-
-Using filters in `saslauthd`, we restrict the ability to authenticate to only
-accounts ending in `@int.pydis.wtf`.
+SASL is available on either of the 465 or 587 SMTP ports.
 
 ## Maintenance
 
