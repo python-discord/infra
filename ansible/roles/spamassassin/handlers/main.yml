@@ -1,0 +1,10 @@
+---
+- name: Restart spamd
+  service:
+    name: spamd
+    state: restarted
+
+- name: Reload spamd
+  service:
+    name: spamd
+    state: reloaded

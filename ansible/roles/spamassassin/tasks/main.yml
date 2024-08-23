@@ -1,0 +1,51 @@
+---
+- name: Install spamassassin packages
+  package:
+    state: present
+    name:
+      - spamassassin
+      - spamc
+  tags:
+    - role::spamassassin
+
+- name: Create spamd user
+  user:
+    name: spamd
+    home: /var/spamd
+    comment: "SpamAssassin user"
+  tags:
+    - role::spamassassin
+
+- name: Update spamd defaults
+  lineinfile:
+    path: /etc/default/spamd
+    regexp: '^{{ item[''key''] }}="'
+    line: '{{ item["key"] }}="{{ item["value"] }}"'
+    mode: "0644"
+    owner: root
+    group: root
+  loop:
+    - key: ENABLED
+      value: "1"
+    - key: AHOME
+      value: "/var/log/spamassassin/"
+    - key: OPTIONS
+      value: "--create-prefs --max-children 5 --username spamd --helper-home-dir /var/spamd/ -s /var/spamd/spamd.log"
+    - key: CRON
+      value: "1"
+  tags:
+    - role::spamassassin
+  notify:
+    - Restart spamd
+
+- name: Template local.cf spamassassin configuation file
+  template:
+    src: local.cf.j2
+    dest: /etc/spamassassin/local.cf
+    group: root
+    owner: root
+    mode: "0644"
+  tags:
+    - role::spamassassin
+  notify:
+    - Reload spamd
