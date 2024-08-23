@@ -9,6 +9,27 @@
   tags:
     - role::sasl
 
+- name: Create SASL authentication daemon user
+  user:
+    name: sasl
+    group: sasl
+    system: true
+  tags:
+    - role::sasl
+
+- name: Copy service user configuration for SASL authentication daemon
+  template:
+    src: user.conf
+    dest: /etc/systemd/system/saslauthd.service.d/user.conf
+    mode: "0640"
+    owner: root
+    group: root
+  tags:
+    - role::sasl
+  notify:
+    - Restart SASL
+  register: sasl_systemd_override
+
 - name: Update SASL authentication daemon preferences
   lineinfile:
     path: /etc/default/saslauthd
@@ -63,9 +84,10 @@
 # END temporary tasks. Can be removed after initial deploy.
 
 - name: Enable and start SASL authentication daemon
-  service:
+  systemd_service:
     name: saslauthd
     state: started
     enabled: true
+    daemon_reload: "{{ sasl_systemd_override is changed }}"
   tags:
     - role::sasl
