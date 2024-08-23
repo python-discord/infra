@@ -17,6 +17,7 @@ Our IMAP configuration automatically creates the following folders:
 | Folder Name        | Purpose                    |
 |--------------------|----------------------------|
 | Inbox              | Newly received mail        |
+| Archive            | Message archive            |
 | Drafts             | Draft (postponed) messages |
 | Junk               | Mail marked as spam[^1]    |
 | Trash              | Mail deleted by users[^2]  |
