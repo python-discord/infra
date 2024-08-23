@@ -105,7 +105,7 @@ set postponed  = "+Drafts"
 set record     = "+Sent"
 set trash      = "+Trash"
 
-mailboxes $postponed $record $trash
+mailboxes $spoolfile +Archive $postponed $record +Junk $trash
 ```
 
 ## Bonus: Contact Lists
