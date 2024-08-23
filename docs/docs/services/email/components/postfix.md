@@ -25,22 +25,27 @@ flowchart TD
     A3[/Recipient is an LDAP group?/]
     A4[/"Recipient is a service account (@int.pydis.wtf)"/]
     A5[/Recipient is an alias address/]
+    A6[/"Recipient is an automated service (transport rule)"/]
 
     V1["Validate Mail (DKIM, DMARC, SPF)"]
     D1[Deliver Mail]
     D2[Reject Mail - Unknown Recipient]
     D3[Reject Mail - Validation Failed]
     D4[Pass to Dovecot]
+    D5[Pass to script for service mail]
 
     style D1 fill:#5d945a
     style D2 fill:#94635a
     style D3 fill:#94635a
     style D4 fill:#5d945a
+    style D5 fill:#5d945a
 
     M--->V1
 
-    V1--Validation Passed-->A1
     V1--Validation Failed-->D3
+    V1--Validation Passed-->A6
+    A6--Yes, pass to script for automated reply-->D5
+    A6--No -->A1
     A1--Yes, forward to external gateway-->D1
     A1--No -->A2
     A2--Yes, pass to Dovecot for delivery-->D4
