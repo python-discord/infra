@@ -19,7 +19,7 @@ IMAP.
 ## Client Configuration
 
 You can configure your mail client to point to `mail.pydis.wtf`, we support SMTP
-submission on port 465 or 587, leave TLS/SSL settings as your mail client
+submission on port 465 (preferred) or 587, leave TLS/SSL settings as your mail client
 defaults.
 
 Your mail client should also support IMAP via the same host.
@@ -29,16 +29,29 @@ You can use your username or full email as the IMAP & SMTP username.
 You can configure your mail client to send from any of your aliases, e.g.
 `joe@pydis.wtf` or `joe@pydis.com`.
 
+!!! tip "SMTP on port 465"
+
+    Using SMTP on port `465` (SMTP-over-TLS) is preferred to `587` (STARTTLS) as
+    with port 465 you are guaranteed a secure TLS session from connection
+    establishment.
+
+    With port `587` the connection begins unencrypted and is later upgraded via
+    the SMTP `STARTTLS` command, however, if either the client or server is
+    misconfigured this can lead to potential exposure of client credentials.
+
+    Hence, we recommend using port 465 from mail clients if they are supported
+    in order to guarantee end-to-end security between your client and the mailserver.
+
 To summarise:
 
-| Configuration Option | Value                |
-|----------------------|----------------------|
-| Mail server address  | `mail.pydis.wtf`     |
-| Inbox protocol       | `IMAP`               |
-| SMTP Port            | `465` or `587`       |
-| SMTP TLS             | Mail client default  |
-| SMTP Username        | `username@pydis.wtf` |
-| SMTP Password        | Your LDAP password   |
+| Configuration Option | Value                      |
+|----------------------|----------------------------|
+| Mail server address  | `mail.pydis.wtf`           |
+| Inbox protocol       | `IMAP`                     |
+| SMTP Port            | `465` (preferred) or `587` |
+| SMTP TLS             | Mail client default        |
+| SMTP Username        | `username@pydis.wtf`       |
+| SMTP Password        | Your LDAP password         |
 
 If you need any extra help or believe your client requires other settings that
 are not provided by the PyDis mailserver please let us know in `#dev-oops`.
