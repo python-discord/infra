@@ -146,6 +146,7 @@
         sieve_pipe_bin_dir = {{ dovecot_sieve_pipe_bin_dir }}
         sieve_global_extensions = +vnd.dovecot.pipe
         sieve_plugins = sieve_imapsieve sieve_extprograms
+        imapsieve_url = sieve://127.0.0.1:4190
     marker: "  # {mark} spam & ham autolearning (ansible managed)"
     state: present
   notify:
@@ -179,6 +180,7 @@
     - 10-ssl.conf
     - 15-mailboxes.conf
     - 20-lmtp.conf
+    - 20-imap.conf
     - auth-ldap.conf.ext
   tags:
     - role::dovecot
