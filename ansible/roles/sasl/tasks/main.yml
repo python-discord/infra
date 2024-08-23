@@ -9,18 +9,6 @@
   tags:
     - role::sasl
 
-- name: Copy Postfix SASL configuration
-  copy:
-    src: smtpd.conf
-    dest: /etc/postfix/sasl/smtpd.conf
-    mode: "0644"
-    owner: root
-    group: root
-  tags:
-    - role::sasl
-  notify:
-    - Reload postfix
-
 - name: Update SASL authentication daemon preferences
   lineinfile:
     path: /etc/default/saslauthd
@@ -55,13 +43,24 @@
   notify:
     - Reload SASL
 
-- name: Add Postfix to SASL group
-  user:
-    name: postfix
-    groups: sasl
-    append: true
+# BEGIN temporary tasks. Can be removed after initial deploy.
+- name: Remove Postfix from SASL group
+  command: "gpasswd -d postfix sasl"
+  register: command_result
+  changed_when: "not 'is not a member of' in command_result.stderr"
+  failed_when: false
   tags:
     - role::sasl
+
+- name: Remove Postfix SASL configuration
+  file:
+    path: /etc/postfix/sasl/smtpd.conf
+    state: absent
+  tags:
+    - role::sasl
+  notify:
+    - Reload postfix
+# END temporary tasks. Can be removed after initial deploy.
 
 - name: Enable and start SASL authentication daemon
   service:
