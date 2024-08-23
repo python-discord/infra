@@ -29,6 +29,16 @@
   tags:
     - role::dovecot
 
+- name: Copy welcome script
+  copy:
+    src: welcome.sh
+    dest: /etc/dovecot/welcome.sh
+    mode: "0744"
+    owner: dovecot
+    group: dovecot
+  tags:
+    - role::dovecot
+
 - name: Template Dovecot configuration
   template:
     src: dovecot.conf.j2
