@@ -7,7 +7,7 @@ We use the Dovecot LMTP daemon to deliver mail destined to local mailboxes (i.e.
 that has not been forwarded or processed by a service) into the relevant folders
 for IMAP consumption.
 
-As shown in the [Postfix Overview](../../services/postfix.md), mail destined to
+As shown in the [Postfix Overview](../../components/postfix.md), mail destined to
 local addresses is sent to the Dovecot LMTP agent to be placed into the relevant
 `/var/vmail` folder.
 
