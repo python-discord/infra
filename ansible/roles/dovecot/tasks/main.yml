@@ -23,7 +23,7 @@
 - name: Create the vmail user
   user:
     name: vmail
-    uid: 5000
+    uid: "{{ dovecot_vmail_uid }}"
     group: vmail
     home: /var/vmail
   tags:

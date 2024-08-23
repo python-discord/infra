@@ -3,5 +3,4 @@ dovecot_ldap_host: "ldaps://ldap01.box.pydis.wtf:636"
 dovecot_ldap_user: "uid=dovecot,cn=users,cn=accounts,dc=box,dc=pydis,dc=wtf"
 dovecot_ldap_password: "{{ vault_dovecot_ldap_password }}"
 dovecot_ldap_tls_ca: "/etc/ipa/ca.crt"
-dovecot_mail_uid: "5000" # vmail user
-dovecot_mail_gid: "5000" # vmail group
+dovecot_vmail_uid: "5000"
