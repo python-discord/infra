@@ -43,4 +43,12 @@ enabled = true
 maxretry = 3
 bantime = 1d
 backend = systemd
+
+[dovecot]
+enabled = true
+filter = dovecot[mode=normal]
+backend = systemd
+maxretry = 5
+findtime = 30m
+bantime = 2h
 {% endif %}
