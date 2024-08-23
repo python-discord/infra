@@ -109,6 +109,16 @@
     - role::postfix
   notify: Regenerate transport table
 
+- name: Template Postfix submission header checks
+  template:
+    src: header-checks-submission.j2
+    dest: /etc/postfix/header-checks-submisison
+    mode: "0o444"
+    owner: root
+    group: root
+  notify:
+    - Reload postfix
+
 - name: Add custom services to master.cf
   blockinfile:
     path: /etc/postfix/master.cf
@@ -127,6 +137,7 @@
         -o smtpd_recipient_restrictions=permit_mynetworks,permit_sasl_authenticated,reject
         -o smtpd_sasl_type=dovecot
         -o smtpd_sasl_path=private/auth
+        -o cleanup_service_name=authcleanup
 
       smtps     inet  n       -       y       -       -       smtpd
         -o syslog_name=postfix/smtps
@@ -136,6 +147,12 @@
         -o smtpd_recipient_restrictions=permit_mynetworks,permit_sasl_authenticated,reject
         -o smtpd_sasl_type=dovecot
         -o smtpd_sasl_path=private/auth
+        -o cleanup_service_name=authcleanup
+
+      # authenticated submission cleanup
+      authcleanup unix  n       -       y       -       0       cleanup
+        -o header_checks=pcre:/etc/postfix/header-checks-submission
+        -o nested_header_checks=
 
       # Service Mail pipes
       fortune-pipe unix  -       n       n       -       -       pipe

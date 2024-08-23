@@ -1,0 +1,21 @@
+# Ansible managed
+# Taken from the excellent mailinabox project:
+# https://github.com/mail-in-a-box/mailinabox/blob/ddf8e857fdb2ac3508af9339abcdd908835f899b/conf/postfix_outgoing_mail_header_filters
+#
+# Remove the first line of the Received: header. Note that we cannot fully remove the Received: header
+# because OpenDKIM requires that a header be present when signing outbound mail. The first line is
+# where the user's home IP address would be.
+/^\s*Received:[^\n]*(.*)/         REPLACE Received: from authenticated-user ({{ ansible_fqdn }} [{{ ansible_default_ipv4.address }}])$1
+
+# Remove other typically private information.
+/^\s*User-Agent:/        IGNORE
+/^\s*X-Enigmail:/        IGNORE
+/^\s*X-Mailer:/          IGNORE
+/^\s*X-Originating-IP:/  IGNORE
+/^\s*X-Pgp-Agent:/       IGNORE
+
+# The Mime-Version header can leak the user agent too, e.g. in Mime-Version: 1.0 (Mac OS X Mail 8.1 \(2010.6\)).
+/^\s*(Mime-Version:\s*[0-9\.]+)\s.+/  REPLACE $1
+
+# Don't leak the internal network hostname.
+/^\s*Message-Id:\s*<(.*?)@.*>.*/ REPLACE Message-Id: <$1@{{ postfix_mailserver_name }}>
