@@ -5,6 +5,8 @@
       # Postfix & routing plugins
       - postfix
       - postfix-ldap
+      # RegExp based lookup tables
+      - postfix-pcre
       # Relay routing utilities
       - postsrsd
       # Security and anti-spam tools
@@ -92,8 +94,8 @@
     src: services/
     dest: /etc/postfix/service-scripts/
     directory_mode: "0755"
-    mode: "0744"
-    owner: servicemailer
+    mode: "0754"
+    owner: root
     group: servicemailer
   tags:
     - role::postfix
@@ -112,12 +114,14 @@
 - name: Template Postfix submission header checks
   template:
     src: header-checks-submission.j2
-    dest: /etc/postfix/header-checks-submisison
+    dest: /etc/postfix/header-checks-submission
     mode: "0o444"
     owner: root
     group: root
   notify:
     - Reload postfix
+  tags:
+    - role::postfix
 
 - name: Add custom services to master.cf
   blockinfile:
