@@ -134,6 +134,16 @@
   tags:
     - role::postfix
 
+- name: Pass inbound mail through spamassassin content filter
+  lineinfile:
+    path: /etc/postfix/master.cf
+    insertafter: "smtp      inet  n       -       y       -       -       smtpd"
+    line: " -o content_filter=spamassassin"
+  tags:
+    - role::postfix
+  notify:
+    - Restart postfix
+
 - name: Add custom services to master.cf
   blockinfile:
     path: /etc/postfix/master.cf
@@ -163,6 +173,11 @@
         -o smtpd_sasl_type=dovecot
         -o smtpd_sasl_path=private/auth
         -o cleanup_service_name=authcleanup
+
+      # spamassassin filtering
+      spamassassin unix -     n       n       -       -       pipe
+        user=spamd argv=/usr/bin/spamc -f -e
+        /usr/sbin/sendmail -oi -f ${sender} ${recipient}
 
       # authenticated submission cleanup
       authcleanup unix  n       -       y       -       0       cleanup
