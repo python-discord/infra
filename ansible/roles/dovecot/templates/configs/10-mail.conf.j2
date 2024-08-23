@@ -219,7 +219,7 @@ mail_privileged_group = mail
 
 # Space separated list of plugins to load for all services. Plugins specific to
 # IMAP, LDA, etc. are added to this list in their own .conf files.
-#mail_plugins =
+mail_plugins = welcome
 
 ##
 ## Mailbox handling optimizations
@@ -423,3 +423,16 @@ protocol !indexer-worker {
 #     negate an exclusion (e.g. content-type=!foo/* content-type=foo/bar).
 #   exclude-inlined - Exclude any Content-Disposition=inline MIME part.
 #mail_attachment_detection_options =
+
+plugin {
+  welcome_script = welcome %u
+  welcome_wait = no
+}
+
+service welcome {
+  executable = script /etc/dovecot/welcome.sh
+  user = dovecot
+  unix_listener welcome {
+    user = vmail
+  }
+}
