@@ -7,6 +7,8 @@
       - dovecot-imapd
       - dovecot-lmtpd
       - dovecot-ldap
+      - dovecot-sieve
+      - dovecot-managesieved
   tags:
     - role::dovecot
 
@@ -64,6 +66,7 @@
     - 10-auth.conf
     - 10-ssl.conf
     - 15-mailboxes.conf
+    - 20-lmtp.conf
     - auth-ldap.conf.ext
   tags:
     - role::dovecot
