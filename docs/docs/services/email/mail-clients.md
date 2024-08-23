@@ -45,7 +45,7 @@ are not provided by the PyDis mailserver please let us know in `#dev-oops`.
 
 ## Sieve
 
-We support rudimentary server-side email filtering with [Pigeonhole
+We support server-side email filtering with [Pigeonhole
 Sieve](https://doc.dovecot.org/configuration_manual/sieve/pigeonhole_sieve_interpreter/).
 
 Using this, users can perform common mail tasks automatically by writing small
