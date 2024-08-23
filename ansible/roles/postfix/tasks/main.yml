@@ -111,6 +111,17 @@
     - role::postfix
   notify: Regenerate transport table
 
+- name: Copy Postfix sender access list
+  copy:
+    src: sender_access
+    dest: /etc/postfix/sender_access
+    mode: "0644"
+    owner: root
+    group: root
+  tags:
+    - role::postfix
+  notify: Regenerate sender access table
+
 - name: Template Postfix submission header checks
   template:
     src: header-checks-submission.j2
