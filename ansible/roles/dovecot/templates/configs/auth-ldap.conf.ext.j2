@@ -13,5 +13,5 @@ passdb {
 
 userdb {
   driver = static
-  args = uid=vmail gid=vmail home=/var/vmail/%u mail=maildir:~/mail sieve=/home/%u/sieve
+  args = uid=vmail gid=vmail home=/var/vmail/%u mail=maildir:~/mail sieve=/home/%u/sieve sieve_user_log=/var/mail/%u/sieve.log
 }
