@@ -1,16 +1,7 @@
 ---
-- name: Reload ssh (Debian)
+- name: Reload ssh
   service:
-    name: ssh
+    name: "{{ (ansible_distribution == 'Rocky') | ternary('sshd', 'ssh') }}"
     state: reloaded
-  when: ansible_distribution == "Debian"
-  tags:
-    - role::ssh
-
-- name: Reload sshd (Rocky)
-  service:
-    name: sshd
-    state: reloaded
-  when: ansible_distribution == "Rocky"
   tags:
     - role::ssh
