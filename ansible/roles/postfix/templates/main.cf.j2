@@ -29,6 +29,7 @@ smtpd_tls_received_header = yes
 smtpd_tls_session_cache_timeout = 3600s
 smtpd_tls_auth_only=yes
 
+smtpd_recipient_restrictions = check_sender_access hash:/etc/postfix/sender_access
 
 smtpd_relay_restrictions =
                          permit_mynetworks,
