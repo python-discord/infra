@@ -24,6 +24,7 @@
     - opendmarc
     - sasl
     - dovecot
+    - spamassassin
     - postfix
 
 - name: Deploy our monitoring stack
