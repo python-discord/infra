@@ -51,6 +51,39 @@
   notify:
     - Reload Dovecot
 
+- name: Create sieve-after directory
+  file:
+    state: directory
+    path: /etc/dovecot/sieve-after
+    owner: vmail
+    group: vmail
+    mode: "0755"
+  tags:
+    - role::dovecot
+
+- name: Template spam-to-folder sieve script
+  template:
+    src: spam-to-folder.sieve.j2
+    dest: /etc/dovecot/sieve-after/spam-to-folder.sieve
+    owner: vmail
+    group: vmail
+    mode: 0444
+  notify:
+    - Recompile spam-to-folder sieve script
+  tags:
+    - role::dovecot
+
+- name: Set up sieve configuration for dovecot
+  lineinfile:
+    path: /etc/dovecot/conf.d/90-sieve.conf
+    regexp: "sieve_after ="
+    line: "  sieve_after = /etc/dovecot/sieve-after  # (ansible managed)"
+    state: present
+  notify:
+    - Reload Dovecot
+  tags:
+    - role::dovecot
+
 - name: Template Dovecot LDAP config
   template:
     src: dovecot-ldap.conf.ext.j2

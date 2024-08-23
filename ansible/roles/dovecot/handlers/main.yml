@@ -8,3 +8,7 @@
   service:
     name: dovecot
     state: restarted
+
+- name: Recompile spam-to-folder sieve script
+  command: /usr/bin/sievec /etc/dovecot/sieve-after/spam-to-folder.sieve
+  changed_when: true
