@@ -43,6 +43,31 @@ To summarise:
 If you need any extra help or believe your client requires other settings that
 are not provided by the PyDis mailserver please let us know in `#dev-oops`.
 
+## Sieve
+
+We support rudimentary server-side email filtering with [Pigeonhole
+Sieve](https://doc.dovecot.org/configuration_manual/sieve/pigeonhole_sieve_interpreter/).
+
+Using this, users can perform common mail tasks automatically by writing small
+sieve scripts that are able to act on inbound mail before it reaches a user
+inbox.
+
+!!! note
+
+    Sieve only applies to mail destined for IMAP folders, if mail is being forwarded
+    then sieve scripts will not be executed. It is up to you to implement Sieve scripts
+    or use other inbox rule engines at your destination mailserver if you have configured
+    email forwarding.
+
+You can start with Sieve by writing scripts to the `~/sieve` file of your home
+directory. This will be read and executed on all inbound mail.
+
+You can find some example scripts to get started
+[here](https://doc.dovecot.org/configuration_manual/sieve/examples/).
+
+There are plenty of resources out there to allow for filtering using Sieve
+rules.
+
 ## Neomutt via SSH
 
 Previously, before we had configured IMAP, local mail delivery was read with
