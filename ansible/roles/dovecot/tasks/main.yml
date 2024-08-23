@@ -51,13 +51,16 @@
   notify:
     - Reload Dovecot
 
-- name: Create sieve-after directory
+- name: Create sieve directories
   file:
     state: directory
-    path: /etc/dovecot/sieve-after
+    path: "/etc/dovecot/{{ item }}"
     owner: vmail
     group: vmail
     mode: "0755"
+  loop:
+    - sieve
+    - sieve-after
   tags:
     - role::dovecot
 
@@ -67,7 +70,7 @@
     dest: /etc/dovecot/sieve-after/spam-to-folder.sieve
     owner: vmail
     group: vmail
-    mode: 0444
+    mode: "0444"
   notify:
     - Recompile spam-to-folder sieve script
   tags:
@@ -78,6 +81,72 @@
     path: /etc/dovecot/conf.d/90-sieve.conf
     regexp: "sieve_after ="
     line: "  sieve_after = /etc/dovecot/sieve-after  # (ansible managed)"
+    state: present
+  notify:
+    - Reload Dovecot
+  tags:
+    - role::dovecot
+
+- name: Create dovecot spam & ham sieve scripts
+  template:
+    src: "{{ item }}.j2"
+    dest: /etc/dovecot/sieve/{{ item }}
+    owner: vmail
+    group: vmail
+    mode: "0444"
+  with_items:
+    - learn-spam.sieve
+    - learn-ham.sieve
+  notify:
+    - Restart Dovecot
+    - Recompile dovecot learn-spam sieve script
+    - Recompile dovecot learn-ham sieve script
+  tags:
+    - role::dovecot
+
+- name: Create dovecot sieve pipe bin dir
+  file:
+    path: "{{ dovecot_sieve_pipe_bin_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0555"
+  tags:
+    - role::dovecot
+
+- name: Create dovecot spam & ham shell scripts
+  copy:
+    src: "{{ item }}"
+    dest: "{{ dovecot_sieve_pipe_bin_dir }}/{{ item }}"
+    owner: vmail
+    group: vmail
+    mode: "0500"
+  with_items:
+    - spamc-learn-ham.sh
+    - spamc-learn-spam.sh
+  tags:
+    - role::dovecot
+
+- name: Enable dovecot spamc learning integration
+  blockinfile:
+    path: /etc/dovecot/conf.d/90-sieve.conf
+    insertbefore: "^}$"
+    content: |2
+        # From elsewhere to Junk folder
+        imapsieve_mailbox1_name = Junk
+        imapsieve_mailbox1_causes = COPY
+        imapsieve_mailbox1_before = file:/etc/dovecot/sieve/learn-spam.sieve
+
+        # From Junk folder to elsewhere
+        imapsieve_mailbox2_name = *
+        imapsieve_mailbox2_from = Junk
+        imapsieve_mailbox2_causes = COPY
+        imapsieve_mailbox2_before = file:/etc/dovecot/sieve/learn-ham.sieve
+
+        sieve_pipe_bin_dir = {{ dovecot_sieve_pipe_bin_dir }}
+        sieve_global_extensions = +vnd.dovecot.pipe
+        sieve_plugins = sieve_imapsieve sieve_extprograms
+    marker: "  # {mark} spam & ham autolearning (ansible managed)"
     state: present
   notify:
     - Reload Dovecot
