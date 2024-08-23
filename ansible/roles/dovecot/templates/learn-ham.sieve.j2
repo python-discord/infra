@@ -1,0 +1,10 @@
+# Ansible managed
+
+require ["vnd.dovecot.pipe", "copy", "imapsieve", "variables"];
+
+# Ignore e-mails being moved into Trash for Ham learning
+if string "${mailbox}" "Trash" {
+  stop;
+}
+
+pipe :copy "spamc-learn-ham.sh";

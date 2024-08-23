@@ -4,3 +4,4 @@ dovecot_ldap_user: "uid=dovecot,cn=users,cn=accounts,dc=box,dc=pydis,dc=wtf"
 dovecot_ldap_password: "{{ vault_dovecot_ldap_password }}"
 dovecot_ldap_tls_ca: "/etc/ipa/ca.crt"
 dovecot_vmail_uid: "5000"
+dovecot_sieve_pipe_bin_dir: /usr/lib/dovecot/sieve

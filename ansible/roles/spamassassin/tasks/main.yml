@@ -30,7 +30,7 @@
     - key: AHOME
       value: "/var/log/spamassassin/"
     - key: OPTIONS
-      value: "--create-prefs --max-children 5 --username spamd --helper-home-dir /var/spamd/ -s /var/spamd/spamd.log"
+      value: "--create-prefs --max-children 5 --username spamd --helper-home-dir /var/spamd/ -s /var/spamd/spamd.log --allow-tell"
     - key: CRON
       value: "1"
   tags:
