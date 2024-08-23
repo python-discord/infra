@@ -23,7 +23,7 @@
       set record     = "+Sent"
       set trash      = "+Trash"
 
-      mailboxes $postponed $record $trash
+      mailboxes $spoolfile +Archive $postponed $record +Junk $trash
 
     owner: root
     group: root
