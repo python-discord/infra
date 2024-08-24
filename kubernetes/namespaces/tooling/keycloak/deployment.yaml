@@ -32,8 +32,8 @@ spec:
       serviceAccountName: internal-tls-issuer
       containers:
         - name: keycloak
-          image: quay.io/keycloak/keycloak:25.0.4
-          args: ["start"]
+          image: ghcr.io/owl-corp/keycloak:25.0.4
+          imagePullPolicy: Always
           envFrom:
             - secretRef:
                 name: keycloak-secret-env
