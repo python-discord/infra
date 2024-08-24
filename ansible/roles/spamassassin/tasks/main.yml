@@ -8,14 +8,6 @@
   tags:
     - role::spamassassin
 
-- name: Create spamd user
-  user:
-    name: spamd
-    home: /var/spamd
-    comment: "SpamAssassin user"
-  tags:
-    - role::spamassassin
-
 - name: Update spamd defaults
   lineinfile:
     path: /etc/default/spamd
@@ -30,7 +22,7 @@
     - key: AHOME
       value: "/var/log/spamassassin/"
     - key: OPTIONS
-      value: "--create-prefs --max-children 5 --username spamd --helper-home-dir /var/spamd/ -s /var/spamd/spamd.log --allow-tell"
+      value: "--create-prefs --max-children 5 --username debian-spamd --helper-home-dir /var/lib/spamassassin/ -s /var/log/spamd.log --allow-tell"
     - key: CRON
       value: "1"
   tags:

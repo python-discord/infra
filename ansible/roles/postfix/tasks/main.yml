@@ -176,7 +176,7 @@
 
       # spamassassin filtering
       spamassassin unix -     n       n       -       -       pipe
-        user=spamd argv=/usr/bin/spamc -f -e
+        user=debian-spamd argv=/usr/bin/spamc -f -e
         /usr/sbin/sendmail -oi -f ${sender} ${recipient}
 
       # authenticated submission cleanup
