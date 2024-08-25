@@ -1,7 +1,7 @@
 groups:
 - name: jobs
   rules:
-  - alert: KubernetesCronjobSuspended
+  - alert: kubernetes/cronjob-suspended
     expr: kube_cronjob_spec_suspend != 0
     for: 0m
     labels:
@@ -10,7 +10,7 @@ groups:
       summary: "Kubernetes CronJob suspended: {{ $labels.cronjob }}"
       description: "CronJob {{ $labels.kubernetes_namespace }}/{{ $labels.cronjob }} is suspended"
 
-  - alert: KubernetesJobFailed
+  - alert: kubernetes/jobs-failed
     expr: kube_job_status_failed > 0
     for: 0m
     labels:

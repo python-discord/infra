@@ -3,7 +3,7 @@ groups:
   interval: 1d
   rules:
 
-  - alert: CertificateExpiringSoon
+  - alert: cert-manager/certificate-expiring-soon
     expr: (certmanager_certificate_expiration_timestamp_seconds - time()) / 60 / 60 / 24 < 7
     for: 0m
     labels:
