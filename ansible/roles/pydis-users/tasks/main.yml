@@ -44,7 +44,6 @@
     group: root
     mode: "0444"
   notify:
-    - Reload ssh (Debian)
-    - Reload sshd (Rocky)
+    - Reload ssh
   tags:
     - role::pydis-users
