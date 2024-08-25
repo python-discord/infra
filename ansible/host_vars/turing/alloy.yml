@@ -1,6 +1,0 @@
----
-alloy_extra_files:
-  - name: nginx_access
-    path: "/var/log/nginx/access.log"
-  - name: nginx_error
-    path: "/var/log/nginx/error.log"
