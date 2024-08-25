@@ -41,6 +41,11 @@
     - nginx-geoip
     - nginx-cloudflare-mtls
 
+- name: Deploy Git mirrors
+  hosts: nginx
+  roles:
+    - git-mirrors
+
 - name: Deploy our PostgreSQL database hosts
   hosts: databases
   roles:
