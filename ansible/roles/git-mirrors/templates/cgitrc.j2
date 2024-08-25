@@ -1,0 +1,36 @@
+# Managed by Ansible
+
+# See cgitrc(5) for details
+
+# Operational config
+cache-root=/var/cache/cgit
+
+# Web config
+css=/cgit.css
+logo={{ git_mirrors_cgit_logo }}
+favicon={{ git_mirrors_cgit_logo }}
+virtual-root=/
+root-title={{ git_mirrors_cgit_title }}
+root-desc={{ git_mirrors_cgit_description }}
+
+# Filters config
+about-filter=/usr/lib/cgit/filters/about-formatting.sh
+source-filter=/usr/lib/cgit/filters/syntax-highlighting.py
+email-filter=lua:/usr/lib/cgit/filters/email-gravatar.lua
+
+# Design options
+enable-commit-graph=1
+enable-log-linecount=1
+enable-blame=1
+enable-follow-links=1
+enable-index-owner=0
+
+# Content options
+readme=:README.md
+readme=:README.rst
+readme=:README.man
+readme=:README.txt
+
+# Repositories
+section-from-path=1
+scan-path={{ git_mirrors_base_dir }}/mirrored
