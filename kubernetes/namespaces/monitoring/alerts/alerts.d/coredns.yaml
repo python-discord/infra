@@ -2,7 +2,7 @@ groups:
 - name: coredns
   rules:
 
-  - alert: CoreDNSPanics
+  - alert: core-dns/panics
     expr: increase(coredns_panics_total[1m]) > 0
     for: 0m
     labels:
@@ -11,7 +11,7 @@ groups:
       summary: "CoreDNS is experiencing panic"
       description: "Number of CoreDNS panics encountered: {{ $value }}"
 
-  - alert: CoreDNSCacheMisses
+  - alert: core-dns/cache-misses
     expr: rate(coredns_cache_misses_total{}[10m]) / rate(coredns_cache_misses_total{}[10m] offset 10m) > 5.00
     labels:
       severity: page

@@ -2,7 +2,7 @@ groups:
 - name: alertmanager
   rules:
 
-  - alert: AlertManagerClusterFailedPeers
+  - alert: alert-manager/cluster-failed-peers
     expr: alertmanager_cluster_failed_peers > 0
     for: 1m
     labels:
@@ -11,7 +11,7 @@ groups:
       summary: "An Alertmanager node is reporting failed peers"
       description: "AM {{ $labels.instance }} is reporting that {{ $value }} of it's peers is invalid."
 
-  - alert: AlertManagerHealthScore
+  - alert: alert-manager/health-score
     expr: alertmanager_cluster_health_score > 0
     for: 1m
     labels:
