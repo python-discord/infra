@@ -18,7 +18,7 @@
     - role::sasl
 
 - name: Copy service user configuration for SASL authentication daemon
-  template:
+  copy:
     src: user.conf
     dest: /etc/systemd/system/saslauthd.service.d/user.conf
     mode: "0640"
