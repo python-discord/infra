@@ -1,0 +1,66 @@
+---
+git_mirrors_base_dir: "/srv/git-mirrors"
+git_mirrors_user: "git-mirrors"
+git_mirrors_error_email: "devops@pydis.wtf"
+
+# Sources are assumed to be GitHub.com repositories
+git_mirrors_mirrored_repositories:
+  # DevOps Repos
+  - owner: python-discord
+    repo: infra
+    description: >-
+      The PyDis DevOps boiler house, the engine room, where the magic happens.
+  - owner: python-discord
+    repo: king-arthur
+    description: >-
+      Our trusty job-centre recruited assistant for all things DevOps
+  - owner: python-discord
+    repo: ops-site
+    description: >-
+      Webscale-enhanced frontpage for all Python Discord international operations
+
+  # Other Python Discord repos
+  - owner: python-discord
+    repo: bot
+  - owner: python-discord
+    repo: site
+  - owner: python-discord
+    repo: bot-core
+  - owner: python-discord
+    repo: sir-lancebot
+  - owner: python-discord
+    repo: snekbox
+  - owner: python-discord
+    repo: forms-backend
+  - owner: python-discord
+    repo: forms-frontend
+  - owner: python-discord
+    repo: metricity
+  - owner: python-discord
+    repo: blog
+
+  # Skunk Works repos
+  - owner: owl-corp
+    repo: thallium
+    description: >-
+      Outsourced work with the KGB, MIA, CIA and NSTV
+  - owner: owl-corp
+    repo: pydis-keycloak-theme
+    description: >-
+      Syndicated branding for psy-op campaigns
+  - owner: owl-corp
+    repo: python-poetry-base
+    description: >-
+      Literary works written at our primary base of operations
+  - owner: owl-corp
+    repo: inotify-base
+    description: >-
+      The Owl Corp Early Warning System
+  - owner: owl-corp
+    repo: psql_extended
+    description: >-
+      Owl Corp surveillance storage platform
+
+git_mirrors_nginx_url: "git.pydis.wtf"
+git_mirrors_nginx_cert_file: "/etc/letsencrypt/live/pydis.wtf/fullchain.pem"
+git_mirrors_nginx_cert_key: "/etc/letsencrypt/live/pydis.wtf/privkey.pem"
