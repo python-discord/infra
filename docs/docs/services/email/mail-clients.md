@@ -90,6 +90,82 @@ You can find some example scripts to get started
 There are plenty of resources out there to allow for filtering using Sieve
 rules.
 
+### Debugging Sieve scripts
+
+Dovecot ships with a helpful utility called `sieve-test` which allows you to
+test the execution of a Sieve script when given an e-mail. You pass it a sieve
+script and an e-mail, and (depending on the flags you pass it) it shows you
+information on what Dovecot would do with said e-mail.
+
+Let's take the following Sieve script intended to file away mailing list posts
+to the right folders:
+
+```sieve
+require ["fileinto", "subaddress", "variables", "regex", "mailbox"];
+
+if header :matches "List-Unsubscribe" "*" {
+    if header :regex "List-Id" "^<(\w+)\.(example)\.org>$" {
+        set "list_name" "${1}";
+        set "org_name" "${2}";
+
+        fileinto :create "Lists.${org_name}.${list_name}";
+    } else {
+        fileinto :create "Lists";
+    }
+    stop;
+}
+```
+
+This example has a slight problem. Whilst the e-mail header `List-Id` is being
+sent in the form `<group.example.org>`, it does not seem to file it into the
+proper place.
+
+To test it, start by copying a mail you want to test it with (or creating one)
+in your home directory. Then run the following:
+
+```
+sudo -u vmail sieve-test -Tlevel=matching -t - $SIEVE $MAIL
+```
+
+where `$SIEVE` is the Sieve script you'd like to debug and `$MAIL` is the path
+to the e-mail you'd like to test it on. It prints execution information as
+follows:
+
+```sh
+            ## Started executing script 'sieve'
+   3: header test
+   3:   starting `:matches' match with `i;ascii-casemap' comparator:
+   3:   extracting `List-Unsubscribe' headers from message
+   3:   matching value `<mailto:list@example.org?body=unsub%20list>'
+   3:     with key `*' => 1
+   3:   finishing match with result: matched
+   3: jump if result is false
+   3:   not jumping
+   4: header test
+   4:   starting `:regex' match with `i;ascii-casemap' comparator:
+   4:   extracting `List-Id' headers from message
+   4:   matching value `<list.example.org>'
+   4:     with regex `^<(w+).(.*)>$' [id=0] => 0
+   4:   finishing match with result: not matched
+   4: jump if result is false
+   4:   jumping to line 9
+  10: fileinto action
+  10:   store message in mailbox `Lists'
+  12: stop command; end all script execution
+      ## Finished executing script 'sieve'
+```
+
+Note number `4:` where it says that `finishing match with result: not matched`.
+If you look carefully at the Regex pattern, you'll notice that it does not work
+look right because the pattern on the left is `(w+)` which would match on
+consecutive `w`s as opposed to `\w`.
+
+In this example, the fix is to simply add another backslash ahead of `\w` to
+ensure that the pattern is correctly parsed by Dovecot. To conclude,
+`sieve-test` allows you to easily find bugs like this without having to
+repeatedly retry script execution with inbound e-mails.
+
+
 ## Neomutt via SSH
 
 Previously, before we had configured IMAP, local mail delivery was read with
