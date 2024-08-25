@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+set -u
+
+# Base location of all mirrors
+MIRRORS_BASE_DIR="/srv/git-mirrors/mirrored"
+
+# Locate repositories knowing that there will be a HEAD file inside them
+FOUND_REPOS=$(find "$MIRRORS_BASE_DIR" -name "HEAD" | xargs dirname)
+
+for repo in $FOUND_REPOS; do
+    cd "$repo";
+    echo "Updating $repo mirror..."
+    if ! git fetch -q; then
+        echo "Error: Failed to update repository $repo"
+        exit 1
+    fi
+    echo "Updated repository."
+done
