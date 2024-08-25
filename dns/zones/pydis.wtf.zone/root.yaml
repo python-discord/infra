@@ -63,6 +63,14 @@ files:
   type: CNAME
   value: lovelace.box.pydis.wtf.
 
+git:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: CNAME
+  value: lovelace.box.pydis.wtf.
+
 grafana:
   octodns:
     cloudflare:
