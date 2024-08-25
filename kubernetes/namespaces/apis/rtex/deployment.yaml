@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: rtex
-          image: ghcr.io/hassanabouelela/rtex:latest
+          image: ghcr.io/owl-corp/rtex:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 5000
