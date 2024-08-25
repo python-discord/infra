@@ -4,6 +4,7 @@ nginx_configs:
   prometheus.lovelace.box.wtf.conf: |
     server {
       listen      443;
+      listen      [::]:443;
       server_name prometheus.lovelace.box.pydis.wtf;
 
       ssl_certificate         /etc/letsencrypt/live/prometheus.lovelace.box.pydis.wtf/fullchain.pem;
@@ -28,6 +29,7 @@ nginx_configs:
   files.pydis.wtf.conf: |
     server {
       listen      443;
+      listen      [::]:443;
       server_name files.pydis.wtf cloud.native.is.fun.and.easy.pydis.wtf;
       root        /var/www/files.pydis.wtf;
 
@@ -42,6 +44,7 @@ nginx_configs:
   propaganda.pydis.wtf.conf: |
     server {
       listen      443;
+      listen      [::]:443;
       server_name propaganda.pydis.wtf;
       root        /var/www/propaganda.pydis.wtf;
 
