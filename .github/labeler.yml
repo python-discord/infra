@@ -1,0 +1,35 @@
+"group: ansible":
+  - changed-files:
+      - any-glob-to-any-file: 'ansible/*'
+
+"group: dns":
+  - changed-files:
+      - any-glob-to-any-file: 'dns/*'
+
+"group: docs":
+  - changed-files:
+      - any-glob-to-any-file: 'docs/*'
+
+"group: github actions":
+  - changed-files:
+      - any-glob-to-any-file: '.github/workflows/*'
+
+"group: kubernetes":
+  - changed-files:
+      - any-glob-to-any-file: 'kubernetes/*'
+
+"component: database":
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'ansible/roles/postgres/*'
+      - 'ansible/roles/prometheus-postgres-exporter/*'
+
+"component: email":
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'ansible/roles/dovecot/*'
+      - 'ansible/roles/neomutt/*'
+      - 'ansible/roles/opendkim/*'
+      - 'ansible/roles/opendmarc/*'
+      - 'ansible/roles/postfix/*'
+      - 'ansible/roles/spamassassin/*'
