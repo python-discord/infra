@@ -40,7 +40,7 @@ receivers:
       - to: devops-alerts@pydis.wtf
         send_resolved: true
         from: alertmanager@int.pydis.wtf
-        smarthost: mail.pydis.wtf
+        smarthost: mail.pydis.wtf:587
         auth_username: alertmanager@int.pydis.wtf
         auth_password_file: /opt/pydis/alertmanager/webhooks/EMAIL_PASSWORD
         text: 'summary: {{ .CommonAnnotations.summary }}\ndescription: {{ .CommonAnnotations.description }}"'
