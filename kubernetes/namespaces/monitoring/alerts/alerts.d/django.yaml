@@ -1,7 +1,7 @@
 groups:
   - name: django
     rules:
-      - alert: DjangoErrors
+      - alert: django/errors
         expr: increase(django_http_responses_total_by_status_total{status=~"5.."}[5m]) > 0
         for: 5m
         labels:
@@ -10,7 +10,7 @@ groups:
           summary: "Django is experiencing 5xx errors"
           description: "Django is experiencing 5xx errors on {{ $labels.namespace }}/{{ $labels.job }}"
 
-      - alert: DjangoLatencyElevated
+      - alert: django/latency-elevated
         expr: histogram_quantile(0.95, rate(django_http_requests_latency_seconds_by_view_method_bucket{view!="api:github-artifacts", view!="api:github-webhook-filter", view!="home:home", view!="content:tag"}[5m])) > 1.0
         for: 15m
         labels:
@@ -19,7 +19,7 @@ groups:
           summary: "Django route is experiencing high latency"
           description: "Django route {{ $labels.method }} {{ $labels.view }} has raised latency"
 
-      - alert: DjangoLatencyHigh
+      - alert: django/latency-high
         expr: histogram_quantile(0.95, rate(django_http_requests_latency_seconds_by_view_method_bucket{view!="api:github-artifacts", view!="api:github-webhook-filter", view!="home:home", view!="content:tag"}[5m])) > 10.0
         for: 15m
         labels:

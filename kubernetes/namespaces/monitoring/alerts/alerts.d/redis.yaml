@@ -1,7 +1,7 @@
 groups:
 - name: redis
   rules:
-  - alert: RedisDown
+  - alert: redis/down
     expr: redis_up == 0
     for: 1m
     labels:
@@ -10,7 +10,7 @@ groups:
       summary: "Redis is offline"
       description: "Redis Exporter cannot connect to Redis."
 
-  - alert: RedisOutOfMemory
+  - alert: redis/oom
     expr: redis_memory_used_bytes / redis_memory_max_bytes > 0.9
     for: 0m
     labels:

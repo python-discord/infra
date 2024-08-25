@@ -2,7 +2,7 @@ groups:
 - name: memory
   rules:
 
-  - alert: NodeHighMemoryUsage
+  - alert: node/high-memory-usage
     expr: node_memory_Active_bytes / node_memory_MemTotal_bytes > 0.8
     for: 30s
     labels:
@@ -11,7 +11,7 @@ groups:
       summary: "Node {{ $labels.kubernetes_node }} has RAM usage >80% for 5 minutes"
       description: 'RAM usage is currently {{ $value | humanizePercentage }} on {{ $labels.kubernetes_node }}'
 
-  - alert: ContainerOOMEvent
+  - alert: container/oom
     expr: (kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 10m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1
     for: 0m
     labels:

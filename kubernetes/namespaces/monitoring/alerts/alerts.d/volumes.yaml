@@ -1,7 +1,7 @@
 groups:
 - name: volumes
   rules:
-  - alert: KubernetesVolumeOutOfDiskSpace
+  - alert: kubernetes/volume-out-of-space
     expr: kubelet_volume_stats_available_bytes{persistentvolumeclaim!="prometheus-storage"} / kubelet_volume_stats_capacity_bytes * 100 < 10
     for: 2m
     labels:
