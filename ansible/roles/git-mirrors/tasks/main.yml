@@ -6,6 +6,16 @@
   tags:
     - role::git-mirrors
 
+- name: Install formatting dependencies for cgit
+  package:
+    state: present
+    name:
+      - python3-markdown
+      - python3-docutils
+      - python3-pygments
+  tags:
+    - role::git-mirrors
+
 - name: Create mirroring user
   user:
     state: present
