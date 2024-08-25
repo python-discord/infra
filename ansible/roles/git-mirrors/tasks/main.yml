@@ -1,0 +1,140 @@
+---
+- name: Install cgit
+  package:
+    state: present
+    name: cgit
+  tags:
+    - role::git-mirrors
+
+- name: Create mirroring user
+  user:
+    state: present
+    name: "{{ git_mirrors_user }}"
+    home: "{{ git_mirrors_base_dir }}"
+  tags:
+    - role::git-mirrors
+
+- name: Create mirror storage directory
+  file:
+    state: directory
+    path: "{{ git_mirrors_base_dir }}/mirrored"
+    owner: "{{ git_mirrors_user }}"
+    group: "{{ git_mirrors_user }}"
+    mode: "0755"
+  tags:
+    - role::git-mirrors
+
+- name: Create organisation folders
+  file:
+    state: directory
+    path: "{{ git_mirrors_base_dir }}/mirrored/{{ item.owner }}"
+    owner: "{{ git_mirrors_user }}"
+    group: "{{ git_mirrors_user }}"
+    mode: "0755"
+  with_items:
+    - "{{ git_mirrors_mirrored_repositories }}"
+  tags:
+    - role::git-mirrors
+
+# Unfortunately, the Ansible git module does not support the --mirror
+# option to git clone, so for now we run the command ourselves if the
+# directories could not be found.
+- name: Clone repositories # noqa: command-instead-of-module
+  become: true
+  become_user: "{{ git_mirrors_user }}"
+  command: >
+    git clone --mirror https://github.com/{{ item.owner }}/{{ item.repo }}.git {{ git_mirrors_base_dir }}/mirrored/{{ item.owner }}/{{ item.repo }}
+  args:
+    creates: "{{ git_mirrors_base_dir }}/mirrored/{{ item.owner }}/{{ item.repo }}"
+  with_items:
+    - "{{ git_mirrors_mirrored_repositories }}"
+  tags:
+    - role::git-mirrors
+
+- name: Set repository descriptions
+  copy:
+    content: "{{ item.description | default('A mirrored copy of the ' + item.owner + '/' + item.repo + ' repository.') }}"
+    dest: "{{ git_mirrors_base_dir }}/mirrored/{{ item.owner }}/{{ item.repo }}/description"
+    owner: "{{ git_mirrors_user }}"
+    group: "{{ git_mirrors_user }}"
+    mode: "0644"
+  with_items:
+    - "{{ git_mirrors_mirrored_repositories }}"
+  tags:
+    - role::git-mirrors
+
+- name: Template cgitrc configuration file
+  template:
+    src: cgitrc.j2
+    dest: /etc/cgitrc
+    mode: "0644"
+    owner: root
+    group: root
+  tags:
+    - role::git-mirrors
+
+- name: Install fcgiwrap for NGINX
+  package:
+    state: present
+    name: fcgiwrap
+  tags:
+    - role::git-mirrors
+
+- name: Enable fcgiwrap
+  service:
+    state: started
+    enabled: true
+    name: fcgiwrap
+  tags:
+    - role::git-mirrors
+
+- name: Template NGINX configuration
+  template:
+    src: nginx-site.conf.j2
+    dest: /etc/nginx/sites-available/cgit.conf
+    mode: "0644"
+    owner: root
+    group: root
+  tags:
+    - role::git-mirrors
+  notify:
+    - Reload the nginx service
+
+- name: Enable the NGINX site
+  file:
+    src: /etc/nginx/sites-available/cgit.conf
+    dest: /etc/nginx/sites-enabled/cgit.conf
+    state: link
+  tags:
+    - role::git-mirrors
+  notify:
+    - Reload the nginx service
+
+- name: Template mirror update script
+  template:
+    src: update-mirrors.sh.j2
+    dest: "{{ git_mirrors_base_dir }}/update-mirrors.sh"
+    mode: "0744"
+    owner: "{{ git_mirrors_user }}"
+    group: "{{ git_mirrors_user }}"
+  tags:
+    - role::git-mirrors
+
+- name: Add cronjob for mirror updating
+  cron:
+    name: "git mirrors update"
+    # Every 5 minutes
+    minute: "*/5"
+    job: "chronic {{ git_mirrors_base_dir }}/update-mirrors.sh"
+    user: git-mirrors
+    cron_file: ansible_git_mirrors_update
+  tags:
+    - role::git-mirrors
+
+- name: Set cronjob failure email
+  community.general.cronvar:
+    name: MAILTO
+    value: "{{ git_mirrors_error_email }}"
+    cron_file: ansible_git_mirrors_update
+  tags:
+    - role::git-mirrors
