@@ -1,0 +1,25 @@
+server {
+    server_name {{ git_mirrors_nginx_url }};
+
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+
+    ssl_certificate      {{ git_mirrors_nginx_cert_file }};
+    ssl_certificate_key  {{ git_mirrors_nginx_cert_key }};
+
+    access_log  /var/log/nginx/cgit-access.log;
+    error_log   /var/log/nginx/cgit-error.log;
+
+    root /usr/share/cgit;
+    try_files $uri @cgit;
+
+    location @cgit {
+        include          fastcgi_params;
+        fastcgi_param    SCRIPT_FILENAME /usr/lib/cgit/cgit.cgi;
+        fastcgi_pass     unix:/run/fcgiwrap.socket;
+
+        fastcgi_param    PATH_INFO    $uri;
+        fastcgi_param    QUERY_STRING $args;
+        fastcgi_param    HTTP_HOST    $server_name;
+    }
+}
