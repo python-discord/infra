@@ -4,7 +4,6 @@
     name:
       - sasl2-bin
       - libsasl2-modules
-      - libsasl2-modules-ldap
     state: present
   tags:
     - role::sasl
