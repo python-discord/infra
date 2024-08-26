@@ -47,7 +47,6 @@
     state: present
   loop:
     - sasl2-bin  # Necessary for Cyrus' saslauthd
-    - libsasl2-modules-ldap  # Necessary for Cyrus' saslauthdp
     - lua-cyrussasl  # Necessary for Prosody to access Cyrusd
     - liblua5.2-dev  # Necessary for Prosody to access Cyrus
   tags:
