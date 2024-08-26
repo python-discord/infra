@@ -16,6 +16,14 @@
   tags:
     - role::git-mirrors
 
+- name: Install moreutils for cron utilities
+  package:
+    state: present
+    name:
+      - moreutils
+  tags:
+    - role::git-mirrors
+
 - name: Create mirroring user
   user:
     state: present
