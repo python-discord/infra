@@ -141,4 +141,25 @@ prometheus_rules: |
           summary: Too many deadlocked tables
           description: "PostgreSQL has dead-locks, value: {{ $value }}"
 
+  - name: postfix
+    rules:
+      - alert: postfix/down
+        expr: postfix_up != 1
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: Postfix is down (instance {{ $labels.instance }})
+      - alert: postfix/smtp-temporary-errors
+        expr: rate(postfix_smtpd_messages_rejected_total{code=~"^4.*"}[15m]) > 0
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: Postfix is rejecting messages due to errors (instance {{ $labels.instance }})
+          description: Postfix has seen code {{ $labels.code }} errors recently
+            and temporarily rejected emails.
+            https://en.wikipedia.org/wiki/List_of_SMTP_server_return_codes and
+            `sudo journalctl -xeu postfix@-` may provide more information on
+            the current issue.
   {% endraw %}
