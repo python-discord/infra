@@ -9,8 +9,6 @@ MIRRORS_BASE_DIR="{{ git_mirrors_base_dir }}/mirrored"
 FOUND_REPOS=$(find "$MIRRORS_BASE_DIR" -name "HEAD" -print0 | xargs -0 dirname)
 
 for repo in $FOUND_REPOS; do
-    pushd
-
     cd "$repo";
     echo "Updating $repo mirror..."
     if ! git fetch -q --prune; then
@@ -19,5 +17,5 @@ for repo in $FOUND_REPOS; do
     fi
     echo "Updated repository."
 
-    popd
+    cd -
 done
