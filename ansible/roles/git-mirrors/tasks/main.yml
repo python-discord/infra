@@ -114,7 +114,7 @@
 - name: Template NGINX configuration
   template:
     src: nginx-site.conf.j2
-    dest: /etc/nginx/sites-available/cgit.conf
+    dest: "/etc/nginx/sites-available/{{ git_mirrors_nginx_config_name }}"
     mode: "0444"
     owner: root
     group: root
@@ -125,8 +125,8 @@
 
 - name: Enable the NGINX site
   file:
-    src: /etc/nginx/sites-available/cgit.conf
-    dest: /etc/nginx/sites-enabled/cgit.conf
+    src: "/etc/nginx/sites-available/{{ git_mirrors_nginx_config_name }}"
+    dest: "/etc/nginx/sites-enabled/{{ git_mirrors_nginx_config_name }}"
     state: link
   tags:
     - role::git-mirrors
