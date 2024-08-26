@@ -1,0 +1,7 @@
+---
+- name: Install prometheus-postfix-exporter
+  package:
+    name: prometheus-postfix-exporter
+    state: present
+  tags:
+    - role::prometheus-postfix-exporter

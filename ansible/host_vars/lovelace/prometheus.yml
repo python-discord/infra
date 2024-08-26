@@ -55,6 +55,13 @@ prometheus_configuration: |
           - {{ hostvars[host]['ansible_wg0']['ipv4']['address'] }}:9187
           {%- endfor %}
 
+    - job_name: postfix
+      static_configs:
+        - targets:
+          {%- for host in groups['mail'] %}
+          - {{ hostvars[host]['ansible_wg0']['ipv4']['address'] }}:9154
+          {%- endfor %}
+
     - job_name: blackbox-ssh
       metrics_path: /probe
       params:
