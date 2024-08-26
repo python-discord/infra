@@ -1,0 +1,19 @@
+#!/bin/sh
+# Ansible managed
+
+cd /var/vmail && \
+  find . \
+  | awk -F / '
+    # Maildir e-mails have the hostname contained in them
+    $0 ~ "{{ ansible_fqdn }}" {
+      total[$2] += 1
+    }
+    END {
+      print "# HELP dovecot_maildir_mail_count Count of e-mails by user"
+      print "# TYPE dovecot_maildir_mail_count gauge"
+      for (user in total) {
+        print "dovecot_maildir_mail_count{user=\"" user "\"} " total[user]
+      }
+    }
+  ' \
+  | sponge > /var/lib/prometheus/node-exporter/dovecot-maildir-mails.prom

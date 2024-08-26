@@ -1,0 +1,15 @@
+#!/bin/sh
+# Ansible managed
+
+cd /var/vmail && \
+  du --bytes --summarize -- * \
+  | awk '
+    BEGIN {
+      print "# HELP dovecot_maildir_size_bytes Maildir size of e-mail users"
+      print "# TYPE dovecot_maildir_size_bytes gauge"
+    }
+    {
+      print "dovecot_maildir_size_bytes{user=\"" $2 "\"} " $1
+    }
+  ' \
+  | sponge > /var/lib/prometheus/node-exporter/dovecot-maildir-sizes.prom

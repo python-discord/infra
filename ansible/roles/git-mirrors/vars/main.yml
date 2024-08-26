@@ -1,7 +1,7 @@
 ---
 git_mirrors_base_dir: "/srv/git-mirrors"
 git_mirrors_user: "git-mirrors"
-git_mirrors_error_email: "devops@pydis.wtf"
+git_mirrors_error_email: "devops+cron@pydis.wtf"
 
 git_mirrors_cgit_logo: "https://raw.githubusercontent.com/python-discord/ops-site/main/src/images/icon.png"
 git_mirrors_cgit_title: PyDis DevOps Git Server

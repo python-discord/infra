@@ -23,6 +23,7 @@
     - opendmarc
     - sasl
     - dovecot
+    - dovecot-monitoring
     - spamassassin
     - postfix
     - prometheus-postfix-exporter
