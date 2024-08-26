@@ -26,6 +26,7 @@
     - dovecot
     - spamassassin
     - postfix
+    - prometheus-postfix-exporter
 
 - name: Deploy our monitoring stack
   hosts: monitoring
