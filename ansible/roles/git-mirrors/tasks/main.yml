@@ -53,9 +53,13 @@
 - name: Clone repositories # noqa: command-instead-of-module
   become: true
   become_user: "{{ git_mirrors_user }}"
-  command: >
-    git clone --mirror https://github.com/{{ item.owner }}/{{ item.repo }}.git {{ git_mirrors_base_dir }}/mirrored/{{ item.owner }}/{{ item.repo }}
-  args:
+  command:
+    argv:
+      - "git"
+      - "clone"
+      - "--mirror"
+      - "https://github.com/{{ item.owner }}/{{ item.repo }}.git"
+      - "{{ git_mirrors_base_dir }}/mirrored/{{ item.owner }}/{{ item.repo }}"
     creates: "{{ git_mirrors_base_dir }}/mirrored/{{ item.owner }}/{{ item.repo }}"
   with_items:
     - "{{ git_mirrors_mirrored_repositories }}"
