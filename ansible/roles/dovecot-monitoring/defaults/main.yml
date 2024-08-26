@@ -1,0 +1,3 @@
+---
+dovecot_monitoring_cron_filename: ansible_dovecot_prometheus_textfile_exporter
+dovecot_monitoring_scripts_directory: /opt/pydis/dovecot-monitoring
