@@ -145,12 +145,12 @@
 
 - name: Add cronjob for mirror updating
   cron:
-    name: "git mirrors update"
+    name: "Update the git mirrors published by cgit (git-mirrors role)"
     # Every 5 minutes
     minute: "*/5"
     job: "chronic {{ git_mirrors_base_dir }}/update-mirrors.sh"
     user: git-mirrors
-    cron_file: ansible_git_mirrors_update
+    cron_file: "{{ git_mirrors_cron_file }}"
   tags:
     - role::git-mirrors
 
@@ -158,6 +158,6 @@
   community.general.cronvar:
     name: MAILTO
     value: "{{ git_mirrors_error_email }}"
-    cron_file: ansible_git_mirrors_update
+    cron_file: "{{ git_mirrors_cron_file }}"
   tags:
     - role::git-mirrors
