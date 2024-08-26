@@ -6,9 +6,11 @@ set -u
 MIRRORS_BASE_DIR="{{ git_mirrors_base_dir }}/mirrored"
 
 # Locate repositories knowing that there will be a HEAD file inside them
-FOUND_REPOS=$(find "$MIRRORS_BASE_DIR" -name "HEAD" | xargs dirname)
+FOUND_REPOS=$(find "$MIRRORS_BASE_DIR" -name "HEAD" -print0 | xargs -0 dirname)
 
 for repo in $FOUND_REPOS; do
+    pushd
+
     cd "$repo";
     echo "Updating $repo mirror..."
     if ! git fetch -q --prune; then
@@ -16,4 +18,6 @@ for repo in $FOUND_REPOS; do
         exit 1
     fi
     echo "Updated repository."
+
+    popd
 done
