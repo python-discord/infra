@@ -19,6 +19,7 @@
 - name: Create mirroring user
   user:
     state: present
+    system: true
     name: "{{ git_mirrors_user }}"
     home: "{{ git_mirrors_base_dir }}"
   tags:
