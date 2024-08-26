@@ -72,7 +72,7 @@
     dest: "{{ git_mirrors_base_dir }}/mirrored/{{ item.owner }}/{{ item.repo }}/description"
     owner: "{{ git_mirrors_user }}"
     group: "{{ git_mirrors_user }}"
-    mode: "0644"
+    mode: "0444"
   with_items:
     - "{{ git_mirrors_mirrored_repositories }}"
   tags:
@@ -82,7 +82,7 @@
   template:
     src: cgitrc.j2
     dest: /etc/cgitrc
-    mode: "0644"
+    mode: "0444"
     owner: root
     group: root
   tags:
@@ -107,7 +107,7 @@
   template:
     src: nginx-site.conf.j2
     dest: /etc/nginx/sites-available/cgit.conf
-    mode: "0644"
+    mode: "0444"
     owner: root
     group: root
   tags:
@@ -129,7 +129,7 @@
   template:
     src: update-mirrors.sh.j2
     dest: "{{ git_mirrors_base_dir }}/update-mirrors.sh"
-    mode: "0744"
+    mode: "0544"
     owner: "{{ git_mirrors_user }}"
     group: "{{ git_mirrors_user }}"
   tags:
