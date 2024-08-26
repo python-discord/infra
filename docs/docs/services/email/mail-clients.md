@@ -60,15 +60,14 @@ are not provided by the PyDis mailserver please let us know in `#dev-oops`.
 
 We support server-side email filtering with [Pigeonhole
 Sieve](https://doc.dovecot.org/configuration_manual/sieve/pigeonhole_sieve_interpreter/).
+Sieve scripts are managed via [the ManageSieve
+protocol](https://datatracker.ietf.org/doc/html/rfc5804). Your e-mail client
+should have built-in functionality for writing and editing these scripts. For a
+listing of clients, see [the official Sieve website](http://sieve.info/clients).
 
-!!! example "DevOps Only"
-
-    For now, since this feature requires access to a home directory on the host, it is
-    only accessable to members of the DevOps team. If you are not a member of the DevOps
-    team and wish to configure sieve, please let us know in the #dev-oops channel.
-
-    We may in future investigate further usage of `dovecot-managesieved` to allow for
-    remote management of the Sieve filters.
+If you're looking for a command-line client,
+[`sieve-connect`](https://people.spodhuis.org/phil.pennock/software/) may be
+what you are looking for.
 
 Using this, users can perform common mail tasks automatically by writing small
 sieve scripts that are able to act on inbound mail before it reaches a user
