@@ -1,0 +1,52 @@
+---
+- name: Create dovecot monitoring directory
+  ansible.builtin.file:
+    path: "{{ dovecot_monitoring_scripts_directory }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  tags:
+    - role::dovecot-monitoring
+
+- name: Create dovecot monitoring scripts
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ dovecot_monitoring_scripts_directory }}/{{ item }}"
+    owner: root
+    group: root
+    mode: "0544"
+  tags:
+    - role::dovecot-monitoring
+  loop:
+    - maildir-mails.sh
+    - maildir-sizes.sh
+
+- name: Create Maildir size monitoring cronjobs
+  ansible.builtin.cron:
+    name: "{{ item.name }}"
+    minute: "*/20"
+    hour: "*"
+    job: "{{ item.job }}"
+    cron_file: "{{ dovecot_monitoring_cron_filename }}"
+    user: root
+  tags:
+    - role::dovecot-monitoring
+  register: dovecot_monitoring_cron_file
+  loop_control:
+    label: "{{ item.name }}"
+  loop:
+    - name: Dovecot maildir size Prometheus exporter
+      job: "{{ dovecot_monitoring_scripts_directory }}/maildir-sizes.sh"
+    - name: Dovecot maildir mail count Prometheus exporter
+      job: "{{ dovecot_monitoring_scripts_directory }}/maildir-mails.sh"
+
+- name: Report to DevOps when Maildir size exporter fails
+  ansible.builtin.cron:
+    name: MAILTO
+    env: true
+    job: devops+cron@pydis.wtf
+    cron_file: "{{ dovecot_monitoring_cron_filename }}"
+    user: vmail
+  tags:
+    - role::dovecot-monitoring

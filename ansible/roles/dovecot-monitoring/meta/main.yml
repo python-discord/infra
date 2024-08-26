@@ -1,0 +1,4 @@
+---
+dependencies:
+  - dovecot
+  - prometheus-node-exporter
