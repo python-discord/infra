@@ -65,6 +65,7 @@ git_mirrors_mirrored_repositories:
     description: >-
       Owl Corp surveillance storage platform
 
-git_mirrors_nginx_url: "git.pydis.wtf"
+git_mirrors_nginx_domain: "git.pydis.wtf"
 git_mirrors_nginx_cert_file: "/etc/letsencrypt/live/pydis.wtf/fullchain.pem"
 git_mirrors_nginx_cert_key: "/etc/letsencrypt/live/pydis.wtf/privkey.pem"
+git_mirrors_nginx_config_name: "git.pydis.wtf.conf"
