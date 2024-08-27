@@ -56,7 +56,7 @@ base = cn=users,cn=accounts,dc=box,dc=pydis,dc=wtf
 #
 # There are also other special fields which can be returned, see
 # http://wiki2.dovecot.org/UserDatabase/ExtraFields
-user_attrs = uidNumber=uid, gidNumber=gid, uid=home=/home/%$
+user_attrs = uidNumber=uid, gidNumber=gid, mail=maildir:~/mail, homeDirectory=/var/vmail/%n, sieve=~/main.sieve sieve_user_log=~/sieve.log
 
 # Filter for user lookup. Some variables can be used (see
 # http://wiki2.dovecot.org/Variables for full list):
