@@ -63,7 +63,7 @@ vms:
 
 ### Ansible cannot decrypt the files encrypted with ansible vault.
 
-* The `ansible/roles/certbot/vars/main.yaml` and `ansible/roles/pydis-users/vars/main.yaml` files have been encrypted with ansible vault due to their sensitive content.
+* Various files in roles have been encrypted with ansible vault due to their sensitive content.
 
 * If you lack access to the vault, you're going to have to either define your own variables or exclude the appropriate roles.
 
