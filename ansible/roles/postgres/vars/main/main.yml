@@ -72,7 +72,6 @@ postgres_users:
     password: "{{ vault_postgres_user_passwords.rrdtool }}"
     roles:
 
-
 postgres_hba_rules:
   #
   # Service HBA rules
@@ -180,6 +179,12 @@ postgres_hba_rules:
     method: scram-sha-256
 
   - conn_type: hostssl
+    database: pinnwand
+    user: grafana
+    address: all
+    method: scram-sha-256
+
+  - conn_type: hostssl
     database: pixels
     user: metabase
     address: all
@@ -233,7 +238,6 @@ postgres_databases:
     owner: polonium
   - name: thallium
     owner: thallium
-
 
 postgres_grants:
   - objs: api_nomination,api_infraction,api_user,api_nominationentry,pg_stat_statements,pg_stat_statements_info
