@@ -12,6 +12,10 @@ passdb {
 }
 
 userdb {
-  driver = static
-  args = uid=vmail gid=vmail home=/var/vmail/%u mail=maildir:~/mail sieve=/home/%u/sieve sieve_user_log=/var/vmail/%u/sieve.log
+  driver = prefetch
+}
+
+userdb {
+  driver = ldap
+  args = /etc/dovecot/dovecot-ldap.conf.ext
 }

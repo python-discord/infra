@@ -433,6 +433,9 @@ service welcome {
   executable = script /etc/dovecot/welcome.sh
   user = dovecot
   unix_listener welcome {
+    # Group write permissions are necessary to allow this to run for new users.
+    mode = 0660
     user = vmail
+    group = vmail
   }
 }
