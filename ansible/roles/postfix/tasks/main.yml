@@ -172,7 +172,6 @@
         -o smtpd_recipient_restrictions=permit_mynetworks,permit_sasl_authenticated,reject
         -o smtpd_sasl_type=dovecot
         -o smtpd_sasl_path=private/auth
-        -o cleanup_service_name=authcleanup
 
       # spamassassin filtering
       spamassassin unix -     n       n       -       -       pipe
