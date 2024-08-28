@@ -53,3 +53,46 @@ nginx_configs:
 
       add_header "X-Robots-Tag" "noindex" always;
     }
+
+  munin.pydis.wtf.conf: |
+    server {
+        listen 443;
+        listen [::]:443;
+        server_name munin.pydis.wtf;
+
+        ssl_certificate         /etc/letsencrypt/live/pydis.wtf/fullchain.pem;
+        ssl_certificate_key     /etc/letsencrypt/live/pydis.wtf/privkey.pem;
+
+        root /var/cache/munin;
+
+        ssl_client_certificate  /etc/nginx/certs/cloudflare.crt;
+        ssl_verify_client       on;
+
+        access_log /var/log/nginx/munin-access.log;
+        error_log /var/log/nginx/munin-errors.log;
+
+        location / {
+                return 302 /munin;
+        }
+
+        location /munin/static/ {
+                alias /etc/munin/static/;
+                expires 31d;
+        }
+
+        location /munin/ {
+                fastcgi_split_path_info ^(/munin)(.*);
+                fastcgi_param PATH_INFO $fastcgi_path_info;
+                fastcgi_param SCRIPT_FILENAME /usr/lib/munin/cgi/munin-cgi-html;
+                fastcgi_pass unix:/run/fcgiwrap.socket;
+                include fastcgi_params;
+        }
+
+        location ^~ /munin-cgi/munin-cgi-graph/ {
+                fastcgi_split_path_info ^(/munin-cgi/munin-cgi-graph)(.*);
+                fastcgi_param PATH_INFO $fastcgi_path_info;
+                fastcgi_param SCRIPT_FILENAME /usr/lib/munin/cgi/munin-cgi-graph;
+                fastcgi_pass unix:/run/fcgiwrap.socket;
+                include fastcgi_params;
+        }
+    }
