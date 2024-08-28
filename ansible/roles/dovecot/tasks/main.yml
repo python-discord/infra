@@ -76,6 +76,18 @@
   tags:
     - role::dovecot
 
+- name: Template prevent-duplicates sieve script
+  template:
+    src: prevent-duplicates.sieve.j2
+    dest: /etc/dovecot/sieve-after/prevent-duplicates.sieve
+    owner: vmail
+    group: vmail
+    mode: "0444"
+  notify:
+    - Recompile prevent-duplicates sieve script
+  tags:
+    - role::dovecot
+
 - name: Set up sieve configuration for dovecot
   lineinfile:
     path: /etc/dovecot/conf.d/90-sieve.conf
