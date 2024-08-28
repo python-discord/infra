@@ -1,0 +1,9 @@
+# Ansible managed
+
+require ["duplicate"];
+
+if not exists "List-ID" {
+  if duplicate {
+    discard;
+  }
+}
