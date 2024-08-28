@@ -1,0 +1,34 @@
+---
+- name: Install munin packages
+  package:
+    name:
+      - munin
+      - munin-node
+      - spawn-fcgi
+    state: present
+  tags:
+    - role::munin
+
+- name: Template munin configuration file
+  template:
+    src: munin.conf.j2
+    dest: /etc/munin/munin.conf
+    owner: root
+    group: root
+    mode: "0444"
+  tags:
+    - role::munin
+  notify:
+    - Restart munin service
+
+- name: Template munin-node configuration file
+  template:
+    src: munin-node.conf.j2
+    dest: /etc/munin/munin-node.conf
+    owner: root
+    group: root
+    mode: "0444"
+  tags:
+    - role::munin
+  notify:
+    - Restart munin-node service
