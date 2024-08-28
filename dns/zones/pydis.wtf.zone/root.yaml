@@ -136,6 +136,14 @@ modmail:
   type: CNAME
   value: linode-lb.box.pydis.wtf.
 
+munin:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: CNAME
+  value: lovelace.box.pydis.wtf.
+
 ops:
   octodns:
     cloudflare:
