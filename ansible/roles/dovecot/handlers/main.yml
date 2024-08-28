@@ -13,6 +13,10 @@
   command: /usr/bin/sievec /etc/dovecot/sieve-after/spam-to-folder.sieve
   changed_when: true
 
+- name: Recompile prevent-duplicates sieve script
+  command: /usr/bin/sievec /etc/dovecot/sieve-after/prevent-duplicates.sieve
+  changed_when: true
+
 - name: Recompile learn-spam sieve script
   command: /usr/bin/sievec /etc/dovecot/sieve/learn-spam.sieve
   changed_when: true
