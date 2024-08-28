@@ -67,6 +67,13 @@ git_mirrors_mirrored_repositories:
     description: >-
       Owl Corp surveillance storage platform
 
+  # Uncle Christ's Assorted Works
+  - owner: jc
+    repo: poetry-restrict-plugin
+    domain: git.jchri.st
+    description: >-
+      The Last Stand against malware in Python packages
+
 git_mirrors_nginx_domain: "git.pydis.wtf"
 git_mirrors_nginx_cert_file: "/etc/letsencrypt/live/pydis.wtf/fullchain.pem"
 git_mirrors_nginx_cert_key: "/etc/letsencrypt/live/pydis.wtf/privkey.pem"
