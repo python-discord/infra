@@ -33,6 +33,7 @@
     - rrdstats
     - prometheus
     - prometheus-blackbox-exporter
+    - munin
 
 - name: Deploy nginx to hosts
   hosts: nginx
