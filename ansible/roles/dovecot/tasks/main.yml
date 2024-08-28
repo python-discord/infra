@@ -120,7 +120,7 @@
     dest: "{{ dovecot_sieve_pipe_bin_dir }}/{{ item }}"
     owner: vmail
     group: vmail
-    mode: "0500"
+    mode: "0555"
   with_items:
     - spamc-learn-ham.sh
     - spamc-learn-spam.sh
