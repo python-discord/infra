@@ -1,3 +1,5 @@
 # Managed by Ansible
 
-newsletters@email.crosswalk.com          REJECT
+emails.buzzfeed.com                      REJECT Sorry, we're not feeling it today.
+flippa.com                               REJECT Please try sending this mail to a brick wall.
+email.crosswalk.com                      REJECT I'm starting to think your email is a personal attack on my sanity. Please stop.
