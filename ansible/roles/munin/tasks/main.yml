@@ -67,6 +67,19 @@
   notify:
     - Restart munin-node service
 
+- name: Copy custom munin plugins
+  copy:
+    content: "{{ item.value }}"
+    dest: /etc/munin/plugins/{{ item.key }}
+    owner: root
+    group: root
+    mode: "0555"
+  loop_control:
+    label: "{{ item.key }}"
+  loop: "{{ munin_node_custom_plugins | dict2items }}"
+  tags:
+    - role::munin
+
 - name: Disable some unneeded plugins
   file:
     path: "/etc/munin/plugins/{{ item }}"
