@@ -66,7 +66,7 @@
       - "git"
       - "clone"
       - "--mirror"
-      - "https://github.com/{{ item.owner }}/{{ item.repo }}.git"
+      - "https://{{ item.domain | default('github.com') }}/{{ item.owner }}/{{ item.repo }}.git"
       - "{{ git_mirrors_base_dir }}/mirrored/{{ item.owner }}/{{ item.repo }}"
     creates: "{{ git_mirrors_base_dir }}/mirrored/{{ item.owner }}/{{ item.repo }}"
   with_items:
