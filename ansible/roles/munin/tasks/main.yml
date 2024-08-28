@@ -32,3 +32,35 @@
     - role::munin
   notify:
     - Restart munin-node service
+
+- name: Enable non-default munin plugins
+  file:
+    src: "/usr/share/munin/plugins/{{ item }}"
+    dest: "/etc/munin/plugins/{{ item }}"
+    state: link
+  loop:
+    - postfix_mailstats
+    - spamstats
+    - nginx_request
+    - nginx_status
+  tags:
+    - role::munin
+  notify:
+    - Restart munin-node service
+
+- name: Disable some unneeded plugins
+  file:
+    path: "/etc/munin/plugins/{{ item }}"
+    state: absent
+  loop:
+    - squeezebox_albums
+    - squeezebox_artists
+    - squeezebox_genres
+    - squeezebox_signalstrength
+    - squeezebox_songs
+    - squeezebox_volume
+    - squeezebox_years
+  tags:
+    - role::munin
+  notify:
+    - Restart munin-node service
