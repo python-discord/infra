@@ -18,8 +18,6 @@
     mode: "0444"
   tags:
     - role::munin
-  notify:
-    - Restart munin service
 
 - name: Template munin-node configuration file
   template:
