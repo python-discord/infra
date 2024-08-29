@@ -1,0 +1,15 @@
+# Ansible managed
+
+[dovecot_maildirs]
+user root
+group vmail
+
+[load]
+env.load_warning {{ ansible_processor_nproc * 0.7 }}
+env.load_critical {{ ansible_processor_nproc * 0.85 }}
+
+[memory]
+env.apps_warning 70%
+env.apps_critical 90%
+env.swap_warning 60%
+env.swap_critical 80%
