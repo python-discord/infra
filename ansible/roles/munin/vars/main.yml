@@ -37,7 +37,7 @@ munin_node_custom_plugins:
     random.seed(1234)
     today = datetime.date.today()
     savings = 740
-    interest_per_day = 0.01
+    interest_per_day = 0.005
     insurance_policy_start = datetime.date(2024, 8, 28)
     days_griefed = (today - insurance_policy_start).days
     accrued_interest = 0
@@ -65,4 +65,4 @@ munin_node_custom_plugins:
 
     print(f"savings.value {savings}")
     print(f"interest.value {accrued_interest}")
-    print(f"inheritance.value {inherited_money}")
+    print(f"inherited.value {inherited_money}")
