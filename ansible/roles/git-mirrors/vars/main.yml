@@ -5,7 +5,7 @@ git_mirrors_error_email: "devops@pydis.wtf"
 
 git_mirrors_cgit_logo: "https://raw.githubusercontent.com/python-discord/ops-site/main/src/images/icon.png"
 git_mirrors_cgit_title: PyDis DevOps Git Server
-git_mirrors_cgit_description: Mirrored copies of Python Discord and related projects
+git_mirrors_cgit_description: Mirrored copies of Python Discord and related projects. Updated once a day.
 
 git_mirrors_cron_file: "ansible_git_mirrors_update"
 

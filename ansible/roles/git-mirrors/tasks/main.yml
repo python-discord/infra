@@ -146,8 +146,9 @@
 - name: Add cronjob for mirror updating
   cron:
     name: "Update the git mirrors published by cgit (git-mirrors role)"
-    # Every 5 minutes
-    minute: "*/5"
+    # Every day at 4:27 AM
+    hour: "4"
+    minute: "27"
     job: "chronic {{ git_mirrors_base_dir }}/update-mirrors.sh"
     user: git-mirrors
     cron_file: "{{ git_mirrors_cron_file }}"
