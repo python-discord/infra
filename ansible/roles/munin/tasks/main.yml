@@ -33,6 +33,18 @@
   notify:
     - Restart munin-node service
 
+- name: Template munin plugin configuration file
+  template:
+    src: plugin.conf.j2
+    dest: /etc/munin/plugin-conf.d/custom
+    owner: root
+    group: root
+    mode: "0444"
+  tags:
+    - role::munin
+  notify:
+    - Restart munin-node service
+
 - name: Enable non-default munin plugins
   file:
     src: "/usr/share/munin/plugins/{{ item.src }}"
@@ -68,15 +80,17 @@
     - Restart munin-node service
 
 - name: Copy custom munin plugins
-  copy:
-    content: "{{ item.value }}"
-    dest: /etc/munin/plugins/{{ item.key }}
+  template:
+    src: "{{ item }}"
+    # Split two levels of file extensions
+    dest: "/etc/munin/plugins/{{ item | basename | splitext | first | splitext | first }}"
     owner: root
     group: root
     mode: "0555"
   loop_control:
-    label: "{{ item.key }}"
-  loop: "{{ munin_node_custom_plugins | dict2items }}"
+    # I love representing data modification logic in YAML!
+    label: "{{ item | basename | splitext | first | splitext | first }}"
+  with_fileglob: "../templates/plugins/*"
   tags:
     - role::munin
 

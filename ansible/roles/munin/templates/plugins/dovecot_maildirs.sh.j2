@@ -1,0 +1,64 @@
+#!/bin/sh
+# Ansible managed
+
+cd /var/vmail || exit 1
+
+print_maildir_config() {
+    find . -maxdepth 1 -type d \
+        | tail -n +2 \
+        | awk -F / '{
+            print $2 ".draw AREASTACK"
+            print $2 ".label " $2
+        }'
+}
+
+if [ "$1" = "autoconf" ]; then
+    echo "no"
+    exit
+fi
+
+if [ "$1" = "config" ]; then
+    cat <<EOF
+multigraph dovecot_maildir_sizes
+graph_title Dovecot Maildir sizes
+graph_args --base 1024 -l 0
+graph_vlabel bytes
+graph_category mail
+graph_info Shows the sizes of top mail directories by their respective users
+graph_total Total
+graph_order joe jc
+EOF
+    print_maildir_config
+    cat <<EOF
+multigraph dovecot_maildir_mails
+graph_title Dovecot mails in maildirs
+graph_args --base 1000 -l 0
+graph_vlabel mails
+graph_category mail
+graph_info Shows the amount of mails by user on our Dovecot server
+graph_total Total
+graph_order joe jc
+EOF
+    print_maildir_config
+    exit 0
+fi
+
+echo "multigraph dovecot_maildir_sizes"
+du --bytes --summarize -- * \
+    | awk '{ print $2 ".value " $1 }'
+
+echo "multigraph dovecot_maildir_mails"
+find . \
+    | awk -F / '
+        # Maildir e-mails have the hostname contained in them
+        $0 ~ "{{ ansible_fqdn }}" {
+          total[$2] += 1
+        }
+        END {
+          for (user in total) {
+            print user ".value " total[user]
+          }
+        }
+    '
+
+# vim: ft=sh.jinja2:
