@@ -104,10 +104,14 @@ timeout_fetch_all_nodes 240
 # The value will be limited with timeout_fetch_all_nodes.
 timeout_fetch_one_node 180
 
-# a simple host tree
-[{{ ansible_fqdn }}]
-    address 127.0.0.1
-    use_node_name yes
+{% for host in hostvars %}
+[{{ hostvars[host]['ansible_fqdn'] }}]
+    address {{ hostvars[host]['ansible_wg0']['ipv4']['address'] }}
+{% endfor %}
+
+# Aggregated totals
+[box.pydis.wtf;Totals]
+    update no
 
 #
 # A more complex example of a host tree
