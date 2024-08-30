@@ -1,0 +1,3 @@
+---
+munin_node__plugin_packages: "{{ ('databases' in group_names) | ternary(['libdbd-pg-perl'], []) }}"
+munin_node__plugins: []

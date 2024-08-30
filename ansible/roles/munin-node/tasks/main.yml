@@ -1,0 +1,74 @@
+---
+- name: Install munin-node & plugin packages
+  package:
+    name: "{{ ['munin-node'] + munin_node__plugin_packages }}"
+    state: present
+  tags:
+    - role::munin-node
+
+- name: Template munin-node configuration file
+  template:
+    src: munin-node.conf.j2
+    dest: /etc/munin/munin-node.conf
+    owner: root
+    group: root
+    mode: "0444"
+  tags:
+    - role::munin-node
+  notify:
+    - Restart munin-node service
+
+- name: Template munin plugin configuration file
+  template:
+    src: plugin.conf.j2
+    dest: /etc/munin/plugin-conf.d/custom
+    owner: root
+    group: root
+    mode: "0444"
+  tags:
+    - role::munin-node
+  notify:
+    - Restart munin-node service
+
+- name: Enable non-default munin plugins
+  file:
+    src: "/usr/share/munin/plugins/{{ item.src }}"
+    dest: "/etc/munin/plugins/{{ item.dest | default(item.src) }}"
+    state: link
+  loop: "{{ munin_node__plugins }}"
+  tags:
+    - role::munin-node
+  notify:
+    - Restart munin-node service
+
+- name: Copy custom munin plugins
+  template:
+    src: "{{ item }}"
+    # Split two levels of file extensions
+    dest: "/etc/munin/plugins/{{ item | basename | splitext | first | splitext | first }}"
+    owner: root
+    group: root
+    mode: "0555"
+  loop_control:
+    # I love representing data modification logic in YAML!
+    label: "{{ item | basename | splitext | first | splitext | first }}"
+  with_fileglob: "../templates/plugins/{{ ansible_hostname }}/*"
+  tags:
+    - role::munin-node
+
+- name: Disable some unneeded plugins
+  file:
+    path: "/etc/munin/plugins/{{ item }}"
+    state: absent
+  loop:
+    - squeezebox_albums
+    - squeezebox_artists
+    - squeezebox_genres
+    - squeezebox_signalstrength
+    - squeezebox_songs
+    - squeezebox_volume
+    - squeezebox_years
+  tags:
+    - role::munin-node
+  notify:
+    - Restart munin-node service

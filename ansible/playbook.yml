@@ -4,6 +4,7 @@
     - common
     - pydis-mtls
     - wireguard
+    - munin-node
 
 - name: Deploy services to Netcup nodes
   hosts: netcup
