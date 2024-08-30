@@ -6,6 +6,18 @@
   tags:
     - role::munin-node
 
+- name: Create firewall rule for Rocky Linux Munin nodes
+  ansible.posix.firewalld:
+    service: "munin-node"
+    permanent: true
+    zone: wireguard
+    state: enabled
+  tags:
+    - role::munin-node
+  when: ansible_distribution == "Rocky"
+  notify:
+    - Reload the firewall
+
 - name: Template munin-node configuration file
   template:
     src: munin-node.conf.j2
