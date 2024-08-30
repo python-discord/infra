@@ -5,8 +5,9 @@ ListenPort = {{ wireguard_port }}
 PrivateKey = {{ wg_priv_key['content'] | b64decode | trim }}
 
 PostUp = ip route add local {{ wireguard_subnet }} dev eth0
+PreDown = ip route del local {{ wireguard_subnet }} dev eth0
 
-{% for host in groups["netcup"] if not host == inventory_hostname %}
+{% for host in hostvars if not host == inventory_hostname %}
 # Peer config for: {{ host }}
 [Peer]
 AllowedIPs = {{ hostvars[host]['wireguard_subnet'] }}
