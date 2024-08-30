@@ -1,11 +1,7 @@
 - name: Install WireGuard
-  apt:
-    update_cache: true
-    cache_valid_time: 3600
-    pkg:
-      - wireguard
-      - wireguard-tools
-      - linux-headers-{{ ansible_kernel }}
+  package:
+    state: present
+    name: "{{ wireguard_os_packages[ansible_distribution] }}"
   tags:
     - role::wireguard
 
