@@ -3,6 +3,7 @@
   roles:
     - common
     - pydis-mtls
+    - wireguard
 
 - name: Deploy services to Netcup nodes
   hosts: netcup
@@ -11,7 +12,6 @@
     - alloy
     - nftables
     - prometheus-node-exporter
-    - wireguard
     - fail2ban
     - podman
     - unattended-upgrades
