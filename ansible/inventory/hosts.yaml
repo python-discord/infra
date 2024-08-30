@@ -5,6 +5,7 @@ all:
       wireguard_subnet: 10.2.0.0/16
     ldap01:
       ansible_host: ldap01.box.pydis.wtf
+      wireguard_subnet: 10.3.0.0/16
   children:
     netcup:
       hosts:
