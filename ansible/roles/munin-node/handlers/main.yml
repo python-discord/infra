@@ -3,3 +3,5 @@
   service:
     name: munin-node
     state: restarted
+  tags:
+    - role::munin-node

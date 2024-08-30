@@ -1,0 +1,25 @@
+---
+munin_node__plugins:
+  # SpamAssassin
+  - src: spamstats
+  # Nginx
+  - src: nginx_request
+  - src: nginx_status
+  # Postfix
+  - src: postfix_mailstats
+  - src: postfix_mailqueue
+  - src: postfix_mailvolume
+  # PostgreSQL
+  - src: postgres_size_
+    dest: postgres_size_metricity
+  - src: postgres_size_
+    dest: postgres_size_site
+  - src: postgres_size_
+    dest: postgres_size_ALL
+  - src: postgres_xlog
+  - src: postgres_autovacuum
+  - src: postgres_bgwriter
+  - src: postgres_checkpoints
+  - src: postgres_connections_db
+  - src: postgres_users
+  - src: postgres_xlog
