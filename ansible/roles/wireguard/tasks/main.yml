@@ -5,6 +5,25 @@
   tags:
     - role::wireguard
 
+- name: Create firewalld zone for Wireguard on Rocky hosts
+  ansible.posix.firewalld:
+    zone: wireguard
+    state: present
+    permanent: true
+  when: ansible_distribution == "Rocky"
+  tags:
+    - role::wireguard
+
+- name: Add wg0 interface to wireguard firewalld zone
+  ansible.posix.firewalld:
+    zone: wireguard
+    interface: wg0
+    state: enabled
+    permanent: true
+  when: ansible_distribution == "Rocky"
+  tags:
+    - role::wireguard
+
 - name: Generate WireGuard private key
   shell: set -o pipefail && wg genkey > /etc/wireguard/key.priv
   args:
