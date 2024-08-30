@@ -1,8 +1,11 @@
 # Managed by Ansible
 
 log_level 4
+
+{% if ansible_distribution == 'Debian' %}
 log_file /var/log/munin/munin-node.log
 pid_file /var/run/munin/munin-node.pid
+{% endif %}
 
 background 1
 setsid 1
@@ -42,6 +45,10 @@ host_name {{ ansible_fqdn }}
 allow ^127\.0\.0\.1$
 allow ^::1$
 
+{% for host in hostvars %}
+allow ^{{ hostvars[host]['ansible_wg0']['ipv4']['address'] | regex_replace('\.', '\\.') }}$
+{% endfor %}
+
 # If you have installed the Net::CIDR perl module, you can use one or more
 # cidr_allow and cidr_deny address/mask patterns.  A connecting client must
 # match any cidr_allow, and not match any cidr_deny.  Note that a netmask
@@ -55,7 +62,7 @@ allow ^::1$
 
 # Which address to bind to;
 # host *
-host 127.0.0.1
+host {{ ansible_wg0.ipv4.address }}
 
 # And which port
 port 4949
