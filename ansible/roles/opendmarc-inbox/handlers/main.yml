@@ -1,0 +1,5 @@
+---
+- name: Compile DMARC Sieve script
+  become_user: "{{ opendmarc_inbox_username }}"
+  command: "sievec /var/vmail/{{ opendmarc_inbox_username }}/.dovecot.sieve"
+  changed_when: true
