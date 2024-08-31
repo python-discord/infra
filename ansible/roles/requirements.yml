@@ -8,3 +8,7 @@ collections:
     version: 9.3.0
   - name: community.postgresql
     version: 3.5.0
+
+roles:
+  - name: dmarc_metrics_exporter
+    src: https://github.com/jgosmann/dmarc-metrics-exporter.git
