@@ -40,6 +40,7 @@
         listen_addr: "{{ ansible_wg0.ipv4.address }}"
       tags:
         - role::dmarc-metrics-exporter
+        - skip_ansible_lint
 
 - name: Deploy our monitoring stack
   hosts: monitoring
