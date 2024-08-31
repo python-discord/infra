@@ -1,0 +1,7 @@
+# Managed by Ansible
+
+require ["fileinto", "envelope", "subaddress", "mailbox"];
+
+if envelope :detail "to" "reports" {
+  fileinto :create "Reports.New";
+}
