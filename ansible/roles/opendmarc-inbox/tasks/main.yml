@@ -1,0 +1,32 @@
+---
+- name: Create DMARC user sieve directory
+  file:
+    state: directory
+    path: "/var/vmail/{{ opendmarc_inbox_username }}/sieve"
+    owner: "{{ opendmarc_inbox_username }}"
+    group: "{{ opendmarc_inbox_username }}"
+    mode: "0700"
+  tags:
+    - role::opendmarc-inbox
+
+- name: Template DMARC filing Sieve script
+  template:
+    src: dmarc.sieve.j2
+    dest: "/var/vmail/{{ opendmarc_inbox_username }}/sieve/dmarc.sieve"
+    owner: "{{ opendmarc_inbox_username }}"
+    group: "{{ opendmarc_inbox_username }}"
+    mode: "0400"
+  tags:
+    - role::opendmarc-inbox
+  notify:
+    - Compile DMARC Sieve script
+
+- name: Activate DMARC processing Sieve filter
+  file:
+    state: link
+    src: "/var/vmail/{{ opendmarc_inbox_username }}/sieve/dmarc.sieve"
+    path: "/var/vmail/{{ opendmarc_inbox_username }}/.dovecot.sieve"
+  tags:
+    - role::opendmarc-inbox
+  notify:
+    - Compile DMARC Sieve script
