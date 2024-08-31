@@ -31,16 +31,15 @@
     - prometheus-postfix-exporter
     - role: dmarc_metrics_exporter
       vars:
-        imap_username: "{{ dmarc_metrics_imap_username }}"
-        imap_password: "{{ dmarc_metrics_imap_password }}"
-        imap_host: "{{ dmarc_metrics_imap_host }}"
-        folder_inbox: "{{ dmarc_metrics_folder_inbox }}"
-        folder_done: "{{ dmarc_metrics_folder_done }}"
-        folder_error: "{{ dmarc_metrics_folder_error }}"
-        listen_addr: "{{ ansible_wg0.ipv4.address }}"
+        imap_username: "{{ dmarc_metrics_imap_username }}" # noqa: var-naming[no-role-prefix]
+        imap_password: "{{ dmarc_metrics_imap_password }}" # noqa: var-naming[no-role-prefix]
+        imap_host: "{{ dmarc_metrics_imap_host }}" # noqa: var-naming[no-role-prefix]
+        folder_inbox: "{{ dmarc_metrics_folder_inbox }}" # noqa: var-naming[no-role-prefix]
+        folder_done: "{{ dmarc_metrics_folder_done }}" # noqa: var-naming[no-role-prefix]
+        folder_error: "{{ dmarc_metrics_folder_error }}" # noqa: var-naming[no-role-prefix]
+        listen_addr: "{{ ansible_wg0.ipv4.address }}" # noqa: var-naming[no-role-prefix]
       tags:
         - role::dmarc-metrics-exporter
-        - skip_ansible_lint
 
 - name: Deploy our monitoring stack
   hosts: monitoring
