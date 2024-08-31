@@ -22,12 +22,24 @@
   roles:
     - opendkim
     - opendmarc
+    - opendmarc-inbox
     - sasl
     - dovecot
     - dovecot-monitoring
     - spamassassin
     - postfix
     - prometheus-postfix-exporter
+    - role: dmarc_metrics_exporter
+      vars:
+        imap_username: "{{ dmarc_metrics_imap_username }}"
+        imap_password: "{{ dmarc_metrics_imap_password }}"
+        imap_host: "{{ dmarc_metrics_imap_host }}"
+        folder_inbox: "{{ dmarc_metrics_folder_inbox }}"
+        folder_done: "{{ dmarc_metrics_folder_done }}"
+        folder_error: "{{ dmarc_metrics_folder_error }}"
+        listen_addr: "{{ ansible_wg0.ipv4.address }}"
+      tags:
+        - role::dmarc-metrics-exporter
 
 - name: Deploy our monitoring stack
   hosts: monitoring
