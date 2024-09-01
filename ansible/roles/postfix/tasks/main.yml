@@ -158,6 +158,22 @@
   tags:
     - role::postfix
 
+- name: Update PostSRSD rewriting config
+  lineinfile:
+    path: /etc/default/postsrsd
+    regexp: "^#?{{ item['key'] }}="
+    line: '{{ item["key"] }}="{{ item["value"] }}"'
+    mode: "0444"
+    owner: root
+    group: root
+  loop:
+    - key: SRS_EXCLUDE_DOMAINS
+      value: "{{ postfix_destination_domains | join(',') }}"
+  tags:
+    - role::postfix
+  notify:
+    - Restart postsrsd
+
 - name: Pass inbound mail through spamassassin content filter
   lineinfile:
     path: /etc/postfix/master.cf
