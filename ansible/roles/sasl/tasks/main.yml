@@ -73,8 +73,9 @@
   tags:
     - role::sasl
 
-- name: Ask dpkg to create runtime directory as sasl user  # noqa: no-changed-when
+- name: Ask dpkg to create runtime directory as sasl user
   command: "dpkg-statoverride --update --force-statoverride-add --add {{ statoverride_line }}"
+  changed_when: true
   tags:
     - role::sasl
   when:
