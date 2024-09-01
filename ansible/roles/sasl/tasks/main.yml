@@ -45,7 +45,7 @@
     # Postfix runs in a CHROOT so we need to create the SASLAUTHD socket there
     # to allow Postfix to communicate with it.
     - key: OPTIONS
-      value: "-c -m /var/spool/postfix/var/run/saslauthd"
+      value: "-c -m {{ sasl_mux_path }}"
   tags:
     - role::sasl
   notify:
