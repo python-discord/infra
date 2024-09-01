@@ -20,3 +20,8 @@
 - name: Regenerate sender access table
   command: postmap /etc/postfix/sender_access
   changed_when: true
+
+- name: Restart postsrsd
+  service:
+    name: postsrsd
+    state: restarted
