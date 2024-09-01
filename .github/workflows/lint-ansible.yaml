@@ -8,12 +8,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          sparse-checkout: |
+            ansible
+            pyproject.toml
+            poetry.lock
 
       - name: Install Python Dependencies
         uses: HassanAbouelela/actions/setup-python@setup-python_v1.6.0
         with:
-          python_version: '3.11'
+          python_version: "3.11"
           install_args: --only ansible
+          checkout: false
 
       - name: Run ansible lint
         run: |
