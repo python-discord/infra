@@ -2,3 +2,4 @@
 dependencies:
   - nftables
   - nginx
+  - sasl
