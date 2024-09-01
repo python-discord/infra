@@ -16,6 +16,16 @@
   tags:
     - role::sasl
 
+- name: Create service override directory
+  file:
+    path: /etc/systemd/system/saslauthd.service.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  tags:
+    - role::sasl
+
 - name: Copy service user configuration for SASL authentication daemon
   copy:
     src: user.conf
