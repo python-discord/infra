@@ -66,7 +66,7 @@
     content: |
       pwcheck_method: saslauthd
       mech_list: PLAIN
-      saslauthd_path: /var/spool/postfix/var/run/saslauthd/mux
+      saslauthd_path: "{{ sasl_mux_path }}/mux"
   tags:
     - role::jitsi
 

@@ -1,0 +1,2 @@
+---
+sasl_mux_path: /var/run/saslauthd
