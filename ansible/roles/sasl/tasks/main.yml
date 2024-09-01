@@ -61,6 +61,29 @@
   notify:
     - Restart SASL
 
+# The sysvinit script checks for a dpkg-statoverride when first starting. If
+# one exists, it uses it, if none exists, ti creates the directory with
+# ownership u=root g=sasl m=710. With these two tasks, we check whether there's
+# a default override already specified (presumably from package installation)
+# and only set it if it's distinct, ensuring idempotency.
+- name: Check current overrides for runtime directory
+  command: dpkg-statoverride --list "{{ sasl_mux_path }}"
+  changed_when: false
+  register: sasl_statoverride_list
+  tags:
+    - role::sasl
+
+- name: Ask dpkg to create runtime directory as sasl user  # noqa: no-changed-when
+  command: "dpkg-statoverride --update --force-statoverride-add --add {{ statoverride_line }}"
+  tags:
+    - role::sasl
+  when:
+    # Only if necessary.
+    - sasl_statoverride_list.stdout_lines
+    - sasl_statoverride_list.stdout_lines[0] != statoverride_line
+  vars:
+    statoverride_line: "sasl sasl 710 {{ sasl_mux_path }}"
+
 - name: Copy SASL LDAP configuration
   template:
     src: saslauthd.conf.j2
