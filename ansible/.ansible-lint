@@ -4,7 +4,9 @@ exclude_paths:
   - roles/certbot/vars/main/vault.yml
   # Submodules
   - roles/nftables
+  - roles/prometheus-postgres-exporter
 skip_list:
   - fqcn-builtins
   - meta-no-info
   - role-name
+  - jinja[spacing]
