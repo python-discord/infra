@@ -111,6 +111,7 @@
   with_fileglob: "../templates/services/*"
   tags:
     - role::postfix
+    - role::postfix::service-scripts
 
 - name: Template Postfix mail transport map
   template:
@@ -203,5 +204,6 @@
         flags=Fq user=servicemailer argv=/etc/postfix/service-scripts/fredrick-reply.sh
   tags:
     - role::postfix
+    - role::postfix::service-scripts
   notify:
     - Restart postfix
