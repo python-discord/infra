@@ -25,6 +25,23 @@
   file:
     path: /etc/nginx/sites-enabled/default
     state: absent
+  tags:
+    - role::nginx
+
+- name: Copy conf.d entries
+  template:
+    src: "{{ item }}"
+    dest: "/etc/nginx/conf.d/{{ item | basename | splitext | first }}"
+    mode: "0444"
+    owner: root
+    group: root
+  with_fileglob: "../templates/nginx-conf.d/*"
+  loop_control:
+    label: "{{ item | basename | splitext | first }}"
+  tags:
+    - role::nginx
+  notify:
+    - Reload the nginx service
 
 - name: Copy host-specific configs
   copy:
