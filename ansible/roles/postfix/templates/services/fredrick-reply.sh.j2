@@ -45,8 +45,7 @@ FILTERED=$(echo "$FRED_RESPONSE" | grep -v "^Subject:")
   echo "Subject: $REPLY_SUBJECT"
   echo "From: Fredrick <fredrick@pydis.wtf>"
   echo "To: $SENDER"
-  # TODO: Change this BCC to a team BCC once further tested
-  echo "Bcc: joe@pydis.wtf"
+  echo "Bcc: devops@pydis.wtf"
   echo "In-Reply-To: $MESSAGE_ID"
   echo "References: $MESSAGE_ID"
   echo
