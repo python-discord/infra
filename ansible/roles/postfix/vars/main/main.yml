@@ -19,4 +19,4 @@ postfix_destination_domains:
   - pythondiscord.com
   - owlcorp.uk
 
-postfix_fredrick_generator_token: "{{ vault_fredrick_generator_token }}"
+postfix_fredrick_generator_token: "{{ vault_postfix_fredrick_generator_token }}"
