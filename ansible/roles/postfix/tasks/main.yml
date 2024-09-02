@@ -89,14 +89,26 @@
   notify:
     - Restart postfix
 
-- name: Copy Postfix scripts directory
-  copy:
-    src: services/
-    dest: /etc/postfix/service-scripts/
-    directory_mode: "0755"
+- name: Create Postfix service directory
+  file:
+    path: "/etc/postfix/service-scripts"
+    owner: root
+    group: servicemailer
+    mode: "0755"
+    state: directory
+  tags:
+    - role::postfix
+
+- name: Template Postfix automated scripts
+  template:
+    src: "{{ item }}"
+    dest: "/etc/postfix/service-scripts/{{ item | basename | splitext | first }}"
     mode: "0754"
     owner: root
     group: servicemailer
+  loop_control:
+    label: "{{ item | basename | splitext | first }}"
+  with_fileglob: "../templates/services/*"
   tags:
     - role::postfix
 
