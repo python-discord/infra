@@ -1,0 +1,54 @@
+#!/usr/bin/env sh
+
+FREDRICK_TOKEN='{{ postfix_fredrick_generator_token }}'
+FREDRICK_ENDPOINT="https://fredrick.python-discord.workers.dev/"
+
+# Read email into variable
+EMAIL=$(cat)
+
+# Find the sender
+SENDER=$(echo "$EMAIL" | maddr -h from -)
+
+# Find message ID to use later to add to a reply chain
+MESSAGE_ID=$(echo "$EMAIL" | mhdr -h message-id -)
+
+# Extract the original Subject and prefix it with "Re: " if necessary
+ORIGINAL_SUBJECT=$(echo "$EMAIL" | mhdr -h subject -)
+
+# Construct the reply subject
+REPLY_SUBJECT="Re: $ORIGINAL_SUBJECT"
+
+# Decode the text/plain component of the message body
+#
+# We strip off a line on some emails about being unable to find a filter
+BODY=$(echo "$EMAIL" | mshow - -N -h "" -A text/plain | grep -v "^no filter or default handler$")
+
+# Convert to a multiline JSON value that we can ship to the Fred API
+JSON_BODY=$(echo -n "$BODY" | jq -R -s . | sed 's/\\n/\\\\n/g')
+
+# We build the request to send off to the Fredrick generator
+FINAL_JSON=$(jq -r -c -n \
+    --arg from "$SENDER" \
+    --arg subject "$ORIGINAL_SUBJECT" \
+    --argjson body "$JSON_BODY" \
+    '{from: $from, subject: $subject, body: $body}')
+
+FRED_RESPONSE=$(curl -X POST "$FREDRICK_ENDPOINT" \
+    -H "Authorization: $FREDRICK_TOKEN" \
+    -H "Content-Type: application/json" \
+    -d "$FINAL_JSON" -s)
+
+# Fredrick likes to try add a Subject: line on sometimes
+FILTERED=$(echo "$FRED_RESPONSE" | grep -v "^Subject:")
+
+(
+  echo "Subject: $REPLY_SUBJECT"
+  echo "From: Fredrick <fredrick@pydis.wtf>"
+  echo "To: $SENDER"
+  # TODO: Change this BCC to a team BCC once further tested
+  echo "Bcc: joe@pydis.wtf"
+  echo "In-Reply-To: $MESSAGE_ID"
+  echo "References: $MESSAGE_ID"
+  echo
+  echo "$FILTERED"
+) | /usr/sbin/sendmail -t
