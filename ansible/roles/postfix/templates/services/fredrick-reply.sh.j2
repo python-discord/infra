@@ -9,8 +9,13 @@ EMAIL=$(cat)
 # Find the sender
 SENDER=$(echo "$EMAIL" | maddr -h from -)
 
+# Grab the display name of the sender
+SENDER_DISPLAY_NAME=$(echo "$EMAIL" | maddr -h from -d -)
+
 # Find message ID to use later to add to a reply chain
 MESSAGE_ID=$(echo "$EMAIL" | mhdr -h message-id -)
+
+MESSAGE_DATE=$(echo "$EMAIL" | mhdr -h date -)
 
 # Extract the original Subject and prefix it with "Re: " if necessary
 ORIGINAL_SUBJECT=$(echo "$EMAIL" | mhdr -h subject -)
@@ -50,4 +55,8 @@ FILTERED=$(echo "$FRED_RESPONSE" | grep -v "^Subject:")
   echo "References: $MESSAGE_ID"
   echo
   echo "$FILTERED"
+  echo
+  # Quote the original message
+  echo "On $MESSAGE_DATE, $SENDER_DISPLAY_NAME wrote:"
+  echo "$BODY" | awk -F '\n' '{ print "> " $1 }'
 ) | /usr/sbin/sendmail -t
