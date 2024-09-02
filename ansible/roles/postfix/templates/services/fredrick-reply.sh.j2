@@ -50,6 +50,16 @@ FRED_RESPONSE=$(curl -X POST "$FREDRICK_ENDPOINT" \
 # Fredrick likes to try add a Subject: line on sometimes
 FILTERED=$(echo "$FRED_RESPONSE" | grep -v "^Subject:")
 
+# Path where scheduled replies are stored
+REPLIES_PATH=/var/tmp/fredrick-vacation-replies
+
+if [ ! -d "$REPLIES_PATH" ]; then
+    # -p is to prevent race conditions from concurrent script runs
+    mkdir -p "$REPLIES_PATH"
+fi
+
+REPLY_PATH=$(mktemp --tmpdir="$REPLIES_PATH" --suffix=.eml)
+
 (
   echo "Subject: $REPLY_SUBJECT"
   echo "From: Fredrick <fredrick@pydis.wtf>"
@@ -63,4 +73,13 @@ FILTERED=$(echo "$FRED_RESPONSE" | grep -v "^Subject:")
   # Quote the original message
   echo "On $MESSAGE_DATE, $SENDER_DISPLAY_NAME wrote:"
   echo "$BODY" | awk -F '\n' '{ print "> " $1 }'
-) | /usr/sbin/sendmail -t
+) > "$REPLY_PATH"
+
+ATSCRIPT=$(mktemp --suffix=fredrick-atscript.sh)
+
+cat > "$ATSCRIPT" <<EOF
+/usr/sbin/sendmail -t < "$REPLY_PATH"
+rm "$REPLY_PATH"
+EOF
+
+at -f "$ATSCRIPT" now + 10 min
