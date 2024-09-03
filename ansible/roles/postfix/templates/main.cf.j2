@@ -48,7 +48,12 @@ myhostname = {{ postfix_mailserver_name }}
 
 policyd-spf_time_limit = 3600
 
-# Handle SRS
+# Set the default transport to our private separate smtpd instance
+# which will conditionally apply SRS (Sender Rewrite Scheme).
+#
+# If the mail is destined for a local inbox, no SRS is needed as we
+# are the final hop. If the mail is destined for a forwarding address
+# we apply SRS so that SPF and other validations will pass.
 default_transport = smtp:127.0.0.1:10027
 recipient_canonical_maps = tcp:localhost:10002
 recipient_canonical_classes = envelope_recipient,header_recipient
