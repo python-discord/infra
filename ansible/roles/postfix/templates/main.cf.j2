@@ -48,8 +48,8 @@ myhostname = {{ postfix_mailserver_name }}
 
 policyd-spf_time_limit = 3600
 
-sender_canonical_maps = tcp:localhost:10001
-sender_canonical_classes = envelope_sender
+# Handle SRS
+default_transport = smtp:127.0.0.1:10027
 recipient_canonical_maps = tcp:localhost:10002
 recipient_canonical_classes = envelope_recipient,header_recipient
 
