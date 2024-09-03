@@ -38,9 +38,11 @@ JSON_BODY=$(echo -n "$BODY" | jq -R -s . | sed 's/\\n/\\\\n/g')
 FINAL_JSON=$(jq -r -c -n \
     --arg from "$SENDER" \
     --arg subject "$ORIGINAL_SUBJECT" \
-    --arg sent_at "$DATE_UNIX" \
+    --arg sent_at_unix "$DATE_UNIX" \
+    --arg sent_at_unparsed "$MESSAGE_DATE" \
     --argjson body "$JSON_BODY" \
-    '{sent_at: $sent_at, from: $from, subject: $subject, body: $body}')
+    '{sent_at_unix: $sent_at, sent_at_unparsed: $sent_at_unparsed,
+      from: $from, subject: $subject, body: $body}')
 
 FRED_RESPONSE=$(curl -X POST "$FREDRICK_ENDPOINT" \
     -H "Authorization: $FREDRICK_TOKEN" \
