@@ -1,0 +1,5 @@
+# {{ ansible_managed }}
+
+{% for domain in postfix_destination_domains %}
+/^(.+@{{ domain | replace(".", "\\.") }})$/    ${1}
+{% endfor %}
