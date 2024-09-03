@@ -198,12 +198,12 @@
         -o smtpd_sasl_path=private/auth
 
       cleanup-srs     unix n - - - 0 cleanup
-        -o syslog_name=postfix/srs
+        -o syslog_name=postfix/cleanup/optional-srs
         -o sender_canonical_maps=pcre:/etc/postfix/sender-canonical-maps,tcp:127.0.0.1:10001
         -o sender_canonical_classes=envelope_sender
 
-      127.0.0.1:10027 inet n - - - - smtpd
-        -o syslog_name=postfix/srs
+      127.0.0.1:10027 inet n - y - - smtpd
+        -o syslog_name=postfix/cleanup/optional-srs
         -o smtpd_milters=
         -o cleanup_service_name=cleanup-srs
         -o smtpd_tls_security_level=none
