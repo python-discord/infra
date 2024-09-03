@@ -90,6 +90,16 @@
   notify:
     - Restart postfix
 
+- name: Template sender canonical map lookup
+  template:
+    src: sender-canonical-maps.j2
+    dest: /etc/postfix/sender-canonical-maps
+    mode: "0644"
+    group: root
+    owner: root
+  tags:
+    - role::postfix
+
 - name: Create Postfix service directory
   file:
     path: "/etc/postfix/service-scripts"
@@ -186,6 +196,19 @@
         -o smtpd_recipient_restrictions=permit_mynetworks,permit_sasl_authenticated,reject
         -o smtpd_sasl_type=dovecot
         -o smtpd_sasl_path=private/auth
+
+      cleanup-srs     unix n - - - 0 cleanup
+        -o syslog_name=postfix/srs
+        -o sender_canonical_maps=pcre:/etc/postfix/sender-canonical-maps,tcp:127.0.0.1:10001
+        -o sender_canonical_classes=envelope_sender
+
+      127.0.0.1:10027 inet n - - - - smtpd
+        -o syslog_name=postfix/srs
+        -o smtpd_milters=
+        -o cleanup_service_name=cleanup-srs
+        -o smtpd_tls_security_level=none
+        -o content_filter=smtp:
+        -o smtpd_recipient_restrictions=permit_mynetworks,reject
 
       # spamassassin filtering
       spamassassin unix -     n       n       -       -       pipe
