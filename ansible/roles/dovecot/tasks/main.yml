@@ -111,8 +111,8 @@
     - learn-ham.sieve
   notify:
     - Restart Dovecot
-    - Recompile dovecot learn-spam sieve script
-    - Recompile dovecot learn-ham sieve script
+    - Recompile learn-spam sieve script
+    - Recompile learn-ham sieve script
   tags:
     - role::dovecot
 
