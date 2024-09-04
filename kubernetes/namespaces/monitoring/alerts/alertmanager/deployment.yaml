@@ -29,7 +29,7 @@ spec:
               topologyKey: kubernetes.io/hostname
             weight: 100
       initContainers:
-      - image: debian:bullseye-slim
+      - image: alpine:latest
         imagePullPolicy: Always
         name: alertmanager-peering-setup
         command: [

@@ -8,7 +8,7 @@ data:
     #!/bin/sh
 
     # Install curl and jq for JSON parsing
-    apt update && apt install -y curl jq
+    apk add curl jq
 
     # Find the template hash
     echo Finding template hash...
