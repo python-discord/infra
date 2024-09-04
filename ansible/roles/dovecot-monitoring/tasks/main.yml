@@ -27,7 +27,7 @@
     name: "{{ item.name }}"
     minute: "*/20"
     hour: "*"
-    job: "{{ item.job }}"
+    job: "nice {{ item.job }}"
     cron_file: "{{ dovecot_monitoring_cron_filename }}"
     user: root
   tags:

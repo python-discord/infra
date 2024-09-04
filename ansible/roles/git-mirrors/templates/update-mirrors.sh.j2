@@ -11,7 +11,7 @@ FOUND_REPOS=$(find "$MIRRORS_BASE_DIR" -name "HEAD" -print0 | xargs -0 dirname)
 for repo in $FOUND_REPOS; do
     cd "$repo";
     echo "Updating $repo mirror..."
-    if ! git fetch -q --prune; then
+    if ! nice git fetch -q --prune; then
         echo "Error: Failed to update repository $repo"
         exit 1
     fi
