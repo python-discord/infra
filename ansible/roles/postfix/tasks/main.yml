@@ -238,10 +238,10 @@
 
       # Service Mail pipes
       fortune-pipe unix  -       n       n       -       -       pipe
-        flags=Fq user=servicemailer argv=/etc/postfix/service-scripts/fortune-reply.sh
+        flags=Fq user=servicemailer argv=/usr/bin/nice /etc/postfix/service-scripts/fortune-reply.sh
 
       fredrick-pipe unix  -       n       n       -       -       pipe
-        flags=Fq user=servicemailer argv=/etc/postfix/service-scripts/fredrick-reply.sh
+        flags=Fq user=servicemailer argv=/usr/bin/nice /etc/postfix/service-scripts/fredrick-reply.sh
   tags:
     - role::postfix
     - role::postfix::service-scripts
