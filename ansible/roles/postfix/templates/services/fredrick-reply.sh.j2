@@ -41,7 +41,7 @@ FINAL_JSON=$(jq -r -c -n \
     --arg sent_at_unix "$DATE_UNIX" \
     --arg sent_at_unparsed "$MESSAGE_DATE" \
     --argjson body "$JSON_BODY" \
-    '{sent_at_unix: $sent_at, sent_at_unparsed: $sent_at_unparsed,
+    '{sent_at_unix: $sent_at_unix, sent_at_unparsed: $sent_at_unparsed,
       from: $from, subject: $subject, body: $body}')
 
 FRED_RESPONSE=$(curl -X POST "$FREDRICK_ENDPOINT" \
