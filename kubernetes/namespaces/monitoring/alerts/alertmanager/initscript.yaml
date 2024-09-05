@@ -24,7 +24,7 @@ data:
     AM_IPS=$(jq '.items[].status.podIP' /tmp/peers.json -r)
 
     echo Generating CLI flags for Alertmanager...
-    PEER_ARGS=$(echo $AM_IPS | sed 's/ /\n/g' | awk '{ print "--cluster.peer="$1":9094" }')
+    PEER_ARGS=$(echo $AM_IPS | awk -v RS=' ' -v ORS=' ' '{ print "--cluster.peer="$1":9094" }')
 
     echo Writing CLI flags to /tmp/peers...
     echo $PEER_ARGS > /tmp/peers
