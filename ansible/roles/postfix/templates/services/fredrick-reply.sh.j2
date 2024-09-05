@@ -88,5 +88,6 @@ cat > "$ATSCRIPT" <<EOF
 rm "$REPLY_PATH"
 EOF
 
-at -f "$ATSCRIPT" now + 10 min
+# Use the z queue for maximum niceness
+at -q z -f "$ATSCRIPT" now + 10 min
 rm "$ATSCRIPT"
