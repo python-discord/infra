@@ -1,0 +1,21 @@
+---
+- name: Install pg_repack
+  apt:
+    name:
+      - postgresql-{{ postgres_version }}-repack
+    state: present
+  tags:
+    - role::postgres
+    - role::postgres-pg_repack
+
+- name: Add pg_repack to all databases
+  become: true
+  become_user: "{{ postgres_user }}"
+  community.postgresql.postgresql_ext:
+    db: "{{ item.name }}"
+    name: pg_repack
+    state: present
+  loop: "{{ postgres_databases }}"
+  tags:
+    - role::postgres
+    - role::postgres-pg_repack
