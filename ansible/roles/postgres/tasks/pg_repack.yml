@@ -19,3 +19,14 @@
   tags:
     - role::postgres
     - role::postgres-pg_repack
+
+- name: Add cronjob for running pg_repack on all databases
+  cron:
+    name: "Run pg_repack on all databases"
+    special_time: "weekly"
+    job: "pg_repack -a"
+    user: "{{ postgres_user }}"
+    cron_file: "{{ postgres_pg_repack_cron_filename }}"
+  tags:
+    - role::postgres
+    - role::postgres-pg_repack
