@@ -121,12 +121,28 @@ nginx_configs:
       ssl_certificate         /etc/letsencrypt/live/owlcorp.uk/fullchain.pem;
       ssl_certificate_key     /etc/letsencrypt/live/owlcorp.uk/privkey.pem;
 
-      location /.well-known/webfinger {
-        add_header Access-Control-Allow-Origin '*';
-        return 301 https://social.owlcorp.uk$request_uri;
+      location / {
+        try_files $uri $uri/ =404;
+      }
+    }
+
+  pydis.wtf.conf: |
+    server {
+      listen      443;
+      listen      [::]:443;
+      server_name pydis.wtf;
+      root        /var/www/pydis.wtf;
+
+      ssl_certificate         /etc/letsencrypt/live/pydis.wtf/fullchain.pem;
+      ssl_certificate_key     /etc/letsencrypt/live/pydis.wtf/privkey.pem;
+
+      location ~ ^/~(.+?)(/.*)?$ {
+        alias /home/$1/public$2;
+        autoindex on;
       }
 
       location / {
         try_files $uri $uri/ =404;
       }
+
     }
