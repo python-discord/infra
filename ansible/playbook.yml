@@ -10,6 +10,7 @@
   hosts: netcup
   roles:
     - certbot
+    - ci-user
     - alloy
     - nftables
     - prometheus-node-exporter

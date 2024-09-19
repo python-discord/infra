@@ -1,0 +1,10 @@
+---
+ci_user_username: ci
+ci_user_homepath: /home/ci
+ci_user_extra_groups:
+  - www-data
+
+ci_user_keys:
+  - key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJTE2hcswFHJ3SQo9PvqhB7SYqk+jE7qrZXCNS7Hp0iZ
+    comment: github-actions-ci
+    options: 'command="rrsync /var/www"'

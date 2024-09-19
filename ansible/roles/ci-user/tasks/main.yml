@@ -1,0 +1,22 @@
+---
+- name: Create new user for CI tasks
+  user:
+    name: "{{ ci_user_username }}"
+    groups: "{{ ci_user_extra_groups }}"
+    append: true
+    system: false
+    home: "{{ ci_user_homepath }}"
+  tags:
+    - role::ci-user
+
+- name: Add authorized SSH keys to CI user
+  ansible.posix.authorized_key:
+    user: "{{ ci_user_username }}"
+    key: "{{ item.key }}"
+    key_options: "{{ item.options }}"
+    comment: "{{ item.comment }}"
+  loop: "{{ ci_user_keys }}"
+  loop_control:
+    label: "{{ item.comment }}"
+  tags:
+    - role::ci-user
