@@ -5,3 +5,4 @@ metadata:
   namespace: merch
 data:
   BACKEND_CORS_ORIGINS: '["https://merch.pydis.wtf","https://merch.owlcorp.uk"]'
+  BACKEND_PRINTFUL_STORE_ID: '6179998'
