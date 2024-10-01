@@ -137,6 +137,14 @@ merch:
       proxied: true
   ttl: 300
   type: CNAME
+  value: thallium.netlify.app.
+
+merch-api:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: CNAME
   value: linode-lb.box.pydis.wtf.
 
 metabase:
