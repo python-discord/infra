@@ -34,6 +34,10 @@ loki:
     retention_period: 30d
     # Enable volume querying endpoint (for Grafana Explore Logs)
     volume_enabled: true
+    retention_stream:
+    - selector: '{app_container="/loki"}'
+      priority: 1
+      period: 14d
 
 singleBinary:
   # Set replicas to 3 again
