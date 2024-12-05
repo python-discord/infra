@@ -1,11 +1,11 @@
 ---
 collections:
   - name: ansible.posix
-    version: 1.6.0
+    version: 2.0.0
   - name: community.crypto
     version: 2.22.0
   - name: community.general
-    version: 9.4.0
+    version: 10.1.0
   - name: community.postgresql
     version: 3.5.0
 
