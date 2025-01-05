@@ -121,3 +121,6 @@
     - role::postgres
   notify:
     - Reload the postgres service
+
+- name: Install and configure pg_repack
+  include_tasks: pg_repack.yml
