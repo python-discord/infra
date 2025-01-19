@@ -2,13 +2,13 @@
 
 [[package]]
 name = "ansible-compat"
-version = "24.9.0"
+version = "24.10.0"
 description = "Ansible compatibility goodies"
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "ansible_compat-24.9.0-py3-none-any.whl", hash = "sha256:a0e731d98934fd826a8cd4bf574ea5d8ccc30dfb79e3524db1c4c572ad2dec16"},
-    {file = "ansible_compat-24.9.0.tar.gz", hash = "sha256:c5a42a56dd212625cfcb1d31e51a6e0f52593691bde1fe4a78881e8b1b78a6b8"},
+    {file = "ansible_compat-24.10.0-py3-none-any.whl", hash = "sha256:0415bcd82f7d84e5b344c03439154c1f16576809dc3a523b81178354c86ae5a1"},
+    {file = "ansible_compat-24.10.0.tar.gz", hash = "sha256:0ad873e0dae8b2de79bc33ced813d6c92c716c4d7b82f9a4693e1fd57f43776e"},
 ]
 
 [package.dependencies]
@@ -20,17 +20,17 @@ subprocess-tee = ">=0.4.1"
 
 [package.extras]
 docs = ["argparse-manpage", "black", "mkdocs-ansible (>=24.3.1)"]
-test = ["coverage", "pip-tools", "pytest (>=7.2.0)", "pytest-mock", "pytest-plus (>=0.6.1)"]
+test = ["coverage", "pip", "pytest (>=7.2.0)", "pytest-mock", "pytest-plus (>=0.6.1)", "uv (>=0.4.30)"]
 
 [[package]]
 name = "ansible-core"
-version = "2.17.4"
+version = "2.18.1"
 description = "Radically simple IT automation"
 optional = false
-python-versions = ">=3.10"
+python-versions = ">=3.11"
 files = [
-    {file = "ansible_core-2.17.4-py3-none-any.whl", hash = "sha256:a36c9ab8e84d5d51f9fffe389d6ac7e81c8d0df6af8c12429ddbb71e8d69b21e"},
-    {file = "ansible_core-2.17.4.tar.gz", hash = "sha256:44a1f30076796536ba2455cad18d36e62870f04e632e3ca2ebe970d7beacf24d"},
+    {file = "ansible_core-2.18.1-py3-none-any.whl", hash = "sha256:4a312e416e09c7271188d6b8e2b1062fc6834fefd6a1814d0e02fb8aadb3e1ba"},
+    {file = "ansible_core-2.18.1.tar.gz", hash = "sha256:14cac1f92bbdae881cb0616eddeb17925e8cb507e486087975e724533d9de74f"},
 ]
 
 [package.dependencies]
@@ -42,17 +42,17 @@ resolvelib = ">=0.5.3,<1.1.0"
 
 [[package]]
 name = "ansible-lint"
-version = "24.9.0"
+version = "24.12.2"
 description = "Checks playbooks for practices and behavior that could potentially be improved"
 optional = false
 python-versions = ">=3.10"
 files = [
-    {file = "ansible_lint-24.9.0-py3-none-any.whl", hash = "sha256:8273136ce544c50bb073e928fdf596a1a82c86db2463e98402c29b8616af5406"},
-    {file = "ansible_lint-24.9.0.tar.gz", hash = "sha256:b8c9c94c6c3bc68b43bcf7b067e286f8201e341772c7d3dbdb0364ecab2b3944"},
+    {file = "ansible_lint-24.12.2-py3-none-any.whl", hash = "sha256:ce7a783ce4f053a965e31f308cdb57554259052efea04b8491c9704f11095e54"},
+    {file = "ansible_lint-24.12.2.tar.gz", hash = "sha256:f636309c4e7f724fc1a544df529c4c2354f54cf35ede11d750366afb1158a464"},
 ]
 
 [package.dependencies]
-ansible-compat = ">=24.8.0"
+ansible-compat = ">=24.10.0"
 ansible-core = ">=2.13.0"
 black = ">=24.3.0"
 filelock = ">=3.3.0"
@@ -61,7 +61,6 @@ jsonschema = ">=4.10.0"
 packaging = ">=21.3"
 pathspec = ">=0.10.3"
 pyyaml = ">=5.4.1"
-rich = ">=12.0.0"
 "ruamel.yaml" = ">=0.18.5"
 subprocess-tee = ">=0.4.1"
 wcmatch = [
@@ -71,8 +70,8 @@ wcmatch = [
 yamllint = ">=1.30.0"
 
 [package.extras]
-docs = ["mkdocs-ansible (>=0.2.0)", "pipdeptree (>=2.7.1)"]
-test = ["black", "coverage-enable-subprocess", "coverage[toml] (>=6.4.4)", "jmespath", "license-expression (>=30.3.0)", "mypy", "netaddr", "psutil", "pylint", "pytest (>=7.2.2)", "pytest-mock", "pytest-plus (>=0.6)", "pytest-xdist (>=2.1.0)", "ruamel-yaml-clib", "ruamel.yaml (>=0.17.31)", "tox (>=4.0.0)", "types-jsonschema", "types-pyyaml"]
+docs = ["mkdocs-ansible (>=24.12.0)", "uv (>=0.5.5)"]
+test = ["black", "coverage-enable-subprocess", "coverage[toml] (>=6.4.4)", "jmespath", "license-expression (>=30.3.0)", "mypy", "netaddr", "pip", "psutil", "pylint", "pytest (>=7.2.2)", "pytest-instafail (>=0.5.0)", "pytest-mock", "pytest-plus (>=0.6)", "pytest-xdist[psutil,setproctitle] (>=2.1.0)", "ruamel-yaml-clib", "ruamel.yaml (>=0.17.31)", "tox (>=4.0.0)", "types-jsonschema", "types-pyyaml"]
 
 [[package]]
 name = "attrs"
@@ -510,21 +509,21 @@ files = [
 
 [[package]]
 name = "dnspython"
-version = "2.6.1"
+version = "2.7.0"
 description = "DNS toolkit"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 files = [
-    {file = "dnspython-2.6.1-py3-none-any.whl", hash = "sha256:5ef3b9680161f6fa89daf8ad451b5f1a33b18ae8a1c6778cdf4b43f08c0a6e50"},
-    {file = "dnspython-2.6.1.tar.gz", hash = "sha256:e8f0f9c23a7b7cb99ded64e6c3a6f3e701d78f50c55e002b839dea7225cff7cc"},
+    {file = "dnspython-2.7.0-py3-none-any.whl", hash = "sha256:b4c34b7d10b51bcc3a5071e7b8dee77939f1e878477eeecc965e9835f63c6c86"},
+    {file = "dnspython-2.7.0.tar.gz", hash = "sha256:ce9c432eda0dc91cf618a5cedf1a4e142651196bbcd2c80e89ed5a907e5cfaf1"},
 ]
 
 [package.extras]
-dev = ["black (>=23.1.0)", "coverage (>=7.0)", "flake8 (>=7)", "mypy (>=1.8)", "pylint (>=3)", "pytest (>=7.4)", "pytest-cov (>=4.1.0)", "sphinx (>=7.2.0)", "twine (>=4.0.0)", "wheel (>=0.42.0)"]
-dnssec = ["cryptography (>=41)"]
+dev = ["black (>=23.1.0)", "coverage (>=7.0)", "flake8 (>=7)", "hypercorn (>=0.16.0)", "mypy (>=1.8)", "pylint (>=3)", "pytest (>=7.4)", "pytest-cov (>=4.1.0)", "quart-trio (>=0.11.0)", "sphinx (>=7.2.0)", "sphinx-rtd-theme (>=2.0.0)", "twine (>=4.0.0)", "wheel (>=0.42.0)"]
+dnssec = ["cryptography (>=43)"]
 doh = ["h2 (>=4.1.0)", "httpcore (>=1.0.0)", "httpx (>=0.26.0)"]
-doq = ["aioquic (>=0.9.25)"]
-idna = ["idna (>=3.6)"]
+doq = ["aioquic (>=1.0.0)"]
+idna = ["idna (>=3.7)"]
 trio = ["trio (>=0.23)"]
 wmi = ["wmi (>=1.5.1)"]
 
@@ -716,30 +715,6 @@ docs = ["mdx-gh-links (>=0.2)", "mkdocs (>=1.5)", "mkdocs-gen-files", "mkdocs-li
 testing = ["coverage", "pyyaml"]
 
 [[package]]
-name = "markdown-it-py"
-version = "3.0.0"
-description = "Python port of markdown-it. Markdown parsing, done right!"
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "markdown-it-py-3.0.0.tar.gz", hash = "sha256:e3f60a94fa066dc52ec76661e37c851cb232d92f9886b15cb560aaada2df8feb"},
-    {file = "markdown_it_py-3.0.0-py3-none-any.whl", hash = "sha256:355216845c60bd96232cd8d8c40e8f9765cc86f46880e43a8fd22dc1a1a8cab1"},
-]
-
-[package.dependencies]
-mdurl = ">=0.1,<1.0"
-
-[package.extras]
-benchmarking = ["psutil", "pytest", "pytest-benchmark"]
-code-style = ["pre-commit (>=3.0,<4.0)"]
-compare = ["commonmark (>=0.9,<1.0)", "markdown (>=3.4,<4.0)", "mistletoe (>=1.0,<2.0)", "mistune (>=2.0,<3.0)", "panflute (>=2.3,<3.0)"]
-linkify = ["linkify-it-py (>=1,<3)"]
-plugins = ["mdit-py-plugins"]
-profiling = ["gprof2dot"]
-rtd = ["jupyter_sphinx", "mdit-py-plugins", "myst-parser", "pyyaml", "sphinx", "sphinx-copybutton", "sphinx-design", "sphinx_book_theme"]
-testing = ["coverage", "pytest", "pytest-cov", "pytest-regressions"]
-
-[[package]]
 name = "markupsafe"
 version = "2.1.5"
 description = "Safely add untrusted strings to HTML/XML markup."
@@ -809,17 +784,6 @@ files = [
 ]
 
 [[package]]
-name = "mdurl"
-version = "0.1.2"
-description = "Markdown URL utilities"
-optional = false
-python-versions = ">=3.7"
-files = [
-    {file = "mdurl-0.1.2-py3-none-any.whl", hash = "sha256:84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8"},
-    {file = "mdurl-0.1.2.tar.gz", hash = "sha256:bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba"},
-]
-
-[[package]]
 name = "mergedeep"
 version = "1.3.4"
 description = "A deep merge function for 🐍."
@@ -878,13 +842,13 @@ pyyaml = ">=5.1"
 
 [[package]]
 name = "mkdocs-git-committers-plugin-2"
-version = "2.3.0"
+version = "2.4.1"
 description = "An MkDocs plugin to create a list of contributors on the page. The git-committers plugin will seed the template context with a list of GitHub or GitLab committers and other useful GIT info such as last modified date"
 optional = false
-python-versions = ">=3.8,<4"
+python-versions = "<4,>=3.8"
 files = [
-    {file = "mkdocs-git-committers-plugin-2-2.3.0.tar.gz", hash = "sha256:d6baca1ae04db8120640038eda8142f2d081c27b53f3b566c83c75717e4ed81a"},
-    {file = "mkdocs_git_committers_plugin_2-2.3.0-py3-none-any.whl", hash = "sha256:7b3434af3be525c12858eb3b44b4c6b695b7c7b7760482ea8de1c6e292e84f0f"},
+    {file = "mkdocs_git_committers_plugin_2-2.4.1-py3-none-any.whl", hash = "sha256:ec9c1d81445606c471337d1c4a1782c643b7377077b545279dc18b86b7362c6d"},
+    {file = "mkdocs_git_committers_plugin_2-2.4.1.tar.gz", hash = "sha256:ea1f80a79cedc42289e0b8e973276df04fb94f56e0ae3efc5385fb28547cf5cb"},
 ]
 
 [package.dependencies]
@@ -894,13 +858,13 @@ requests = "*"
 
 [[package]]
 name = "mkdocs-git-revision-date-localized-plugin"
-version = "1.2.9"
+version = "1.3.0"
 description = "Mkdocs plugin that enables displaying the localized date of the last git modification of a markdown file."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "mkdocs_git_revision_date_localized_plugin-1.2.9-py3-none-any.whl", hash = "sha256:dea5c8067c23df30275702a1708885500fadf0abfb595b60e698bffc79c7a423"},
-    {file = "mkdocs_git_revision_date_localized_plugin-1.2.9.tar.gz", hash = "sha256:df9a50873fba3a42ce9123885f8c53d589e90ef6c2443fe3280ef1e8d33c8f65"},
+    {file = "mkdocs_git_revision_date_localized_plugin-1.3.0-py3-none-any.whl", hash = "sha256:c99377ee119372d57a9e47cff4e68f04cce634a74831c06bc89b33e456e840a1"},
+    {file = "mkdocs_git_revision_date_localized_plugin-1.3.0.tar.gz", hash = "sha256:439e2f14582204050a664c258861c325064d97cdc848c541e48bb034a6c4d0cb"},
 ]
 
 [package.dependencies]
@@ -927,13 +891,13 @@ files = [
 
 [[package]]
 name = "mkdocs-material"
-version = "9.5.34"
+version = "9.5.50"
 description = "Documentation that simply works"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "mkdocs_material-9.5.34-py3-none-any.whl", hash = "sha256:54caa8be708de2b75167fd4d3b9f3d949579294f49cb242515d4653dbee9227e"},
-    {file = "mkdocs_material-9.5.34.tar.gz", hash = "sha256:1e60ddf716cfb5679dfd65900b8a25d277064ed82d9a53cd5190e3f894df7840"},
+    {file = "mkdocs_material-9.5.50-py3-none-any.whl", hash = "sha256:f24100f234741f4d423a9d672a909d859668a4f404796be3cf035f10d6050385"},
+    {file = "mkdocs_material-9.5.50.tar.gz", hash = "sha256:ae5fe16f3d7c9ccd05bb6916a7da7420cf99a9ce5e33debd9d40403a090d5825"},
 ]
 
 [package.dependencies]
@@ -952,7 +916,7 @@ regex = ">=2022.4"
 requests = ">=2.26,<3.0"
 
 [package.extras]
-git = ["mkdocs-git-committers-plugin-2 (>=1.1,<2.0)", "mkdocs-git-revision-date-localized-plugin (>=1.2.4,<2.0)"]
+git = ["mkdocs-git-committers-plugin-2 (>=1.1,<3)", "mkdocs-git-revision-date-localized-plugin (>=1.2.4,<2.0)"]
 imaging = ["cairosvg (>=2.6,<3.0)", "pillow (>=10.2,<11.0)"]
 recommended = ["mkdocs-minify-plugin (>=0.7,<1.0)", "mkdocs-redirects (>=1.2,<2.0)", "mkdocs-rss-plugin (>=1.6,<2.0)"]
 
@@ -1017,13 +981,13 @@ files = [
 
 [[package]]
 name = "octodns"
-version = "1.9.1"
+version = "1.10.0"
 description = "OctoDNS: DNS as code - Tools for managing DNS across multiple providers"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "octodns-1.9.1-py3-none-any.whl", hash = "sha256:33165111c8e6cb2c419867ce7e0b7b7315f385f48c0e20689fabad2e7cf986f5"},
-    {file = "octodns-1.9.1.tar.gz", hash = "sha256:e8693bb49e6e64d0f5de1dacfcbd4972655aa9741661f8dc3377e957e1d392ec"},
+    {file = "octodns-1.10.0-py3-none-any.whl", hash = "sha256:7165cdbc0d71d9158ea0bf6b6620d74e68e84db2e80851767bae684929ae65f1"},
+    {file = "octodns-1.10.0.tar.gz", hash = "sha256:6270781fabf5b4ea7ac5d3286a2082fdd3418599d4667e5b8416b96f8d3e62d6"},
 ]
 
 [package.dependencies]
@@ -1531,24 +1495,6 @@ release = ["build", "towncrier", "twine"]
 test = ["commentjson", "packaging", "pytest"]
 
 [[package]]
-name = "rich"
-version = "13.7.1"
-description = "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
-optional = false
-python-versions = ">=3.7.0"
-files = [
-    {file = "rich-13.7.1-py3-none-any.whl", hash = "sha256:4edbae314f59eb482f54e9e30bf00d33350aaa94f4bfcd4e9e3110e64d0d7222"},
-    {file = "rich-13.7.1.tar.gz", hash = "sha256:9be308cb1fe2f1f57d67ce99e95af38a1e2bc71ad9813b0e247cf7ffbcc3a432"},
-]
-
-[package.dependencies]
-markdown-it-py = ">=2.2.0"
-pygments = ">=2.13.0,<3.0.0"
-
-[package.extras]
-jupyter = ["ipywidgets (>=7.5.1,<9)"]
-
-[[package]]
 name = "rpds-py"
 version = "0.19.0"
 description = "Python bindings to Rust's persistent data structures (rpds)"
@@ -1735,29 +1681,29 @@ files = [
 
 [[package]]
 name = "ruff"
-version = "0.6.5"
+version = "0.9.2"
 description = "An extremely fast Python linter and code formatter, written in Rust."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "ruff-0.6.5-py3-none-linux_armv6l.whl", hash = "sha256:7e4e308f16e07c95fc7753fc1aaac690a323b2bb9f4ec5e844a97bb7fbebd748"},
-    {file = "ruff-0.6.5-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:932cd69eefe4daf8c7d92bd6689f7e8182571cb934ea720af218929da7bd7d69"},
-    {file = "ruff-0.6.5-py3-none-macosx_11_0_arm64.whl", hash = "sha256:3a8d42d11fff8d3143ff4da41742a98f8f233bf8890e9fe23077826818f8d680"},
-    {file = "ruff-0.6.5-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:a50af6e828ee692fb10ff2dfe53f05caecf077f4210fae9677e06a808275754f"},
-    {file = "ruff-0.6.5-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:794ada3400a0d0b89e3015f1a7e01f4c97320ac665b7bc3ade24b50b54cb2972"},
-    {file = "ruff-0.6.5-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:381413ec47f71ce1d1c614f7779d88886f406f1fd53d289c77e4e533dc6ea200"},
-    {file = "ruff-0.6.5-py3-none-manylinux_2_17_ppc64.manylinux2014_ppc64.whl", hash = "sha256:52e75a82bbc9b42e63c08d22ad0ac525117e72aee9729a069d7c4f235fc4d276"},
-    {file = "ruff-0.6.5-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:09c72a833fd3551135ceddcba5ebdb68ff89225d30758027280968c9acdc7810"},
-    {file = "ruff-0.6.5-py3-none-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:800c50371bdcb99b3c1551d5691e14d16d6f07063a518770254227f7f6e8c178"},
-    {file = "ruff-0.6.5-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:8e25ddd9cd63ba1f3bd51c1f09903904a6adf8429df34f17d728a8fa11174253"},
-    {file = "ruff-0.6.5-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:7291e64d7129f24d1b0c947ec3ec4c0076e958d1475c61202497c6aced35dd19"},
-    {file = "ruff-0.6.5-py3-none-musllinux_1_2_armv7l.whl", hash = "sha256:9ad7dfbd138d09d9a7e6931e6a7e797651ce29becd688be8a0d4d5f8177b4b0c"},
-    {file = "ruff-0.6.5-py3-none-musllinux_1_2_i686.whl", hash = "sha256:005256d977021790cc52aa23d78f06bb5090dc0bfbd42de46d49c201533982ae"},
-    {file = "ruff-0.6.5-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:482c1e6bfeb615eafc5899127b805d28e387bd87db38b2c0c41d271f5e58d8cc"},
-    {file = "ruff-0.6.5-py3-none-win32.whl", hash = "sha256:cf4d3fa53644137f6a4a27a2b397381d16454a1566ae5335855c187fbf67e4f5"},
-    {file = "ruff-0.6.5-py3-none-win_amd64.whl", hash = "sha256:3e42a57b58e3612051a636bc1ac4e6b838679530235520e8f095f7c44f706ff9"},
-    {file = "ruff-0.6.5-py3-none-win_arm64.whl", hash = "sha256:51935067740773afdf97493ba9b8231279e9beef0f2a8079188c4776c25688e0"},
-    {file = "ruff-0.6.5.tar.gz", hash = "sha256:4d32d87fab433c0cf285c3683dd4dae63be05fd7a1d65b3f5bf7cdd05a6b96fb"},
+    {file = "ruff-0.9.2-py3-none-linux_armv6l.whl", hash = "sha256:80605a039ba1454d002b32139e4970becf84b5fee3a3c3bf1c2af6f61a784347"},
+    {file = "ruff-0.9.2-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:b9aab82bb20afd5f596527045c01e6ae25a718ff1784cb92947bff1f83068b00"},
+    {file = "ruff-0.9.2-py3-none-macosx_11_0_arm64.whl", hash = "sha256:fbd337bac1cfa96be615f6efcd4bc4d077edbc127ef30e2b8ba2a27e18c054d4"},
+    {file = "ruff-0.9.2-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:82b35259b0cbf8daa22a498018e300b9bb0174c2bbb7bcba593935158a78054d"},
+    {file = "ruff-0.9.2-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:8b6a9701d1e371bf41dca22015c3f89769da7576884d2add7317ec1ec8cb9c3c"},
+    {file = "ruff-0.9.2-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:9cc53e68b3c5ae41e8faf83a3b89f4a5d7b2cb666dff4b366bb86ed2a85b481f"},
+    {file = "ruff-0.9.2-py3-none-manylinux_2_17_ppc64.manylinux2014_ppc64.whl", hash = "sha256:8efd9da7a1ee314b910da155ca7e8953094a7c10d0c0a39bfde3fcfd2a015684"},
+    {file = "ruff-0.9.2-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:3292c5a22ea9a5f9a185e2d131dc7f98f8534a32fb6d2ee7b9944569239c648d"},
+    {file = "ruff-0.9.2-py3-none-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:1a605fdcf6e8b2d39f9436d343d1f0ff70c365a1e681546de0104bef81ce88df"},
+    {file = "ruff-0.9.2-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:c547f7f256aa366834829a08375c297fa63386cbe5f1459efaf174086b564247"},
+    {file = "ruff-0.9.2-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:d18bba3d3353ed916e882521bc3e0af403949dbada344c20c16ea78f47af965e"},
+    {file = "ruff-0.9.2-py3-none-musllinux_1_2_armv7l.whl", hash = "sha256:b338edc4610142355ccf6b87bd356729b62bf1bc152a2fad5b0c7dc04af77bfe"},
+    {file = "ruff-0.9.2-py3-none-musllinux_1_2_i686.whl", hash = "sha256:492a5e44ad9b22a0ea98cf72e40305cbdaf27fac0d927f8bc9e1df316dcc96eb"},
+    {file = "ruff-0.9.2-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:af1e9e9fe7b1f767264d26b1075ac4ad831c7db976911fa362d09b2d0356426a"},
+    {file = "ruff-0.9.2-py3-none-win32.whl", hash = "sha256:71cbe22e178c5da20e1514e1e01029c73dc09288a8028a5d3446e6bba87a5145"},
+    {file = "ruff-0.9.2-py3-none-win_amd64.whl", hash = "sha256:c5e1d6abc798419cf46eed03f54f2e0c3adb1ad4b801119dedf23fcaf69b55b5"},
+    {file = "ruff-0.9.2-py3-none-win_arm64.whl", hash = "sha256:a1b63fa24149918f8b37cef2ee6fff81f24f0d74b6f0bdc37bc3e1f2143e41c6"},
+    {file = "ruff-0.9.2.tar.gz", hash = "sha256:b5eceb334d55fae5f316f783437392642ae18e16dcf4f1858d55d3c2a0f8f5d0"},
 ]
 
 [[package]]
@@ -1799,19 +1745,19 @@ test = ["enrich (>=1.2.6)", "molecule (>=3.4.0)", "pytest (>=6.2.5)", "pytest-co
 
 [[package]]
 name = "taskipy"
-version = "1.13.0"
+version = "1.14.1"
 description = "tasks runner for python projects"
 optional = false
 python-versions = "<4.0,>=3.6"
 files = [
-    {file = "taskipy-1.13.0-py3-none-any.whl", hash = "sha256:56f42b7e508d9aed2c7b6365f8d3dab62dbd0c768c1ab606c819da4fc38421f7"},
-    {file = "taskipy-1.13.0.tar.gz", hash = "sha256:2b52f0257958fed151f1340f7de93fcf0848f7a358ad62ba05c31c2ca04f89fe"},
+    {file = "taskipy-1.14.1-py3-none-any.whl", hash = "sha256:6e361520f29a0fd2159848e953599f9c75b1d0b047461e4965069caeb94908f1"},
+    {file = "taskipy-1.14.1.tar.gz", hash = "sha256:410fbcf89692dfd4b9f39c2b49e1750b0a7b81affd0e2d7ea8c35f9d6a4774ed"},
 ]
 
 [package.dependencies]
 colorama = ">=0.4.4,<0.5.0"
 mslex = {version = ">=1.1.0,<2.0.0", markers = "sys_platform == \"win32\""}
-psutil = ">=5.7.2,<6.0.0"
+psutil = ">=5.7.2,<7"
 tomli = {version = ">=2.0.1,<3.0.0", markers = "python_version >= \"3.7\" and python_version < \"4.0\""}
 
 [[package]]
@@ -1985,4 +1931,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = ">3.11,<4.0"
-content-hash = "fd3a0100fcc7f5b463951da521c34dead5f5a90f4fa42d501b7f2923e988b699"
+content-hash = "06ef08c42cf48d5fdd38db13dc67b07d4f62e8667acfaa93f8963f030bc5c810"
