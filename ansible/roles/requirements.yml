@@ -1,13 +1,13 @@
 ---
 collections:
   - name: ansible.posix
-    version: 1.6.0
+    version: 1.6.2
   - name: community.crypto
-    version: 2.22.0
+    version: 2.24.0
   - name: community.general
-    version: 9.4.0
+    version: 9.5.4
   - name: community.postgresql
-    version: 3.5.0
+    version: 3.10.2
 
 roles:
   - name: dmarc_metrics_exporter
