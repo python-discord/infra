@@ -34,13 +34,12 @@ inherited.draw AREASTACK\
 random.seed(1234)
 today = datetime.date.today()
 savings = 740
-interest_per_day = 0.005
+interest_per_day = 0.0025
 insurance_policy_start = datetime.date(2024, 8, 28)
 days_griefed = (today - insurance_policy_start).days
 accrued_interest = 0
 for _ in range(days_griefed):
-    bank_jitter = random.random()
-    accrued_interest += bank_jitter * (interest_per_day * (savings + accrued_interest))
+    accrued_interest += interest_per_day * (savings + accrued_interest)
 
 inherited_money = 0
 
