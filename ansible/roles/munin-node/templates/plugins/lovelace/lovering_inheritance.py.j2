@@ -39,6 +39,29 @@ accrued_interest = 0
 for _ in range(days_griefed):
     accrued_interest += interest_per_day * (savings + accrued_interest)
 
+savings_policy_v1_start = datetime.date(2025, 3, 1)
+savings_policy_v1_standard_savings_per_month = 50
+savings_policy_v1_savings_per_month = {
+    # Roses are red,
+    # violets are blue,
+    # running heat pumps in winter
+    # makes Chris Lovering poor
+    12: savings_policy_v1_standard_savings_per_month - 10,
+    1: savings_policy_v1_standard_savings_per_month - 20,
+    2: savings_policy_v1_standard_savings_per_month - 10,
+}
+savings_policy_cursor = datetime.date(2025, 3, 1)
+while savings_policy_cursor <= today:
+    # Chris thinks about saving every day, but he only manages to actually put
+    # money into his bank account on the 1st of every month due to a "tax
+    # advisor suggestion".
+    if savings_policy_cursor.day == 1:
+        savings += savings_policy_v1_savings_per_month.get(
+            savings_policy_cursor.month,
+            savings_policy_v1_standard_savings_per_month
+        )
+    savings_policy_cursor += datetime.timedelta(days=1)
+
 inherited_money = 0
 
 if days_griefed > 10:
