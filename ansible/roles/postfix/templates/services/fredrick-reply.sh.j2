@@ -107,7 +107,8 @@ case $RECIPIENT in
         at -q z -f "$ATSCRIPT" now + 1 min
         ;;
     *)
-        at -q z -f "$ATSCRIPT" now + 20 min
+        reply_delay=$(awk 'BEGIN { srand(); print (rand() * 100) + 20 }')
+        at -q z -f "$ATSCRIPT" now + "$reply_delay" min
         ;;
 esac
 rm "$ATSCRIPT"
