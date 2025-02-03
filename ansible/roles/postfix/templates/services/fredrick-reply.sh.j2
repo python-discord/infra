@@ -16,6 +16,9 @@ SENDER=$(echo "$EMAIL" | maddr -h from -)
 # Grab the display name of the sender
 SENDER_DISPLAY_NAME=$(echo "$EMAIL" | maddr -h from -d -)
 
+# Grab the target address
+RECIPIENT=$(echo "$EMAIL" | maddr -a -h to -)
+
 # Sender date as a unix timestamp
 DATE_UNIX=$(echo "$EMAIL" | mhdr -h date -D -)
 
@@ -89,5 +92,12 @@ rm "$REPLY_PATH"
 EOF
 
 # Use the z queue for maximum niceness
-at -q z -f "$ATSCRIPT" now + 10 min
+case $RECIPIENT in
+    "fredrick+ritalin@"*)
+        at -q z -f "$ATSCRIPT" now + 1 min
+        ;;
+    *)
+        at -q z -f "$ATSCRIPT" now + 20 min
+        ;;
+esac
 rm "$ATSCRIPT"
