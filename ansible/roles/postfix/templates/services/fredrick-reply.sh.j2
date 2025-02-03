@@ -30,6 +30,16 @@ MESSAGE_DATE=$(echo "$EMAIL" | mhdr -h date -)
 # Extract the original Subject and prefix it with "Re: " if necessary
 ORIGINAL_SUBJECT=$(echo "$EMAIL" | mhdr -h subject -)
 
+LIST_ID=$(echo "$EMAIL" | mhdr -h list-id -)
+if [ "$LIST_ID" != "" ]; then
+    # We don't reply to all mailing list posts.
+    SHOULD_REPLY=$(awk 'BEGIN { srand(); print rand() <= 0.25 }')
+    if [ "$SHOULD_REPLY" = "0" ]; then
+        echo "fredrick: don't feel like replying to mailing list post (\"$ORIGINAL_SUBJECT\")."
+        exit 0
+    fi
+fi
+
 # Construct the reply subject
 REPLY_SUBJECT="Re: $ORIGINAL_SUBJECT"
 
