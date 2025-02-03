@@ -2,7 +2,6 @@
 # {{ ansible_managed }}
 
 import datetime
-import random
 import sys
 
 if sys.argv[-1] == "autoconf":
@@ -31,7 +30,6 @@ inherited.draw AREASTACK\
     sys.exit(0)
 
 # Fixed seed to ensure that the bank jitter is constant
-random.seed(1234)
 today = datetime.date.today()
 savings = 740
 interest_per_day = 0.0025
