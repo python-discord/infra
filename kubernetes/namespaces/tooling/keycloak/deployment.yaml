@@ -32,7 +32,7 @@ spec:
       serviceAccountName: internal-tls-issuer
       containers:
         - name: keycloak
-          image: ghcr.io/owl-corp/keycloak:25.0.4
+          image: ghcr.io/owl-corp/keycloak:26.1.1
           imagePullPolicy: Always
           envFrom:
             - secretRef:
