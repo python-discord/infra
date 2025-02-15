@@ -11,7 +11,7 @@ package-mode = false
 python = ">3.11,<4.0"
 
 pre-commit = "4.1.0"
-ruff = "0.9.5"
+ruff = "0.9.6"
 taskipy = "1.14.1"
 
 [tool.poetry.group.ansible.dependencies]
