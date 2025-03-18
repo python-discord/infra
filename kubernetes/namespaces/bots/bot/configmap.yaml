@@ -6,5 +6,4 @@ metadata:
 data:
   BOT_TRACE_LOGGERS: bot.utils.scheduling.ModPingsOnOff,bot.exts.moderation.modpings,bot.exts.backend.sync._syncers
   DEBUG: 'False'
-  DUCK_POND_EXTRA_CHANNEL_BLACKLIST: "[291284109232308226,463035241142026251,463035268514185226]"  # The 3 off-topic channels
   URLS_PASTE_URL: https://paste.pythondiscord.com
