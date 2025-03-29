@@ -76,14 +76,24 @@
     - role::certbot
 
 
-- name: Reload nginx after certificate renewal
+# BEGIN temporary cleanup task
+- name: Remove old hook file
+  ansible.builtin.file:
+    path: /etc/letsencrypt/renewal-hooks/deploy/reload-nginx
+    state: absent
+# END temporary cleanup task
+
+- name: Reload services after certificate renewal
   ansible.builtin.copy:
     content: |
       #!/bin/sh
       set -ex
 
       systemctl reload nginx
-    dest: /etc/letsencrypt/renewal-hooks/deploy/reload-nginx
+      {% if certbot_reload_services %}
+      systemctl reload {{ certbot_reload_services | join(" ") }}
+      {% endif %}
+    dest: /etc/letsencrypt/renewal-hooks/deploy/reload-services
     owner: root
     group: root
     mode: "0500"
