@@ -14,20 +14,6 @@ spec:
     metadata:
       labels:
         app: keycloak
-      annotations:
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/agent-init-first: "true"
-        vault.hashicorp.com/agent-inject-secret-server.key: "internal-tls/issue/internal-tls"
-        vault.hashicorp.com/agent-inject-template-server.key: |
-          {{- with secret "internal-tls/issue/internal-tls" "common_name=id.pydis.wtf" -}}
-          {{ .Data.private_key }}
-          {{- end }}
-        vault.hashicorp.com/agent-inject-secret-server.crt: "internal-tls/issue/internal-tls"
-        vault.hashicorp.com/agent-inject-template-server.crt: |
-          {{- with secret "internal-tls/issue/internal-tls" "common_name=id.pydis.wtf" -}}
-          {{ .Data.certificate }}
-          {{- end }}
-        vault.hashicorp.com/role: "internal-tls-issuer"
     spec:
       serviceAccountName: internal-tls-issuer
       containers:
@@ -47,8 +33,8 @@ spec:
           readinessProbe:
             httpGet:
               path: /realms/master
-              port: 8443
-              scheme: HTTPS
+              port: 8080
+              scheme: HTTP
           volumeMounts:
             - name: ca-store
               mountPath: /opt/pydis/ca-store
