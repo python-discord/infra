@@ -4,8 +4,109 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
     nginx.ingress.kubernetes.io/auth-tls-secret: "kube-system/mtls-client-crt-bundle"
-    nginx.ingress.kubernetes.io/auth-tls-error-page: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    # Kubernetes is a work of pure evil.  When Kubernetes designed this YAML
+    # hell, they figured "okay, but we somehow need a way to specify which
+    # things can be specified in YAML". It's not like YAML's dozen different
+    # ways to make a string (enough for an entire website:
+    # https://yaml-multiline.info/) were already concern enough to choose this
+    # format in the first place. However, it is somewhat readable for human,
+    # and all the complexity for having to parse it lies in the minds of the
+    # poor programmers that have to follow the specification and make it work,
+    # which I can't help but be certain that it will result in admissions to
+    # mental hospitals. In that regard, the ethical implications of using YAML
+    # are sort of similar to buying shoes from any major clothing brand these
+    # days, with the exception that a new pair of sneakers is not something you
+    # need to "debug" because it parses "22:22" as 1342. Oh, but only if your
+    # parser implements YAML version 1.1. Very well, you think, not my problem.
+    # Let's talk about Kubernetes. Because Kubernetes needed some way to make
+    # their millions of millions of lines of Golang code somehow have this
+    # thing called "backwards compatible", they introduced this thing called
+    # `apiVersion`. This makes sense and is a great idea.  Let's talk about
+    # Kubernetes object. Every Kubernetes object can have a bunch of metadata.
+    # Two of these are annotations and labels, which are basically a mapping of
+    # strings to strings. They are literally what the name says, annotations
+    # are to store some arbitrary information on the object (which is then
+    # persisted in Kubernetes' cluster key-value jingle-jungle database), and
+    # labels actually have a predefined function because you can filter for
+    # labels in e.g. `kubectl` but also do this filtering in other Kubernetes
+    # objects, like selecting a collection of pods to route traffic to by their
+    # label. So far, so good.  Let's talk about annotations. Annotations are
+    # basically meant for any other thing to consume some metadata about the
+    # object, because it turns out that constraining your object to
+    # some-versioned-keys-and-values-on-top-of-YAML specification, that's kind
+    # of not enough for the fact that people have Real Problems(tm) they need
+    # to solve and actually a webserver cannot just be modelled by saying
+    # "route this there".  To route traffic in Kubernetes, and I think it's
+    # only HTTP and HTTPS traffic, you need an "ingress controller". An
+    # "ingress controller" checks which "ingresses" are created in the cluster,
+    # e.g. the thing you see in this file. Installing 600 lines of YAML hell
+    # through a tool called "Helm", "kustomize" or any other hundreds of lines
+    # of Golang or other glue code to at the end have the "ingress controller"
+    # is basically the "cloud native", hip cool and "webscale" nature of doing
+    # "sudo apt install nginx". So far so good, because "sudo apt install
+    # nginx" obviously doesn't scale because it's bound to a single host and
+    # everybody knows that Kubernetes is the only thing that can solve
+    # multi-host deployments.  Now that you have installed this "ingress
+    # controller", as mentioned before, it watches for ingress objects like
+    # this one. But as also mentioned before, the regular attributes that are
+    # considered by the ingress controller for routing are not enough.  What's
+    # the webscale solution to it? Simply, you begin _namespacing string keys_
+    # by just adding a FQDN in front of them, like
+    # `nginx.ingress.kubernetes.io/` and then some arbitrary value. All are
+    # strings, of course. And then you can tell it, for instance, that you want
+    # a 16k proxy buffer size, just make sure to quote it, because remember,
+    # strings, strings, strings, we love the strings.  Configuring these
+    # namespaced keys is basically the webscale equivalent to `sudo vim
+    # /etc/nginx/conf.d/mysite.conf`, except not really, because everybody
+    # knows that vim doesn't scale, thankfully Kubernetes is here to solve all
+    # of our problems. And also not really, because it turns out that when you
+    # throw a map of string=>string into a humongous conglomeration of Go code
+    # that probably 99% of Kubernetes operators did not look through, you also
+    # need some way to handle errors. Of course, the entire `sudo apt install
+    # nginx` thing above has kind of solved that a dozen years ago, because
+    # there's this thing called _config validation_ where you can tell your
+    # nginx server to validate your configuration file. But, remember, this
+    # obviously doesn't scale, because config validation only runs on a single
+    # host. Everybody knows that they're the same like Google, truly a modern
+    # server will not be able to host their 85 MB SPA for a restaurant without
+    # the incredible risk of _downtime_, and beware having to manage server
+    # upgrades. Thankfully, Kubernetes solves all of this for us, with its
+    # rolling upgrades, with its ingress objects, and with our amazing NGINX
+    # Helm Ingress Controller Chart that makes sure we can sleep safely at
+    # night because we have another CSI volume outage^H^H^H^H^H^H^H^H^H^H^H^H^H
+    # the ingress controller makes all of it work for us.  Speaking about
+    # configuration validation, of course Kubernetes also needed a solution for
+    # that, and Kubernetes of course needed a solution that would cater the
+    # needs of our 85 MB restaurant menu SPA, especially the entire high
+    # availability story. Thank god Kubernetes is here to solve that problem
+    # for us. So how did Kubernetes solve it?  Kubernetes introduced something
+    # called "Dynamic Admission Control"
+    # (https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/).
+    # If you don't understand the name, just read the first paragraph of "what
+    # are admission webhooks": "Admission webhooks are HTTP callbacks that
+    # receive admission requests and do something with them". That makes it
+    # clear.  And why are we saying all of this? Because these admission
+    # webhooks are - obviously, and clearly - used for configuration
+    # validation. Of course, NGINX has the entire configuration checking thing,
+    # but it doesn't scale. Everybody knows running a command on the host
+    # doesn't scale because the host might go away.  So what's happening here?
+    # The configuration statement below is commented out. Why? Because it
+    # stopped to apply. It makes perfect sense to me, of course, Kubernetes
+    # detected that YouTube isn't hosted on Kubernetes and as such it's not
+    # valid to have a HTTPS website as an error page. That simply is not
+    # allowed, because HTTPS doesn't scale because it's a connection between
+    # two hosts and one of the hosts might die in the meantime. Kubernetes, or
+    # rather, the Kubernetes NGINX Ingress Controller, or rather, the
+    # Kubernetes NGINX Ingress Controller Dynamic Admission Webhook HTTP
+    # callback (that just rolls off the tongue, doesn't it) thankfully solves
+    # this problem for us by just rejecting it flat at heaven's gate.  To
+    # really explain the admission webhook topic again: Basically, an admission
+    # webhook is something that takes your mental state and submits it to the
+    # Kubernetes Ingress Controller to book you a spot at a psychiatric
+    # hospital. Very well, you think, and because it's webscale, it books the
+    # spot at two psychiatric hospitals at the same time, for high
+    # availability. Thank you, Kubernetes, for solving this problem.
+    # nginx.ingress.kubernetes.io/auth-tls-error-page: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
     nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
     nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
     nginx.ingress.kubernetes.io/server-snippet: |
@@ -29,4 +130,4 @@ spec:
               service:
                 name: keycloak
                 port:
-                  number: 8443
+                  number: 8080
