@@ -106,7 +106,8 @@ metadata:
     # hospital. Very well, you think, and because it's webscale, it books the
     # spot at two psychiatric hospitals at the same time, for high
     # availability. Thank you, Kubernetes, for solving this problem.
-    # nginx.ingress.kubernetes.io/auth-tls-error-page: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    nginx.ingress.kubernetes.io/auth-tls-error-page: "https://maintenance.python-discord.workers.dev/"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
     nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
     nginx.ingress.kubernetes.io/server-snippet: |
