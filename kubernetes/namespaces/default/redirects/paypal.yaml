@@ -5,7 +5,7 @@ metadata:
     nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
     nginx.ingress.kubernetes.io/rewrite-target: "https://www.paypal.com/paypalme/pythondiscord"
     nginx.ingress.kubernetes.io/auth-tls-secret: "kube-system/mtls-client-crt-bundle"
-    nginx.ingress.kubernetes.io/auth-tls-error-page: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    nginx.ingress.kubernetes.io/auth-tls-error-page: "https://maintenance.python-discord.workers.dev/"
   name: paypal-redirect
 spec:
   tls:
@@ -16,7 +16,7 @@ spec:
   - host: paypal.pythondiscord.com
     http:
       paths:
-      - path: /(.*)
+      - path: /
         pathType: Prefix
         backend:
           service:

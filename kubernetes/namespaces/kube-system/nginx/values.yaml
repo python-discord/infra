@@ -7,6 +7,9 @@ controller:
     enable-real-ip: true
     forwarded-for-header: cf-connecting-ip
     generate-request-id: true
+    allow-snippet-annotations: true
+    annotations-risk-level: Critical
+    allow-cross-namespace-resources: true
 
   extraArgs:
     default-ssl-certificate: "default/pythondiscord.com-tls"
