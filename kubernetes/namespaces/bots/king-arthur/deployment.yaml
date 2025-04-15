@@ -37,6 +37,8 @@ spec:
               mountPath: /tmp
             - name: ipa-ca-cert
               mountPath: /opt/ipa
+            - name: ssh-secret
+              mountPath: /root/.ssh
       securityContext:
         fsGroup: 2000
         runAsUser: 1000
@@ -48,3 +50,6 @@ spec:
         - name: ipa-ca-cert
           configMap:
             name: ipa-ca-configmap
+        - name: ssh-secret
+          configMap:
+            name: ssh-secrets

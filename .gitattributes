@@ -4,3 +4,4 @@ secrets.yml filter=git-crypt diff=git-crypt
 secret.yaml filter=git-crypt diff=git-crypt
 secret.yml filter=git-crypt diff=git-crypt
 ghcr-pull-secrets.yaml filter=git-crypt diff=git-crypt
+ssh-secrets.yaml filter=git-crypt diff=git-crypt
