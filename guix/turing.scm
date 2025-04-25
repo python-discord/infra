@@ -1,9 +1,12 @@
 ;; Module imports
 (use-modules (gnu)
              (guix)
+             (gnu packages databases)
              (gnu packages linux)
              (gnu packages tmux)
-             (gnu packages vim))
+             (gnu packages vim)
+             (gnu services admin)
+             (gnu services databases))
 (use-service-modules networking ssh)
 (use-package-modules bootloaders)
 
@@ -47,6 +50,10 @@
                                         ("j" ,(ssh-key "jb")
                                              ,(ssh-key "jb2"))))))
                 (service dhcp-client-service-type)
+                (service postgresql-service-type
+                         (postgresql-configuration
+                           (postgresql postgresql-16)))
+                (service unattended-upgrade-service-type)
                 (simple-service 'resolv-conf etc-service-type
                                 (list `("resolv.conf" ,(plain-file
                                                         "resolv.conf"
@@ -88,7 +95,7 @@
                     (home-directory "/home/j")
                     (supplementary-groups '("wheel" "netdev" "audio" "video")))
                   %base-user-accounts))
-    (packages (cons* vim %base-packages))
+    (packages (cons* %base-packages))
     (sudoers-file (plain-file "sudoers" "root ALL=(ALL) ALL
 %wheel ALL=NOPASSWD: ALL
 "))
