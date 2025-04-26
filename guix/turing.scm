@@ -40,6 +40,12 @@
 (define (guix-archive-key name)
   (file-from-cwd (string-append "/guix-acl-keys/" name ".pub")))
 
+(define %hidden-service-turing
+    (simple-service 'hidden-service-turing tor-service-type
+                    (list (tor-onion-service-configuration
+                            (name "turing")
+                            (mapping '((22 "127.0.0.1:22")))))))
+
 (define %services
   (append (list (service openssh-service-type
                    (openssh-configuration
@@ -53,6 +59,8 @@
                 (service postgresql-service-type
                          (postgresql-configuration
                            (postgresql postgresql-16)))
+                (service tor-service-type)
+                %hidden-service-turing
                 (service unattended-upgrade-service-type)
                 (simple-service 'resolv-conf etc-service-type
                                 (list `("resolv.conf" ,(plain-file
