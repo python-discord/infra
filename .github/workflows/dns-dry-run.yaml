@@ -2,6 +2,9 @@ name: Generate DNS change plan
 
 on:
   pull_request:
+    branches:
+      - main
+
 jobs:
   octodns-sync:
     name: Run `octodns-sync` with production.yaml
