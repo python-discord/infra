@@ -6,7 +6,9 @@
              (gnu packages tmux)
              (gnu packages vim)
              (gnu services admin)
-             (gnu services databases))
+             (gnu services certbot)
+             (gnu services databases)
+             (gnu services web))
 (use-service-modules networking ssh)
 (use-package-modules bootloaders)
 
@@ -46,6 +48,12 @@
                             (name "turing")
                             (mapping '((22 "127.0.0.1:22")))))))
 
+(define %certbot-deploy-hook
+  (program-file
+   "nginx-deploy-hook"
+   #~(let ((pid (call-with-input-file "/var/run/nginx/pid" read)))
+       (kill pid SIGHUP))))
+
 (define %services
   (append (list (service openssh-service-type
                    (openssh-configuration
@@ -61,6 +69,32 @@
                            (postgresql postgresql-16)))
                 (service tor-service-type)
                 %hidden-service-turing
+                (service nginx-service-type
+                         (nginx-configuration
+                           (server-blocks '())))
+; The below is added by the certbot role
+;                                     (listen '("80" "[::]:80"))
+;                                     (server-name '("turing.box.pydis.wtf"))
+;                                     (root "/var/www/owlcorp.uk")
+;                                     (locations
+;                                       (list
+;                                         (nginx-location-configuration
+;                                           ; Certbot webroot serving
+;                                           (uri "/.well-known")
+;                                           (body (list "root /var/www; "))))))))))
+;
+                (service certbot-service-type
+                         (certbot-configuration
+                          (email "ops@owlcorp.uk")
+                          ; Do not add certbot configuration to nginx automatically
+                          ; XXX: seems broken, report upstream?
+                          ; (default-location #f)
+                          (webroot "/var/www")
+                          (certificates
+                           (list
+                            (certificate-configuration
+                             (domains '("turing.box.pydis.wtf"))
+                             (deploy-hook %certbot-deploy-hook))))))
                 (service unattended-upgrade-service-type)
                 (simple-service 'resolv-conf etc-service-type
                                 (list `("resolv.conf" ,(plain-file
