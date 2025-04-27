@@ -162,7 +162,8 @@
                                    (guix-configuration
                                      (inherit config)
                                      (authorized-keys
-                                       (append (list (guix-archive-key "jc"))
+                                       (append (list (guix-archive-key "jc")
+                                                     (guix-archive-key "lovelace"))
                                                %default-authorized-guix-keys))))))))
 
 ; local deployments:
