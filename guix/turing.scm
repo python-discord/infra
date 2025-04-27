@@ -68,7 +68,8 @@
                    (openssh-configuration
                      (permit-root-login #f)
                      (password-authentication?  #f)
-                     (authorized-keys `(("cj" ,(ssh-key "chris"))
+                     (authorized-keys `(("cj" ,(ssh-key "chris")
+                                              ,(ssh-key "chris-lovelace"))
                                         ("jc" ,(ssh-key "jc"))
                                         ("j" ,(ssh-key "jb")
                                              ,(ssh-key "jb2"))))))
