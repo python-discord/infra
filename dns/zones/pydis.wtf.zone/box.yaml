@@ -7,6 +7,14 @@
   type: CNAME
   value: lovelace.box.pydis.wtf.
 
+"*.turing.box":
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: CNAME
+  value: turing.box.pydis.wtf.
+
 ldap01.box:
   octodns:
     cloudflare:
@@ -38,3 +46,17 @@ lovelace.box:
     ttl: 300
     type: AAAA
     value: 2a03:4000:62:ce0:2496:aeff:fe97:dea4
+
+turing.box:
+  - octodns:
+      cloudflare:
+        auto-ttl: true
+    ttl: 300
+    type: A
+    value: 5.252.225.193
+  - octodns:
+      cloudflare:
+        auto-ttl: true
+    ttl: 300
+    type: AAAA
+    value: 2a03:4000:40:2f2:7460:66ff:feda:145b
