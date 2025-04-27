@@ -18,7 +18,7 @@ spec:
       serviceAccountName: internal-tls-issuer
       containers:
         - name: keycloak
-          image: ghcr.io/owl-corp/keycloak:26.1.1
+          image: ghcr.io/owl-corp/keycloak:26.2.1
           imagePullPolicy: Always
           envFrom:
             - secretRef:
