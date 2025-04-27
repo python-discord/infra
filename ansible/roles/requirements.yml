@@ -5,9 +5,9 @@ collections:
   - name: community.crypto
     version: 2.26.0
   - name: community.general
-    version: 10.5.0
+    version: 10.6.0
   - name: community.postgresql
-    version: 3.12.0
+    version: 3.14.0
 
 roles:
   - name: dmarc_metrics_exporter
