@@ -54,6 +54,15 @@
    #~(let ((pid (call-with-input-file "/var/run/nginx/pid" read)))
        (kill pid SIGHUP))))
 
+(define (letsencrypt-path hostname filename)
+  (string-append "/etc/letsencrypt/live/" hostname "/" filename))
+
+(define (letsencrypt-key hostname)
+  (letsencrypt-path hostname "privkey.pem"))
+
+(define (letsencrypt-cert hostname)
+  (letsencrypt-path hostname "fullchain.pem"))
+
 (define %services
   (append (list (service openssh-service-type
                    (openssh-configuration
@@ -71,7 +80,14 @@
                 %hidden-service-turing
                 (service nginx-service-type
                          (nginx-configuration
-                           (server-blocks '())))
+                           (server-blocks
+                             (list
+                               (nginx-server-configuration
+                                 (listen '("443 ssl http2"))
+                                 (server-name '("turing.box.pydis.wtf"))
+                                 (ssl-certificate (letsencrypt-cert "turing.box.pydis.wtf"))
+                                 (ssl-certificate-key (letsencrypt-key "turing.box.pydis.wtf"))
+                                 (root "/var/www/turing.box.pydis.wtf"))))))
 ; The below is added by the certbot role
 ;                                     (listen '("80" "[::]:80"))
 ;                                     (server-name '("turing.box.pydis.wtf"))
