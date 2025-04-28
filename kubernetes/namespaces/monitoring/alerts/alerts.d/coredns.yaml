@@ -13,8 +13,9 @@ groups:
 
   - alert: core-dns/cache-misses
     expr: rate(coredns_cache_misses_total{}[10m]) / rate(coredns_cache_misses_total{}[10m] offset 10m) > 5.00
+    for: 2h
     labels:
       severity: page
     annotations:
-      summary: "High CoreDNS cache misses in last 10 minutes"
-      description: "This can sometimes be an indication of networking troubles, currently {{ $value | humanizePercentage }} over last 10 minutes."
+      summary: "High CoreDNS cache misses in last 2 hours"
+      description: "This can sometimes be an indication of networking troubles, currently {{ $value | humanizePercentage }} over last 2 hours."
