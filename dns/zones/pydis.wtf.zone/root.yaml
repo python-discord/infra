@@ -15,6 +15,14 @@
   type: TXT
   value: v=DKIM1\; k=rsa\; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDadFXuHEGxF9XCb8mUbYfoCrFm01rzFvnkuxtoJt2jwBLQwkx+CD9KfCjdq5vzFzb0nRFP8L9NY0h1m58ZOdFnf9n4ejbMLvDcfVvzxK7W95HiGdt0RzaQ2AUI5QCFeCedj7z/PlOeM772kKzkUcXTATwFTOOxeSoxVyhHYmdlZwIDAQAB
 
+agents:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: CNAME
+  value: lovelace.box.pydis.wtf.
+
 alertmanager:
   octodns:
     cloudflare:
