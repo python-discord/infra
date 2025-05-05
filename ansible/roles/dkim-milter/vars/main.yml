@@ -1,0 +1,10 @@
+---
+dkim_milter_domains:
+  - pydis.wtf
+  - pydis.com
+  - pythondiscord.com
+  - owlcorp.uk
+dkim_milter_extra_signings:
+  - domain: int.pydis.wtf
+    use_key: pydis.wtf
+dkim_milter_selector: lovelace
