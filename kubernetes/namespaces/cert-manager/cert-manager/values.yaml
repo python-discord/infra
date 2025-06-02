@@ -1,4 +1,5 @@
-installCRDs: true
+crds:
+  enabled: true
 startupapicheck:
   timeout: 5m
 
