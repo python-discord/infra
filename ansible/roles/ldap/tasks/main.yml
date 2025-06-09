@@ -23,3 +23,20 @@
     - Reload the firewall
   tags:
     - role::ldap
+
+- name: Increase apache process limit
+  ansible.builtin.copy:
+    content: |
+      <!-- Ansible managed -->
+      <!-- See https://stackoverflow.com/questions/22576807/scoreboard-is-full-not-at-maxrequestworkers -->
+      <IfModule mpm_event_module>
+        ServerLimit 48
+      </IfModule>
+    dest: /etc/httpd/conf.modules.d/99-mpm-server-limit.conf
+    owner: root
+    group: root
+    mode: 0o444
+  notify:
+    - Restart httpd
+  tags:
+    - role::ldap
