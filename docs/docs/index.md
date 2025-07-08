@@ -39,6 +39,14 @@ Welcome to the Python Discord DevOps documentation.
 
     [:octicons-arrow-right-24: Runbooks](runbooks/index.md)
 
+-   :fontawesome-solid-question:{ .lg .middle } __Getting Help__
+
+    ---
+
+    Learn how to get help when working with infrastructure and who to contact for different issues
+
+    [:octicons-arrow-right-24: Getting Help](getting-help.md)
+
 -   :fontawesome-solid-cloud:{ .lg .middle } __Onboarding__
 
     ---
