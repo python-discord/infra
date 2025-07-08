@@ -7,6 +7,37 @@
   tags:
     - role::ldap
 
+- name: Install dnf-automatic for automatic updates
+  package:
+    name:
+      - dnf-automatic
+    state: present
+  when: ansible_distribution == "Rocky"
+  tags:
+    - role::ldap
+
+- name: Configure dnf-automatic
+  template:
+    src: dnf-automatic.conf.j2
+    dest: /etc/dnf/automatic.conf
+    owner: root
+    group: root
+    mode: '0644'
+  when: ansible_distribution == "Rocky"
+  notify:
+    - Restart dnf-automatic timer
+  tags:
+    - role::ldap
+
+- name: Enable and start dnf-automatic timer
+  systemd:
+    name: dnf-automatic.timer
+    enabled: true
+    state: started
+  when: ansible_distribution == "Rocky"
+  tags:
+    - role::ldap
+
 - name: Create firewall rules for FreeIPA
   ansible.posix.firewalld:
     service: "{{ item }}"
