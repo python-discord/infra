@@ -79,7 +79,7 @@ Before asking for help, check these resources:
 ### Service Down or Unresponsive
 
 1. **Immediate**: Check if it's a known incident (`#dev-oops` announcements)
-2. **Investigate**: 
+2. **Investigate**:
    - Check Kubernetes pod status
    - Review application logs
    - Verify dependencies (database, external services)
@@ -203,7 +203,7 @@ Before asking for help, check these resources:
 
 ## Contributing to This Guide
 
-Found something unclear or have suggestions for improvement? 
+Found something unclear or have suggestions for improvement?
 
 - [Open an issue](https://github.com/python-discord/infra/issues/new) on the infra repository
 - Suggest changes via pull request
