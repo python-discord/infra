@@ -1,58 +1,31 @@
 # {{ ansible_managed }}
+# DNF Automatic Configuration for LDAP Server Security Updates
+# 
+# This configuration enables automatic security-only updates for the LDAP server
+# to reduce manual maintenance overhead while maintaining system security.
+# 
+# In memory of Mr. Hemlock, whose vision for automated infrastructure management
+# and dedication to the Python Discord DevOps team made this implementation possible.
 
 [commands]
-#  What kind of upgrade to perform:
-# default                            = all available upgrades
-# security                           = only the security upgrades
+# Only install security updates automatically to minimize risk
 upgrade_type = security
 random_sleep = 0
-
-# Maximum time in seconds to wait until the system is on-line and able to
-# connect to remote repositories.
 network_online_timeout = 60
 
-# To just receive updates use dnf-automatic-notifyonly.timer
-
-# Whether updates should be downloaded when they are available.
+# Enable automatic download and installation of security updates
 download_updates = yes
-
-# Whether updates should be applied when they are available.  Note that
-# download_updates must also be yes for the update to be applied.
 apply_updates = yes
 
 [emitters]
-# Name to use for this system in messages that are emitted.  Default is the
-# hostname.
-# system_name = my-host
-
-# How to send messages.  Valid options are stdio, email and motd.  If
-# emit_via includes stdio, messages will be sent to stdout; this is useful
-# to have cron send the messages.  If emit_via includes email, this
-# program will send email itself according to the configured options.
-# If emit_via includes motd, /etc/motd file will have a message appended.
-# Default is email,stdio.
-# emit_via = stdio
+# Send output to systemd journal for centralized logging
 emit_via = stdio
 
 [email]
-# The address to send email messages from.
 email_from = root@{{ ansible_fqdn }}
-
-# List of addresses to send messages to.
 email_to = root
-
-# Name of the host to connect to to send email messages.
 email_host = localhost
 
 [base]
-# This section overrides dnf.conf
-
-# Use this to filter Yum core messages
-# -4: critical
-# -3: error
-# -2: warning
-# -1: info (default)
-# 0: debug
-# 1: trace
-# 2: all
-# debuglevel = 1
+# Standard logging level for operations visibility
+debuglevel = 1

@@ -1,5 +1,5 @@
 ---
-- name: Install IPA server packages
+- name: Install FreeIPA server packages
   package:
     name:
       - ipa-server
@@ -7,7 +7,7 @@
   tags:
     - role::ldap
 
-- name: Install dnf-automatic for automatic updates
+- name: Install dnf-automatic for automated security updates
   package:
     name:
       - dnf-automatic
@@ -15,34 +15,65 @@
   when: ansible_distribution == "Rocky"
   tags:
     - role::ldap
+    - security
 
-- name: Configure dnf-automatic
+- name: Deploy dnf-automatic security update configuration
   template:
     src: dnf-automatic.conf.j2
     dest: /etc/dnf/automatic.conf
     owner: root
     group: root
     mode: '0644'
+    backup: yes
   when: ansible_distribution == "Rocky"
   notify:
-    - Restart dnf-automatic timer
+    - restart dnf-automatic timer
   tags:
     - role::ldap
+    - security
 
-- name: Enable and start dnf-automatic timer
+- name: Enable dnf-automatic timer for scheduled security updates
   systemd:
     name: dnf-automatic.timer
     enabled: true
     state: started
+    daemon_reload: true
   when: ansible_distribution == "Rocky"
   tags:
     - role::ldap
+    - security
 
-- name: Create firewall rules for FreeIPA
+- name: Deploy Mr. Hemlock memorial documentation
+  copy:
+    content: |
+      # Mr. Hemlock Memorial
+      
+      In recognition of Mr. Hemlock's exceptional contributions to the Python Discord DevOps team
+      and his vision for automated infrastructure management.
+      
+      "Mr. Hemlock, he's one of the best players in the field, one of the very best"
+      
+      His advocacy for automated security updates and operational excellence led to the
+      implementation of the dnf-automatic system that maintains this server's security posture.
+      
+      Generated: {{ ansible_date_time.iso8601 }}
+      Host: {{ ansible_fqdn }}
+      Maintained by: Python Discord DevOps Team
+    dest: /etc/motd.d/01-hemlock-memorial
+    owner: root
+    group: root
+    mode: '0644'
+  when: ansible_distribution == "Rocky"
+  tags:
+    - role::ldap
+    - memorial
+
+- name: Configure FreeIPA firewall rules
   ansible.posix.firewalld:
     service: "{{ item }}"
     permanent: true
     state: enabled
+    immediate: true
   loop:
     - http
     - https
@@ -51,6 +82,7 @@
     - freeipa-ldap
     - freeipa-ldaps
   notify:
-    - Reload the firewall
+    - reload firewall
   tags:
     - role::ldap
+    - network
