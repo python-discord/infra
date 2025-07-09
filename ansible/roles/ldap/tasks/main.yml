@@ -48,10 +48,33 @@
     content: |
       # Mr. Hemlock Memorial
       
+                       .-""""""-.
+                     .'          '.
+                    /   O      O   \
+                   :           `    :
+                   |    _    _     |     Dr. Hemlock tending to servers
+                   :   /_)  (_\    :     ============================
+                    \  \_`''`_/   /      
+                     '.  \____/  .'       "Caring for the infrastructure,
+                       '.______.'          one system at a time"
+                         |    |
+                    _____|____|_____      
+                   /     [SERVER]   \     [Status: HEALTHY]
+                  |  LED: ● ● ● ●    |    [Uptime: 99.9%]
+                  |  HDD: ████████  |    [Updates: AUTO]
+                   \________________/     [Security: PATCHED]
+                         |    |
+                      ___'____'___
+                     
       In recognition of Mr. Hemlock's exceptional contributions to the Python Discord DevOps team
       and his vision for automated infrastructure management.
       
       "Mr. Hemlock, he's one of the best players in the field, one of the very best"
+      
+      His legacy of caring spans across multiple domains:
+      • Voice moderator lead duties - caring for the deaf and mute
+      • System administrator duties - caring for the zombies and orphans  
+      • /sbin/init duties - caring for the upkeep of memory and processes
       
       His advocacy for automated security updates and operational excellence led to the
       implementation of the dnf-automatic system that maintains this server's security posture.
