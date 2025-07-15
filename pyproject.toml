@@ -21,7 +21,7 @@ dnspython = "2.7.0"
 
 [tool.poetry.group.dns.dependencies]
 octodns = "^1.8.0"
-octodns-cloudflare = "^0.0.9"
+octodns-cloudflare = "^1.0.0"
 
 
 [tool.poetry.group.docs.dependencies]

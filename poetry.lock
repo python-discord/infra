@@ -1041,17 +1041,17 @@ dev = ["black (>=24.3.0,<25.0.0)", "build (>=0.7.0)", "isort (>=5.11.5)", "pycou
 
 [[package]]
 name = "octodns-cloudflare"
-version = "0.0.9"
+version = "1.0.0"
 description = "Cloudflare provider for octoDNS"
 optional = false
 python-versions = ">=3.9"
 files = [
-    {file = "octodns_cloudflare-0.0.9-py3-none-any.whl", hash = "sha256:6027012a10c456443727e7d1319ae4abb21726f1f68286f87d99a86a94756aee"},
-    {file = "octodns_cloudflare-0.0.9.tar.gz", hash = "sha256:a0872d5443d4d1deb3ce02dec3f2422e40781c5ec47fdd5c3fd6b15802188c67"},
+    {file = "octodns_cloudflare-1.0.0-py3-none-any.whl", hash = "sha256:9e2dbbc69820b161061f8176c17db053d7624efbb88b3ebe30d27154a13f7d32"},
+    {file = "octodns_cloudflare-1.0.0.tar.gz", hash = "sha256:412572d36cbd975a18c112ede3bf26a9d55b38204ac05a494cb75c70023e8c91"},
 ]
 
 [package.dependencies]
-octodns = ">=0.9.20"
+octodns = ">=1.5.0"
 requests = ">=2.27.0"
 
 [package.extras]
@@ -1934,4 +1934,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">3.11,<4.0"
-content-hash = "7b6e3737c30bc69b923e0169b6779df52688806d3c240f28944bf0bb9f612f0c"
+content-hash = "c25c2fe2cf59f5ecfa6ad81ef88eea819692a366f9b84b76fab73be8d2f84838"
