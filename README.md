@@ -39,7 +39,7 @@ that folder, and the files within, is used for.
 To lint everything with `pre-commit` locally, run the command
 
 ```sh
-$ poetry run task lint
+$ uv run task lint
 ```
 
 Any trivial errors (formatting, minor linting problems) will automatically be fixed.
