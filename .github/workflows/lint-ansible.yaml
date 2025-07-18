@@ -13,21 +13,24 @@ jobs:
           sparse-checkout: |
             ansible
             pyproject.toml
-            poetry.lock
+            uv.lock
 
-      - name: Install Python Dependencies
-        uses: HassanAbouelela/actions/setup-python@setup-python_v1.6.0
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
         with:
-          python_version: "3.11"
-          install_args: --only ansible
-          checkout: false
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+          activate-environment: true
+
+      - name: Install dependencies
+        run: uv sync --frozen --only-group ansible
 
       - name: Cache Ansible dependencies
         id: cache-ansible
         uses: actions/cache@v4
         with:
           path: ansible/.ansible
-          key: ansible-${{ runner.os }}-${{ hashFiles('pyproject.toml', 'poetry.lock', 'ansible/roles/requirements.yml') }}
+          key: ansible-${{ runner.os }}-${{ hashFiles('pyproject.toml', 'uv.lock', 'ansible/roles/requirements.yml') }}
 
       - name: Install Ansible Galaxy dependencies
         run: cd ansible && ansible-galaxy install -r roles/requirements.yml

@@ -6,7 +6,7 @@ This folder manages DNS records across the zones we use. It uses [OctoDNS](https
 
 Edit the YAML files in `zones/` to add, update or delete records.
 
-If you have a local OctoDNS tokens for Cloudflare, you can install the dependencies with `poetry install --only dns` in the root folder and then run `poetry run octodns-sync --config-file dns/production.yaml`.
+If you have a local OctoDNS tokens for Cloudflare, you can install the dependencies with `uv sync --only-group dns` in the root folder and then run `uv run octodns-sync --config-file dns/production.yaml`.
 
 **NOTE:** All commands have must run from the root directory of the repository, this is because in GitHub Actions the environment is the root folder.
 
