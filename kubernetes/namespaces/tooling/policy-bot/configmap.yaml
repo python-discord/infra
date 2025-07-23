@@ -49,7 +49,7 @@ data:
 
       # Policy to use when a repository does not explicitly define one
       shared_repository: .github
-      shared_policy_path: review-policies/core-developers.yml
+      shared_policy_path: review-policies/default.yml
 
       # The context prefix for status checks created by the bot
       status_check_context: "Review requirements"
