@@ -66,6 +66,10 @@ git_mirrors_mirrored_repositories:
     repo: psql_extended
     description: >-
       Owl Corp surveillance storage platform
+  - owner: owl-corp
+    repo: lithium
+    description: >-
+      Digital mitigation strategy for emotional instability in the workplace
 
   # Uncle Christ's Assorted Works
   - owner: jc
