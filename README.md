@@ -24,6 +24,7 @@ kubernetes/
 ├── namespaces/                          # Kubernetes manifests, separated by namespace
 └── scripts/                             # Scripts used to lint manifests in CI
 .pre-commit-config.yaml                  # pre-commit configuration
+pyproject.toml                           # tooling dependencies
 server_bootstrap.sh                      # A bash script used to init our bare metal servers
 ```
 
