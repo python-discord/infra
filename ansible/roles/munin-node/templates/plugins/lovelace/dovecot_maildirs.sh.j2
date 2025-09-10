@@ -47,7 +47,11 @@ fi
 
 echo "multigraph dovecot_maildir_sizes"
 du --bytes --summarize -- * \
-    | awk '{ print $2 ".value " $1 }'
+    | awk '{
+        sanitized = $2
+        gsub(/\./, "_", sanitized)
+        print sanitized ".value " $1 }
+    '
 
 echo "multigraph dovecot_maildir_mails"
 find . \
