@@ -8,7 +8,7 @@ print_maildir_config() {
         | tail -n +2 \
         | awk -F / '{
             sanitized = $2
-	        sub(/\./, "_", sanitized)
+	        gsub(/\./, "_", sanitized)
             print sanitized ".draw AREASTACK"
             print sanitized ".label " $2
         }'
@@ -58,7 +58,9 @@ find . \
         }
         END {
           for (user in total) {
-            print user ".value " total[user]
+            sanitized = user
+            gsub(/\./, "_", sanitized)
+            print sanitized ".value " total[user]
           }
         }
     '
