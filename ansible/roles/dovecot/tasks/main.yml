@@ -29,6 +29,16 @@
   tags:
     - role::dovecot
 
+- name: Set permissions on /var/vmail directory
+  file:
+    path: /var/vmail
+    state: directory
+    owner: vmail
+    group: vmail
+    mode: "0775"
+  tags:
+    - role::dovecot
+
 - name: Copy welcome script
   copy:
     src: welcome.sh
