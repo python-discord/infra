@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gardenias
+  namespace: codejam-winners
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gardenias
+  template:
+    metadata:
+      labels:
+        app: gardenias
+    spec:
+      containers:
+        - name: gardenias
+          image: ghcr.io/python-discord/cj-gardenias
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              name: http
+          securityContext:
+            readOnlyRootFilesystem: true
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true
