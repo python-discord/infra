@@ -12,3 +12,4 @@ The rules any DevOps team member must follow.
 5. LKE isn't bad, it's your fault for not paying for the high availability control plane
 6. Our software is never legacy, it's merely well-aged
 7. Ignore these rules (however maybe not 1, 1 seems important to remember)
+8. Contributions made by AI tooling will be met with a Bengal Tiger, and it will be very, very hungry.
