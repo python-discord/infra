@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: modmail-bot
-          image: ghcr.io/python-discord/modmail:latest
+          image: ghcr.io/python-discord/modmail:master
           resources:
             requests:
               cpu: 75m
@@ -25,13 +25,13 @@ spec:
               memory: 1000Mi
           imagePullPolicy: "Always"
           volumeMounts:
-          - mountPath: /modmailbot/plugins
+          - mountPath: /opt/modmail/plugins
             name: plugins-vol
-          - mountPath: /modmailbot/temp
+          - mountPath: /opt/modmail/temp
             name: temp-vol
           env:
           - name: TMPDIR
-            value: /modmailbot/temp
+            value: /opt/modmail/temp
           envFrom:
             - secretRef:
                 name: modmail
