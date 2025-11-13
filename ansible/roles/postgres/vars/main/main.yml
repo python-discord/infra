@@ -1,4 +1,6 @@
-postgres_version: "15"
+postgres_version: "18"
+postgres_apt_key_fingerprint: "ACCC4CF8"
+postgres_apt_key_location: "/etc/apt/keyrings/postgresql.gpg"
 postgres_daemon: "postgresql@{{ postgres_version }}-main"
 postgres_user: "postgres"
 postgres_pg_repack_cron_filename: ansible_postgres_pg_repack
