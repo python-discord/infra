@@ -98,17 +98,6 @@
   tags:
     - role::dovecot
 
-- name: Set up sieve configuration for dovecot
-  lineinfile:
-    path: /etc/dovecot/conf.d/90-sieve.conf
-    regexp: "sieve_after ="
-    line: "  sieve_after = /etc/dovecot/sieve-after  # (ansible managed)"
-    state: present
-  notify:
-    - Reload Dovecot
-  tags:
-    - role::dovecot
-
 - name: Create dovecot spam & ham sieve scripts
   template:
     src: "{{ item }}.j2"
@@ -149,33 +138,6 @@
   tags:
     - role::dovecot
 
-- name: Enable dovecot spamc learning integration
-  blockinfile:
-    path: /etc/dovecot/conf.d/90-sieve.conf
-    insertbefore: "^}$"
-    content: |2
-        # From elsewhere to Junk folder
-        imapsieve_mailbox1_name = Junk
-        imapsieve_mailbox1_causes = COPY
-        imapsieve_mailbox1_before = file:/etc/dovecot/sieve/learn-spam.sieve
-
-        # From Junk folder to elsewhere
-        imapsieve_mailbox2_name = *
-        imapsieve_mailbox2_from = Junk
-        imapsieve_mailbox2_causes = COPY
-        imapsieve_mailbox2_before = file:/etc/dovecot/sieve/learn-ham.sieve
-
-        sieve_pipe_bin_dir = {{ dovecot_sieve_pipe_bin_dir }}
-        sieve_global_extensions = +vnd.dovecot.pipe
-        sieve_plugins = sieve_imapsieve sieve_extprograms
-        imapsieve_url = sieve://127.0.0.1:4190
-    marker: "  # {mark} spam & ham autolearning (ansible managed)"
-    state: present
-  notify:
-    - Reload Dovecot
-  tags:
-    - role::dovecot
-
 # BEGIN temporary cleanup task
 - name: Kill Dovecot LDAP config
   file:
@@ -204,6 +166,7 @@
     - 20-lmtp.conf
     - 20-imap.conf
     - 90-acl.conf
+    - 90-sieve.conf
     - auth-ldap.conf.ext
   tags:
     - role::dovecot

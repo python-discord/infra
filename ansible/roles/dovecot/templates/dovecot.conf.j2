@@ -2,25 +2,28 @@
 
 ## Dovecot configuration file
 
+# If you're in a hurry, see https://doc.dovecot.org/latest/core/config/guides/quick.html
+
 dovecot_config_version = "2.4.0"
 dovecot_storage_version = "2.4.0"
 
 # "doveconf -n" command gives a clean output of the changed settings. Use it
 # instead of copy&pasting files when posting to the Dovecot mailing list.
 
-# Most (but not all) settings can be overridden by different protocols and/or
-# source/destination IPs by placing the settings inside sections, for example:
-# protocol imap { }, local 127.0.0.1 { }, remote 10.0.0.0/8 { }
+# '#' character and everything after it is treated as comments. Extra spaces
+# and tabs are ignored. If you want to use either of these explicitly, put the
+# value inside quotes, eg.: key = "# char and trailing whitespace  "
 
 # Default values are shown for each setting, it's not required to uncomment
 # those. These are exceptions to this though: No sections (e.g. namespace {})
 # or plugin settings are added by default, they're listed only as examples.
 # Paths are also just examples with the real defaults being based on configure
-# options. The paths listed here are for configure --prefix=/usr
-# --sysconfdir=/etc --localstatedir=/var
+# options. The paths listed here are for configure --prefix=/usr/local
+# --sysconfdir=/usr/local/etc --localstatedir=/var
 
-# Enable installed protocols
-!include_try /usr/share/dovecot/protocols.d/*.protocol
+# Protocols we want to be serving.
+protocols = imap lmtp sieve
+# !include_try /usr/share/dovecot/protocols.d/*.protocol
 
 # A comma separated list of IPs or hosts where to listen in for connections.
 # "*" listens in all IPv4 interfaces, "::" listens in all IPv6 interfaces.
@@ -43,11 +46,9 @@ login_greeting = Schweinehund ready.
 # Space separated list of trusted network ranges. Connections from these
 # IPs are allowed to override their IP addresses and ports (for logging and
 # for authentication checks). disable_plaintext_auth is also ignored for
-# these networks. Typically you'd specify your IMAP proxy servers here.
+# these networks, unless ssl=required.
+# Typically you'd specify your IMAP proxy servers here.
 #login_trusted_networks =
-
-# Space separated list of login access check sockets (e.g. tcpwrap)
-#login_access_sockets =
 
 # With proxy_maybe=yes if proxy destination matches any of these IPs, don't do
 # proxying. This isn't necessary normally, but may be useful if the destination
@@ -57,7 +58,7 @@ login_greeting = Schweinehund ready.
 # Show more verbose process titles (in ps). Currently shows user name and
 # IP address. Useful for seeing who are actually using the IMAP processes
 # (eg. shared mailboxes or if same uid is used for multiple accounts).
-#verbose_proctitle = no
+#verbose_proctitle = yes
 
 # Should all processes be killed when Dovecot master process shuts down.
 # Setting this to "no" means that Dovecot can be upgraded without
@@ -74,20 +75,8 @@ login_greeting = Schweinehund ready.
 # Space separated list of environment variables that are preserved on Dovecot
 # startup and passed down to all of its child processes. You can also give
 # key=value pairs to always set specific settings.
-#import_environment = TZ
-
-##
-## Dictionary server settings
-##
-
-# Dictionary can be used to store key=value lists. This is used by several
-# plugins. The dictionary can be accessed either directly or though a
-# dictionary server. The following dict block maps dictionary names to URIs
-# when the server is used. These can then be referenced using URIs in format
-# "proxy::<name>".
-
-#dict {
-  #quota = mysql:/etc/dovecot/dovecot-dict-sql.conf.ext
+#import_environment {
+#  TZ=%{env:TZ}
 #}
 
 # Most of the actual configuration gets included below. The filenames are
