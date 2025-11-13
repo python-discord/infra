@@ -1,7 +1,7 @@
-data_directory = '/var/lib/postgresql/15/main'
-hba_file = '/etc/postgresql/15/main/pg_hba.conf'
-ident_file = '/etc/postgresql/15/main/pg_ident.conf'
-external_pid_file = '/var/run/postgresql/15-main.pid'
+data_directory = '/var/lib/postgresql/{{ postgres_version }}/main'
+hba_file = '/etc/postgresql/{{ postgres_version }}/main/pg_hba.conf'
+ident_file = '/etc/postgresql/{{ postgres_version }}/main/pg_ident.conf'
+external_pid_file = '/var/run/postgresql/{{ postgres_version }}-main.pid'
 listen_addresses = '89.58.26.118,localhost'
 port = 5432
 unix_socket_directories = '/var/run/postgresql'
@@ -27,7 +27,7 @@ include_dir = 'conf.d'
 cluster_name = 'schweinehund'
 
 # The following is from https://pgtune.leopard.in.ua/
-# DB Version: 15
+# DB Version: 18
 # OS Type: linux
 # DB Type: mixed
 # Total Memory (RAM): 64 GB
@@ -43,7 +43,7 @@ wal_buffers = 16MB
 default_statistics_target = 100
 random_page_cost = 1.1
 effective_io_concurrency = 200
-work_mem = 20971kB
+work_mem = 76260kB
 huge_pages = try
 min_wal_size = 1GB
 max_wal_size = 4GB

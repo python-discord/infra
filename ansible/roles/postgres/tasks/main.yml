@@ -1,3 +1,19 @@
+- name: Fetch PostgreSQL signing key
+  ansible.builtin.get_url:
+    url: "https://www.postgresql.org/media/keys/{{ postgres_apt_key_fingerprint }}.asc"
+    dest: "{{ postgres_apt_key_location }}"
+    mode: '0644'
+  tags:
+    - role::postgres
+
+- name: Setup PostgreSQL apt repository
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by={{ postgres_apt_key_location }}] http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main"
+    state: present
+    filename: "pgdg"
+  tags:
+    - role::postgres
+
 - name: Install postgres packages
   apt:
     name:
@@ -9,6 +25,33 @@
     state: present
   tags:
     - role::postgres
+
+- name: Import postgresql.conf
+  template:
+    src: postgresql.conf.j2
+    dest: /etc/postgresql/{{ postgres_version }}/main/postgresql.conf
+    owner: postgres
+    group: postgres
+    mode: "0644"
+  tags:
+    - role::postgres
+  notify:
+    - Restart the postgres service
+
+- name: Import PostgreSQL identity map (pg_ident.conf)
+  copy:
+    src: ident.conf
+    dest: /etc/postgresql/{{ postgres_version }}/main/pg_ident.conf
+    owner: postgres
+    group: postgres
+    mode: "0644"
+  tags:
+    - role::postgres
+  notify:
+    - Reload the postgres service
+
+- name: Install and configure pg_repack
+  include_tasks: pg_repack.yml
 
 - name: Check postgres is started and enabled on boot
   service:
@@ -97,30 +140,3 @@
   become_user: "{{ postgres_user }}"
   tags:
     - role::postgres
-
-- name: Import postgresql.conf
-  template:
-    src: postgresql.conf.j2
-    dest: /etc/postgresql/{{ postgres_version }}/main/postgresql.conf
-    owner: postgres
-    group: postgres
-    mode: "0644"
-  tags:
-    - role::postgres
-  notify:
-    - Restart the postgres service
-
-- name: Import PostgreSQL identity map (pg_ident.conf)
-  copy:
-    src: ident.conf
-    dest: /etc/postgresql/{{ postgres_version }}/main/pg_ident.conf
-    owner: postgres
-    group: postgres
-    mode: "0644"
-  tags:
-    - role::postgres
-  notify:
-    - Reload the postgres service
-
-- name: Install and configure pg_repack
-  include_tasks: pg_repack.yml
