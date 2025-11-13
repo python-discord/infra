@@ -11,8 +11,8 @@ ssl = yes
 # dropping root privileges, so keep the key file unreadable by anyone but
 # root. Included doc/mkcert.sh can be used to easily generate self-signed
 # certificate, just make sure to update the domains in dovecot-openssl.cnf
-ssl_cert = </etc/letsencrypt/live/pydis.wtf/fullchain.pem
-ssl_key = </etc/letsencrypt/live/pydis.wtf/privkey.pem
+ssl_server_cert_file = /etc/letsencrypt/live/pydis.wtf/fullchain.pem
+ssl_server_key_file = /etc/letsencrypt/live/pydis.wtf/privkey.pem
 
 # If key file is password protected, give the password here. Alternatively
 # give it when starting dovecot with -p parameter. Since this file is often
@@ -54,7 +54,7 @@ ssl_client_ca_dir = /etc/ssl/certs
 # Generate new params with `openssl dhparam -out /etc/dovecot/dh.pem 4096`
 # Or migrate from old ssl-parameters.dat file with the command dovecot
 # gives on startup when ssl_dh is unset.
-ssl_dh = </usr/share/dovecot/dh.pem
+ssl_server_dh_file = /usr/share/dovecot/dh.pem
 
 # Minimum SSL protocol version to use. Potentially recognized values are SSLv3,
 # TLSv1, TLSv1.1, TLSv1.2 and TLSv1.3, depending on the OpenSSL version used.

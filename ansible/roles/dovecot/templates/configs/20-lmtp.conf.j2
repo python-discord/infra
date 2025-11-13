@@ -38,5 +38,7 @@ lmtp_add_received_header = yes
 
 protocol lmtp {
   # Space separated list of plugins to load (default is global mail_plugins).
-  mail_plugins = $mail_plugins sieve
+  mail_plugins {
+    sieve = yes
+  }
 }

@@ -4,18 +4,58 @@
 #
 # <doc/wiki/AuthDatabase.LDAP.txt>
 
-passdb {
-  driver = ldap
+# This file is opened as root, so it should be owned by root and mode 0600.
+#
+ldap_uris = {{ dovecot_ldap_host }}
 
-  # Path for LDAP configuration file, see example-config/dovecot-ldap.conf.ext
-  args = /etc/dovecot/dovecot-ldap.conf.ext
+# Distinguished Name - the username used to login to the LDAP server.
+# Leave it commented out to bind anonymously (useful with auth_bind=yes).
+ldap_auth_dn = {{ dovecot_ldap_user }}
+
+# Password for LDAP server, if dn is specified.
+ldap_auth_dn_password = {{ dovecot_ldap_password }}
+
+# TLS options, currently supported only with OpenLDAP:
+ldap_tls_ca_cert_file = {{ dovecot_ldap_tls_ca }}
+
+
+# LDAP protocol version to use. Likely 2 or 3.
+ldap_version = 3
+
+# LDAP base. %variables can be used here.
+# For example: dc=mail, dc=example, dc=org
+ldap_base = cn=users,cn=accounts,dc=box,dc=pydis,dc=wtf
+
+# User attributes are given in LDAP-name=dovecot-internal-name list. The
+# internal names are:
+#   uid - System UID
+#   gid - System GID
+#   home - Home directory
+#   mail - Mail location
+#
+# There are also other special fields which can be returned, see
+# http://wiki2.dovecot.org/UserDatabase/ExtraFields
+ldap_user_attrs = uidNumber=uid, sieve=${home}/main.sieve, sieve_user_log=${home}/sieve.log
+
+passdb ldap {
+  fields {
+    uidNumber = %{ldap:uid}
+    sieve = ${home}/main.sieve
+    sieve_user_log = ${home}/sieve.log
+  }
+  bind = yes
+  bind_userdn = uid=%{user},cn=users,cn=accounts,dc=box,dc=pydis,dc=wtf
+
+  filter = (&(objectClass=posixAccount)(uid=%{user}))
+  driver = ldap
 }
 
-userdb {
-  driver = prefetch
-}
-
-userdb {
+userdb ldap {
+  fields {
+    uidNumber = %{ldap:uid}
+    sieve = ${home}/main.sieve
+    sieve_user_log = ${home}/sieve.log
+  }
+  filter = (&(objectClass=posixAccount)(uid=%{user}))
   driver = ldap
-  args = /etc/dovecot/dovecot-ldap.conf.ext
 }

@@ -29,8 +29,9 @@
 #
 # <doc/wiki/MailLocation.txt>
 #
-mail_home = /var/vmail/%u
-mail_location = maildir:~/mail
+mail_home = /var/vmail/%{user}
+mail_driver = Maildir
+mail_path = %{home}/mail
 
 
 # If you need to set multiple mailbox locations or want to change default
@@ -219,7 +220,10 @@ mail_privileged_group = mail
 
 # Space separated list of plugins to load for all services. Plugins specific to
 # IMAP, LDA, etc. are added to this list in their own .conf files.
-mail_plugins = welcome notify
+mail_plugins {
+  welcome = yes
+  notify = yes
+}
 
 ##
 ## Mailbox handling optimizations
@@ -424,9 +428,11 @@ protocol !indexer-worker {
 #   exclude-inlined - Exclude any Content-Disposition=inline MIME part.
 #mail_attachment_detection_options =
 
-plugin {
-  welcome_script = welcome %u
-  welcome_wait = no
+welcome {
+  execute welcome {
+    args = %{user}
+  }
+  wait = no
 }
 
 service welcome {

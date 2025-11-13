@@ -176,17 +176,16 @@
   tags:
     - role::dovecot
 
-- name: Template Dovecot LDAP config
-  template:
-    src: dovecot-ldap.conf.ext.j2
-    dest: /etc/dovecot/dovecot-ldap.conf.ext
-    group: root
-    owner: root
-    mode: "0600"
+# BEGIN temporary cleanup task
+- name: Kill Dovecot LDAP config
+  file:
+    path: /etc/dovecot/dovecot-ldap.conf.ext
+    state: absent
   tags:
     - role::dovecot
   notify:
     - Reload Dovecot
+# END temporary cleanup task
 
 - name: Template Dovecot component configurations
   template:
@@ -194,8 +193,9 @@
     dest: "/etc/dovecot/conf.d/{{ item }}"
     group: root
     owner: root
-    mode: "0644"
+    mode: "0600"
   loop:
+    - 10-director.conf
     - 10-mail.conf
     - 10-master.conf
     - 10-auth.conf
@@ -203,6 +203,7 @@
     - 15-mailboxes.conf
     - 20-lmtp.conf
     - 20-imap.conf
+    - 90-acl.conf
     - auth-ldap.conf.ext
   tags:
     - role::dovecot

@@ -91,11 +91,17 @@
 #     from going into infinite loops trying to FETCH a broken mail.
 #imap_fetch_failure = disconnect-immediately
 
-mail_attribute_dict = file:~/mail/dovecot-attributes
+mail_attribute {
+  dict file {
+    path = %{home}/mail/dovecot-attributes
+  }
+}
 
 protocol imap {
   # Space separated list of plugins to load (default is global mail_plugins).
-  mail_plugins = $mail_plugins imap_sieve
+  mail_plugins {
+    imap_sieve = yes
+  }
 
   imap_metadata = yes
 

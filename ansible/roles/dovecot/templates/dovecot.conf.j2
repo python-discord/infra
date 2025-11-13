@@ -2,6 +2,9 @@
 
 ## Dovecot configuration file
 
+dovecot_config_version = "2.4.0"
+dovecot_storage_version = "2.4.0"
+
 # "doveconf -n" command gives a clean output of the changed settings. Use it
 # instead of copy&pasting files when posting to the Dovecot mailing list.
 
@@ -83,9 +86,9 @@ login_greeting = Schweinehund ready.
 # when the server is used. These can then be referenced using URIs in format
 # "proxy::<name>".
 
-dict {
+#dict {
   #quota = mysql:/etc/dovecot/dovecot-dict-sql.conf.ext
-}
+#}
 
 # Most of the actual configuration gets included below. The filenames are
 # first sorted by their ASCII value and parsed in that order. The 00-prefixes
