@@ -160,6 +160,14 @@ ops:
   type: CNAME
   value: ops-site.netlify.app.
 
+paperless:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+  ttl: 300
+  type: CNAME
+  value: lovelace.box.pydis.wtf.
+
 paste:
   octodns:
     cloudflare:
