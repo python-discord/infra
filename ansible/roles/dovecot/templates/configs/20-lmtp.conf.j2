@@ -30,13 +30,24 @@ lmtp_add_received_header = yes
 #     Allow one or more spaces or tabs between `MAIL FROM:' and path and between
 #     `RCPT TO:' and path.
 #   mailbox-for-path:
-#
+#     Allow using bare Mailbox syntax (i.e., without <...>) instead of full path
 #     syntax.
 #
-# The list is space-separated.
-#lmtp_client_workarounds =
+#lmtp_client_workarounds {
+#  whitespace-before-path = yes
+#}
 
 protocol lmtp {
+  # This strips the domain name before delivery, since the default
+  # userdb in Debian is /etc/passwd, which doesn't include domain
+  # names in the user.  If you're using a different userdb backend
+  # that does include domain names, you may wish to remove this.  See
+  # https://doc.dovecot.org/2.4.0/howto/lmtp/exim.html and
+  # https://doc.dovecot.org/2.4.0/core/summaries/settings.html#auth_username_format
+  auth_username_format = %{user | username}
+
   # Space separated list of plugins to load (default is global mail_plugins).
-  mail_plugins = $mail_plugins sieve
+  mail_plugins {
+    sieve = yes
+  }
 }
