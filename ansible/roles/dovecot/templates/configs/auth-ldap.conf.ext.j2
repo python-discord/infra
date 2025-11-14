@@ -2,20 +2,98 @@
 
 # Authentication for LDAP users. Included from 10-auth.conf.
 #
-# <doc/wiki/AuthDatabase.LDAP.txt>
+# <https://doc.dovecot.org/latest/core/config/auth/databases/ldap.html>
 
-passdb {
+## See <https://doc.dovecot.org/latest/core/config/dict.html#ldap>
+
+#ldap_uris = ldap://localhost
+#ldap_auth_dn = cn=admin
+#ldap_auth_dn_password = supersecret
+
+#passdb ldap {
+#  ldap_filter = (&(objectClass=posixAccount)(uid=%{user}))
+#  ldap_bind = no
+#  fields {
+    # user=%{ldap:uid}
+    # password=%{ldap:userPassword}
+    # userdb_home=%{ldap:homeDirectory}
+    # userdb_uid=%{ldap:uidNumber}
+    # userdb_gid=%{ldap:gidNumber}
+#  }
+#}
+# "prefetch" user database means that the passdb already provided the
+# needed information and there's no need to do a separate userdb lookup.
+# <https://doc.dovecot.org/latest/core/config/auth/databases/prefetch.html>
+#userdb prefetch {
+#}
+#userdb ldap {
+#  ldap_filter = (&(objectClass=posixAccount)(uid=%{user}))
+
+# Default fields can be used to specify defaults that LDAP may override
+#  fields {
+#    home=/home/virtual/%{user}
+#  }
+#}
+# If you don't have any user-specific settings, you can avoid the userdb LDAP
+# lookup by using userdb static instead of userdb ldap, for example:
+# <https://doc.dovecot.org/latest/core/config/auth/databases/static.html>
+#userdb static {
+  #fields {
+  #  uid = vmail
+  #  gid = vmail
+  #  home = /var/vmail/%{user}
+  #}
+#}
+
+# This file is opened as root, so it should be owned by root and mode 0600.
+#
+ldap_uris = {{ dovecot_ldap_host }}
+
+# Distinguished Name - the username used to login to the LDAP server.
+# Leave it commented out to bind anonymously (useful with auth_bind=yes).
+ldap_auth_dn = {{ dovecot_ldap_user }}
+
+# Password for LDAP server, if dn is specified.
+ldap_auth_dn_password = {{ dovecot_ldap_password }}
+
+# LDAP protocol version to use. Likely 2 or 3.
+ldap_version = 3
+
+# LDAP base. %variables can be used here.
+# For example: dc=mail, dc=example, dc=org
+ldap_base = cn=users,cn=accounts,dc=box,dc=pydis,dc=wtf
+
+# User attributes are given in LDAP-name=dovecot-internal-name list. The
+# internal names are:
+#   uid - System UID
+#   gid - System GID
+#   home - Home directory
+#   mail - Mail location
+#
+# There are also other special fields which can be returned, see
+# http://wiki2.dovecot.org/UserDatabase/ExtraFields
+
+passdb ldap {
+  fields {
+    user = %{ldap:uid}
+    sieve = %{home}/main.sieve
+    sieve_user_log_path = %{home}/sieve.log
+  }
+  bind = yes
+
+  filter = (&(objectClass=posixAccount)(uid=%{user | username}))
   driver = ldap
-
-  # Path for LDAP configuration file, see example-config/dovecot-ldap.conf.ext
-  args = /etc/dovecot/dovecot-ldap.conf.ext
+  ldap_connection_group = passdb
 }
 
-userdb {
-  driver = prefetch
-}
-
-userdb {
+userdb ldap {
+  fields {
+    user = %{ldap:uid}
+    uid = %{ldap:uidNumber}
+    sieve = %{home}/main.sieve
+    sieve_user_log_path = %{home}/sieve.log
+  }
+  filter = (&(objectClass=posixAccount)(uid=%{user | username}))
   driver = ldap
-  args = /etc/dovecot/dovecot-ldap.conf.ext
+  ldap_connection_group = userdb
 }
