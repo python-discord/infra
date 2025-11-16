@@ -8,7 +8,7 @@ data:
     databases:
       mongodb:
         main_mongodb:
-          connection_string: mongodb://{{ MONGO_INITDB_ROOT_USERNAME }}:{{ MONGO_INITDB_ROOT_PASSWORD }}@mongodb.databases.svc.cluster.local:27017
+          connection_string: mongodb://{{ MONGO_INITDB_ROOT_USERNAME }}:{{ MONGO_INITDB_ROOT_PASSWORD }}@lovelace.box.pydis.wtf:27017
 
       postgres:
         lovelace_postgres:
