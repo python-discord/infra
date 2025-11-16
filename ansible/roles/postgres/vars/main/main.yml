@@ -18,8 +18,8 @@ postgres_users:
     password: "{{ vault_postgres_user_passwords.pinnwand }}"
     roles:
 
-  - name: blackbox
-    password: "{{ vault_postgres_user_passwords.blackbox }}"
+  - name: borg
+    password: "{{ vault_postgres_user_passwords.borg }}"
     roles:
       - pg_read_all_data
 
