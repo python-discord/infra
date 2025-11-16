@@ -7,8 +7,15 @@ Description = Mongo NoSQL (NonSensical Query Language) Server
 Image = mongodb.image
 Pull = missing
 Volume = mongodb.volume:/data/db
+# XXX: role should to have a dependency for the lovelace cert
+Volume = /etc/opt/mongodb:/certs:ro
 NoNewPrivileges = true
 PublishPort = 27017:27017
+Exec = \
+  --auth \
+  --tlsMode requireTLS \
+  --tlsCertificateKeyFile /certs/fullchain-plus-key.pem \
+  --tlsCAFile /certs/fullchain.pem
 
 [Service]
 # Resource control

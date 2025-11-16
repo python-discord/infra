@@ -10,16 +10,79 @@
   tags:
     - role::mongodb
   notify:
+    - Reload the systemd daemon
     - Restart mongodb
   loop:
     - container
     - image
     - volume
 
+- name: Create secrets directory
+  ansible.builtin.file:
+    path: /etc/opt/mongodb
+    state: directory
+    owner: "{{ mongodb_uid }}"
+    group: "{{ mongodb_gid }}"
+    mode: 0o700
+  tags:
+    - role::mongodb
+
+- name: Create TLS key file
+  ansible.builtin.shell: >
+    umask 0077
+
+    cat
+    /etc/letsencrypt/live/{{ ansible_fqdn }}/fullchain.pem
+    /etc/letsencrypt/live/{{ ansible_fqdn }}/privkey.pem
+    > /etc/opt/mongodb/fullchain-plus-key.pem
+
+    chown "{{ mongodb_uid }}:{{ mongodb_gid }}" /etc/opt/mongodb/fullchain-plus-key.pem
+  args:
+    creates: /etc/opt/mongodb/fullchain-plus-key.pem
+  tags:
+    - role::mongodb
+
+- name: Copy TLS fullchain
+  ansible.builtin.copy:
+    remote_src: true
+    src: /etc/letsencrypt/live/{{ ansible_fqdn }}/fullchain.pem
+    dest: /etc/opt/mongodb/fullchain.pem
+    owner: "{{ mongodb_uid }}"
+    group: "{{ mongodb_gid }}"
+  tags:
+    - role::mongodb
+
+- name: Create letsencrypt post-renewal hook
+  ansible.builtin.copy:
+    content: |
+      #!/bin/sh
+
+      set -ex
+
+      umask 0077
+
+      cat \
+        /etc/letsencrypt/live/{{ ansible_fqdn }}/fullchain.pem \
+        /etc/letsencrypt/live/{{ ansible_fqdn }}/privkey.pem \
+        > /etc/opt/mongodb/fullchain-plus-key.pem
+
+      chown "{{ mongodb_uid }}:{{ mongodb_gid }}" /etc/opt/mongodb/fullchain-plus-key.pem
+
+      cp /etc/letsencrypt/live/{{ ansible_fqdn }}/fullchain.pem /etc/opt/mongodb/fullchain.pem
+
+      # XXX: kill -HUP $PID OK?
+      systemctl restart mongodb
+    dest: /etc/letsencrypt/renewal-hooks/deploy/update-mongodb-cert
+    owner: root
+    group: root
+    mode: 0o744
+  tags:
+    - role::mongodb
+
 - name: Start and enable the quadlet
   ansible.builtin.service:
     name: mongodb.service
-    daemon_reload: "{{ mongodb_units is changed }}"
+    daemon_reload: true # "{{ mongodb_units is changed }}"
     state: started
     enabled: true
   tags:
