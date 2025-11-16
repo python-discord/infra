@@ -5,7 +5,7 @@
     dest: /etc/containers/systemd/mongodb.{{ item }}
     owner: root
     group: root
-    mode: 0o444
+    mode: "0444"
   register: mongodb_units
   tags:
     - role::mongodb
@@ -23,7 +23,7 @@
     state: directory
     owner: "{{ mongodb_uid }}"
     group: "{{ mongodb_gid }}"
-    mode: 0o700
+    mode: "0700"
   tags:
     - role::mongodb
 
@@ -49,6 +49,7 @@
     dest: /etc/opt/mongodb/fullchain.pem
     owner: "{{ mongodb_uid }}"
     group: "{{ mongodb_gid }}"
+    mode: "0400"
   tags:
     - role::mongodb
 
@@ -75,7 +76,7 @@
     dest: /etc/letsencrypt/renewal-hooks/deploy/update-mongodb-cert
     owner: root
     group: root
-    mode: 0o744
+    mode: "0744"
   tags:
     - role::mongodb
 
