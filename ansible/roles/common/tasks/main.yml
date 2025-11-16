@@ -46,8 +46,8 @@
       # Ansible managed
 
       # <domain>  <type>  <item>  <value>
-      *           soft    nproc   100
-      *           hard    nproc   200
+      *           soft    nproc   1000
+      *           hard    nproc   2000
     dest: /etc/security/limits.d/pydis.conf
     owner: root
     group: root
