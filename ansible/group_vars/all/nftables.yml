@@ -120,7 +120,8 @@ nftables_configuration: |
 
     chain forward {
       type filter hook forward priority 0
-      policy drop
+      # podman
+      policy accept
       ct state invalid drop
       ct state established,related accept
 
