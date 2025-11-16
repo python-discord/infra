@@ -68,6 +68,7 @@
     - postgres
     - prometheus-postgres-exporter
     - mongodb
+    - borg
 
 - name: Deploy our LDAP server environment to the LDAP host
   hosts: ldap
