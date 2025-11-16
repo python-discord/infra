@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description = Mongo NoSQL (NonSensical Query Language) Server image
+After = network-online.target
+
+[Image]
+Image = docker.io/library/mongo:4.4
+
+# vim: ft=dosini.jinja2:

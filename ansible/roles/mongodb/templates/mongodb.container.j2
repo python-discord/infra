@@ -1,0 +1,36 @@
+# {{ ansible_managed }}
+
+[Unit]
+Description = Mongo NoSQL (NonSensical Query Language) Server
+
+[Container]
+Image = mongodb.image
+Pull = missing
+Volume = mongodb.volume:/data/db
+NoNewPrivileges = true
+PublishPort = 27017:27017
+
+[Service]
+# Resource control
+CPUQuota = 20%
+MemoryMax = 900M
+TasksMax = 200
+
+# Sandboxing
+NoNewPrivileges = true
+PrivateDevices = true
+ProtectHome = true
+ProtectKernelLogs = true
+LockPersonality = true
+MemoryDenyWriteExecute = true
+ProtectKernelModules = true
+ProtectSystem = true
+PrivateMounts = true
+RestrictRealtime = true
+RestrictSUIDSGID = true
+UMask = 0077
+
+[Install]
+WantedBy = network-online.target
+
+# vim: ft=dosini.jinja2:
