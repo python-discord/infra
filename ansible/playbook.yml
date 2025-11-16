@@ -62,11 +62,12 @@
   roles:
     - git-mirrors
 
-- name: Deploy our PostgreSQL database hosts
+- name: Deploy our database hosts
   hosts: databases
   roles:
     - postgres
     - prometheus-postgres-exporter
+    - mongodb
 
 - name: Deploy our LDAP server environment to the LDAP host
   hosts: ldap

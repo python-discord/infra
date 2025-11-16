@@ -1,0 +1,26 @@
+---
+- name: Template quadlet services
+  ansible.builtin.template:
+    src: mongodb.{{ item }}.j2
+    dest: /etc/containers/systemd/mongodb.{{ item }}
+    owner: root
+    group: root
+    mode: 0o444
+  register: mongodb_units
+  tags:
+    - role::mongodb
+  notify:
+    - Restart mongodb
+  loop:
+    - container
+    - image
+    - volume
+
+- name: Start and enable the quadlet
+  ansible.builtin.service:
+    name: mongodb.service
+    daemon_reload: "{{ mongodb_units is changed }}"
+    state: started
+    enabled: true
+  tags:
+    - role::mongodb
