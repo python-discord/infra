@@ -86,8 +86,12 @@ nftables_configuration: |
   {% if "databases" in group_names %}
       # PostgreSQL connections
       iifname {{ ansible_default_ipv4.interface }} ip saddr @possible_lke_ipv4_addrs tcp dport postgresql ct state new accept
+      # MongoDB connections
+      iifname {{ ansible_default_ipv4.interface }} ip saddr @possible_lke_ipv4_addrs tcp dport 27017 ct state new accept
   {% if ansible_default_ipv6 is defined %}
+      # And now via IPv6
       iifname {{ ansible_default_ipv6.interface }} ip6 saddr @possible_lke_ipv6_addrs tcp dport postgresql ct state new accept
+      iifname {{ ansible_default_ipv6.interface }} ip6 saddr @possible_lke_ipv6_addrs tcp dport 27017 ct state new accept
   {% endif %}
   {% endif %}
 
