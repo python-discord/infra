@@ -1,0 +1,4 @@
+---
+# MongoDB UID in the container
+mongodb_uid: 999
+mongodb_gid: 999
