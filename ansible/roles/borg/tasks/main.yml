@@ -1,0 +1,109 @@
+---
+- name: Install Borg Backup
+  package:
+    name:
+      - borgbackup2
+    state: present
+  tags:
+    - role::borg
+
+- name: Create borg service user account
+  user:
+    state: present
+    system: true
+    name: "{{ borg_user }}"
+    home: "{{ borg_home }}"
+    shell: /usr/sbin/nologin
+  tags:
+    - role::borg
+
+- name: Create borgmatic virtual environment
+  command:
+    cmd: python3 -m venv {{ borg_virtualenv }}
+    creates: "{{ borg_virtualenv }}/bin/activate"
+  tags:
+    - role::borg
+
+- name: Install borgmatic into virtual environment
+  pip:
+    virtualenv: "{{ borg_virtualenv }}"
+    name: borgmatic
+    version: "{{ borg_version | default(omit) }}"
+    state: present
+  tags:
+    - role::borg
+
+- name: Template Borg environment variables
+  template:
+    src: borgmatic.env.j2
+    dest: /etc/default/borgmatic
+    mode: "0444"
+    owner: root
+    group: root
+  tags:
+    - role::borg
+
+- name: Create borgmatic configuration directory
+  file:
+    state: directory
+    owner: borg
+    group: root
+    mode: "0755"
+    path: /etc/borgmatic
+  tags:
+    - role::borg
+
+- name: Template Borg configuration file
+  template:
+    src: config.yaml.j2
+    dest: /etc/borgmatic/config.yaml
+    mode: "0444"
+    owner: borg
+    group: root
+  tags:
+    - role::borg
+
+- name: Create borgmatic service
+  template:
+    src: borgmatic.service.j2
+    dest: /etc/systemd/system/borgmatic.service
+    owner: root
+    group: root
+    mode: "0444"
+  tags:
+    - role::borg
+  notify:
+    - Reload the systemd daemon
+
+- name: Create borgmatic timer
+  template:
+    src: borgmatic.timer.j2
+    dest: /etc/systemd/system/borgmatic.timer
+    owner: root
+    group: root
+    mode: "0444"
+  tags:
+    - role::borg
+  notify:
+    - Reload the systemd daemon
+
+- name: Enable borgmatic timer
+  systemd:
+    name: borgmatic.timer
+    enabled: true
+    masked: false
+  tags:
+    - role::borg
+  notify:
+    - Reload the systemd daemon
+
+- name: Create borgmatic repositories
+  become_user: "{{ borg_user }}"
+  command: "{{ borg_virtualenv }}/bin/borgmatic repo-create --encryption=none"
+  environment:
+    POSTGRES_PASSWORD: "{{ vault_postgres_user_passwords.borg }}"
+    BORG_S3_KEY_ID: "{{ borg_s3_access_key_id }}"
+    BORG_S3_KEY_SECRET: "{{ borg_s3_access_key_secret }}"
+  #   creates: "{{ borg_home }}/keys/repositories/borg2"
+  tags:
+    - role::borg
