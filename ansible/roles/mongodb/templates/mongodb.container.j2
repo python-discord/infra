@@ -15,7 +15,8 @@ Exec = \
   --auth \
   --tlsMode requireTLS \
   --tlsCertificateKeyFile /certs/fullchain-plus-key.pem \
-  --tlsCAFile /certs/fullchain.pem
+  --tlsCAFile /certs/fullchain.pem \
+  --tlsAllowConnectionsWithoutCertificates
 
 [Service]
 # Resource control
