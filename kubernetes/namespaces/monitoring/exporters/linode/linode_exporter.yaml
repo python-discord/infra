@@ -1,0 +1,54 @@
+# Exporter for taking statistics on our Redis instance
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: linode-exporter
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: linode-exporter
+  template:
+    metadata:
+      labels:
+        app: linode-exporter
+    spec:
+      containers:
+        - name: linode-exporter
+          image: ghcr.io/jb3/linode_exporter:2025.10.23.16
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 5m
+              memory: 20Mi
+            limits:
+              cpu: 20m
+              memory: 50Mi
+          ports:
+            - containerPort: 9388
+          envFrom:
+            - secretRef:
+                name: linode-exporter-env
+          securityContext:
+            readOnlyRootFilesystem: true
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: linode-exporter
+  namespace: monitoring
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9388"
+spec:
+  selector:
+    app: linode-exporter
+  ports:
+    - protocol: TCP
+      port: 9388
+      targetPort: 9388
