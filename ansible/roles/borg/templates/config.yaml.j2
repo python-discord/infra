@@ -1,10 +1,8 @@
 repositories:
-    - path: s3:${BORG_S3_KEY_ID}:${BORG_S3_KEY_SECRET}@https://eu-central-1.linodeobjects.com/borg/backups
+    - path: b2:${BORG_S3_KEY_ID}:${BORG_S3_KEY_SECRET}@https://eu-central-1.linodeobjects.com/borg/database-backups/
       label: frankfurt
-    - path: s3:${BORG_S3_KEY_ID}:${BORG_S3_KEY_SECRET}@https://us-east-1.linodeobjects.com/borg/backups
+    - path: b2:${BORG_S3_KEY_ID}:${BORG_S3_KEY_SECRET}@https://us-east-1.linodeobjects.com/borg/database-backups/
       label: newark
-    - path: s3:${BORG_S3_KEY_ID}:${BORG_S3_KEY_SECRET}@https://ap-south-1.linodeobjects.com/borg/backups
-      label: singapore
 
 # Path for storing temporary runtime data like streaming database
 # dumps and bootstrap metadata. borgmatic automatically creates and
