@@ -30,7 +30,7 @@ keep_daily: {{ borg_borgmatic_keep_daily }}
 
 read_special: true
 
-local_path: borg2
+local_path: {{ borg_virtualenv }}/bin/borg
 
 # List of one or more shell commands or scripts to execute after
 # creating a backup, run once per repository.
