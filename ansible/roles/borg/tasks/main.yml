@@ -1,8 +1,14 @@
 ---
-- name: Install Borg Backup
+- name: Install borg dependencies
   package:
     name:
-      - borgbackup2
+      - liblz4-dev
+      - liblz4-1
+      - libzstd-dev
+      - libzstd1
+      - libacl1-dev
+      - libacl1
+      - libxxhash0
     state: present
   tags:
     - role::borg
@@ -24,11 +30,12 @@
   tags:
     - role::borg
 
-- name: Install borgmatic into virtual environment
+- name: Install borg & dependencies to virtual environment
   pip:
     virtualenv: "{{ borg_virtualenv }}"
-    name: borgmatic
-    version: "{{ borg_version | default(omit) }}"
+    name:
+      - borgbackup[s3] @ git+https://github.com/borgbackup/borg.git@{{ borg_git_version }}
+      - borgmatic=={{ borgmatic_version }}
     state: present
   tags:
     - role::borg
