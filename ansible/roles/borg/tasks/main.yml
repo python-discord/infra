@@ -97,6 +97,7 @@
 - name: Enable borgmatic timer
   systemd:
     name: borgmatic.timer
+    state: started
     enabled: true
     masked: false
   tags:
