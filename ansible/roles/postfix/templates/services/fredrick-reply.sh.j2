@@ -12,6 +12,7 @@ EMAIL=$(cat)
 
 # Find the sender
 SENDER=$(echo "$EMAIL" | maddr -h from -)
+ORIGINAL_SENDER="$SENDER"
 
 # Grab the display name of the sender
 SENDER_DISPLAY_NAME=$(echo "$EMAIL" | maddr -h from -d -)
@@ -31,6 +32,9 @@ MESSAGE_DATE=$(echo "$EMAIL" | mhdr -h date -)
 ORIGINAL_SUBJECT=$(echo "$EMAIL" | mhdr -h subject -)
 
 LIST_ID=$(echo "$EMAIL" | mhdr -h list-id -)
+
+SEND_IMMEDIATE=0
+
 if [ "$LIST_ID" != "" ]; then
     # We don't reply to all mailing list posts.
     SHOULD_REPLY=$(awk 'BEGIN { srand(); print rand() <= 0.75 }')
@@ -47,6 +51,8 @@ if [ "$LIST_ID" != "" ]; then
         echo "fredrick: couldn't determine original sender for mailing list post (\"$ORIGINAL_SUBJECT\")."
         exit 0
     fi
+
+    SEND_IMMEDIATELY=1
 fi
 
 # Construct the reply subject
@@ -62,7 +68,7 @@ JSON_BODY=$(echo -n "$BODY" | jq -R -s . | sed 's/\\n/\\\\n/g')
 
 # We build the request to send off to the Fredrick generator
 FINAL_JSON=$(jq -r -c -n \
-    --arg from "$SENDER" \
+    --arg from "$ORIGINAL_SENDER" \
     --arg subject "$ORIGINAL_SUBJECT" \
     --arg sent_at_unix "$DATE_UNIX" \
     --arg sent_at_unparsed "$MESSAGE_DATE" \
@@ -109,6 +115,12 @@ cat > "$ATSCRIPT" <<EOF
 /usr/sbin/sendmail -t < "$REPLY_PATH"
 rm "$REPLY_PATH"
 EOF
+
+if [ "$SEND_IMMEDIATELY" = "1" ]; then
+    at -q z -f "$ATSCRIPT" now + 1 min
+    rm "$ATSCRIPT"
+    exit 0
+fi
 
 # Use the z queue for maximum niceness
 case $RECIPIENT in
