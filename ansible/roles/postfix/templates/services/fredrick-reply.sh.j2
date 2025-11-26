@@ -39,12 +39,12 @@ if [ "$LIST_ID" != "" ]; then
         exit 0
     fi
 
-    # If we're replying to a mailing list, the recipient should actually be the list address
-    RECIPIENT=$(echo "$EMAIL" | maddr -a -h x-original-to -)
+    # If we're replying to a mailing list, the sender should actually be the list address
+    SENDER=$(echo "$EMAIL" | maddr -a -h x-original-to -)
 
-    # If we couldn't find the original recipient, abort here
-    if [ "$RECIPIENT" = "" ]; then
-        echo "fredrick: couldn't determine original recipient for mailing list post (\"$ORIGINAL_SUBJECT\")."
+    # If we couldn't find the original sender, abort here
+    if [ "$SENDER" = "" ]; then
+        echo "fredrick: couldn't determine original sender for mailing list post (\"$ORIGINAL_SUBJECT\")."
         exit 0
     fi
 fi
