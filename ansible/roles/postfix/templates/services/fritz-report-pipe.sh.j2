@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+# {{ ansible_managed }}
+#
+# Forwards emails sent to fritz-report@pydis.wtf to the fritz-report service.
+# This generates a Discord report for information from Chris's Fritz!Box router.
+
+# Write mail to a temporary file
+TEMPFILE=$(mktemp /tmp/fritz-pipe.XXXXXX)
+cat > "$TEMPFILE"
+
+# Run the FRITZ!Box Discord binary with the email as input
+/home/joe/scripts/fritz-router-discord "$TEMPFILE"
+
+# Clean up the temporary file
+rm "$TEMPFILE"

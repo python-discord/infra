@@ -242,6 +242,9 @@
 
       fredrick-pipe unix  -       n       n       -       -       pipe
         flags=Fq user=servicemailer argv=/usr/bin/nice /etc/postfix/service-scripts/fredrick-reply.sh
+
+      fritz-report-pipe unix  -       n       n       -       -       pipe
+        flags=Fq user=servicemailer argv=/usr/bin/nice /etc/postfix/service-scripts/fritz-report-pipe.sh
   tags:
     - role::postfix
     - role::postfix::service-scripts
