@@ -1,0 +1,138 @@
+repositories:
+    - path: b2:${BORG_S3_KEY_ID}:${BORG_S3_KEY_SECRET}@https://eu-central-1.linodeobjects.com/borg/database-backups/
+      label: frankfurt
+    - path: b2:${BORG_S3_KEY_ID}:${BORG_S3_KEY_SECRET}@https://us-east-1.linodeobjects.com/borg/database-backups/
+      label: newark
+
+# Path for storing temporary runtime data like streaming database
+# dumps and bootstrap metadata. borgmatic automatically creates and
+# uses a "borgmatic" subdirectory here. Defaults to $XDG_RUNTIME_DIR
+# or or $TMPDIR or $TEMP or /run/user/$UID.
+# user_runtime_directory: /run/user/1001
+
+retries: {{ borg_borgmatic_retries }}
+retry_wait: {{ borg_borgmatic_retry_wait }}
+
+working_directory: {{ borg_home }}
+
+temporary_directory: /tmp
+borg_base_directory: /etc/borgmatic
+borg_config_directory: /etc/borgmatic/config
+borg_cache_directory: {{ borg_home }}/cache
+borg_security_directory: {{ borg_home }}/security
+borg_keys_directory: {{ borg_home }}/keys
+
+archive_name_format: '{hostname}-databases-{now}'
+
+keep_daily: {{ borg_borgmatic_keep_daily }}
+
+read_special: true
+
+local_path: {{ borg_virtualenv }}/bin/borg
+
+# List of one or more shell commands or scripts to execute after
+# creating a backup, run once per repository.
+# after_backup:
+    # - echo Finished a backup.
+
+# List of one or more shell commands or scripts to execute when an
+# exception occurs during a "create", "prune", "compact", or "check"
+# action or an associated before/after hook.
+# on_error:
+    # - echo Error during create/prune/compact/check.
+
+# List of one or more shell commands or scripts to execute after
+# running all actions (if one of them is "create"). These are
+# collected from all configuration files and then run once after all
+# of them (after any action).
+# after_everything:
+    # - echo Completed actions.
+
+
+postgresql_databases:
+    # Database name (required if using this hook). Or "all" to
+    # dump all databases on the host. (Also set the "format"
+    # to dump each database to a separate file instead of one
+    # combined file.) Note that using this database hook
+    # implicitly enables read_special (see above) to support
+    # dump and restore streaming.
+    - name: all
+      username: borg
+      password: ${POSTGRES_PASSWORD}
+      format: custom
+      # Disabled since Borg has built-in compression
+      compression: none
+
+      # SSL mode to use to connect to the database server. One
+      # of "disable", "allow", "prefer", "require", "verify-ca"
+      # or "verify-full". Defaults to "disable".
+      # ssl_mode: require
+
+      # Path to a client certificate.
+      # ssl_cert: /root/.postgresql/postgresql.crt
+
+      # Path to a private client key.
+      # ssl_key: /root/.postgresql/postgresql.key
+
+      # Path to a root certificate containing a list of trusted
+      # certificate authorities.
+      # ssl_root_cert: /root/.postgresql/root.crt
+
+      # Path to a certificate revocation list.
+      # ssl_crl: /root/.postgresql/root.crl
+
+
+# mongodb_databases:
+    # - name: all
+      # hostname: database.example.org
+
+      # Username with which to connect to the database. Skip it
+      # if no authentication is needed. Supports the
+      # "{credential ...}" syntax.
+      # username: dbuser
+
+      # Password with which to connect to the database. Skip it
+      # if no authentication is needed. Supports the
+      # "{credential ...}" syntax.
+      # password: trustsome1
+
+
+# Configuration for a monitoring integration with Grafana Loki. You
+# can send the logs to a self-hosted instance or create an account at
+# https://grafana.com/auth/sign-up/create-user. See borgmatic
+# monitoring documentation for details.
+# loki:
+    # Grafana loki log URL to notify when a backup begins,
+    # ends, or fails.
+    # url: http://localhost:3100/loki/api/v1/push
+
+    # Allows setting custom labels for the logging stream. At
+    # least one label is required. "__hostname" gets replaced by
+    # the machine hostname automatically. "__config" gets replaced
+    # by the name of the configuration file. "__config_path" gets
+    # replaced by the full path of the configuration file.
+    # labels:
+        # app: borgmatic
+        # config: __config
+        # hostname: __hostname
+
+# Configuration for a monitoring integration with Sentry. You can use
+# a self-hosted instance via https://develop.sentry.dev/self-hosted/
+# or create a cloud-hosted account at https://sentry.io. See borgmatic
+# monitoring documentation for details.
+# sentry:
+    # Sentry Data Source Name (DSN) URL, associated with a
+    # particular Sentry project. Used to construct a cron URL,
+    # notified when a backup begins, ends, or errors.
+    # data_source_name_url: https://5f80ec@o294220.ingest.us.sentry.io/203069
+
+    # Sentry monitor slug, associated with a particular Sentry
+    # project monitor. Used along with the data source name URL to
+    # construct a cron URL.
+    # monitor_slug: mymonitor
+
+    # List of one or more monitoring states to ping for: "start",
+    # "finish", and/or "fail". Defaults to pinging for all states.
+    # states:
+        # - start
+        # - finish
