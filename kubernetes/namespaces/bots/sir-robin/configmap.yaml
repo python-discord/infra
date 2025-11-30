@@ -4,7 +4,7 @@ metadata:
   name: sir-robin-config-env
   namespace: bots
 data:
-  AOC_YEAR: '2024'
+  AOC_YEAR: '2025'
   BOT_DEBUG: 'False'
   CATEGORY_SUMMER_CODE_JAM: '1397217460255588493'
   CHANNEL_ADVENT_OF_CODE_ANNOUNCE: '1312400095123341465'
