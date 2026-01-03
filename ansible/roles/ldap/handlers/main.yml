@@ -1,0 +1,17 @@
+---
+- name: reload firewall
+  service:
+    name: firewalld
+    state: reloaded
+  tags:
+    - role::ldap
+    - network
+
+- name: restart dnf-automatic timer
+  systemd:
+    name: dnf-automatic.timer
+    state: restarted
+    daemon_reload: true
+  tags:
+    - role::ldap
+    - security
