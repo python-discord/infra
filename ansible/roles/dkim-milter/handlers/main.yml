@@ -1,0 +1,14 @@
+---
+- name: Reload dkim-milter
+  ansible.builtin.service:
+    name: dkim-milter.service
+    state: restarted
+  tags:
+    - role::dkim-milter
+
+- name: Restart dkim-milter
+  ansible.builtin.service:
+    name: dkim-milter.service
+    state: restarted
+  tags:
+    - role::dkim-milter
