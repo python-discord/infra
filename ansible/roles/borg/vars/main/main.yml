@@ -1,0 +1,22 @@
+---
+borg_user: borg
+borg_home: /var/lib/borg
+borg_virtualenv: "{{ borg_home }}/borgmatic-venv"
+
+# Pinned to a specific commit for S3 compatibility.
+borg_git_version: "1373b30ba8e6b88f6264dc57f6a8da46d8b2e80f"
+borgmatic_version: "2.0.11"
+
+# see https://wiki.archlinux.org/title/Systemd/Timers
+# or for more details https://www.freedesktop.org/software/systemd/man/latest/systemd.time.html
+borg_timer: "*-*-* 09:00:00"
+
+
+# Borgmatic config, see https://torsion.org/borgmatic/reference/configuration/
+borg_borgmatic_retries: "1"
+borg_borgmatic_retry_wait: "3"
+borg_borgmatic_keep_daily: "7"
+
+
+borg_s3_access_key_id: "{{ vault_borg_s3_access_key_id }}"
+borg_s3_access_key_secret: "{{ vault_borg_s3_access_key_secret }}"

@@ -1,0 +1,66 @@
+[Unit]
+Description=borgmatic backup
+Wants=network-online.target
+After=network-online.target
+Documentation=https://torsion.org/borgmatic/
+
+[Service]
+User={{ borg_user }}
+EnvironmentFile=/etc/default/borgmatic
+Type=oneshot
+RuntimeDirectory=borgmatic
+StateDirectory=borgmatic
+
+# Security settings for systemd running as root, optional but recommended to improve security. You
+# can disable individual settings if they cause problems for your use case. For more details, see
+# the systemd manual: https://www.freedesktop.org/software/systemd/man/systemd.exec.html
+LockPersonality=true
+# Certain borgmatic features like Healthchecks integration need MemoryDenyWriteExecute to be off.
+# But you can try setting it to "yes" for improved security if you don't use those features.
+MemoryDenyWriteExecute=no
+NoNewPrivileges=yes
+# Filesystem hooks like ZFS may not work unless PrivateDevices is disabled.
+PrivateDevices=yes
+PrivateTmp=yes
+ProtectClock=yes
+ProtectControlGroups=yes
+ProtectHostname=yes
+ProtectKernelLogs=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6 AF_NETLINK
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+SystemCallArchitectures=native
+SystemCallFilter=@system-service @mount
+SystemCallErrorNumber=EPERM
+# To restrict write access further, change "ProtectSystem" to "strict" and
+# uncomment "ReadWritePaths", "TemporaryFileSystem", "BindPaths" and
+# "BindReadOnlyPaths". Then add any local repository paths to the list of
+# "ReadWritePaths". This leaves most of the filesystem read-only to borgmatic.
+ProtectSystem=full
+# ReadWritePaths=-/mnt/my_backup_drive
+# This will mount a tmpfs on top of /root and pass through needed paths
+# TemporaryFileSystem=/root:ro
+# BindPaths=-/root/.cache/borg -/root/.config/borg -/root/.borgmatic
+# BindReadOnlyPaths=-/root/.ssh
+
+# May interfere with running external programs within borgmatic hooks. This
+# includes, for instance, programs to snapshot filesystems (e.g. ZFS).
+CapabilityBoundingSet=CAP_DAC_READ_SEARCH CAP_NET_RAW
+
+# Lower CPU and I/O priority.
+Nice=19
+CPUSchedulingPolicy=batch
+IOSchedulingClass=best-effort
+IOSchedulingPriority=7
+IOWeight=100
+
+Restart=no
+# Prevent rate limiting of borgmatic log events. If you are using an older version of systemd that
+# doesn't support this (pre-240 or so), you may have to remove this option.
+LogRateLimitIntervalSec=0
+
+ExecStartPre={{ borg_virtualenv }}/bin/borgmatic config validate
+ExecStart={{ borg_virtualenv }}/bin/borgmatic --config /etc/borgmatic/config.yaml
