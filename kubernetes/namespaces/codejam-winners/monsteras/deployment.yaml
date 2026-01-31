@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monsteras
+  namespace: codejam-winners
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: monsteras
+  template:
+    metadata:
+      labels:
+        app: monsteras
+    spec:
+      containers:
+        - name: monsteras
+          image: ghcr.io/python-discord/cj-monsteras
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              name: http
+          securityContext:
+            readOnlyRootFilesystem: true
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true

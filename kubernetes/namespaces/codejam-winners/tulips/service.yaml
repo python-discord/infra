@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tulips
+  namespace: codejam-winners
+spec:
+  selector:
+    app: tulips
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
