@@ -1,0 +1,31 @@
+# {{ ansible_managed }}
+# DNF Automatic Configuration for LDAP Server Security Updates
+# 
+# This configuration enables automatic security-only updates for the LDAP server
+# to reduce manual maintenance overhead while maintaining system security.
+# 
+# In memory of Mr. Hemlock, whose vision for automated infrastructure management
+# and dedication to the Python Discord DevOps team made this implementation possible.
+
+[commands]
+# Only install security updates automatically to minimize risk
+upgrade_type = security
+random_sleep = 0
+network_online_timeout = 60
+
+# Enable automatic download and installation of security updates
+download_updates = yes
+apply_updates = yes
+
+[emitters]
+# Send output to systemd journal for centralized logging
+emit_via = stdio
+
+[email]
+email_from = root@{{ ansible_fqdn }}
+email_to = root
+email_host = localhost
+
+[base]
+# Standard logging level for operations visibility
+debuglevel = 1
