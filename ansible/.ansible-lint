@@ -1,10 +1,9 @@
 ---
 exclude_paths:
-  - .github  # Not ansible roles
-  - roles/certbot/vars/main/vault.yml
+  - ansible/roles/certbot/vars/main/vault.yml
   # Submodules
-  - roles/nftables
-  - roles/prometheus-postgres-exporter
+  - ansible/roles/nftables
+  - ansible/roles/prometheus-postgres-exporter
 skip_list:
   - fqcn-builtins
   - meta-no-info
