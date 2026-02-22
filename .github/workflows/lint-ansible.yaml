@@ -29,16 +29,15 @@ jobs:
         id: cache-ansible
         uses: actions/cache@v4
         with:
-          path: ansible/.ansible
+          path: .ansible
           key: ansible-${{ runner.os }}-${{ hashFiles('pyproject.toml', 'uv.lock', 'ansible/roles/requirements.yml') }}
 
       - name: Install Ansible Galaxy dependencies
-        run: cd ansible && ansible-galaxy install -r roles/requirements.yml
+        run: ansible-galaxy install -r ansible/roles/requirements.yml
 
       - name: Run ansible lint
         run: |
-          cd ansible
           # Remove any Vaulted files and Vault configuration
           grep -R '$ANSIBLE_VAULT;' --files-with-matches . | xargs rm
-          sed --in-place '/vault_password_file/d' ansible.cfg
-          ansible-lint --exclude .ansible
+          sed --in-place '/vault_password_file/d' ansible/ansible.cfg
+          ansible-lint --exclude .ansible/ --project-dir ansible/ -c ansible/.ansible-lint ansible/
