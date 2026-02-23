@@ -27,7 +27,7 @@ jobs:
 
       - name: Cache Ansible dependencies
         id: cache-ansible
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: .ansible
           key: ansible-${{ runner.os }}-${{ hashFiles('pyproject.toml', 'uv.lock', 'ansible/roles/requirements.yml') }}
