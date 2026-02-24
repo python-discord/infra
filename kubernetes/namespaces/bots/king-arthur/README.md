@@ -1,4 +1,4 @@
-# King Arthur
+# King Arthur The Terrible
 
 Deployment file for @King Arthur, our DevOps helper bot.
 
