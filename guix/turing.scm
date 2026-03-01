@@ -80,6 +80,7 @@
                            (postgresql postgresql-16)))
                 (service tor-service-type)
                 (service nftables-service-type)
+                (service ntp-service-type)
                 %hidden-service-turing
                 (service nginx-service-type
                          (nginx-configuration
