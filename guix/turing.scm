@@ -8,6 +8,7 @@
              (gnu services admin)
              (gnu services certbot)
              (gnu services databases)
+             (gnu services networking)
              (gnu services web))
 (use-service-modules networking ssh)
 (use-package-modules bootloaders)
@@ -78,6 +79,7 @@
                          (postgresql-configuration
                            (postgresql postgresql-16)))
                 (service tor-service-type)
+                (service nftables-service-type)
                 %hidden-service-turing
                 (service nginx-service-type
                          (nginx-configuration
