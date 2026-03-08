@@ -21,7 +21,7 @@
 - name: Deploy mailservers
   hosts: mail
   roles:
-    - opendkim
+    - dkim-milter
     - opendmarc
     - opendmarc-inbox
     - sasl
