@@ -42,6 +42,9 @@
                             (name "turing")
                             (mapping '((22 "127.0.0.1:22")))))))
 
+(define %motd
+  (file-from-cwd "/resources/motd.txt"))
+
 (define %certbot-deploy-hook
   (program-file
    "nginx-deploy-hook"
@@ -113,7 +116,9 @@
                 (simple-service 'resolv-conf etc-service-type
                                 (list `("resolv.conf" ,(plain-file
                                                         "resolv.conf"
-                                                        "nameserver 1.1.1.1 1.0.0.1\n")))))
+                                                        "nameserver 1.1.1.1 1.0.0.1\n"))))
+	        (simple-service 'motd etc-service-type
+				(list `("motd" ,%motd))))
                %base-services))
 
 ;; Operating system description
