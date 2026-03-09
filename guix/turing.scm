@@ -71,7 +71,24 @@
                                         ("j" ,(ssh-key "jb")
                                              ,(ssh-key "jb2")
                                              ,(ssh-key "jb-lovelace"))))))
-                (service dhcp-client-service-type)
+                (service static-networking-service-type
+                         (list
+                           (static-networking
+                             (addresses
+                               (list
+                                 (network-address
+                                   (device "eth0")
+                                   (value "5.252.225.193/22"))
+                                 (network-address
+                                   (device "eth0")
+                                   (value "2a03:4000:40:2f2:7460:66ff:feda:145b/64"))))
+                             (routes
+                               (list
+                                 (network-route
+                                   (destination "default")
+                                   (gateway "5.252.224.1"))))
+                             (name-servers
+                               '("1.1.1.1" "1.0.0.1")))))
                 (service postgresql-service-type
                          (postgresql-configuration
                            (postgresql postgresql-16)))
@@ -113,10 +130,6 @@
                              (domains '("turing.box.pydis.wtf"))
                              (deploy-hook %certbot-deploy-hook))))))
                 (service unattended-upgrade-service-type)
-                (simple-service 'resolv-conf etc-service-type
-                                (list `("resolv.conf" ,(plain-file
-                                                        "resolv.conf"
-                                                        "nameserver 1.1.1.1 1.0.0.1\n"))))
 	        (simple-service 'motd etc-service-type
 				(list `("motd" ,%motd))))
                %base-services))
