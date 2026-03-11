@@ -12,7 +12,7 @@
         (operating-system %turing-os)
         (environment managed-host-environment-type)
         (configuration (machine-ssh-configuration
-                         (host-name "turing.box.chrisjl.dev")
+                         (host-name "turing.box.pydis.wtf")
                          (build-locally? #f)
                          (system "x86_64-linux")
                          (host-key "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMvvi6P/G+rZ2qUZ+anluvFQwYM/WFZkERygd9X9+xqU")
