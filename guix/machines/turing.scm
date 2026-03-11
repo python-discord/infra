@@ -182,7 +182,8 @@
                                      (authorized-keys
                                        (append (list (guix-archive-key "jc")
                                                      (guix-archive-key "lovelace")
-                                                     (guix-archive-key "joe-lovelace"))
+                                                     (guix-archive-key "joe-lovelace")
+                                                     (guix-archive-key "joe-macbook"))
                                                %default-authorized-guix-keys))))))))
 
 %turing-os
