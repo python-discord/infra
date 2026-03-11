@@ -1,0 +1,10 @@
+keys:
+  - &user_pydis age1knt932vn0rgunzh9zzjs8cf7yjdx233gy2dt3w3uzm3apkp3g3qsralf2e
+  - &host_turing age1gtw67lnhtcxnut3dl2keqm684zxy27cydc42xj5fazaq56uclvrslf6vta
+
+creation_rules:
+  - path_regex: .*secrets\.yaml$
+    key_groups:
+      - age:
+        - *user_pydis
+        - *host_turing
