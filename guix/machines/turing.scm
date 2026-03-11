@@ -18,8 +18,8 @@
 ;; Getting "unauthorized public key"?
 ;; your key needs to be in the guix authorized-keys, search for `guix-archive-key`.
 ;; Add your key there, then:
-;;     scp -r . turing.box.chrisjl.dev:guix
-;;     ssh turing.box.chrisjl.dev
+;;     scp -r . turing.box.pydis.wtf:guix
+;;     ssh turing.box.pydis.wtf
 ;;     cd guix
 ;;     vim turing.scm
 ;;     # Delete the `(list (machine ...))` stuff
