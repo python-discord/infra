@@ -4,6 +4,7 @@
 (use-modules (gnu)
              (guix)
              (gnu packages databases)
+             (gnu packages golang-crypto)
              (gnu packages linux)
              (gnu packages tmux)
              (gnu packages vim)
@@ -11,7 +12,9 @@
              (gnu services certbot)
              (gnu services databases)
              (gnu services networking)
-             (gnu services web))
+             (gnu services web)
+             (sops secrets)
+             (sops services sops))
 (use-service-modules networking ssh)
 (use-package-modules bootloaders)
 
@@ -28,6 +31,8 @@
 ;;     sudo guix system reconfigure turing.scm
 
 (define %guix-dir (dirname (dirname (canonicalize-path (current-filename)))))
+
+(define %secrets-yaml (local-file (string-append %guix-dir "/secrets.yaml")))
 
 (define (resource path)
   (local-file (string-append %guix-dir "/resources/" path)))
@@ -119,6 +124,17 @@
 ;                                           (uri "/.well-known")
 ;                                           (body (list "root /var/www; "))))))))))
 ;
+                (service sops-secrets-service-type
+                         (sops-service-configuration
+                           (generate-key? #f)
+                           (secrets
+                             (list
+                               (sops-secret
+                                 (key '("good"))
+                                 (file %secrets-yaml)
+                                 (user "root")
+                                 (group "root")
+                                 (permissions #o400))))))
                 (service certbot-service-type
                          (certbot-configuration
                           (email "ops@owlcorp.uk")
@@ -171,7 +187,7 @@
                     (home-directory "/home/j")
                     (supplementary-groups '("wheel" "netdev" "audio" "video")))
                   %base-user-accounts))
-    (packages (cons* %base-packages))
+    (packages (cons* age %base-packages))
     (sudoers-file (plain-file "sudoers" "root ALL=(ALL) ALL
 %wheel ALL=NOPASSWD: ALL
 "))

@@ -16,8 +16,38 @@ as a playground for ideas.
     --generate-key` as root.
   - This is needed for the remote Guix instance to accept packages we build
     locally.
+- `sops-guix` configured as a channel. For this, add:
+
+  ```scheme
+  (cons* (channel
+        (name 'sops-guix)
+        (url "https://github.com/fishinthecalculator/sops-guix.git")
+        (branch "main")
+        ;; Enable signature verification:
+        (introduction
+         (make-channel-introduction
+          "0bbaf1fdd25266c7df790f65640aaa01e6d2dbc9"
+          (openpgp-fingerprint
+           "8D10 60B9 6BB8 292E 829B  7249 AED4 1CC1 93B7 01E2"))))
+       %default-channels)
+  ```
+
+  to your `~/.config/guix/channels.scm`. After adding it, run `guix pull`.
+- [`sops`](https://github.com/getsops/sops) installed locally, along with
+  [`age`](https://github.com/FiloSottile/age).
+
+
+**Host prerequisites**
+
+One-time setup for Turing:
+
+- `sudo age-keygen -o /root/pydis.txt`
+
+Note down the public key and add it to `.sops.yaml`.
 
 **Testing**
+
+It is recommended to test building the image locally first to catch errors.
 
 ```sh
 # Note that you presently need to run this as root, see
