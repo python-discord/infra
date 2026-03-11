@@ -11,7 +11,7 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
         args: [--markdown-linebreak-ext=md]
-        exclude: ^guix/guix-acl-keys/
+        exclude: ^guix/resources/guix-acl-keys/
 
   - repo: local
     hooks:

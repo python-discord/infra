@@ -1,4 +1,6 @@
 ;; Module imports
+(define-module (machines turing)
+  #:export (%turing-os))
 (use-modules (gnu)
              (guix)
              (gnu packages databases)
@@ -25,16 +27,16 @@
 ;;     # Save
 ;;     sudo guix system reconfigure turing.scm
 
-(define %this-dir (dirname (current-filename)))
+(define %guix-dir (dirname (dirname (canonicalize-path (current-filename)))))
 
-(define (file-from-cwd path)
-  (local-file (string-append %this-dir path)))
+(define (resource path)
+  (local-file (string-append %guix-dir "/resources/" path)))
 
 (define (ssh-key name)
-  (file-from-cwd (string-append "/ssh-keys/" name ".pub")))
+  (resource (string-append "/ssh-keys/" name ".pub")))
 
 (define (guix-archive-key name)
-  (file-from-cwd (string-append "/guix-acl-keys/" name ".pub")))
+  (resource (string-append "/guix-acl-keys/" name ".pub")))
 
 (define %hidden-service-turing
     (simple-service 'hidden-service-turing tor-service-type
@@ -43,7 +45,7 @@
                             (mapping '((22 "127.0.0.1:22")))))))
 
 (define %motd
-  (file-from-cwd "/resources/motd.txt"))
+  (resource "/motd.txt"))
 
 (define %certbot-deploy-hook
   (program-file
@@ -183,16 +185,4 @@
                                                      (guix-archive-key "joe-lovelace"))
                                                %default-authorized-guix-keys))))))))
 
-; local deployments:
-; SSHKEY=path/to/key USER=myuser guix deploy turing.scm
-; USER is usually implicitly declared somewhere
-(list (machine
-        (operating-system %turing-os)
-        (environment managed-host-environment-type)
-        (configuration (machine-ssh-configuration
-                         (host-name "turing.box.chrisjl.dev")
-                         (build-locally? #f)
-                         (system "x86_64-linux")
-                         (host-key "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMvvi6P/G+rZ2qUZ+anluvFQwYM/WFZkERygd9X9+xqU")
-                         (user (getenv "USER"))
-                         (identity (getenv "SSHKEY"))))))
+%turing-os
