@@ -1,0 +1,32 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "kubernetes/namespaces/monitoring/alerts/**"
+      - ".github/workflows/prometheus.yaml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy-alerts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - uses: azure/setup-kubectl@v4.0.1
+
+      - name: Authenticate with Kubernetes
+        uses: azure/k8s-set-context@v4
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.kube-config }}
+
+      - name: Deploy alerts
+        run: |
+          cd kubernetes/namespaces/monitoring/alerts && make
