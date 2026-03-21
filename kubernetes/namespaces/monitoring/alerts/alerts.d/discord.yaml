@@ -1,0 +1,13 @@
+groups:
+- name: discord
+  rules:
+
+  - alert: discord/high-join-rate
+    expr: deriv(bot_guild_total_members[30m]) * 3600 > 20
+    for: 1m
+    labels:
+      severity: page
+      additional_destination: mods
+    annotations:
+      summary: "High rate of guild member joins"
+      description: "User join rate is {{ $value }} per hour, which may indicate a raid or other unusual activity."

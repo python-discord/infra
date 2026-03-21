@@ -9,6 +9,10 @@ route:
   routes:
     - receiver: devops-team
       continue: true
+    - receiver: mod-team
+      matchers:
+        - additional_destination="mods"
+      continue: true
     - receiver: pagerduty
       matchers:
         - severity="page"
@@ -20,6 +24,20 @@ receivers:
   - name: devops-team
     slack_configs:
       - api_url_file: "/opt/pydis/alertmanager/webhooks/DEVOPS_HOOK"
+        send_resolved: true
+        title: '{{ if eq .Status "firing" }}[FIRING]{{ else }}[RESOLVED]{{ end }}'
+        text: |
+          {{ if eq .Status "firing" }}{{ range .Alerts }}
+          {{ if .Labels.instance }}`{{ .Labels.instance }}`: {{ end }}**{{ .Annotations.summary }}:**
+          {{ .Annotations.description }} [(Link)]({{.GeneratorURL}})
+
+          {{ end }}{{ else }}Alert has resolved.{{ end }}
+        fields:
+          - title: Alert
+            value: "{{ .GroupLabels.alertname }}"
+  - name: mod-team
+    slack_configs:
+      - api_url_file: "/opt/pydis/alertmanager/webhooks/MOD_HOOK"
         send_resolved: true
         title: '{{ if eq .Status "firing" }}[FIRING]{{ else }}[RESOLVED]{{ end }}'
         text: |
