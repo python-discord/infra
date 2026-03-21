@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: statsd-exporter-config
+  namespace: monitoring
+data:
+  mapping.yaml: |-
+    mappings:
+      - match: "bot.channels.*"
+        name: "bot_channel_messages"
+        help: "Number of messages by Discord channel name"
+        labels:
+          channel: "$1"
+      - match: "bot.commands.*"
+        name: "bot_command_calls"
+        help: "Number of calls to each bot command"
+        labels:
+          command: "$1"
+      - match: "bot.tags.usages.*"
+        name: "bot_tag_usages"
+        help: "Number of times each tag is used"
+        labels:
+          tag: "$1"
+      - match: "bot.errors.*"
+        name: "bot_errors"
+        help: "Number of errors by type"
+        labels:
+          error_type: "$1"
+      - match: "bot.dormant_invoke.*"
+        name: "bot_dormant_invoke"
+        help: "Number of dormant command invocations by claimant/staff"
+        labels:
+          invoker: "$1"
+      - match: "bot.slowmode.*"
+        name: "bot_slowmode"
+        help: "Number of slowmode activations by channel"
+        labels:
+          channel: "$1"
+      - match: "bot.filters.*"
+        name: "bot_filter_activations"
+        help: "Number of filter activations by filter name"
+        labels:
+          filter: "$1"
+      - match: "bot.voice_gate.failed.*"
+        name: "bot_voice_gate_reason"
+        help: "Number of failed voice gate attempts by reason"
+        labels:
+          reason: "$1"
+      - match: "bot.snekbox.python.*"
+        name: "bot_snekbox_python_executions"
+        help: "Number of Python code executions in Snekbox by result type"
+        labels:
+          result: "$1"
+      - match: "bot.snekbox_usages.roles.*"
+        name: "bot_snekbox_role_usages"
+        help: "Number of Snekbox role usages by role"
+        labels:
+          role: "$1"
+      - match: "bot.snekbox_usages.channels.*"
+        name: "bot_snekbox_channel_usages"
+        help: "Number of Snekbox channel usages by channel"
+        labels:
+          channel: "$1"
+      - match: "bot.python_news.posted.*"
+        name: "bot_python_news_posted"
+        help: "Number of Python news posts by source"
+        labels:
+          source: "$1"
+      - match: "bot.rule_uses.*"
+        name: "bot_rule_uses"
+        help: "Number of rule uses by rule number"
+        labels:
+          rule: "$1"

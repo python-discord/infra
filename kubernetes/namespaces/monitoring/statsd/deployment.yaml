@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: statsd-exporter
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: statsd-exporter
+  template:
+    metadata:
+      labels:
+        app: statsd-exporter
+    spec:
+      containers:
+        - name: statsd-exporter
+          image: docker.io/prom/statsd-exporter:latest
+          imagePullPolicy: Always
+          args:
+            - "--statsd.listen-udp=:8125"
+            - "--statsd.listen-tcp=:8125"
+            - "--statsd.mapping-config=/etc/statsd_exporter/mapping.yaml"
+          resources:
+            requests:
+              cpu: 250m
+              memory: 300Mi
+            limits:
+              cpu: 250m
+              memory: 400Mi
+          ports:
+            - containerPort: 9102
+              protocol: TCP
+              name: prom-scrape
+            - containerPort: 8125
+              protocol: UDP
+              name: statsd-udp
+            - containerPort: 8125
+              protocol: TCP
+              name: statsd-tcp
+          volumeMounts:
+            - name: statsd-exporter-config
+              mountPath: /etc/statsd_exporter
+              readOnly: true
+          securityContext:
+            readOnlyRootFilesystem: true
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true
+      volumes:
+        - name: statsd-exporter-config
+          configMap:
+            name: statsd-exporter-config
