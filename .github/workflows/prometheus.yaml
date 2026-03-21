@@ -1,4 +1,4 @@
-name: CI
+name: Prometheus alert deployment
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - ".github/workflows/prometheus.yaml"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: prometheus-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -25,7 +25,7 @@ jobs:
         uses: azure/k8s-set-context@v4
         with:
           method: kubeconfig
-          kubeconfig: ${{ secrets.kube-config }}
+          kubeconfig: ${{ secrets.KUBECONFIG }}
 
       - name: Deploy alerts
         run: |
