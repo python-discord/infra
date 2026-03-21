@@ -3,7 +3,7 @@ groups:
   rules:
 
   - alert: discord/high-join-rate
-    expr: deriv(bot_guild_total_members[30m]) * 3600 > 20
+    expr: deriv(bot_guild_total_members[30m]) * 3600 > 60
     for: 1m
     labels:
       severity: page
