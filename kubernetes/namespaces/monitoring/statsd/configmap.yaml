@@ -26,8 +26,8 @@ data:
         help: "Number of errors by type"
         labels:
           error_type: "$1"
-      - match: "bot.dormant_invoke.*"
-        name: "bot_dormant_invoke"
+      - match: "bot.help.dormant_invoke.*"
+        name: "bot_help_dormant_invoke"
         help: "Number of dormant command invocations by claimant/staff"
         labels:
           invoker: "$1"
@@ -42,7 +42,7 @@ data:
         labels:
           filter: "$1"
       - match: "bot.voice_gate.failed.*"
-        name: "bot_voice_gate_reason"
+        name: "bot_voice_gate_fail_reason"
         help: "Number of failed voice gate attempts by reason"
         labels:
           reason: "$1"
@@ -71,3 +71,8 @@ data:
         help: "Number of rule uses by rule number"
         labels:
           rule: "$1"
+      - match: "bot.doc_fetches.*"
+        name: "bot_doc_fetches"
+        help: "Number of documentation fetches by library"
+        labels:
+          library: "$1"
