@@ -12,15 +12,60 @@ groups:
       summary: "High rate of guild member joins"
       description: "User join rate is {{ $value }} per hour, which may indicate a raid or other unusual activity."
 
-  # Experimental alert that checks for 500% growth based on previous period instead of static rate measurement
-  # Hopefully, this is more adaptable as server growth rates vary.
-  - alert: discord/experimental-members-growth
+  - alert: discord/experimental/membership-spike
     expr: |
-      delta(bot_guild_total_members[30m]) > 5 * delta(bot_guild_total_members[30m] offset 30m)
-      and delta(bot_guild_total_members[30m] offset 30m) > 0
+      (
+        bot_guild_total_members - bot_guild_total_members offset 5m
+      ) > 50
+    for: 1m
+    labels:
+      severity: page
+    annotations:
+      summary: "Sudden member spike detected"
+      description: >
+        Guild membership grew by more than 50 members in the last 5 minutes
+        (current: {{ $value }} new members). Possible bot raid.
+
+  - alert: discord/experimental/abnormal-join-rate
+    expr: |
+      (
+        deriv(bot_guild_total_members[15m]) * 60
+      ) > 10
+    for: 10m
+    labels:
+      severity: page
+    annotations:
+      summary: "Abnormal sustained join rate"
+      description: >
+        Guild is gaining more than 10 members per minute, sustained for over
+        10 minutes (rate: {{ $value | humanize }} members/min).
+
+  - alert: discord/experimental/mass-user-drop
+    expr: |
+      (
+        bot_guild_total_members offset 5m - bot_guild_total_members
+      ) > 30
+    for: 1m
+    labels:
+      severity: page
+    annotations:
+      summary: "Sudden member drop detected"
+      description: >
+        Guild membership dropped by more than 30 members in the last 5 minutes
+        (lost: {{ $value }} members).
+
+  - alert: discord/experimental/user-churn
+    expr: |
+      (
+        increase(bot_guild_total_members[10m]) + 
+        decrease(bot_guild_total_members[10m])
+      ) > 40
     for: 5m
     labels:
       severity: page
     annotations:
-      summary: "Experimental: Unusual growth in guild members"
-      description: "Guild member count has increased by more than 500% compared to the previous 30-minute period, which may indicate a raid or other unusual activity."
+      summary: "High member churn detected"
+      description: >
+        Combined join and leave activity exceeded 40 events in 10 minutes
+        (churn score: {{ $value }}). Possible raid probing, selfbots, or 
+        coordinated join/leave cycles.
