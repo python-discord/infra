@@ -7,18 +7,17 @@ route:
   group_interval: 1m
 
   routes:
-    - receiver: devops-team
-      continue: true
     - receiver: mod-team
       matchers:
         - additional_destination="mods"
-      continue: true
+
     - receiver: pagerduty
       matchers:
         - severity="page"
       continue: true
-    - receiver: email
+    - receiver: devops-team
       continue: true
+    - receiver: email
 
 receivers:
   - name: devops-team
