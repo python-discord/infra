@@ -12,15 +12,15 @@ groups:
       summary: "High rate of guild member joins"
       description: "User join rate is {{ $value }} per hour, which may indicate a raid or other unusual activity."
 
-  # Experimental alert that checks for 20% growth based on previous period instead of static rate measurement
+  # Experimental alert that checks for 500% growth based on previous period instead of static rate measurement
   # Hopefully, this is more adaptable as server growth rates vary.
   - alert: discord/experimental-members-growth
     expr: |
-      delta(bot_guild_total_members[30m]) > 1.2 * delta(bot_guild_total_members[30m] offset 30m)
+      delta(bot_guild_total_members[30m]) > 5 * delta(bot_guild_total_members[30m] offset 30m)
       and delta(bot_guild_total_members[30m] offset 30m) > 0
     for: 5m
     labels:
       severity: page
     annotations:
       summary: "Experimental: Unusual growth in guild members"
-      description: "Guild member count has increased by more than 20% compared to the previous 30-minute period, which may indicate a raid or other unusual activity."
+      description: "Guild member count has increased by more than 500% compared to the previous 30-minute period, which may indicate a raid or other unusual activity."
