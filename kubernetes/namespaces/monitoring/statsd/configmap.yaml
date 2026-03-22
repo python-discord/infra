@@ -21,11 +21,22 @@ data:
         help: "Number of times each tag is used"
         labels:
           tag: "$1"
+      - match: "bot.errors.unexpected"
+        help: "Number of errors by type"
+        name: "bot_errors"
+        labels:
+          event: "none"
+          error_type: "unexpected"
+      - match: "bot.errors.event.*"
+        name: "bot_errors"
+        labels:
+          event: "$1"
+          error_type: "none"
       - match: "bot.errors.*"
         name: "bot_errors"
-        help: "Number of errors by type"
         labels:
           error_type: "$1"
+          event: "none"
       - match: "bot.help.dormant_invoke.*"
         name: "bot_help_dormant_invoke"
         help: "Number of dormant command invocations by claimant/staff"
@@ -76,3 +87,9 @@ data:
         help: "Number of documentation fetches by library"
         labels:
           library: "$1"
+      - match: "bot.help.dormant_calls.*.*"
+        name: "bot_help_dormant_calls"
+        help: "Number of dormant command calls by method (manual/auto) and close reason"
+        labels:
+          invoker: "$1"
+          reason: "$2"
