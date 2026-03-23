@@ -103,6 +103,13 @@
                            (postgresql postgresql-16)))
                 (service tor-service-type)
                 (service nftables-service-type)
+                (service fail2ban-service-type
+                         (fail2ban-configuration
+                           (extra-jails
+                             (list
+                               (fail2ban-jail-configuration
+                                 (name "sshd")
+                                 (enabled? #t))))))
                 (service ntp-service-type)
                 %hidden-service-turing
                 (service nginx-service-type
