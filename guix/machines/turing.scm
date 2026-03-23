@@ -3,20 +3,22 @@
   #:export (%turing-os))
 (use-modules (gnu)
              (guix)
-             (gnu packages databases)
-             (gnu packages golang-crypto)
-             (gnu packages linux)
-             (gnu packages tmux)
-             (gnu packages vim)
-             (gnu services admin)
-             (gnu services certbot)
-             (gnu services databases)
-             (gnu services networking)
-             (gnu services web)
              (sops secrets)
              (sops services sops))
-(use-service-modules networking ssh)
-(use-package-modules bootloaders)
+(use-service-modules admin
+                     certbot
+                     databases
+                     networking
+                     security
+                     ssh
+                     syncthing
+                     web)
+(use-package-modules bootloaders
+                     databases
+                     golang-crypto
+                     linux
+                     tmux
+                     vim)
 
 ;; Getting "unauthorized public key"?
 ;; your key needs to be in the guix authorized-keys, search for `guix-archive-key`.
