@@ -197,6 +197,7 @@
                                      (inherit config)
                                      (authorized-keys
                                        (append (list (guix-archive-key "jc")
+                                                     (guix-archive-key "jc2")
                                                      (guix-archive-key "lovelace")
                                                      (guix-archive-key "joe-lovelace")
                                                      (guix-archive-key "joe-macbook"))
