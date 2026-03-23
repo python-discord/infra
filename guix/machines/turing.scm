@@ -204,6 +204,7 @@
                 (guix-service-type config =>
                                    (guix-configuration
                                      (inherit config)
+                                     (privileged? #f)
                                      (authorized-keys
                                        (append (list (guix-archive-key "jc")
                                                      (guix-archive-key "jc2")
