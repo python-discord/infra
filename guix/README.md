@@ -16,23 +16,6 @@ as a playground for ideas.
     --generate-key` as root.
   - This is needed for the remote Guix instance to accept packages we build
     locally.
-- `sops-guix` configured as a channel. For this, add:
-
-  ```scheme
-  (cons* (channel
-        (name 'sops-guix)
-        (url "https://github.com/fishinthecalculator/sops-guix.git")
-        (branch "main")
-        ;; Enable signature verification:
-        (introduction
-         (make-channel-introduction
-          "0bbaf1fdd25266c7df790f65640aaa01e6d2dbc9"
-          (openpgp-fingerprint
-           "8D10 60B9 6BB8 292E 829B  7249 AED4 1CC1 93B7 01E2"))))
-       %default-channels)
-  ```
-
-  to your `~/.config/guix/channels.scm`. After adding it, run `guix pull`.
 - [`sops`](https://github.com/getsops/sops) installed locally, along with
   [`age`](https://github.com/FiloSottile/age).
 
@@ -62,6 +45,12 @@ sudo $(guix system container --network machines/turing.scm)
 
 ```sh
 # Optional, but recommended
-# guix pull
+#   guix pull
+# If you have the sops-guix channel configured locally:
 guix deploy deployment.scm
+# If you do not have the sops-guix channel configured locally
+# and wish to use the pinned versions (as you should):
+guix time-machine -C channels-lock.scm -- deploy deployment.scm
+# If you wish to sandbox the whole thing in a container:
+guix shell --preserve=^SSH_AUTH_SOCK --expose=/etc/guix --expose=$HOME/.ssh --share=$SSH_AUTH_SOCK --container --network --nesting guix -- guix time-machine -C channels-lock.scm -- deploy deployment.scm
 ```
