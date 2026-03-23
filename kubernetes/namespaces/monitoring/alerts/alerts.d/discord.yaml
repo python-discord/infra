@@ -14,9 +14,7 @@ groups:
 
   - alert: discord/experimental/membership-spike
     expr: |
-      (
-        bot_guild_total_members - bot_guild_total_members offset 5m
-      ) > 50
+      delta(bot_guild_total_members[5m]) > 50
     for: 1m
     labels:
       severity: page
@@ -28,9 +26,7 @@ groups:
 
   - alert: discord/experimental/abnormal-join-rate
     expr: |
-      (
-        deriv(bot_guild_total_members[15m]) * 60
-      ) > 10
+      deriv(bot_guild_total_members[15m]) * 60 > 10
     for: 10m
     labels:
       severity: page
@@ -42,9 +38,7 @@ groups:
 
   - alert: discord/experimental/mass-user-drop
     expr: |
-      (
-        bot_guild_total_members offset 5m - bot_guild_total_members
-      ) > 30
+      delta(bot_guild_total_members[5m]) < -30
     for: 1m
     labels:
       severity: page
@@ -56,16 +50,13 @@ groups:
 
   - alert: discord/experimental/user-churn
     expr: |
-      (
-        increase(bot_guild_total_members[10m]) + 
-        decrease(bot_guild_total_members[10m])
-      ) > 40
+      changes(bot_guild_total_members[10m]) > 20
     for: 5m
     labels:
       severity: page
     annotations:
       summary: "High member churn detected"
       description: >
-        Combined join and leave activity exceeded 40 events in 10 minutes
-        (churn score: {{ $value }}). Possible raid probing, selfbots, or 
+        Combined join and leave activity exceeded 20 events in 10 minutes
+        (churn score: {{ $value }}). Possible raid probing, selfbots, or
         coordinated join/leave cycles.
