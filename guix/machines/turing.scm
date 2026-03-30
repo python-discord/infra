@@ -196,7 +196,7 @@
                     (home-directory "/home/j")
                     (supplementary-groups '("wheel" "netdev" "audio" "video")))
                   %base-user-accounts))
-    (packages (cons* age %base-packages))
+    (packages (cons* age tmux %base-packages))
     (sudoers-file (plain-file "sudoers" "root ALL=(ALL) ALL
 %wheel ALL=NOPASSWD: ALL
 "))
