@@ -176,7 +176,7 @@
                            (device "/dev/vda2")
                            (type "ext4"))
                           %base-file-systems))
-    (host-name "u-76")
+    (host-name "turing")
     (users (cons* (user-account
                     (name "cj")
                     (comment "Chris")
