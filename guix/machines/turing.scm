@@ -8,6 +8,8 @@
 (use-service-modules admin
                      certbot
                      databases
+                     dbus  ; for elogind
+                     desktop
                      networking
                      security
                      ssh
@@ -19,18 +21,6 @@
                      linux
                      tmux
                      vim)
-
-;; Getting "unauthorized public key"?
-;; your key needs to be in the guix authorized-keys, search for `guix-archive-key`.
-;; Add your key there, then:
-;;     scp -r . turing.box.pydis.wtf:guix
-;;     ssh turing.box.pydis.wtf
-;;     cd guix
-;;     vim turing.scm
-;;     # Delete the `(list (machine ...))` stuff
-;;     # Add %turing-os
-;;     # Save
-;;     sudo guix system reconfigure turing.scm
 
 (define %guix-dir (dirname (dirname (canonicalize-path (current-filename)))))
 
@@ -73,7 +63,7 @@
   (append (list (service openssh-service-type
                    (openssh-configuration
                      (permit-root-login #f)
-                     (password-authentication?  #f)
+                     (password-authentication? #f)
                      (authorized-keys `(("cj" ,(ssh-key "chris")
                                               ,(ssh-key "chris-lovelace"))
                                         ("jc" ,(ssh-key "jc"))
@@ -144,6 +134,8 @@
                                  (user "root")
                                  (group "root")
                                  (permissions #o400))))))
+                (service dbus-root-service-type)
+                (service elogind-service-type)
                 (service certbot-service-type
                          (certbot-configuration
                           (email "ops@owlcorp.uk")
