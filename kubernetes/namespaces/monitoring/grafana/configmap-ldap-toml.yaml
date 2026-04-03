@@ -46,6 +46,6 @@ data:
     org_role = "Editor"
 
     [[servers.group_mappings]]
-    group_dn = "*"
+    group_dn = "cn=grafanausers,cn=groups,cn=accounts,dc=box,dc=pydis,dc=wtf"
     org_id = 2
     org_role = "Viewer"
