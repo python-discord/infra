@@ -1,0 +1,8 @@
+[Unit]
+Description=Update LKE IP whitelist in nftables
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/update-lke-ips.sh

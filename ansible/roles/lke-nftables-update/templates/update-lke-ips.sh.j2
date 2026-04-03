@@ -1,0 +1,48 @@
+#!/bin/bash
+set -euo pipefail
+
+# Fetch IPs from Linode
+IPS=$(curl -s --connect-timeout 10 --max-time 30 https://geoip.linode.com/)
+
+# Filter for Frankfurt and extract IPs
+# The CSV format is: ip,city,country,region,provider
+FRANKFURT_IPS=$(echo "$IPS" | grep "Frankfurt" | cut -d',' -f1)
+
+# Ensure we got some IPs to avoid clearing the whitelist on error
+if [ -z "$FRANKFURT_IPS" ]; then
+    echo "No Frankfurt IPs found in Linode GeoIP data." >&2
+    exit 1
+fi
+
+IPV4_IPS=$(echo "$FRANKFURT_IPS" | grep '\.' || true)
+IPV6_IPS=$(echo "$FRANKFURT_IPS" | grep ':' || true)
+
+# Helper to join by comma
+join_ips() {
+  local ips=$1
+  echo "$ips" | tr '\n' ',' | sed 's/,$//' | sed 's/,/, /g'
+}
+
+IPV4_ELEMENTS=$(join_ips "$IPV4_IPS")
+IPV6_ELEMENTS=$(join_ips "$IPV6_IPS")
+
+# Create temporary file
+TMP_FILE="/etc/nftables/lke.nft.tmp"
+cat <<EOF > "$TMP_FILE"
+# Automatically updated by update-lke-ips.sh
+set possible_lke_ipv4_addrs {
+  type ipv4_addr
+  flags interval
+  elements = { $IPV4_ELEMENTS }
+}
+
+set possible_lke_ipv6_addrs {
+  type ipv6_addr
+  flags interval
+  elements = { $IPV6_ELEMENTS }
+}
+EOF
+
+# Move to final location and reload
+mv "$TMP_FILE" /etc/nftables/lke.nft
+systemctl reload nftables

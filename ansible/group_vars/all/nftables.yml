@@ -33,17 +33,7 @@ nftables_configuration: |
 
   {% if "databases" in group_names %}
     # Access control for database server
-    set possible_lke_ipv4_addrs {
-      type ipv4_addr
-      flags interval
-      elements = { {{ lke_frankfurt_ipv4_addresses | join(", ") }} }
-    }
-
-    set possible_lke_ipv6_addrs {
-      type ipv6_addr
-      flags interval
-      elements = { {{ lke_frankfurt_ipv6_addresses | join(", ") }} }
-    }
+    include "/etc/nftables/lke.nft"
   {% endif %}
 
     chain input {

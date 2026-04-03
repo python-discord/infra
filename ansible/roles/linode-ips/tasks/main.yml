@@ -1,0 +1,51 @@
+---
+- name: Fetch Linode GeoIP data
+  ansible.builtin.uri:
+    url: https://geoip.linode.com/
+    return_content: true
+  register: linode_geoip_response
+  run_once: true
+  delegate_to: localhost
+  become: false
+  tags:
+    - role::linode-ips
+    - role::lke-nftables-update
+    - role::nftables
+    - role::fail2ban
+
+- name: Set LKE address facts
+  ansible.builtin.set_fact:
+    lke_all_addresses: "{{ linode_geoip_response.content.splitlines() }}"
+  run_once: true
+  delegate_to: localhost
+  become: false
+  tags:
+    - role::linode-ips
+    - role::lke-nftables-update
+    - role::nftables
+    - role::fail2ban
+
+- name: Filter Frankfurt addresses
+  ansible.builtin.set_fact:
+    lke_frankfurt_addresses: "{{ lke_all_addresses | select('search', '^.*Frankfurt.*$') | map('split', ',') | map(attribute=0) | list }}"
+  run_once: true
+  delegate_to: localhost
+  become: false
+  tags:
+    - role::linode-ips
+    - role::lke-nftables-update
+    - role::nftables
+    - role::fail2ban
+
+- name: Set LKE IPv4 and IPv6 facts
+  ansible.builtin.set_fact:
+    lke_frankfurt_ipv4_addresses: "{{ lke_frankfurt_addresses | select('search', '^.*\\..*$') | list }}"
+    lke_frankfurt_ipv6_addresses: "{{ lke_frankfurt_addresses | select('search', '^.*:.*$') | list }}"
+  run_once: true
+  delegate_to: localhost
+  become: false
+  tags:
+    - role::linode-ips
+    - role::lke-nftables-update
+    - role::nftables
+    - role::fail2ban
