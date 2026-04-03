@@ -5,14 +5,14 @@ metadata:
 spec:
   secretName: pythondiscord.com-tls
   dnsNames:
-  - pythondiscord.com
-  - '*.pythondiscord.com'
+    - pythondiscord.com
+    - "*.pythondiscord.com"
   issuerRef:
     name: letsencrypt
     kind: ClusterIssuer
   secretTemplate:
     annotations:
       reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
-      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "apis,forms,merch,monitoring,pixels,tooling,web"
+      reflector.v1.k8s.emberstack.com/reflection-allowed-namespaces: "apis,forms,merch,monitoring,pixels,tooling,web,envoy-gateway"
       reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
-      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "apis,forms,merch,monitoring,pixels,tooling,web"
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "apis,forms,merch,monitoring,pixels,tooling,web,envoy-gateway"
