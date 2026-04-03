@@ -1,0 +1,14 @@
+# Managed by Ansible - do not edit manually.
+# This file is updated periodically by a systemd timer.
+
+set possible_lke_ipv4_addrs {
+  type ipv4_addr
+  flags interval
+  elements = { {{ lke_frankfurt_ipv4_addresses | join(", ") }} }
+}
+
+set possible_lke_ipv6_addrs {
+  type ipv6_addr
+  flags interval
+  elements = { {{ lke_frankfurt_ipv6_addresses | join(", ") }} }
+}

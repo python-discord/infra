@@ -1,6 +1,7 @@
 - name: Deploy common services
   hosts: all
   roles:
+    - linode-ips
     - common
     - pydis-mtls
     - wireguard
@@ -12,6 +13,7 @@
     - certbot
     - ci-user
     - alloy
+    - lke-nftables-update
     - nftables
     - prometheus-node-exporter
     - fail2ban

@@ -1,0 +1,69 @@
+---
+- name: Ensure curl is installed
+  ansible.builtin.package:
+    name: curl
+    state: present
+  tags:
+    - role::lke-nftables-update
+
+- name: Ensure /etc/nftables directory exists
+  ansible.builtin.file:
+    path: /etc/nftables
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  tags:
+    - role::lke-nftables-update
+
+- name: Template initial LKE IPs file
+  ansible.builtin.template:
+    src: lke.nft.j2
+    dest: /etc/nftables/lke.nft
+    owner: root
+    group: root
+    mode: "0644"
+  tags:
+    - role::lke-nftables-update
+
+- name: Template LKE IP update script
+  ansible.builtin.template:
+    src: update-lke-ips.sh.j2
+    dest: /usr/local/bin/update-lke-ips.sh
+    owner: root
+    group: root
+    mode: "0755"
+  tags:
+    - role::lke-nftables-update
+
+- name: Template LKE IP update service
+  ansible.builtin.template:
+    src: lke-nftables-update.service.j2
+    dest: /etc/systemd/system/lke-nftables-update.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Reload systemd
+  tags:
+    - role::lke-nftables-update
+
+- name: Template LKE IP update timer
+  ansible.builtin.template:
+    src: lke-nftables-update.timer.j2
+    dest: /etc/systemd/system/lke-nftables-update.timer
+    owner: root
+    group: root
+    mode: "0644"
+  notify:
+    - Reload systemd
+  tags:
+    - role::lke-nftables-update
+
+- name: Enable and start LKE IP update timer
+  ansible.builtin.service:
+    name: lke-nftables-update.timer
+    state: started
+    enabled: true
+  tags:
+    - role::lke-nftables-update

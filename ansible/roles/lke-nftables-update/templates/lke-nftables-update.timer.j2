@@ -1,0 +1,10 @@
+[Unit]
+Description=Hourly update of LKE IP whitelist in nftables
+
+[Timer]
+OnCalendar=hourly
+RandomizedDelaySec=600
+Persistent=true
+
+[Install]
+WantedBy=timers.target
