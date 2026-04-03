@@ -81,7 +81,7 @@ passdb ldap {
   }
   bind = yes
 
-  filter = (&(objectClass=posixAccount)(uid=%{user | username}))
+  filter = (&(objectClass=posixAccount)(memberof=cn=mailusers,cn=groups,cn=accounts,dc=box,dc=pydis,dc=wtf)(uid=%{user | username}))
   driver = ldap
   ldap_connection_group = passdb
 }
@@ -93,7 +93,7 @@ userdb ldap {
     sieve = %{home}/main.sieve
     sieve_user_log_path = %{home}/sieve.log
   }
-  filter = (&(objectClass=posixAccount)(uid=%{user | username}))
+  filter = (&(objectClass=posixAccount)(memberof=cn=mailusers,cn=groups,cn=accounts,dc=box,dc=pydis,dc=wtf)(uid=%{user | username}))
   driver = ldap
   ldap_connection_group = userdb
 }
