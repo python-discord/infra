@@ -1,0 +1,148 @@
+---
+- name: Install opendkim-tools
+  # Used currently to generate keys. Could theoretically replace this with dkimdo
+  # https://codeberg.org/glts/dkimdo
+  ansible.builtin.package:
+    name: opendkim-tools
+    state: present
+  tags:
+    - role::dkim-milter
+
+- name: Pull dkim-milter AppImage from Uncle Christ
+  ansible.builtin.get_url:
+    checksum: sha256:{{ dkim_milter_package_root }}/sha256sums.txt
+    url: "{{ dkim_milter_package_root }}/dkim-milter"
+    dest: /usr/local/sbin/dkim-milter
+    owner: root
+    group: root
+    mode: 0o755
+  vars:
+    dkim_milter_version: 0.2.0-alpha.1
+    uncle_christ_package_root: https://git.jchri.st/api/packages/jc/generic
+    dkim_milter_package_root: "{{ uncle_christ_package_root }}/dkim-milter/{{ dkim_milter_version }}"
+  tags:
+    - role::dkim-milter
+  # https://codeberg.org/forgejo/forgejo/issues/6871
+  when:
+    - not ansible_check_mode
+
+- name: Create dkim-milter user
+  ansible.builtin.user:
+    name: dkim-milter
+    home: /var/lib/dkim-milter
+    group: dkim-milter
+    create_home: false
+    system: true
+    shell: /usr/sbin/nologin
+  tags:
+    - role::dkim-milter
+
+- name: Create dkim-milter directory
+  ansible.builtin.file:
+    path: /etc/dkim-milter
+    state: directory
+    owner: dkim-milter
+    group: dkim-milter
+    mode: 0o700
+  tags:
+    - role::dkim-milter
+
+- name: Create dkim-milter keys directory
+  ansible.builtin.file:
+    path: /etc/dkim-milter/keys
+    state: directory
+    owner: dkim-milter
+    group: dkim-milter
+    mode: 0o700
+  tags:
+    - role::dkim-milter
+
+- name: Template dkim-milter configuration file
+  ansible.builtin.template:
+    src: dkim-milter.conf.j2
+    dest: /etc/dkim-milter/dkim-milter.conf
+    owner: dkim-milter
+    group: dkim-milter
+    mode: 0o400
+  notify:
+    - Reload dkim-milter
+  tags:
+    - role::dkim-milter
+
+- name: Template signing-keys file
+  ansible.builtin.copy:
+    content: |
+      {% for domain in dkim_milter_domains %}
+      {% set keyname = (domain | replace(".", "_")) %}
+      {{ keyname }} < /etc/dkim-milter/keys/{{ keyname }}.pem
+      {% endfor %}
+      {% for item in dkim_milter_extra_signings %}
+      {% set keyname = (item['domain'] | replace(".", "_")) %}
+      {{ keyname }} < /etc/dkim-milter/keys/{{ keyname }}.pem
+      {% endfor %}
+    dest: /etc/dkim-milter/signing-keys
+    owner: dkim-milter
+    group: dkim-milter
+    mode: 0o400
+  notify:
+    - Reload dkim-milter
+  tags:
+    - role::dkim-milter
+
+- name: Template signing-senders file
+  ansible.builtin.copy:
+    content: |
+      # Sender expression    Domain         Selector                    Key name
+      {% for domain in dkim_milter_domains %}
+      {% set keyname = (domain | replace(".", "_")) %}
+      .{{ domain }}          {{ domain }}   {{ dkim_milter_selector }}  {{ keyname }}
+      {% endfor %}
+      {% for item in dkim_milter_extra_signings %}
+      {% set keyname = (item['use_key'] | replace(".", "_")) %}
+      {% set domain = item['domain'] %}
+      .{{ domain }}          {{ domain }}   {{ dkim_milter_selector }}  {{ keyname }}
+      {% endfor %}
+    dest: /etc/dkim-milter/signing-senders
+    owner: dkim-milter
+    group: dkim-milter
+    mode: 0o400
+  notify:
+    - Reload dkim-milter
+  tags:
+    - role::dkim-milter
+
+- name: Generate dkim keys
+  become: true
+  become_user: dkim-milter
+  ansible.builtin.command: |
+    opendkim-genkey -D /etc/dkim-milter/keys/{{ item }} -d {{ item }} -s {{ dkim_milter_selector }}
+  with_items:
+    - "{{ dkim_milter_domains }}"
+  args:
+    creates: /etc/dkim-milter/keys/{{ item }}/{{ dkim_milter_selector }}.private
+  notify:
+    - Reload dkim-milter
+  tags:
+    - role::dkim-milter
+
+- name: Template systemd service
+  ansible.builtin.template:
+    src: dkim-milter.service.j2
+    dest: /etc/systemd/system/dkim-milter.service
+    owner: root
+    group: root
+    mode: 0o444
+  register: dkim_milter_service
+  notify:
+    - Restart dkim-milter
+  tags:
+    - role::dkim-milter
+
+- name: Start and enable dkim-milter
+  ansible.builtin.service:
+    name: dkim-milter.service
+    state: started
+    enabled: true
+    daemon_reload: "{{ dkim_milter_service is changed }}"
+  tags:
+    - role::dkim-milter
