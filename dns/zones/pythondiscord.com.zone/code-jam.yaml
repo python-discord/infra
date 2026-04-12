@@ -1,0 +1,32 @@
+---
+codejam:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: CNAME
+  value: envoy-lb.box.pydis.wtf.
+
+gardenias:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: CNAME
+  value: envoy-lb.box.pydis.wtf.
+
+monsteras:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: CNAME
+  value: envoy-lb.box.pydis.wtf.
+
+tulips:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: CNAME
+  value: envoy-lb.box.pydis.wtf.
