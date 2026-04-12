@@ -90,6 +90,14 @@ csp:
   type: AAAA
   value: "100::"
 
+error-pages:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: AAAA
+  value: "100::"
+
 forms:
   octodns:
     cloudflare:
