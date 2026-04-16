@@ -19,7 +19,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
 
-      - uses: azure/setup-kubectl@v5.0.0
+      - uses: azure/setup-kubectl@v5.1.0
 
       - name: Authenticate with Kubernetes
         uses: azure/k8s-set-context@v5
