@@ -16,8 +16,6 @@ as a playground for ideas.
     --generate-key` as root.
   - This is needed for the remote Guix instance to accept packages we build
     locally.
-- [`sops`](https://github.com/getsops/sops) installed locally, along with
-  [`age`](https://github.com/FiloSottile/age).
 
 
 **Host prerequisites**
@@ -52,5 +50,5 @@ guix deploy deployment.scm
 # and wish to use the pinned versions (as you should):
 guix time-machine -C channels-lock.scm -- deploy deployment.scm
 # If you wish to sandbox the whole thing in a container:
-guix shell --preserve=^SSH_AUTH_SOCK --expose=/etc/guix --expose=$HOME/.ssh --share=$SSH_AUTH_SOCK --container --network --nesting guix nss-certs -- guix time-machine -C channels-lock.scm -- deploy deployment.scm
+guix shell --preserve=^SSH_AUTH_SOCK --expose=/etc/guix --expose=$HOME/.ssh --share=$SSH_AUTH_SOCK --container --network guix nss-certs age sops -- guix time-machine -C channels-lock.scm -- deploy deployment.scm
 ```
