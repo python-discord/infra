@@ -5,7 +5,7 @@ codejam:
       proxied: true
   ttl: 300
   type: CNAME
-  value: envoy-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 gardenias:
   octodns:
@@ -13,7 +13,7 @@ gardenias:
       proxied: true
   ttl: 300
   type: CNAME
-  value: envoy-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 monsteras:
   octodns:
@@ -21,7 +21,7 @@ monsteras:
       proxied: true
   ttl: 300
   type: CNAME
-  value: envoy-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 tulips:
   octodns:
@@ -29,4 +29,4 @@ tulips:
       proxied: true
   ttl: 300
   type: CNAME
-  value: envoy-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.

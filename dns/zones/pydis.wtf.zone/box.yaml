@@ -15,15 +15,6 @@
   type: CNAME
   value: turing.box.pydis.wtf.
 
-envoy-lb.box:
-  octodns:
-    cloudflare:
-      auto-ttl: true
-      proxied: false
-  ttl: 300
-  type: A
-  value: 139.162.140.67
-
 ldap01.box:
   octodns:
     cloudflare:
@@ -55,6 +46,15 @@ lovelace.box:
     ttl: 300
     type: AAAA
     value: 2a03:4000:62:ce0:2496:aeff:fe97:dea4
+
+nginx-gf.box:
+  octodns:
+    cloudflare:
+      auto-ttl: true
+      proxied: false
+  ttl: 300
+  type: A
+  value: 139.162.140.67
 
 turing.box:
   - octodns:
