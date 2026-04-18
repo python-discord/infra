@@ -9,6 +9,7 @@ We use NGINX Gateway Fabric to manage our ingress traffic. This replaced the pre
 1. Apply `namespace.yaml` to create the `nginx-gateway` namespace.
 2. Apply certificates in `certificates.yaml` to create the necessary TLS secrets.
 3. Apply `client-certs.yaml` to create client certificates for secure communication between NGINX control & data plane.
+4. Apply resources in `mtls/` using `make all` to create the mTLS origin pull CA secret.
 
 ## Helm Installation of Gateway Fabric control plane
 
