@@ -12,5 +12,18 @@ spec:
     - context: http.server
       value: |
         ssl_client_certificate /etc/nginx/mtls-ca.crt;
-        ssl_verify_client on;
+        ssl_verify_client optional;
         ssl_verify_depth 1;
+---
+apiVersion: gateway.nginx.org/v1alpha1
+kind: SnippetsFilter
+metadata:
+  name: enforce-mtls
+  namespace: nginx-gateway
+spec:
+  snippets:
+    - context: http.server.location
+      value: |
+        if ($ssl_client_verify != "SUCCESS") {
+          return 400 "No required SSL certificate was sent";
+        }
