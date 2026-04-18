@@ -1,0 +1,66 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: nginx
+  namespace: nginx-gateway
+spec:
+  gatewayClassName: nginx
+  listeners:
+  - name: http
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: All
+
+  - name: https-pythondiscord-root
+    protocol: HTTPS
+    port: 443
+    hostname: "pythondiscord.com"
+    tls:
+      mode: Terminate
+      certificateRefs:
+        - name: pythondiscord.com-tls
+          kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
+
+  - name: https-pythondiscord-wildcard
+    protocol: HTTPS
+    port: 443
+    hostname: "*.pythondiscord.com"
+    tls:
+      mode: Terminate
+      certificateRefs:
+        - name: pythondiscord.com-tls
+          kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
+
+  - name: https-pydis-wtf-root
+    protocol: HTTPS
+    port: 443
+    hostname: "pydis.wtf"
+    tls:
+      mode: Terminate
+      certificateRefs:
+        - name: pydis.wtf-tls
+          kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
+
+  - name: https-pydis-wtf-wildcard
+    protocol: HTTPS
+    port: 443
+    hostname: "*.pydis.wtf"
+    tls:
+      mode: Terminate
+      certificateRefs:
+        - name: pydis.wtf-tls
+          kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All

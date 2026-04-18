@@ -1,0 +1,7 @@
+certGenerator:
+  agentTLSSecretName: "agent-tls"
+  enable: false
+
+nginx:
+  replicas: 3
+  kind: "daemonSet"

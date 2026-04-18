@@ -1,0 +1,23 @@
+# NGINX Gateway Fabric
+
+We use NGINX Gateway Fabric to manage our ingress traffic. This replaced the previous NGINX Ingress Controller which is no longer maintained.
+
+## Installation
+
+## Pre-requisites
+
+1. Apply `namespace.yaml` to create the `nginx-gateway` namespace.
+2. Apply certificates in `certificates.yaml` to create the necessary TLS secrets.
+3. Apply `client-certs.yaml` to create client certificates for secure communication between NGINX control & data plane.
+
+## Helm Installation of Gateway Fabric control plane
+
+1. Create NGINX CRDs with `kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.5.1" | kubectl apply -f -`
+2. Run `helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric --create-namespace -n nginx-gateway -f values.yaml` to install NGINX Gateway Fabric using Helm.
+3. Wait for the installation to complete with `kubectl wait --timeout=5m -n nginx-gateway deployment/ngf-nginx-gateway-fabric --for=condition=Available`
+
+NOTE: To upgrade/change values, switch from `helm install` to `helm upgrade`.
+
+## Creation of Gateway
+
+1. Apply `gateway.yaml` to create the Gateway resource that defines how ingress traffic should be routed to services in the cluster.
