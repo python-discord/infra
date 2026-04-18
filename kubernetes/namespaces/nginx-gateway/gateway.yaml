@@ -64,3 +64,29 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
+
+  - name: https-owlcorp-root
+    protocol: HTTPS
+    port: 443
+    hostname: "owlcorp.uk"
+    tls:
+      mode: Terminate
+      certificateRefs:
+        - name: owlcorp.uk-tls
+          kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
+
+  - name: https-owlcorp-wildcard
+    protocol: HTTPS
+    port: 443
+    hostname: "*.owlcorp.uk"
+    tls:
+      mode: Terminate
+      certificateRefs:
+        - name: owlcorp.uk-tls
+          kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
