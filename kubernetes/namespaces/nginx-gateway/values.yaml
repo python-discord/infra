@@ -1,7 +1,23 @@
 certGenerator:
   agentTLSSecretName: "agent-tls"
+  serverTLSSecretName: "server-tls"
   enable: false
 
+nginxGateway:
+  snippets:
+    enable: true
+
 nginx:
-  replicas: 3
   kind: "daemonSet"
+
+  pod:
+    volumes:
+      - name: mtls-client-crt-bundle
+        configMap:
+          name: mtls-client-crt-bundle
+
+  container:
+    volumeMounts:
+      - name: mtls-client-crt-bundle
+        mountPath: /etc/nginx/mtls-ca.crt
+        subPath: ca.crt
