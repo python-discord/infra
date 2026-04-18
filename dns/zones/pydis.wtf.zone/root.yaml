@@ -206,7 +206,7 @@ prometheus:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 propaganda:
   octodns:
