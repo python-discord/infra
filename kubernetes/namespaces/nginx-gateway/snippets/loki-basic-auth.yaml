@@ -1,0 +1,11 @@
+apiVersion: gateway.nginx.org/v1alpha1
+kind: SnippetsFilter
+metadata:
+  name: loki-basic-auth
+  namespace: nginx-gateway
+spec:
+  snippets:
+    - context: http.server.location
+      value: |
+        auth_basic "Loki";
+        auth_basic_user_file /etc/nginx/secrets/loki-basic-auth;
