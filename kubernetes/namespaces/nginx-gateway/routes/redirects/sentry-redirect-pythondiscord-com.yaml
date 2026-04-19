@@ -1,0 +1,26 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: sentry-redirect-pythondiscord-com
+  namespace: nginx-gateway
+spec:
+  hostnames:
+    - sentry.pythondiscord.com
+  parentRefs:
+    - name: nginx
+      namespace: nginx-gateway
+  rules:
+    - filters:
+      - type: ExtensionRef
+        extensionRef:
+          group: gateway.nginx.org
+          kind: SnippetsFilter
+          name: enforce-mtls
+      - type: RequestRedirect
+        requestRedirect:
+          scheme: https
+          hostname: sentry.io
+          path:
+            type: ReplaceFullPath
+            replaceFullPath: /organizations/python-discord/issues/
+          statusCode: 302

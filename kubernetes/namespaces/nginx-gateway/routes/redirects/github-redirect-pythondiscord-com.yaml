@@ -1,0 +1,30 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: github-redirect-pythondiscord-com
+  namespace: nginx-gateway
+spec:
+  hostnames:
+    - git.pythondiscord.com
+  parentRefs:
+    - name: nginx
+      namespace: nginx-gateway
+  rules:
+    - matches:
+      - path:
+          type: PathPrefix
+          value: /
+      filters:
+      - type: ExtensionRef
+        extensionRef:
+          group: gateway.nginx.org
+          kind: SnippetsFilter
+          name: enforce-mtls
+      - type: RequestRedirect
+        requestRedirect:
+          scheme: https
+          hostname: github.com
+          path:
+            type: ReplacePrefixMatch
+            replacePrefixMatch: /python-discord/
+          statusCode: 302
