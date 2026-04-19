@@ -29,7 +29,7 @@ alertmanager:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 bitwarden:
   octodns:
@@ -37,7 +37,7 @@ bitwarden:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 cloud.native.is.fun.and.easy:
   octodns:
@@ -61,7 +61,7 @@ ff-bot:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 files:
   octodns:
@@ -85,7 +85,7 @@ grafana:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 id:
   octodns:
@@ -93,7 +93,7 @@ id:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 jitsi:
   octodns:
@@ -110,7 +110,7 @@ loki-gateway:
       proxied: false
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 merch:
   octodns:
@@ -126,7 +126,7 @@ merch-api:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 metabase:
   octodns:
@@ -134,7 +134,7 @@ metabase:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 modmail:
   octodns:
@@ -142,7 +142,7 @@ modmail:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 munin:
   octodns:
@@ -190,7 +190,7 @@ pixels-mod:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 policy-bot:
   octodns:
@@ -198,7 +198,7 @@ policy-bot:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 prometheus:
   octodns:
@@ -222,7 +222,7 @@ vault:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 www:
   octodns:

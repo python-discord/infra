@@ -5,7 +5,7 @@
         proxied: true
     ttl: 300
     type: ALIAS
-    value: linode-lb.box.pydis.wtf.
+    value: nginx-gf.box.pydis.wtf.
   - octodns:
       cloudflare:
         auto-ttl: true
@@ -48,7 +48,7 @@ alertmanager:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 bitwarden:
   octodns:
@@ -56,7 +56,7 @@ bitwarden:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 blog:
   octodns:
@@ -112,7 +112,7 @@ forms-api:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 git:
   octodns:
@@ -120,7 +120,7 @@ git:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 grafana:
   octodns:
@@ -128,7 +128,7 @@ grafana:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 lovelace._domainkey:
   octodns:
@@ -153,7 +153,7 @@ merch-api:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 metabase:
   octodns:
@@ -161,7 +161,7 @@ metabase:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 modmail:
   octodns:
@@ -169,7 +169,7 @@ modmail:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 paste:
   octodns:
@@ -177,7 +177,7 @@ paste:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 paypal:
   octodns:
@@ -185,7 +185,7 @@ paypal:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 peps:
   octodns:
@@ -201,7 +201,7 @@ pixels:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 policy-bot:
   octodns:
@@ -209,7 +209,7 @@ policy-bot:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 prometheus:
   octodns:
@@ -217,7 +217,7 @@ prometheus:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 quackstack:
   octodns:
@@ -225,7 +225,7 @@ quackstack:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 sentry:
   octodns:
@@ -233,7 +233,7 @@ sentry:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 stats:
   octodns:
@@ -241,7 +241,7 @@ stats:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 status:
   octodns:
@@ -257,7 +257,7 @@ welcome:
       proxied: true
   ttl: 300
   type: CNAME
-  value: linode-lb.box.pydis.wtf.
+  value: nginx-gf.box.pydis.wtf.
 
 www:
   octodns:
