@@ -18,5 +18,5 @@ spec:
       - type: ExtensionRef
         extensionRef:
           group: gateway.nginx.org
-          kind: SnippetsFilter
+          kind: AuthenticationFilter
           name: loki-basic-auth

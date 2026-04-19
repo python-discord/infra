@@ -1,0 +1,11 @@
+apiVersion: gateway.nginx.org/v1alpha1
+kind: AuthenticationFilter
+metadata:
+  name: loki-basic-auth
+  namespace: nginx-gateway
+spec:
+  type: Basic
+  basic:
+    secretRef:
+      name: loki-basic-auth
+    realm: "Loki"

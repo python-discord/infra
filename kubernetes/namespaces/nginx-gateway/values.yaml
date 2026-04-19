@@ -15,15 +15,9 @@ nginx:
       - name: mtls-client-crt-bundle
         configMap:
           name: mtls-client-crt-bundle
-      - name: loki-basic-auth
-        secret:
-          secretName: loki-basic-auth
 
   container:
     volumeMounts:
       - name: mtls-client-crt-bundle
         mountPath: /etc/nginx/mtls-ca.crt
         subPath: ca.crt
-      - name: loki-basic-auth
-        mountPath: /etc/nginx/secrets/loki-basic-auth
-        subPath: auth

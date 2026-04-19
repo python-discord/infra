@@ -2,12 +2,19 @@ import os
 import sys
 from pathlib import Path
 
+IGNORED_FILES = {
+    "secrets.yaml",
+    "ghcr-pull-secrets.yaml",
+    "ssh-secrets.yaml",
+    "loki-basic-auth-secret.yaml",
+}
+
 
 def get_all_manifests() -> list[str]:
     """Return a list of file paths that look like k8s manifests."""
     likely_manifests = []
     for file in Path.cwd().glob("**/*.yaml"):
-        if file.name in {"secrets.yaml", "ghcr-pull-secrets.yaml", "ssh-secrets.yaml"}:
+        if file.name in IGNORED_FILES:
             # Don't lint secret files as they're git-crypted
             continue
         if file.stem.startswith("_"):
