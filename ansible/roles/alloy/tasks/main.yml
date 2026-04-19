@@ -1,19 +1,14 @@
 ---
 
-- name: Add apt signing key for Grafana repo
-  ansible.builtin.apt_key:
-    url: "{{ alloy_grafana_signing_key }}"
+- name: Add Grafana apt repository with key
+  deb822_repository:
+    name: grafana
+    types: deb
+    uris: "{{ alloy_grafana_repository }}"
     state: present
-    id: "{{ alloy_grafana_signing_key_fingerprint }}"
-    keyring: "/etc/apt/keyrings/grafana.gpg"
-  tags:
-    - role::alloy
-
-- name: Add Grafana apt repository to apt lists
-  ansible.builtin.apt_repository:
-    repo: "deb [signed-by=/etc/apt/keyrings/grafana.gpg] {{ alloy_grafana_repository }}"
-    filename: grafana
-    state: present
+    suites: [stable]
+    components: [main]
+    signed_by: "{{ alloy_grafana_signing_key }}"
   tags:
     - role::alloy
 
