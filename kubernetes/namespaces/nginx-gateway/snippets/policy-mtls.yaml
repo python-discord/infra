@@ -25,5 +25,5 @@ spec:
     - context: http.server.location
       value: |
         if ($ssl_client_verify != "SUCCESS") {
-          return 400 "No required SSL certificate was sent";
+          return 302 https://maintenance.python-discord.workers.dev/;
         }
