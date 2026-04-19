@@ -1,0 +1,22 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: public-stats-pythondiscord-com
+  namespace: nginx-gateway
+spec:
+  hostnames:
+    - stats.pythondiscord.com
+  parentRefs:
+    - name: nginx
+      namespace: nginx-gateway
+  rules:
+    - backendRefs:
+      - name: public-stats
+        namespace: web
+        port: 8000
+      filters:
+      - type: ExtensionRef
+        extensionRef:
+          group: gateway.nginx.org
+          kind: SnippetsFilter
+          name: enforce-mtls

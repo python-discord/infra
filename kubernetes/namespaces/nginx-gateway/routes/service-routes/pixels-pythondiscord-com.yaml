@@ -1,0 +1,22 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: pixels-pythondiscord-com
+  namespace: nginx-gateway
+spec:
+  hostnames:
+    - pixels.pythondiscord.com
+  parentRefs:
+    - name: nginx
+      namespace: nginx-gateway
+  rules:
+    - backendRefs:
+      - name: pixels
+        namespace: pixels
+        port: 80
+      filters:
+      - type: ExtensionRef
+        extensionRef:
+          group: gateway.nginx.org
+          kind: SnippetsFilter
+          name: enforce-mtls
