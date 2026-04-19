@@ -1,0 +1,15 @@
+apiVersion: gateway.nginx.org/v1alpha1
+kind: SnippetsPolicy
+metadata:
+  name: nginx-gateway-headers
+  namespace: nginx-gateway
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: nginx
+  snippets:
+    - context: http.server.location
+      value: |
+        add_header X-Powered-By "Joe Banks";
+        add_header X-Served-By "NGF $hostname";
