@@ -5,6 +5,11 @@ metadata:
   namespace: nginx-gateway
 spec:
   gatewayClassName: nginx
+  infrastructure:
+    parametersRef:
+      group: gateway.nginx.org
+      kind: NginxProxy
+      name: nginx-proxy-config
   listeners:
   - name: http
     port: 80
