@@ -21,3 +21,37 @@ nginx:
       - name: mtls-client-crt-bundle
         mountPath: /etc/nginx/mtls-ca.crt
         subPath: ca.crt
+
+  config:
+    logging:
+      accessLog:
+        format: >-
+            {"time":"$time_iso8601",
+            "request_id":"$request_id",
+            "client_ip":"$remote_addr",
+            "forwarded_for":"$http_x_forwarded_for",
+            "user":"$remote_user",
+            "method":"$request_method",
+            "scheme":"$scheme",
+            "host":"$host",
+            "uri":"$request_uri",
+            "protocol":"$server_protocol",
+            "status":$status,
+            "upstream_status":"$upstream_status",
+            "request_time":$request_time,
+            "upstream_connect_time":"$upstream_connect_time",
+            "upstream_header_time":"$upstream_header_time",
+            "upstream_response_time":"$upstream_response_time",
+            "upstream_addr":"$upstream_addr",
+            "bytes_sent":$bytes_sent,
+            "body_bytes_sent":$body_bytes_sent,
+            "request_length":$request_length,
+            "request_completion":"$request_completion",
+            "connection":$connection,
+            "connection_requests":$connection_requests,
+            "ssl_protocol":"$ssl_protocol",
+            "ssl_cipher":"$ssl_cipher",
+            "ssl_session_reused":"$ssl_session_reused",
+            "referer":"$http_referer",
+            "user_agent":"$http_user_agent"}
+        escape: json
