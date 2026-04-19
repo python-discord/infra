@@ -1,0 +1,12 @@
+apiVersion: gateway.nginx.org/v1alpha1
+kind: SnippetsFilter
+metadata:
+  name: block-head
+  namespace: nginx-gateway
+spec:
+  snippets:
+    - context: http.server.location
+      value: |
+        if ($request_method = HEAD) {
+          return 444;
+        }

@@ -1,0 +1,12 @@
+apiVersion: gateway.nginx.org/v1alpha1
+kind: SnippetsFilter
+metadata:
+  name: block-metrics
+  namespace: nginx-gateway
+spec:
+  snippets:
+    - context: http.server.location
+      value: |
+        if ($uri ~* /metrics) {
+          return 403;
+        }

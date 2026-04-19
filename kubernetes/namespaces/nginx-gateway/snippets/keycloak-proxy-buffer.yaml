@@ -1,0 +1,11 @@
+apiVersion: gateway.nginx.org/v1alpha1
+kind: SnippetsFilter
+metadata:
+  name: keycloak-proxy-buffer
+  namespace: nginx-gateway
+spec:
+  snippets:
+    - context: http.server.location
+      value: |
+        proxy_buffers 4 16k;
+        proxy_buffer_size 16k;
