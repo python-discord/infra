@@ -24,4 +24,5 @@ NOTE: To upgrade/change values, switch from `helm install` to `helm upgrade`.
 1. Apply `gateway.yaml` to create the Gateway resource that defines how ingress traffic should be routed to services in the cluster.
 2. Apply `reference-grants.yaml` to create ReferenceGrant resources that allow the Gateway to reference services in other namespaces.
 3. Apply snippets in `snippets/` to create reusable configuration snippets for use in HTTPRoute resources (notably mTLS enforcement).
-4. Finally, create routes from `routes/special/` and `routes/service-routes/` to define how traffic should be routed to services in the cluster.
+4. Apply auth resources in `auth/` to create Basic Auth secrets and associated policies for use in HTTPRoute resources.
+5. Finally, create routes from `routes/` to define how traffic should be routed to services in the cluster.
