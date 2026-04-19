@@ -20,8 +20,3 @@ spec:
           group: gateway.nginx.org
           kind: SnippetsFilter
           name: enforce-mtls
-      - type: ExtensionRef
-        extensionRef:
-          group: gateway.nginx.org
-          kind: SnippetsFilter
-          name: alertmanager-sticky-session
