@@ -28,6 +28,7 @@ spec:
           "--web.enable-lifecycle",
           "--web.enable-admin-api",
           "--web.page-title", "Python Discord Prometheus",
+          "--web.enable-remote-write-receiver",
           "--storage.tsdb.retention.size", "28GB",
           "--storage.tsdb.retention.time", "100d"
         ]
