@@ -1,0 +1,444 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: loki-alert-rules
+  namespace: loki
+  labels:
+    loki_rule: 'yes'
+data:
+  loki-alert-rules.yaml: |
+    groups:
+
+      # ------------------------------------------------------------
+      # Latency alerts
+      # ------------------------------------------------------------
+      - name: ngf_latency_alerts
+        rules:
+
+          - alert: NGFHighRequestLatency
+            expr: |
+              (
+                sum by (host) (
+                  rate(
+                    {namespace="nginx-gateway", app_container="/nginx"}
+                    | json
+                    | __error__ = ""
+                    [5m]
+                  )
+                ) > 0.033
+              )
+              and
+              (
+                quantile_over_time(0.99,
+                  {namespace="nginx-gateway", app_container="/nginx"}
+                  | json
+                  | __error__ = ""
+                  | unwrap request_time [10m]
+                ) by (host) > 3
+              )
+            for: 5m
+            labels:
+              severity: page
+            annotations:
+              summary: "High P99 latency on {{ $labels.host }}"
+              description: >
+                P99 request latency is {{ $value | humanizeDuration }} on {{ $labels.host }}.
+                Threshold is 3s. (Alert suppressed on hosts with fewer than 10 req/5m.)
+
+          - alert: NGFHighUpstreamTTFB
+            expr: |
+              (
+                sum by (host) (
+                  rate(
+                    {namespace="nginx-gateway", app_container="/nginx"}
+                    | json
+                    | __error__ = ""
+                    [5m]
+                  )
+                ) > 0.033
+              )
+              and
+              (
+                quantile_over_time(0.99,
+                  {namespace="nginx-gateway", app_container="/nginx"}
+                  | json
+                  | __error__ = ""
+                  | upstream_header_time =~ "[0-9.]+"
+                  | unwrap upstream_header_time [5m]
+                ) by (host) > 2
+              )
+            for: 2m
+            labels:
+              severity: page
+            annotations:
+              summary: "Slow backend TTFB on {{ $labels.host }}"
+              description: >
+                P99 time-to-first-byte from the upstream is {{ $value | humanizeDuration }}.
+                This points to application slowness rather than network or NGINX overhead.
+
+          - alert: NGFHighUpstreamConnectTime
+            expr: |
+              (
+                sum by (host) (
+                  rate(
+                    {namespace="nginx-gateway", app_container="/nginx"}
+                    | json
+                    | __error__ = ""
+                    [5m]
+                  )
+                ) > 0.033
+              )
+              and
+              (
+                quantile_over_time(0.99,
+                  {namespace="nginx-gateway", app_container="/nginx"}
+                  | json
+                  | __error__ = ""
+                  | upstream_connect_time =~ "[0-9.]+"
+                  | unwrap upstream_connect_time [5m]
+                ) by (host) > 0.5
+              )
+            for: 2m
+            labels:
+              severity: page
+            annotations:
+              summary: "Slow upstream TCP connect time on {{ $labels.host }}"
+              description: >
+                P99 upstream connect time is {{ $value | humanizeDuration }}.
+                Backend pods may be overloaded or a pod may be unresponsive.
+
+          - alert: NGFUpstreamQueueSaturated
+            expr: |
+              (
+                sum by (host) (
+                  rate(
+                    {namespace="nginx-gateway", app_container="/nginx"}
+                    | json
+                    | __error__ = ""
+                    [5m]
+                  )
+                ) > 0.033
+              )
+              and
+              (
+                quantile_over_time(0.99,
+                  {namespace="nginx-gateway", app_container="/nginx"}
+                  | json
+                  | __error__ = ""
+                  | upstream_queue_time =~ "[0-9.]+"
+                  | unwrap upstream_queue_time [5m]
+                ) by (host) > 0.25
+              )
+            for: 2m
+            labels:
+              severity: page
+            annotations:
+              summary: "Upstream queue saturated on {{ $labels.host }}"
+              description: >
+                P99 upstream queue time is {{ $value | humanizeDuration }}.
+                NGINX cannot dispatch requests to backends fast enough — consider scaling up.
+
+          - alert: NGFHotUpstreamPod
+            expr: |
+              (
+                sum by (host) (
+                  rate(
+                    {namespace="nginx-gateway", app_container="/nginx"}
+                    | json
+                    | __error__ = ""
+                    [5m]
+                  )
+                ) > 0.033
+              )
+              and
+              (
+                (
+                  quantile_over_time(0.99,
+                    {namespace="nginx-gateway", app_container="/nginx"}
+                    | json
+                    | __error__ = ""
+                    | upstream_response_time =~ "[0-9.]+"
+                    | unwrap upstream_response_time [5m]
+                  ) by (host, upstream_addr)
+                )
+                /
+                (
+                  quantile_over_time(0.99,
+                    {namespace="nginx-gateway", app_container="/nginx"}
+                    | json
+                    | __error__ = ""
+                    | upstream_response_time =~ "[0-9.]+"
+                    | unwrap upstream_response_time [5m]
+                  ) by (host) > 0
+                ) > 3
+              )
+            for: 3m
+            labels:
+              severity: page
+            annotations:
+              summary: "Slow upstream pod {{ $labels.upstream_addr }} on {{ $labels.host }}"
+              description: >
+                Pod {{ $labels.upstream_addr }} P99 is more than 3x the service-wide P99.
+                Consider cordoning this pod.
+
+      # ------------------------------------------------------------
+      # Error rate alerts
+      # ------------------------------------------------------------
+      - name: ngf_error_alerts
+        rules:
+
+          - alert: NGFHigh5xxRate
+            expr: |
+              (
+                sum by (host) (
+                  rate(
+                    {namespace="nginx-gateway", app_container="/nginx"}
+                    | json
+                    | __error__ = ""
+                    | status >= 500
+                    [5m]
+                  )
+                )
+                /
+                sum by (host) (
+                  rate(
+                    {namespace="nginx-gateway", app_container="/nginx"}
+                    | json
+                    | __error__ = ""
+                    [5m]
+                  )
+                )
+              ) * 100 > 5
+            for: 2m
+            labels:
+              severity: page
+            annotations:
+              summary: "High 5xx error rate on {{ $labels.host }}"
+              description: "{{ $value | humanize }}% of requests are returning 5xx on {{ $labels.host }}."
+
+          - alert: NGFHigh4xxRate
+            expr: |
+              (
+                sum by (host) (
+                  rate(
+                    {namespace="nginx-gateway", app_container="/nginx"}
+                    | json
+                    | __error__ = ""
+                    | status >= 400, status < 500
+                    [5m]
+                  )
+                )
+                /
+                sum by (host) (
+                  rate(
+                    {namespace="nginx-gateway", app_container="/nginx"}
+                    | json
+                    | __error__ = ""
+                    [5m]
+                  )
+                )
+              ) * 100 > 25
+            for: 5m
+            labels:
+              severity: page
+            annotations:
+              summary: "High 4xx rate on {{ $labels.host }}"
+              description: >
+                {{ $value | humanize }}% of requests are returning 4xx on {{ $labels.host }}.
+                This may indicate a bad deploy, expired credentials, or a scanner.
+
+          # No traffic gate — if a host goes silent we want to know regardless
+          - alert: NGFServiceDown
+            expr: |
+              sum by (host) (
+                rate(
+                  {namespace="nginx-gateway", app_container="/nginx"}
+                  | json
+                  | __error__ = ""
+                  | status < 500
+                  [5m]
+                )
+              ) == 0
+            for: 3m
+            labels:
+              severity: page
+            annotations:
+              summary: "No successful responses from {{ $labels.host }}"
+              description: >
+                Zero non-5xx responses in the last 5 minutes on {{ $labels.host }}.
+                The service may be completely down.
+
+          - alert: NGFUpstreamErrorsMasked
+            expr: |
+              (
+                sum by (host) (
+                  rate(
+                    {namespace="nginx-gateway", app_container="/nginx"}
+                    | json
+                    | __error__ = ""
+                    [5m]
+                  )
+                ) > 0.033
+              )
+              and
+              (
+                sum by (host, upstream_addr) (
+                  rate(
+                    {namespace="nginx-gateway", app_container="/nginx"}
+                    | json
+                    | __error__ = ""
+                    | upstream_status =~ "[0-9]+"
+                    | upstream_status >= 500
+                    | status < 500
+                    [5m]
+                  )
+                ) > 0.5
+              )
+            for: 2m
+            labels:
+              severity: page
+            annotations:
+              summary: "Upstream errors masked by NGINX on {{ $labels.host }}"
+              description: >
+                {{ $labels.upstream_addr }} is returning 5xx but NGINX is sending a non-5xx to clients.
+                Check proxy_intercept_errors configuration.
+
+      # ------------------------------------------------------------
+      # Traffic integrity alerts
+      # ------------------------------------------------------------
+      - name: ngf_traffic_alerts
+        rules:
+
+          - alert: NGFHighDroppedConnectionRate
+            expr: |
+              (
+                sum by (host) (
+                  rate(
+                    {namespace="nginx-gateway", app_container="/nginx"}
+                    | json
+                    | __error__ = ""
+                    [5m]
+                  )
+                ) > 0.066
+              )
+              and
+              (
+                (
+                  sum by (host) (
+                    rate(
+                      {namespace="nginx-gateway", app_container="/nginx"}
+                      | json
+                      | __error__ = ""
+                      | request_completion != "OK"
+                      [5m]
+                    )
+                  )
+                  /
+                  sum by (host) (
+                    rate(
+                      {namespace="nginx-gateway", app_container="/nginx"}
+                      | json
+                      | __error__ = ""
+                      [5m]
+                    )
+                  )
+                ) * 100 > 5
+              )
+            for: 5m
+            labels:
+              severity: page
+            annotations:
+              summary: "High dropped connection rate on {{ $labels.host }}"
+              description: >
+                {{ $value | humanize }}% of requests are not completing on {{ $labels.host }}.
+                Clients may be hitting their own timeouts before NGINX finishes responding.
+                (Alert suppressed on hosts with fewer than 20 req/5m.)
+
+          - alert: NGFHighRateLimitRejections
+            expr: |
+              (
+                sum by (host) (
+                  rate(
+                    {namespace="nginx-gateway", app_container="/nginx"}
+                    | json
+                    | __error__ = ""
+                    [5m]
+                  )
+                ) > 0.033
+              )
+              and
+              (
+                sum by (host) (
+                  rate(
+                    {namespace="nginx-gateway", app_container="/nginx"}
+                    | json
+                    | __error__ = ""
+                    | limit_req_status = "REJECTED"
+                    [5m]
+                  )
+                ) > 10
+              )
+            for: 2m
+            labels:
+              severity: page
+            annotations:
+              summary: "Rate limiter rejecting requests on {{ $labels.host }}"
+              description: >
+                {{ $value | humanize }} requests/s are being rejected by the rate limiter on {{ $labels.host }}.
+                This may be legitimate traffic growth or an attack. Check client IPs.
+
+          - alert: NGFLargeRequestBodySpike
+            expr: |
+              (
+                sum by (host) (
+                  rate(
+                    {namespace="nginx-gateway", app_container="/nginx"}
+                    | json
+                    | __error__ = ""
+                    [5m]
+                  )
+                ) > 0.033
+              )
+              and
+              (
+                avg_over_time(
+                  {namespace="nginx-gateway", app_container="/nginx"}
+                  | json
+                  | __error__ = ""
+                  | unwrap request_length [5m]
+                ) by (host) > 512000
+              )
+            for: 2m
+            labels:
+              severity: page
+            annotations:
+              summary: "Unusually large average request size on {{ $labels.host }}"
+              description: >
+                Average inbound request size is {{ $value | humanize1024 }}B on {{ $labels.host }}.
+                This may indicate large file uploads or a payload-based attack.
+
+      # ------------------------------------------------------------
+      # TLS hygiene alerts
+      # ------------------------------------------------------------
+      - name: ngf_tls_alerts
+        rules:
+
+          - alert: NGFLegacyTLSInUse
+            expr: |
+              sum by (host, ssl_protocol) (
+                rate(
+                  {namespace="nginx-gateway", app_container="/nginx"}
+                  | json
+                  | __error__ = ""
+                  | ssl_protocol =~ "TLSv1|TLSv1.1"
+                  [10m]
+                )
+              ) > 0
+            for: 5m
+            labels:
+              severity: page
+            annotations:
+              summary: "Legacy TLS {{ $labels.ssl_protocol }} in use on {{ $labels.host }}"
+              description: >
+                Clients are connecting using {{ $labels.ssl_protocol }} on {{ $labels.host }}.
+                This protocol is deprecated. Identify and update the client.
