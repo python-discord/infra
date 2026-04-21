@@ -39,6 +39,38 @@ loki:
       priority: 1
       period: 14d
 
+  # Enable ruler, writing to Prometheus
+  rulerConfig:
+    external_url: https://grafana.pydis.wtf
+    datasource_uid: 4C7gKGxGk
+
+    wal:
+      dir: /var/loki/ruler-wal
+    storage:
+      # Set this to local, configMap rules do not seem to work with S3 storage https://github.com/grafana/loki/issues/12967#issuecomment-2614050185
+      type: local
+      local:
+        directory: /rules
+    enable_api: true
+    enable_alertmanager_v2: true
+    alertmanager_url: http://alertmanager.monitoring.svc:9093
+    remote_write:
+      enabled: true
+      client:
+        url: http://prometheus.monitoring.svc:9090/api/v1/write
+    rule_path: /rules
+    ring:
+      kvstore:
+        store: memberlist
+
+sidecar:
+  disableX509StrictVerification: true
+  rules:
+    enabled: true
+    label: loki_rule
+    labelValue: "yes"
+    folder: /rules/fake
+
 singleBinary:
   # Set replicas to 3 again
   replicas: 3
