@@ -1,0 +1,276 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: loki-recording-rules
+  namespace: loki
+  labels:
+    loki_rule: 'yes'
+data:
+  loki-recording-rules.yaml: |
+    groups:
+
+      # ------------------------------------------------------------
+      # Traffic gate - reusable minimum-traffic threshold
+      # ------------------------------------------------------------
+      - name: ngf_traffic_gate
+        interval: 1m
+        rules:
+          - record: ngf:requests:rate5m
+            expr: |
+              sum by (host) (
+                rate(
+                  {namespace="nginx-gateway", app_container="/nginx"}
+                  | json
+                  | __error__ = ""
+                  [5m]
+                )
+              )
+
+      # ------------------------------------------------------------
+      # Request rate - replaces nginx_ingress_controller_requests
+      # ------------------------------------------------------------
+      - name: ngf_request_rates
+        interval: 1m
+        rules:
+
+          - record: ngf:requests:rate2m
+            expr: |
+              sum by (host, method, status) (
+                rate(
+                  {namespace="nginx-gateway", app_container="/nginx"}
+                  | json
+                  | __error__ = ""
+                  [2m]
+                )
+              )
+
+          - record: ngf:requests_5xx:rate2m
+            expr: |
+              sum by (host) (
+                rate(
+                  {namespace="nginx-gateway", app_container="/nginx"}
+                  | json
+                  | __error__ = ""
+                  | status >= 500
+                  [2m]
+                )
+              )
+
+          - record: ngf:requests_4xx:rate2m
+            expr: |
+              sum by (host) (
+                rate(
+                  {namespace="nginx-gateway", app_container="/nginx"}
+                  | json
+                  | __error__ = ""
+                  | status >= 400, status < 500
+                  [2m]
+                )
+              )
+
+          - record: ngf:upstream_errors:rate2m
+            expr: |
+              sum by (host, upstream_addr) (
+                rate(
+                  {namespace="nginx-gateway", app_container="/nginx"}
+                  | json
+                  | __error__ = ""
+                  | upstream_status =~ "[0-9]+"
+                  | upstream_status >= 500
+                  [2m]
+                )
+              )
+
+          - record: ngf:requests_by_protocol:rate2m
+            expr: |
+              sum by (host, protocol) (
+                rate(
+                  {namespace="nginx-gateway", app_container="/nginx"}
+                  | json
+                  | __error__ = ""
+                  [2m]
+                )
+              )
+
+          - record: ngf:dropped_requests:rate2m
+            expr: |
+              sum by (host) (
+                rate(
+                  {namespace="nginx-gateway", app_container="/nginx"}
+                  | json
+                  | __error__ = ""
+                  | request_completion != "OK"
+                  [2m]
+                )
+              )
+
+          - record: ngf:rate_limited_requests:rate2m
+            expr: |
+              sum by (host, limit_req_status) (
+                rate(
+                  {namespace="nginx-gateway", app_container="/nginx"}
+                  | json
+                  | __error__ = ""
+                  | limit_req_status =~ "DELAYED|REJECTED"
+                  [2m]
+                )
+              )
+
+      # ------------------------------------------------------------
+      # End-to-end latency (request_time)
+      # ------------------------------------------------------------
+      - name: ngf_request_latency
+        interval: 1m
+        rules:
+
+          - record: ngf:request_duration_p50:2m
+            expr: |
+              quantile_over_time(0.50,
+                {namespace="nginx-gateway", app_container="/nginx"}
+                | json
+                | __error__ = ""
+                | unwrap request_time [2m]
+              ) by (host)
+
+          - record: ngf:request_duration_p95:2m
+            expr: |
+              quantile_over_time(0.95,
+                {namespace="nginx-gateway", app_container="/nginx"}
+                | json
+                | __error__ = ""
+                | unwrap request_time [2m]
+              ) by (host)
+
+          - record: ngf:request_duration_p99:2m
+            expr: |
+              quantile_over_time(0.99,
+                {namespace="nginx-gateway", app_container="/nginx"}
+                | json
+                | __error__ = ""
+                | unwrap request_time [2m]
+              ) by (host)
+
+      # ------------------------------------------------------------
+      # Upstream latency breakdown
+      # ------------------------------------------------------------
+      - name: ngf_upstream_latency
+        interval: 1m
+        rules:
+
+          - record: ngf:upstream_connect_time_p99:2m
+            expr: |
+              quantile_over_time(0.99,
+                {namespace="nginx-gateway", app_container="/nginx"}
+                | json
+                | __error__ = ""
+                | upstream_connect_time =~ "[0-9.]+"
+                | unwrap upstream_connect_time [2m]
+              ) by (host)
+
+          - record: ngf:upstream_header_time_p99:2m
+            expr: |
+              quantile_over_time(0.99,
+                {namespace="nginx-gateway", app_container="/nginx"}
+                | json
+                | __error__ = ""
+                | upstream_header_time =~ "[0-9.]+"
+                | unwrap upstream_header_time [2m]
+              ) by (host)
+
+          - record: ngf:upstream_response_time_p50:2m
+            expr: |
+              quantile_over_time(0.50,
+                {namespace="nginx-gateway", app_container="/nginx"}
+                | json
+                | __error__ = ""
+                | upstream_response_time =~ "[0-9.]+"
+                | unwrap upstream_response_time [2m]
+              ) by (host)
+
+          - record: ngf:upstream_response_time_p95:2m
+            expr: |
+              quantile_over_time(0.95,
+                {namespace="nginx-gateway", app_container="/nginx"}
+                | json
+                | __error__ = ""
+                | upstream_response_time =~ "[0-9.]+"
+                | unwrap upstream_response_time [2m]
+              ) by (host)
+
+          - record: ngf:upstream_response_time_p99:2m
+            expr: |
+              quantile_over_time(0.99,
+                {namespace="nginx-gateway", app_container="/nginx"}
+                | json
+                | __error__ = ""
+                | upstream_response_time =~ "[0-9.]+"
+                | unwrap upstream_response_time [2m]
+              ) by (host)
+
+          - record: ngf:upstream_queue_time_p99:2m
+            expr: |
+              quantile_over_time(0.99,
+                {namespace="nginx-gateway", app_container="/nginx"}
+                | json
+                | __error__ = ""
+                | upstream_queue_time =~ "[0-9.]+"
+                | unwrap upstream_queue_time [2m]
+              ) by (host)
+
+          - record: ngf:upstream_response_time_p99_by_pod:2m
+            expr: |
+              quantile_over_time(0.99,
+                {namespace="nginx-gateway", app_container="/nginx"}
+                | json
+                | __error__ = ""
+                | upstream_response_time =~ "[0-9.]+"
+                | unwrap upstream_response_time [2m]
+              ) by (host, upstream_addr)
+
+      # ------------------------------------------------------------
+      # Throughput
+      # ------------------------------------------------------------
+      - name: ngf_throughput
+        interval: 1m
+        rules:
+
+          - record: ngf:bytes_sent:rate2m
+            expr: |
+              sum by (host) (
+                rate(
+                  {namespace="nginx-gateway", app_container="/nginx"}
+                  | json
+                  | __error__ = ""
+                  | unwrap bytes_sent [2m]
+                )
+              )
+
+          - record: ngf:request_size:rate2m
+            expr: |
+              sum by (host) (
+                rate(
+                  {namespace="nginx-gateway", app_container="/nginx"}
+                  | json
+                  | __error__ = ""
+                  | unwrap request_length [2m]
+                )
+              )
+
+      # ------------------------------------------------------------
+      # TLS
+      # ------------------------------------------------------------
+      - name: ngf_tls
+        interval: 5m
+        rules:
+
+          - record: ngf:requests_by_tls_protocol:rate5m
+            expr: |
+              sum by (host, ssl_protocol) (
+                rate(
+                  {namespace="nginx-gateway", app_container="/nginx"}
+                  | json
+                  | __error__ = ""
+                  | ssl_protocol != ""
+                  [5m]
+                )
+              )
