@@ -224,7 +224,7 @@ data:
                     {namespace="nginx-gateway", app_container="/nginx"}
                     | json
                     | __error__ = ""
-                    | status >= 400, status < 500
+                    | status >= 400, status < 500, status != 404
                     [5m]
                   )
                 )
