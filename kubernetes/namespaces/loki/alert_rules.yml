@@ -219,7 +219,7 @@ data:
           - alert: NGFHigh4xxRate
             expr: |
               (
-                sum by (host) (
+                sum by (host, status) (
                   rate(
                     {namespace="nginx-gateway", app_container="/nginx"}
                     | json
@@ -229,7 +229,7 @@ data:
                   )
                 )
                 /
-                sum by (host) (
+                sum by (host, status) (
                   rate(
                     {namespace="nginx-gateway", app_container="/nginx"}
                     | json
@@ -244,7 +244,7 @@ data:
             annotations:
               summary: "High 4xx rate on {{ $labels.host }}"
               description: >
-                {{ $value | humanize }}% of requests are returning 4xx on {{ $labels.host }}.
+                {{ $value | humanize }}% of requests are returning {{ $labels.status }} on {{ $labels.host }}.
                 This may indicate a bad deploy, expired credentials, or a scanner.
 
           # No traffic gate — if a host goes silent we want to know regardless
