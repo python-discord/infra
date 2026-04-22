@@ -20,3 +20,15 @@ spec:
           group: gateway.nginx.org
           kind: SnippetsFilter
           name: enforce-mtls
+---
+apiVersion: gateway.nginx.org/v1alpha1
+kind: UpstreamSettingsPolicy
+metadata:
+  name: alertmanager-upstream-session-affinity
+  namespace: monitoring
+spec:
+  targetRefs:
+  - group: core
+    kind: Service
+    name: alertmanager
+  loadBalancingMethod: "ip_hash"
