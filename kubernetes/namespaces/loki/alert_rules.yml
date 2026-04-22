@@ -218,34 +218,52 @@ data:
 
           - alert: NGFHigh4xxRate
             expr: |
+              # Traffic gate: at least 10 req/5m on this host
               (
-                sum by (host, status) (
-                  rate(
-                    {namespace="nginx-gateway", app_container="/nginx"}
-                    | json
-                    | __error__ = ""
-                    | status >= 400, status < 500, status != 404
-                    [5m]
-                  )
-                )
-                /
-                sum by (host, status) (
+                sum by (host) (
                   rate(
                     {namespace="nginx-gateway", app_container="/nginx"}
                     | json
                     | __error__ = ""
                     [5m]
                   )
-                )
-              ) * 100 > 25
+                ) > 0.033
+              )
+              and
+              # A single 4xx status code accounts for >25% of all requests on that host
+              (
+                (
+                  sum by (host, status) (
+                    rate(
+                      {namespace="nginx-gateway", app_container="/nginx"}
+                      | json
+                      | __error__ = ""
+                      | status >= 400, status < 500
+                      [5m]
+                    )
+                  )
+                  /
+                  sum by (host) (
+                    rate(
+                      {namespace="nginx-gateway", app_container="/nginx"}
+                      | json
+                      | __error__ = ""
+                      [5m]
+                    )
+                  )
+                ) * 100 > 25
+              )
             for: 5m
             labels:
               severity: page
+              team: platform
             annotations:
-              summary: "High 4xx rate on {{ $labels.host }}"
+              summary: "High {{ $labels.status }} rate on {{ $labels.host }}"
               description: >
-                {{ $value | humanize }}% of requests are returning {{ $labels.status }} on {{ $labels.host }}.
-                This may indicate a bad deploy, expired credentials, or a scanner.
+                HTTP {{ $labels.status }} accounts for {{ $value | humanize }}% of all requests on {{ $labels.host }}.
+                This may indicate a bad deploy, expired credentials, a misconfigured route, or a scanner.
+                (Alert suppressed on hosts with fewer than 10 req/5m.)
+
 
           # No traffic gate — if a host goes silent we want to know regardless
           - alert: NGFServiceDown
