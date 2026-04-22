@@ -6,7 +6,7 @@ groups:
     expr: rate(container_cpu_cfs_throttled_seconds_total{pod=~".+", container_name!="POD", image!=""}[5m]) > 1
     for: 5m
     labels:
-      severity: page
+      severity: low
     annotations:
       summary: "Container {{ $labels.container_name }} in {{ $labels.pod }} high throttling "
       description: "{{ $labels.container_name }} inside {{ $labels.pod }} is at {{ $value }}"

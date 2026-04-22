@@ -131,7 +131,7 @@ data:
               )
             for: 2m
             labels:
-              severity: page
+              severity: low
             annotations:
               summary: "Upstream queue saturated on {{ $labels.host }}"
               description: >
@@ -255,8 +255,7 @@ data:
               )
             for: 5m
             labels:
-              severity: page
-              team: platform
+              severity: low
             annotations:
               summary: "High {{ $labels.status }} rate on {{ $labels.host }}"
               description: >
@@ -398,7 +397,7 @@ data:
               )
             for: 2m
             labels:
-              severity: page
+              severity: low
             annotations:
               summary: "Rate limiter rejecting requests on {{ $labels.host }}"
               description: >
