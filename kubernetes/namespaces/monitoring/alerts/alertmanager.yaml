@@ -11,10 +11,10 @@ route:
       matchers:
         - additional_destination="mods"
 
-    - receiver: pagerduty
+    - receiver: low-priority
       matchers:
-        - severity="page"
-      continue: true
+        - severity="low"
+
     - receiver: devops-team
       continue: true
     - receiver: email
@@ -48,10 +48,6 @@ receivers:
         fields:
           - title: Alert
             value: "{{ .GroupLabels.alertname }}"
-  - name: pagerduty
-    pagerduty_configs:
-      - routing_key_file: "/opt/pydis/alertmanager/webhooks/PAGERDUTY_KEY"
-        url: https://events.pagerduty.com/v2/enqueue
   - name: email
     email_configs:
       - to: devops-alerts@pydis.wtf
@@ -72,3 +68,17 @@ receivers:
           {{ .GeneratorURL }}
 
           {{ end }}{{ else }}Alert has resolved.{{ end }}
+  - name: low-priority
+    slack_configs:
+      - api_url_file: "/opt/pydis/alertmanager/webhooks/LOW_PRIORITY_HOOK"
+        send_resolved: false
+        title: '{{ if eq .Status "firing" }}[FIRING]{{ else }}[RESOLVED]{{ end }}'
+        text: |
+          {{ if eq .Status "firing" }}{{ range .Alerts }}
+          {{ if .Labels.instance }}`{{ .Labels.instance }}`: {{ end }}**{{ .Annotations.summary }}:**
+          {{ .Annotations.description }} [(Link)]({{.GeneratorURL}})
+
+          {{ end }}{{ else }}Alert has resolved.{{ end }}
+        fields:
+          - title: Alert
+            value: "{{ .GroupLabels.alertname }}"
