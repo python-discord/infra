@@ -192,9 +192,10 @@ data:
               (
                 sum by (host) (
                   rate(
-                    {namespace="nginx-gateway", app_container="/nginx", host!~"forms-api.*"}
+                    {namespace="nginx-gateway", app_container="/nginx"}
                     | json
                     | __error__ = ""
+                    | host !~ "forms-api.*"
                     | status >= 500
                     [5m]
                   )
@@ -202,9 +203,10 @@ data:
                 /
                 sum by (host) (
                   rate(
-                    {namespace="nginx-gateway", app_container="/nginx", host!~"forms-api.*"}
+                    {namespace="nginx-gateway", app_container="/nginx"}
                     | json
                     | __error__ = ""
+                    | host !~ "forms-api.*"
                     [5m]
                   )
                 )
