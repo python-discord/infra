@@ -1,0 +1,24 @@
+---
+gardenias:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: CNAME
+  value: nginx-gf.box.pydis.wtf.
+
+monsteras:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: CNAME
+  value: nginx-gf.box.pydis.wtf.
+
+tulips:
+  octodns:
+    cloudflare:
+      proxied: true
+  ttl: 300
+  type: CNAME
+  value: nginx-gf.box.pydis.wtf.
