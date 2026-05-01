@@ -1,0 +1,120 @@
+# THESE ROUTES ARE TEMPORARILY LIVING HERE AS OPPOSED TO THE NGINX GATEWAY NAMESPACE
+# AS THEY ARE A TEMPORARY DEPLOYMENT, WE WILL BE REMOVING THESE ONCE WE STOP HOSTING
+# THE CODE JAM WINNER PROJECTS.
+
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: code-jam-winners
+  namespace: nginx-gateway
+spec:
+  hostnames:
+    - gardenias.pydis.com
+    - monsteras.pydis.com
+    - tulips.pydis.com
+  parentRefs:
+    - name: nginx
+      namespace: nginx-gateway
+  rules:
+    - matches:
+        - headers:
+            - name: host
+              value: "gardenias.pydis.com"
+      backendRefs:
+      - name: gardenias
+        namespace: code-jam
+        port: 80
+      filters:
+      - type: ExtensionRef
+        extensionRef:
+          group: gateway.nginx.org
+          kind: SnippetsFilter
+          name: enforce-mtls
+    - matches:
+        - headers:
+            - name: host
+              value: "monsteras.pydis.com"
+      backendRefs:
+      - name: monsteras
+        namespace: code-jam
+        port: 80
+      filters:
+      - type: ExtensionRef
+        extensionRef:
+          group: gateway.nginx.org
+          kind: SnippetsFilter
+          name: enforce-mtls
+    - matches:
+        - headers:
+            - name: host
+              value: "tulips.pydis.com"
+      backendRefs:
+      - name: tulips
+        namespace: code-jam
+        port: 80
+      filters:
+      - type: ExtensionRef
+        extensionRef:
+          group: gateway.nginx.org
+          kind: SnippetsFilter
+          name: enforce-mtls
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: code-jam-redirects
+  namespace: nginx-gateway
+spec:
+  hostnames:
+    - gardenias.pythondiscord.com
+    - monsteras.pythondiscord.com
+    - tulips.pythondiscord.com
+  parentRefs:
+    - name: nginx
+      namespace: nginx-gateway
+  rules:
+    - matches:
+      - headers:
+          - name: host
+            value: "gardenias.pythondiscord.com"
+      filters:
+      - type: ExtensionRef
+        extensionRef:
+          group: gateway.nginx.org
+          kind: SnippetsFilter
+          name: enforce-mtls
+      - type: RequestRedirect
+        requestRedirect:
+          scheme: https
+          hostname: "gardenias.pydis.com"
+          statusCode: 302
+    - matches:
+      - headers:
+          - name: host
+            value: "monsteras.pythondiscord.com"
+      filters:
+      - type: ExtensionRef
+        extensionRef:
+          group: gateway.nginx.org
+          kind: SnippetsFilter
+          name: enforce-mtls
+      - type: RequestRedirect
+        requestRedirect:
+          scheme: https
+          hostname: "monsteras.pydis.com"
+          statusCode: 302
+    - matches:
+      - headers:
+          - name: host
+            value: "tulips.pythondiscord.com"
+      filters:
+      - type: ExtensionRef
+        extensionRef:
+          group: gateway.nginx.org
+          kind: SnippetsFilter
+          name: enforce-mtls
+      - type: RequestRedirect
+        requestRedirect:
+          scheme: https
+          hostname: "tulips.pydis.com"
+          statusCode: 302
