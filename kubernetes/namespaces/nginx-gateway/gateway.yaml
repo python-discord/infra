@@ -90,3 +90,29 @@ spec:
     allowedRoutes:
       namespaces:
         from: All
+
+  - name: https-pydis-com-root
+    protocol: HTTPS
+    port: 443
+    hostname: "pydis.com"
+    tls:
+      mode: Terminate
+      certificateRefs:
+        - name: pydis-com-tls
+          kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
+
+  - name: https-pydis-com-wildcard
+    protocol: HTTPS
+    port: 443
+    hostname: "*.pydis.com"
+    tls:
+      mode: Terminate
+      certificateRefs:
+        - name: pydis-com-tls
+          kind: Secret
+    allowedRoutes:
+      namespaces:
+        from: All
