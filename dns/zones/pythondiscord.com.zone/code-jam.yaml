@@ -1,12 +1,4 @@
 ---
-codejam:
-  octodns:
-    cloudflare:
-      proxied: true
-  ttl: 300
-  type: CNAME
-  value: nginx-gf.box.pydis.wtf.
-
 gardenias:
   octodns:
     cloudflare:
