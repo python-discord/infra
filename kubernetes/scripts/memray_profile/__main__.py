@@ -64,9 +64,18 @@ def main() -> None:
     else:
         # Copy trace into the probe container, render the report there
         kubectl(
-            "exec", pod, "-n", args.namespace, "-c", probe,
-            "--", "sh", "-c", f"cp {trace_on_target} {PROBE_TRACE}",
-            capture=True, check=True,
+            "exec",
+            pod,
+            "-n",
+            args.namespace,
+            "-c",
+            probe,
+            "--",
+            "sh",
+            "-c",
+            f"cp {trace_on_target} {PROBE_TRACE}",
+            capture=True,
+            check=True,
         )
         if args.report_type == "flamegraph":
             report_cmd = f"memray flamegraph -o {PROBE_REPORT} {PROBE_TRACE}"

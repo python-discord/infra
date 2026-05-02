@@ -3,8 +3,10 @@ import json
 from ._kubectl import die, kubectl
 
 _WORKLOAD_KINDS = {
-    "deploy": "deployments", "deployment": "deployments",
-    "sts": "statefulsets", "statefulset": "statefulsets",
+    "deploy": "deployments",
+    "deployment": "deployments",
+    "sts": "statefulsets",
+    "statefulset": "statefulsets",
 }
 
 _FIND_PIDS_SH = r"""
@@ -32,9 +34,15 @@ def resolve_pod(target: str, namespace: str) -> str:
     selector = ",".join(f"{k}={v}" for k, v in labels.items())
 
     result = kubectl(
-        "get", "pods", "-n", namespace,
-        "-l", selector, "--field-selector=status.phase=Running",
-        "-o", "jsonpath={.items[0].metadata.name}",
+        "get",
+        "pods",
+        "-n",
+        namespace,
+        "-l",
+        selector,
+        "--field-selector=status.phase=Running",
+        "-o",
+        "jsonpath={.items[0].metadata.name}",
     )
     pod = result.stdout.strip()
     if not pod:

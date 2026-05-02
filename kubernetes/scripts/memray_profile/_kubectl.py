@@ -11,7 +11,10 @@ def die(msg: str) -> NoReturn:
 def kubectl(*args: str, capture: bool = True, check: bool = True) -> subprocess.CompletedProcess:
     try:
         return subprocess.run(  # noqa: S603
-            ["kubectl", *args], capture_output=capture, text=True, check=check,
+            ["kubectl", *args],
+            capture_output=capture,
+            text=True,
+            check=check,
         )
     except subprocess.CalledProcessError as exc:
         stderr = (exc.stderr or "").strip().rsplit("\n", 1)[-1] or f"exit code {exc.returncode}"

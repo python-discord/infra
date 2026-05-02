@@ -10,23 +10,39 @@ def inject_probe(pod: str, namespace: str, target_container: str, probe_name: st
         f"python3 -c 'import memray' 2>/dev/null || pip install -q memray=={MEMRAY_VERSION} && "
         f"echo {READY_MARKER} && sleep 3600"
     )
-    spec = json.dumps({"spec": {"ephemeralContainers": [{
-        "name": probe_name,
-        "image": PROBE_IMAGE,
-        "command": ["/bin/sh", "-c", startup],
-        "targetContainerName": target_container,
-        "securityContext": {
-            "capabilities": {"add": ["SYS_PTRACE", "SYS_ADMIN"]},
-            "seccompProfile": {"type": "Unconfined"},
-            "runAsUser": 0,
-            "runAsNonRoot": False,
-            "allowPrivilegeEscalation": True,
-        },
-    }]}})
+    spec = json.dumps(
+        {
+            "spec": {
+                "ephemeralContainers": [
+                    {
+                        "name": probe_name,
+                        "image": PROBE_IMAGE,
+                        "command": ["/bin/sh", "-c", startup],
+                        "targetContainerName": target_container,
+                        "securityContext": {
+                            "capabilities": {"add": ["SYS_PTRACE", "SYS_ADMIN"]},
+                            "seccompProfile": {"type": "Unconfined"},
+                            "runAsUser": 0,
+                            "runAsNonRoot": False,
+                            "allowPrivilegeEscalation": True,
+                        },
+                    }
+                ]
+            }
+        }
+    )
     kubectl(
-        "patch", "pod", pod, "-n", namespace,
-        "--subresource=ephemeralcontainers", "--type=strategic", "-p", spec,
-        capture=False, check=True,
+        "patch",
+        "pod",
+        pod,
+        "-n",
+        namespace,
+        "--subresource=ephemeralcontainers",
+        "--type=strategic",
+        "-p",
+        spec,
+        capture=False,
+        check=True,
     )
 
 
@@ -73,28 +89,54 @@ def inject_tracker(pod: str, namespace: str, probe: str, pid: int, duration: int
 
     # Place it in the target's filesystem via /proc/<pid>/root
     kubectl(
-        "exec", pod, "-n", namespace, "-c", probe,
-        "--", "sh", "-c", f"cat > /proc/{pid}/root{inject} << 'EOF'\n{script}EOF",
-        capture=True, check=True,
+        "exec",
+        pod,
+        "-n",
+        namespace,
+        "-c",
+        probe,
+        "--",
+        "sh",
+        "-c",
+        f"cat > /proc/{pid}/root{inject} << 'EOF'\n{script}EOF",
+        capture=True,
+        check=True,
     )
 
     # sys.remote_exec needs to read the target's ELF .so files, so we nsenter
     # the mount namespace and run the target's own python (via its PATH).
     print(f"Attaching to PID {pid}...")
     kubectl(
-        "exec", pod, "-n", namespace, "-c", probe,
-        "--", "sh", "-c",
+        "exec",
+        pod,
+        "-n",
+        namespace,
+        "-c",
+        probe,
+        "--",
+        "sh",
+        "-c",
         f"target_path=$(tr '\\0' '\\n' < /proc/{pid}/environ | grep '^PATH=' | head -1 | cut -d= -f2-) && "
-        f"nsenter --mount=/proc/{pid}/ns/mnt -- env PATH=\"$target_path\" "
+        f'nsenter --mount=/proc/{pid}/ns/mnt -- env PATH="$target_path" '
         f"python -c \"import sys; sys.remote_exec({pid}, '{inject}')\"",
-        capture=False, check=True,
+        capture=False,
+        check=True,
     )
 
     print(f"Profiling for {duration}s...")
     time.sleep(duration + 2)
 
     kubectl(
-        "exec", pod, "-n", namespace, "-c", probe,
-        "--", "rm", "-f", f"/proc/{pid}/root{inject}",
-        capture=True, check=False,
+        "exec",
+        pod,
+        "-n",
+        namespace,
+        "-c",
+        probe,
+        "--",
+        "rm",
+        "-f",
+        f"/proc/{pid}/root{inject}",
+        capture=True,
+        check=False,
     )

@@ -121,4 +121,4 @@ with tempfile.TemporaryDirectory() as tmpdir:
         Path(tmpdir, f"{user}.config"),  # from
         Path(f"{user}.config"),  # to
     )
-    print(f"Config generated. Saved to {user}.config in current directory.")  # noqa: T201
+    print(f"Config generated. Saved to {user}.config in current directory.")
