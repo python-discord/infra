@@ -1,22 +1,25 @@
-;; Module imports
 (define-module (machines turing)
+  #:use-module (services common)
+  #:use-module (services git-mirror)
   #:export (%turing-os))
 (use-modules (gnu)
              (guix)
+             (guix modules)
              (sops secrets)
              (sops services sops))
 (use-service-modules admin
                      certbot
-                     cgit
                      databases
                      dbus  ; for elogind
                      desktop
                      networking
                      security
+                     shepherd
                      ssh
                      syncthing
                      web)
-(use-package-modules bootloaders
+(use-package-modules bash
+                     bootloaders
                      databases
                      golang-crypto
                      linux
@@ -51,15 +54,6 @@
    "nginx-deploy-hook"
    #~(let ((pid (call-with-input-file "/var/run/nginx/pid" read)))
        (kill pid SIGHUP))))
-
-(define (letsencrypt-path hostname filename)
-  (string-append "/etc/letsencrypt/live/" hostname "/" filename))
-
-(define (letsencrypt-key hostname)
-  (letsencrypt-path hostname "privkey.pem"))
-
-(define (letsencrypt-cert hostname)
-  (letsencrypt-path hostname "fullchain.pem"))
 
 (define %services
   (append (list (service openssh-service-type
@@ -106,47 +100,9 @@
                                  (enabled? #t))))))
                 (service ntp-service-type)
                 %hidden-service-turing
-                (service cgit-service-type
-                         (cgit-configuration
-                           (root-title "PyDis DevOps Server")
-                           (root-desc "Mirrored copies of Python Discord and related projects")
-                           ; XXX: This should support multiple readme files, fix upstream.
-                           ; Alternatively, use plain file
-                           (root-readme ":README.md")
-                           (section-from-path 1)
-                           (enable-commit-graph? #t)
-                           (enable-log-linecount? #t)
-                           ; (enable-blame? #t)
-                           (enable-follow-links? #t)
-                           (enable-index-owner? #f)
-                           (enable-subject-links? #t)
-                           (max-stats "year")
-                           (repository-sort "age")
-                           ; Default is /srv/git
-                           (repository-directory "/srv/git/mirrored")
-                           (about-filter (file-append cgit "/lib/cgit/filters/about-formatting.sh"))
-                           (source-filter (file-append cgit "/lib/cgit/filters/syntax-highlighting.py"))
-                           (email-filter (file-append cgit "/lib/cgit/filters/email-gravatar.py"))
-                           (nginx
-                             (list
-                               (nginx-server-configuration
-                                 (root cgit)
-                                 (listen '("443 ssl http2"))
-                                 (server-name '("beta.git.pydis.wtf"))
-                                  (ssl-certificate (letsencrypt-cert "beta.git.pydis.wtf"))
-                                  (ssl-certificate-key (letsencrypt-key "beta.git.pydis.wtf"))
-                                 ; This should probably be better documented upstream.
-                                 (locations
-                                   (list
-                                     (nginx-location-configuration
-                                       (uri "@cgit")
-                                       (body '("fastcgi_param SCRIPT_FILENAME $document_root/lib/cgit/cgit.cgi;"
-                                               "fastcgi_param PATH_INFO $uri;"
-                                               "fastcgi_param QUERY_STRING $args;"
-                                               "fastcgi_param HTTP_HOST $server_name;"
-                                               "fastcgi_pass 127.0.0.1:9000;")))))
-                                 (try-files (list "$uri" "@cgit")))))
-                           (root-desc "Python Discord DevOps' Software Archive")))
+              %cgit-service
+              %git-mirror-activation-service
+              %git-mirror-update-service
               (service nginx-service-type
                          (nginx-configuration
                            (server-blocks
