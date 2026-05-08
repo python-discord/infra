@@ -7,6 +7,7 @@
              (sops services sops))
 (use-service-modules admin
                      certbot
+                     cgit
                      databases
                      dbus  ; for elogind
                      desktop
@@ -20,6 +21,7 @@
                      golang-crypto
                      linux
                      tmux
+                     version-control
                      vim)
 
 (define %guix-dir (dirname (dirname (canonicalize-path (current-filename)))))
@@ -104,7 +106,48 @@
                                  (enabled? #t))))))
                 (service ntp-service-type)
                 %hidden-service-turing
-                (service nginx-service-type
+                (service cgit-service-type
+                         (cgit-configuration
+                           (root-title "PyDis DevOps Server")
+                           (root-desc "Mirrored copies of Python Discord and related projects")
+                           ; XXX: This should support multiple readme files, fix upstream.
+                           ; Alternatively, use plain file
+                           (root-readme ":README.md")
+                           (section-from-path 1)
+                           (enable-commit-graph? #t)
+                           (enable-log-linecount? #t)
+                           ; (enable-blame? #t)
+                           (enable-follow-links? #t)
+                           (enable-index-owner? #f)
+                           (enable-subject-links? #t)
+                           (max-stats "year")
+                           (repository-sort "age")
+                           ; Default is /srv/git
+                           (repository-directory "/srv/git/mirrored")
+                           (about-filter (file-append cgit "/lib/cgit/filters/about-formatting.sh"))
+                           (source-filter (file-append cgit "/lib/cgit/filters/syntax-highlighting.py"))
+                           (email-filter (file-append cgit "/lib/cgit/filters/email-gravatar.py"))
+                           (nginx
+                             (list
+                               (nginx-server-configuration
+                                 (root cgit)
+                                 (listen '("443 ssl http2"))
+                                 (server-name '("beta.git.pydis.wtf"))
+                                  (ssl-certificate (letsencrypt-cert "beta.git.pydis.wtf"))
+                                  (ssl-certificate-key (letsencrypt-key "beta.git.pydis.wtf"))
+                                 ; This should probably be better documented upstream.
+                                 (locations
+                                   (list
+                                     (nginx-location-configuration
+                                       (uri "@cgit")
+                                       (body '("fastcgi_param SCRIPT_FILENAME $document_root/lib/cgit/cgit.cgi;"
+                                               "fastcgi_param PATH_INFO $uri;"
+                                               "fastcgi_param QUERY_STRING $args;"
+                                               "fastcgi_param HTTP_HOST $server_name;"
+                                               "fastcgi_pass 127.0.0.1:9000;")))))
+                                 (try-files (list "$uri" "@cgit")))))
+                           (root-desc "Python Discord DevOps' Software Archive")))
+              (service nginx-service-type
                          (nginx-configuration
                            (server-blocks
                              (list
@@ -147,6 +190,9 @@
                           (webroot "/var/www")
                           (certificates
                            (list
+                            (certificate-configuration
+                              (domains '("beta.git.pydis.wtf"))
+                              (deploy-hook %certbot-deploy-hook))
                             (certificate-configuration
                              (domains '("turing.box.pydis.wtf"))
                              (deploy-hook %certbot-deploy-hook))))))
