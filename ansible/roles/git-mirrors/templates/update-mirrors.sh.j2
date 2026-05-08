@@ -20,8 +20,8 @@ for repo in $FOUND_REPOS; do
     mkdir -p "info/web" || { echo "Error: Failed to create info/web directory in $repo"; exit 1; }
 
     git for-each-ref \
-        --sort=-authordate --count=1 \
-        --format='%(authordate:iso8601)' \
+        --sort=-committerdate --count=1 \
+        --format='%(committerdate:iso8601)' \
         --exclude='refs/pull/*/merge' \
         > info/web/last-modified || { echo "Error: Failed to write last-modified file in $repo"; exit 1; }
 
