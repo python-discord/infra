@@ -92,7 +92,9 @@
                          (postgresql-configuration
                            (postgresql postgresql-16)))
                 (service tor-service-type)
-                (service nftables-service-type)
+                (service nftables-service-type
+                         (nftables-configuration
+                           (ruleset (resource "nftables.conf"))))
                 (service fail2ban-service-type
                          (fail2ban-configuration
                            (extra-jails
