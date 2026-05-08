@@ -52,3 +52,17 @@ guix time-machine -C channels-lock.scm -- deploy deployment.scm
 # If you wish to sandbox the whole thing in a container:
 guix shell --preserve=^SSH_AUTH_SOCK --expose=/etc/guix --expose=$HOME/.ssh --share=$SSH_AUTH_SOCK --container --network --nesting guix nss-certs age sops -- guix time-machine -C channels-lock.scm -- deploy deployment.scm
 ```
+
+## Troubleshooting
+
+- **Activation service scripts** can be hard to troubleshoot, because errors in
+  them are not logged. What you can do is run the activation script manually
+  after deployment using `sudo /run/current-system/activate`, which will run
+  the activation script in foreground and reveal any issues.
+
+- **Syntax errors** in included files from the `deploy` command are presently
+  not reported directly - instead, a `%turing-os: undefined variable` is
+  reported. [This has been reported
+  upstream](https://codeberg.org/guix/guix/issues/8005). Use `-- system
+  container machines/turing.scm` on the command line instead of `deploy
+  deployment.scm` to directly evaluate the machine and receive proper errors.
