@@ -77,6 +77,36 @@ git_mirrors_mirrored_repositories:
     domain: git.jchri.st
     description: >-
       The Last Stand against malware in Python packages
+  - owner: jc
+    repo: frommilter
+    domain: git.jchri.st
+    description: >-
+      A love letter from former DevOps Director Mr. Milter
+  - owner: jc
+    repo: bolt
+    domain: git.jchri.st
+    description: >-
+      State surveillance software for the modern age
+  - owner: jc
+    repo: twitchup
+    domain: git.jchri.st
+    description: >-
+      Total platform subjugation for the Twitch streaming service
+  - owner: jc
+    repo: dkim-milter-packaging
+    domain: git.jchri.st
+    description: >-
+      Packaging for the Mr. Milter's DKIM milter, a tool for email surveillance
+  - owner: jc
+    repo: ansible-role-nncp
+    domain: git.jchri.st
+    description: >-
+      Ansible role for the Node-to-Node Copy Protocol, a tool for exfiltrating data from secure environments
+  - owner: jc
+    repo: ansible-role-nftables
+    domain: git.jchri.st
+    description: >-
+      Ansible role for the nftables firewall, a tool for maintaining secure perimeters around our operations
 
 git_mirrors_nginx_domain: "git.pydis.wtf"
 git_mirrors_nginx_cert_file: "/etc/letsencrypt/live/pydis.wtf/fullchain.pem"
