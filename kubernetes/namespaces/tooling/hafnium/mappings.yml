@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hafnium-mappings
+  namespace: tooling
+data:
+  mappings.toml: |
+    [mappings]
+    helpers = { github_team_slug = "helpers", discord_role_id = 267630620367257601 }
+    devops = { github_team_slug = "devops", discord_role_id = 409416496733880320 }
+    administrators = { github_team_slug = "admins", discord_role_id = 267628507062992896 }
+    moderators = { github_team_slug = "moderators", discord_role_id = 267629731250176001 }
+    coredevs = { github_team_slug = "core-developers", discord_role_id = 587606783669829632 }
+    events = { github_team_slug = "events-team", discord_role_id = 787816728474288181 }
+    directors = { github_team_slug = "directors", discord_role_id = 267627879762755584 }

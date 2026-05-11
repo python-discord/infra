@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hafnium-config-env
+  namespace: tooling
+data:
+  HAFNIUM_KEYCLOAK_URL: "https://id.pydis.wtf"
+  HAFNIUM_KEYCLOAK_REALM: "pydis"
+  HAFNIUM_KEYCLOAK_USERNAME: "kingarthur"
+  HAFNIUM_DISCORD_GUILDID: "267624335836053506"
+  HAFNIUM_DISCORD_LOGCHANNELID: "675756741417369640"
+  HAFNIUM_DISCORD_DEBUGTHREADID: "1265289413433364511"
+  HAFNIUM_GITHUB_IGNORED_USERS: "pydis-bot"
+  HAFNIUM_GITHUB_ORG: "python-discord"
+  HAFNIUM_SYNC_MAPPINGFILE: "/app/mappings.toml"

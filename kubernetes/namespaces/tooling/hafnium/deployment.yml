@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hafnium
+  namespace: tooling
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hafnium
+  template:
+    metadata:
+      labels:
+        app: hafnium
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "metrics"
+    spec:
+      containers:
+        - name: hafnium
+          image: ghcr.io/owl-corp/hafnium:latest
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: hafnium-env
+            - configMapRef:
+                name: hafnium-config-env
+          securityContext:
+            readOnlyRootFilesystem: true
+          ports:
+            - name: metrics
+              containerPort: 9090
+          volumeMounts:
+            - name: hafnium-mappings
+              mountPath: /app/mappings.toml
+              subPath: mappings.toml
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true
+      volumes:
+        - name: hafnium-mappings
+          configMap:
+            name: hafnium-mappings
