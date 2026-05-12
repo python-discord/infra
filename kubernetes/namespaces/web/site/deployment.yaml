@@ -61,19 +61,9 @@ spec:
             requests:
               cpu: 250m
               memory: 400Mi
-          env:
-            # Needs to match with the variable name being read in django-prometheus
-            # https://github.com/korfuri/django-prometheus/blob/434a3ba36bdada45c9633451f5f6cfd145814ccf/django_prometheus/exports.py#L119
-            - name: prometheus_multiproc_dir
-              value: /tmp
           envFrom:
             - secretRef:
                 name: site-env
-          volumeMounts:
-            # Used for `gunicorn` worker heartbeats as well as the Prometheus
-            # client library's multiprocessing mode.
-            - name: django-tmp
-              mountPath: /tmp
           securityContext:
             readOnlyRootFilesystem: true
       volumes:
