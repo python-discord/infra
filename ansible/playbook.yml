@@ -4,6 +4,7 @@
     - linode-ips
     - common
     - pydis-mtls
+    - tailscale
     - wireguard
     - munin-node
 
