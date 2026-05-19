@@ -20,9 +20,15 @@ loki:
           prefix: index_
           period: 24h
 
-  # Storage type is S3 (Minio)
+  # Storage type is S3 (Linode Object Storage)
   storage:
     type: s3
+    s3:
+      endpoint: eu-central-1.linodeobjects.com
+      region: eu-central-1
+      bucketnames: loki-cache
+      accessKeyId: ${LOKI_S3_ACCESS_KEY_ID}
+      secretAccessKey: ${LOKI_S3_SECRET_ACCESS_KEY}
 
   compactor:
     retention_enabled: true
@@ -74,12 +80,18 @@ sidecar:
 singleBinary:
   # Set replicas to 3 again
   replicas: 3
+  # Inject Linode Object Storage credentials from secret
+  envFrom:
+    - secretRef:
+        name: loki-s3
   # Disable any persistence in Loki, all persistence is in S3
   persistence:
     enabled: false
-  # Enable the pattern ingester (for Grafana Explore Logs)
   extraArgs:
+  # Enable the pattern ingester (for Grafana Explore Logs)
     - "--pattern-ingester.enabled=true"
+  # Enable environment variable expansion in the Loki config (required for ${VAR} credential references)
+    - "--config.expand-env=true"
 
   # Add a tmpfs in /var/loki for temporary data storage
   extraVolumes:
@@ -106,10 +118,6 @@ write:
   replicas: 0
 backend:
   replicas: 0
-
-# Enable Minio for S3 storage
-minio:
-  enabled: true
 
 # Enable Prometheus scraping of the Loki Canaries
 lokiCanary:
