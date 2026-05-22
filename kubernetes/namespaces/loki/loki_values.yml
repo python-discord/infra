@@ -75,6 +75,7 @@ loki:
       client:
         url: http://prometheus.monitoring.svc:9090/api/v1/write
     rule_path: /var/loki/ruler-scratch
+    enable_sharding: true
     ring:
       kvstore:
         store: memberlist
