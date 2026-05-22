@@ -24,7 +24,7 @@ loki:
   storage:
     bucketNames:
       chunks: loki-cache-chunks
-      ruler: loki-cache-rules
+      ruler: loki-cache-ruler
     type: s3
     s3:
       endpoint: eu-central-1.linodeobjects.com
