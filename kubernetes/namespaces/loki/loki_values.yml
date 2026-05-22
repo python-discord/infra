@@ -67,7 +67,7 @@ loki:
       enabled: true
       client:
         url: http://prometheus.monitoring.svc:9090/api/v1/write
-    rule_path: /rules
+    rule_path: /var/loki/ruler-scratch
     ring:
       kvstore:
         store: memberlist
@@ -101,9 +101,13 @@ singleBinary:
     - name: var-loki-tmpfs
       emptyDir:
         medium: Memory
+    - name: rules
+      emptyDir: {}
   extraVolumeMounts:
     - name: var-loki-tmpfs
       mountPath: /var/loki
+    - name: rules
+      mountPath: /rules
 
   # Add labels to enable Prometheus scraping of Loki replicas
   podAnnotations:
