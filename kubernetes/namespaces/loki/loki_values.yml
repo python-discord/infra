@@ -43,8 +43,10 @@ loki:
   compactor:
     retention_enabled: true
     delete_request_store: s3
+    compaction_interval: 10m
     delete_request_cancel_period: 1h
-    retention_delete_delay: 5m
+    retention_delete_worker_count: 150
+    retention_delete_delay: 2h
 
   limits_config:
     retention_period: 30d
