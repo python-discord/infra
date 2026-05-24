@@ -7,6 +7,7 @@ Documentation=https://torsion.org/borgmatic/
 [Service]
 User={{ borg_user }}
 EnvironmentFile=/etc/default/borgmatic
+Environment=XDG_RUNTIME_DIR=/run
 Type=oneshot
 RuntimeDirectory=borgmatic
 StateDirectory=borgmatic
