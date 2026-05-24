@@ -51,13 +51,22 @@ loki:
     retention_delete_delay: 2h
 
   limits_config:
-    retention_period: 30d
+    retention_period: 90d
     # Enable volume querying endpoint (for Grafana Explore Logs)
     volume_enabled: true
     retention_stream:
     - selector: '{app_container="/loki"}'
       priority: 1
       period: 14d
+    - selector: '{app_container="/nginx"}'
+      priority: 2
+      period: 180d
+    - selector: '{namespace="bots"}'
+      priority: 3
+      period: 180d
+    - selector: '{namespace="web"}'
+      priority: 4
+      period: 180d
 
   # Enable ruler, writing to Prometheus
   rulerConfig:
