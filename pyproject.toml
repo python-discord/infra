@@ -15,7 +15,7 @@ dependencies = [
 [dependency-groups]
 ansible = [
     "ansible-core>=2.17.0,<3",
-    "ansible-lint==25.2.1 ; platform_system != 'Windows'",
+    "ansible-lint==26.4.0 ; platform_system != 'Windows'",
     "dnspython==2.7.0",
 ]
 dns = [
