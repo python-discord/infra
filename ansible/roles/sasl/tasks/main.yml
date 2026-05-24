@@ -100,8 +100,8 @@
 # BEGIN temporary tasks. Can be removed after initial deploy.
 - name: Remove Postfix from SASL group
   command: "gpasswd -d postfix sasl"
-  register: command_result
-  changed_when: "not 'is not a member of' in command_result.stderr"
+  register: sasl_postfix_command_result
+  changed_when: "not 'is not a member of' in sasl_postfix_command_result.stderr"
   failed_when: false
   tags:
     - role::sasl
