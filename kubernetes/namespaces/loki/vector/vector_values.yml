@@ -1,0 +1,67 @@
+# role -- [Role](https://vector.dev/docs/setup/deployment/roles/) for this Vector instance, valid options are:
+# "Agent", "Aggregator", and "Stateless-Aggregator".
+
+# Each role is created with the following workloads:
+# Agent = DaemonSet
+# Aggregator = StatefulSet
+# Stateless-Aggregator = Deployment
+role: "Stateless-Aggregator"
+
+# customConfig -- Override Vector's default configs, if used **all** options need to be specified. This section supports
+# using helm templates to populate dynamic values. See Vector's [configuration documentation](https://vector.dev/docs/reference/configuration/)
+# for all options.
+customConfig:
+  data_dir: /vector-data-dir
+
+  api:
+    enabled: true
+    address: 127.0.0.1:8686
+
+  sources:
+    kubewatch:
+      address: 0.0.0.0:6000
+      type: http_server
+      auth:
+        strategy: custom
+        source: |-
+          true
+      decoding:
+        codec: json
+      framing:
+        method: bytes
+
+  transforms:
+    kubewatch_prepared:
+      type: remap
+      inputs: [kubewatch]
+      source: |-
+        .job = "kubewatch"
+        .kind = .eventmeta.kind
+        .name = .eventmeta.name
+        .namespace = .eventmeta.namespace
+        .reason = .eventmeta.reason
+
+        .labels = {
+          "namespace": .eventmeta.namespace,
+          "kind": .eventmeta.kind,
+        }
+
+        del(.source_type)
+        del(.path)
+        del(.eventmeta)
+
+  sinks:
+    loki:
+      type: loki
+      inputs: [kubewatch_prepared]
+      endpoint: http://loki:3100
+      labels:
+        job: |-
+          {{`vector.{{ job }}`}}
+        "*": |-
+          {{`{{ labels }}`}}
+      encoding:
+        codec: json
+
+# Log level for Vector.
+logLevel: "info"
