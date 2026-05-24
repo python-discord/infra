@@ -160,6 +160,12 @@ postgres_hba_rules:
     address: all
     method: scram-sha-256
 
+  - conn_type: hostssl
+    database: all
+    user: borg
+    address: all
+    method: scram-sha-256
+
   #
   # Analytics HBA rules
   #
