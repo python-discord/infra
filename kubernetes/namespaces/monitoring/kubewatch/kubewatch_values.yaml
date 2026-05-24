@@ -1,0 +1,24 @@
+rbac:
+  create: true
+  customRoles:
+    - apiGroups: ["events.k8s.io"]
+      resources: ["events"]
+      verbs: ["get", "list", "watch"]
+
+slack:
+  enabled: false
+
+webhook:
+  enabled: true
+  url: "http://vector.loki:6000"
+
+resourcesToWatch:
+  deployment: true
+  replicationcontroller: false
+  replicaset: false
+  daemonset: false
+  services: true
+  pod: true
+  job: true
+  persistentvolume: true
+  event: true
