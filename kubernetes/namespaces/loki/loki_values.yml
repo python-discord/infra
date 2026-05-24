@@ -58,7 +58,7 @@ loki:
     - selector: '{app_container="/loki"}'
       priority: 1
       period: 14d
-    - selector: '{app_container="/nginx"}'
+    - selector: '{app_container="/nginx", namespace="nginx-gateway"}'
       priority: 2
       period: 180d
     - selector: '{namespace="bots"}'
