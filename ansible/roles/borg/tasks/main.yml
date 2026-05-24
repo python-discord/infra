@@ -44,7 +44,7 @@
   template:
     src: borgmatic.env.j2
     dest: /etc/default/borgmatic
-    mode: "0444"
+    mode: "0400"
     owner: root
     group: root
   tags:
