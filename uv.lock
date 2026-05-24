@@ -595,7 +595,7 @@ ansible = [
 ]
 dns = [
     { name = "octodns", specifier = ">=1.8.0,<2" },
-    { name = "octodns-cloudflare", specifier = ">=0.0.9,<0.0.10" },
+    { name = "octodns-cloudflare", specifier = ">=1.1.0,<1.1.1" },
 ]
 docs = [
     { name = "mkdocs-git-committers-plugin-2", specifier = ">=2.3.0,<3" },
@@ -903,15 +903,15 @@ wheels = [
 
 [[package]]
 name = "octodns-cloudflare"
-version = "0.0.9"
+version = "1.1.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "octodns" },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/af/01/d0e05c8f4aa1601d700c1866624ac6e6d115d104522f0033859d876d8e6a/octodns_cloudflare-0.0.9.tar.gz", hash = "sha256:a0872d5443d4d1deb3ce02dec3f2422e40781c5ec47fdd5c3fd6b15802188c67", size = 33905, upload-time = "2025-02-06T23:48:05.444Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/0e/c9/376510d9e1138b03bc9ef74fc75a7173e9c69d67e94b6d6d69cdc51e06cb/octodns_cloudflare-1.1.0.tar.gz", hash = "sha256:351de43e5389d40c8a54368c892382f41c158964d96535d1e1b5a230858647bf", size = 36270, upload-time = "2026-04-03T23:39:29.112Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/2b/81/21b1410d0c27fa665430cedf79b681a1f7c064005b558ebd22338ce94795/octodns_cloudflare-0.0.9-py3-none-any.whl", hash = "sha256:6027012a10c456443727e7d1319ae4abb21726f1f68286f87d99a86a94756aee", size = 17882, upload-time = "2025-02-06T23:48:02.407Z" },
+    { url = "https://files.pythonhosted.org/packages/fc/9f/107f31715d2fc8cb02c12971bf39ad506b8caf48790208b0f6b1f9486906/octodns_cloudflare-1.1.0-py3-none-any.whl", hash = "sha256:377a42cd834b042021fa97194544a15c873119120eac01ac5a000825b6c1751d", size = 19190, upload-time = "2026-04-03T23:39:27.681Z" },
 ]
 
 [[package]]
