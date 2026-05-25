@@ -60,6 +60,12 @@ alloy:
             target_label  = "service_name"
             action        = "replace"
         }
+
+        rule {
+            target_label = "job"
+            replacement  = "kubernetes_pods"
+            action       = "replace"
+        }
       }
 
       // Write all values into the Loki receiver
