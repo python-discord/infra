@@ -54,6 +54,7 @@ data:
                     {namespace="nginx-gateway", app_container="/nginx"}
                     | json
                     | __error__ = ""
+                    | host !~ "(?:grafana|metabase).pydis.wtf"
                     [5m]
                   )
                 ) > 0.033
