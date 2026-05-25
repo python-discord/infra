@@ -31,14 +31,6 @@ alertmanager:
   type: CNAME
   value: nginx-gf.box.pydis.wtf.
 
-beta.git:
-  octodns:
-    cloudflare:
-      proxied: false
-  ttl: 300
-  type: CNAME
-  value: turing.box.pydis.wtf.
-
 bitwarden:
   octodns:
     cloudflare:
@@ -85,7 +77,7 @@ git:
       proxied: true
   ttl: 300
   type: CNAME
-  value: lovelace.box.pydis.wtf.
+  value: turing.box.pydis.wtf.
 
 grafana:
   octodns:
