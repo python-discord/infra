@@ -147,7 +147,7 @@
                           (certificates
                            (list
                             (certificate-configuration
-                              (domains '("beta.git.pydis.wtf"))
+                              (domains '("git.pydis.wtf"))
                               (deploy-hook %certbot-deploy-hook))
                             (certificate-configuration
                              (domains '("turing.box.pydis.wtf"))

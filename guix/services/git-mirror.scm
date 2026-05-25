@@ -91,13 +91,13 @@
                                                                         (listen '
                                                                          ("443 ssl http2"))
                                                                         (server-name '
-                                                                         ("beta.git.pydis.wtf"))
+                                                                         ("git.pydis.wtf"))
                                                                         (ssl-certificate
                                                                          (letsencrypt-cert
-                                                                          "beta.git.pydis.wtf"))
+                                                                          "git.pydis.wtf"))
                                                                         (ssl-certificate-key
                                                                          (letsencrypt-key
-                                                                          "beta.git.pydis.wtf"))
+                                                                          "git.pydis.wtf"))
                                                                         ;; This should probably be better documented upstream.
                                                                         (locations
                                                                          (list
