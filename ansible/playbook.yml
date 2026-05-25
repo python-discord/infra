@@ -59,11 +59,6 @@
     - nginx-geoip
     - nginx-cloudflare-mtls
 
-- name: Deploy Git mirrors
-  hosts: nginx
-  roles:
-    - git-mirrors
-
 - name: Deploy our database hosts
   hosts: databases
   roles:
