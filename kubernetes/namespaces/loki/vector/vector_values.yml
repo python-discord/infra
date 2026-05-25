@@ -57,7 +57,7 @@ customConfig:
       endpoint: http://loki:3100
       labels:
         job: |-
-          {{`vector.{{ job }}`}}
+          {{`vector_{{ job }}`}}
         "*": |-
           {{`{{ labels }}`}}
       encoding:
