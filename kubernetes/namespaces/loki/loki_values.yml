@@ -48,10 +48,12 @@ loki:
     compaction_interval: 10m
     delete_request_cancel_period: 1h
     retention_delete_worker_count: 150
-    retention_delete_delay: 2h
+    retention_delete_delay: 10s
 
   limits_config:
     retention_period: 90d
+    deletion_mode: filter-and-delete
+    allow_deletes: true
     # Enable volume querying endpoint (for Grafana Explore Logs)
     volume_enabled: true
     retention_stream:
