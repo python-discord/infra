@@ -67,6 +67,9 @@ loki:
     - selector: '{namespace="web"}'
       priority: 4
       period: 180d
+    - selector: '{job="ansible_dirsrv_access"}'
+      priority: 5
+      period: 1d
 
   # Enable ruler, writing to Prometheus
   rulerConfig:
