@@ -13,9 +13,10 @@ We use NGINX Gateway Fabric to manage our ingress traffic. This replaced the pre
 
 ## Helm Installation of Gateway Fabric control plane
 
-1. Create NGINX CRDs with `kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.5.1" | kubectl apply -f -`
-2. Run `helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric --create-namespace -n nginx-gateway -f values.yaml` to install NGINX Gateway Fabric using Helm.
-3. Wait for the installation to complete with `kubectl wait --timeout=5m -n nginx-gateway deployment/ngf-nginx-gateway-fabric --for=condition=Available`
+1. Create NGINX CRDs with `kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.6.2" | kubectl apply -f -`
+2. Install NGF-specific CRDs `helm show crds oci://ghcr.io/nginx/charts/nginx-gateway-fabric --version 2.6.2 | kubectl apply --server-side -f -`
+3. Install the Helm chart `helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric --create-namespace -n nginx-gateway -f values.yaml`
+4. Wait for the installation to complete with `kubectl wait --timeout=5m -n nginx-gateway deployment/ngf-nginx-gateway-fabric --for=condition=Available`
 
 NOTE: To upgrade/change values, switch from `helm install` to `helm upgrade`.
 
