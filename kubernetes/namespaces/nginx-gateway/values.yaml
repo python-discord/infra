@@ -19,7 +19,7 @@ nginx:
   container:
     volumeMounts:
       - name: mtls-client-crt-bundle
-        mountPath: /etc/nginx/mtls-ca.crt
+        mountPath: /etc/ssl/nginx/mtls-ca.crt
         subPath: ca.crt
 
   config:
