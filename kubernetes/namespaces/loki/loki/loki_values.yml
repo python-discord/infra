@@ -57,20 +57,26 @@ loki:
     # Enable volume querying endpoint (for Grafana Explore Logs)
     volume_enabled: true
     retention_stream:
-    - selector: '{app_container="/loki"}'
+    - selector: '{namespace="loki", app_container="/nginx"}'
       priority: 1
-      period: 14d
-    - selector: '{app_container="/nginx", namespace="nginx-gateway"}'
+      period: 1d
+    - selector: '{namespace="loki", app_container="/loki"}'
       priority: 2
-      period: 180d
-    - selector: '{namespace="bots"}'
+      period: 1d
+    - selector: '{namespace="loki", app_container="/loki-canary"}'
       priority: 3
-      period: 180d
-    - selector: '{namespace="web"}'
+      period: 1d
+    - selector: '{app_container="/nginx", namespace="nginx-gateway"}'
       priority: 4
       period: 180d
-    - selector: '{job="ansible_dirsrv_access"}'
+    - selector: '{namespace="bots"}'
       priority: 5
+      period: 180d
+    - selector: '{namespace="web"}'
+      priority: 6
+      period: 180d
+    - selector: '{job="ansible_dirsrv_access"}'
+      priority: 7
       period: 1d
 
   # Enable ruler, writing to Prometheus
