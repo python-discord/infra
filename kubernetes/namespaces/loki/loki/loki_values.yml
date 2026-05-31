@@ -36,9 +36,9 @@ loki:
     wal:
       flush_on_shutdown: true
     # Flush a chunk after this long with no new writes (even if not full)
-    chunk_idle_period: 3h
+    chunk_idle_period: 8h
     # Max age for any chunk regardless of activity
-    max_chunk_age: 6h
+    max_chunk_age: 12h
     chunk_target_size: 10485760  # 10MB
     chunk_encoding: snappy
 
