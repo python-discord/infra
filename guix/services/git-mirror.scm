@@ -188,6 +188,9 @@
                                             (string-append #$git
                                              "/bin/git for-each-ref --sort=-committerdate --count=1 --format='%(committerdate:iso8601)' --exclude='refs/pull/*/merge' > info/web/last-modified"))))))
 
+                             ;; XXX: Investigate why `invoke` does not appear to propagate this,
+                             ;; or rather, why the timer unit does not have these values.
+                             (setenv "GIT_SSL_CAINFO" "/etc/ssl/certs/ca-certificates.crt")
                              ;; See comment in %git-mirror-activation.
                              (map update-repo
                                   '#$%mirrored-repos))))
