@@ -1,0 +1,19 @@
+apiVersion: gateway.nginx.org/v1alpha1
+kind: SnippetsFilter
+metadata:
+  name: welcome-proxy
+  namespace: nginx-gateway
+spec:
+  snippets:
+    - context: http.server
+      value: |
+        location @s3_proxy {
+          resolver kube-dns.kube-system.svc.cluster.local valid=30s;
+          rewrite ^ /welcome.html break;
+          proxy_pass https://pydis-static-assets.eu-central-1.linodeobjects.com;
+          proxy_ssl_server_name on;
+        }
+    - context: http.server.location
+      value: |
+        error_page 418 = @s3_proxy;
+        return 418;
