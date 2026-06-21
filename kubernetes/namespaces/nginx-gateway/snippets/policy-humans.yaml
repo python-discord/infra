@@ -1,0 +1,19 @@
+apiVersion: gateway.nginx.org/v1alpha1
+kind: SnippetsPolicy
+metadata:
+  name: nginx-gateway-humans
+  namespace: nginx-gateway
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: nginx
+  snippets:
+    - context: http.server
+      value: |
+        location = /humans.txt {
+            resolver kube-dns.kube-system.svc.cluster.local valid=30s;
+            set $humans_base_url "https://pydis-static-assets.eu-central-1.linodeobjects.com";
+            proxy_pass $humans_base_url/humans.txt;
+            proxy_ssl_server_name on;
+        }
