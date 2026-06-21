@@ -1,0 +1,43 @@
+apiVersion: gateway.nginx.org/v1alpha1
+kind: SnippetsPolicy
+metadata:
+  name: nginx-gateway-robots
+  namespace: nginx-gateway
+spec:
+  targetRefs:
+    - group: gateway.networking.k8s.io
+      kind: Gateway
+      name: nginx
+  snippets:
+    - context: http.server
+      value: |
+        location = /robots.txt {
+            resolver kube-dns.kube-system.svc.cluster.local valid=30s;
+            set $robots_base_url "https://pydis-static-assets.eu-central-1.linodeobjects.com/robots-txt";
+            proxy_pass $robots_base_url/$http_host.txt;
+            proxy_ssl_server_name on;
+            proxy_intercept_errors on;
+            error_page 404 = @fallback_robots;
+
+            # Prepend preamble to proxied text/plain responses
+            addition_types text/plain;
+            add_before_body /_robots_preamble;
+        }
+
+        location = /_robots_preamble {
+            internal;
+            resolver kube-dns.kube-system.svc.cluster.local valid=30s;
+            set $robots_base_url "https://pydis-static-assets.eu-central-1.linodeobjects.com/robots-txt";
+            proxy_pass $robots_base_url/default.txt;
+            proxy_ssl_server_name on;
+        }
+
+        location @fallback_robots {
+            internal;
+            default_type text/plain;
+
+            # Prepend preamble to fallback response
+            addition_types text/plain;
+            add_before_body /_robots_preamble;
+            return 200 "\n# No additional robots content for $http_host\n";
+        }
