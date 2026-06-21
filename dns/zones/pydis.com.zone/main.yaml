@@ -5,8 +5,8 @@
         auto-ttl: true
         proxied: true
     ttl: 300
-    type: AAAA
-    value: "100::"
+    type: ALIAS
+    value: "nginx-gf.box.pydis.wtf."
   - octodns:
       cloudflare:
         auto-ttl: true
