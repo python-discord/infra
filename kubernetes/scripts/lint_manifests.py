@@ -32,4 +32,4 @@ if __name__ == "__main__":
         arg = " -f ".join([""] + get_all_manifests())
         os.system("kubectl diff" + arg)  # noqa: S605
     elif sys.argv[1] == "find":
-        print("\n".join(get_all_manifests()))  # noqa: T201
+        print("\n".join(get_all_manifests()))
