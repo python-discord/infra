@@ -1,5 +1,9 @@
 ---
-alloy_grafana_signing_key: "https://apt.grafana.com/gpg.key"
-alloy_grafana_repository: "https://apt.grafana.com"
+alloy_debian_grafana_signing_key: "https://apt.grafana.com/gpg.key"
+alloy_debian_grafana_repository: "https://apt.grafana.com"
+
+alloy_rocky_grafana_signing_key: "https://rpm.grafana.com/gpg.key"
+alloy_rocky_grafana_repository: "https://rpm.grafana.com"
 
 alloy_extra_files: []
+alloy_extra_groups: []
