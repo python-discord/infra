@@ -18,8 +18,8 @@ postgres_users:
     password: "{{ vault_postgres_user_passwords.pinnwand }}"
     roles:
 
-  - name: blackbox
-    password: "{{ vault_postgres_user_passwords.blackbox }}"
+  - name: borg
+    password: "{{ vault_postgres_user_passwords.borg }}"
     roles:
       - pg_read_all_data
 
@@ -157,6 +157,12 @@ postgres_hba_rules:
   - conn_type: hostssl
     database: all
     user: blackbox
+    address: all
+    method: scram-sha-256
+
+  - conn_type: hostssl
+    database: all
+    user: borg
     address: all
     method: scram-sha-256
 
