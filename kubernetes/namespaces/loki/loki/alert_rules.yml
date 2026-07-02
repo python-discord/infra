@@ -69,7 +69,7 @@ data:
                   | unwrap upstream_header_time [5m]
                 ) by (host) > 2
               )
-            for: 2m
+            for: 15m
             labels:
               severity: page
             annotations:
@@ -213,7 +213,7 @@ data:
                   )
                 )
               ) * 100 > 5
-            for: 2m
+            for: 15m
             labels:
               severity: page
             annotations:
