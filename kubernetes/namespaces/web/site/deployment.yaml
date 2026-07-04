@@ -64,6 +64,9 @@ spec:
           envFrom:
             - secretRef:
                 name: site-env
+          volumeMounts:
+            - name: django-tmp
+              mountPath: /tmp
           securityContext:
             readOnlyRootFilesystem: true
       volumes:
