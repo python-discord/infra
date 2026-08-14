@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pixels-docs
+  namespace: pixels
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pixels-docs
+  template:
+    metadata:
+      labels:
+        app: pixels-docs
+    spec:
+      containers:
+        - name: pixels-docs
+          image: ghcr.io/python-discord/pixels-docs:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          startupProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            failureThreshold: 5
+            periodSeconds: 2
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            periodSeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            periodSeconds: 10
+            timeoutSeconds: 5
+          securityContext:
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: nginx-cache
+              mountPath: /var/cache/nginx
+            - name: nginx-run
+              mountPath: /var/run
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: nginx-cache
+          emptyDir: {}
+        - name: nginx-run
+          emptyDir: {}
+      imagePullSecrets:
+        - name: ghcr-pull-secret
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 101
+        runAsNonRoot: true

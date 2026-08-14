@@ -10,6 +10,20 @@ spec:
     - name: nginx
       namespace: nginx-gateway
   rules:
+    - matches:
+      - path:
+          type: PathPrefix
+          value: /docs
+      backendRefs:
+      - name: pixels-docs
+        namespace: pixels
+        port: 80
+      filters:
+      - type: ExtensionRef
+        extensionRef:
+          group: gateway.nginx.org
+          kind: SnippetsFilter
+          name: enforce-mtls
     - backendRefs:
       - name: pixels
         namespace: pixels
