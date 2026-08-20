@@ -1,0 +1,117 @@
+---
+- name: Add Tailscale repository (Rocky)
+  ansible.builtin.get_url:
+    url: "{{ tailscale_rocky_repo }}"
+    dest: /etc/yum.repos.d/tailscale.repo
+    mode: "0644"
+  when: ansible_facts["distribution"] == "Rocky"
+  tags:
+    - role::tailscale
+
+- name: Ensure keys directory exists (Debian)
+  file:
+    path: /usr/share/keyrings
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  when: ansible_facts["distribution"] == "Debian"
+  tags:
+    - role::tailscale
+
+- name: Download Tailscale GPG key (Debian)
+  ansible.builtin.get_url:
+    url: "{{ tailscale_gpg_key_url }}"
+    dest: /usr/share/keyrings/tailscale-archive-keyring.gpg
+    mode: "0644"
+  when: ansible_facts["distribution"] == "Debian"
+  tags:
+    - role::tailscale
+
+- name: Add Tailscale APT repository (Debian)
+  ansible.builtin.get_url:
+    url: "{{ tailscale_apt_repo }}"
+    dest: /etc/apt/sources.list.d/tailscale.list
+    mode: "0644"
+  when: ansible_facts["distribution"] == "Debian"
+  tags:
+    - role::tailscale
+
+- name: Update APT cache (Debian)
+  ansible.builtin.apt:
+    update_cache: yes
+  when: ansible_facts["distribution"] == "Debian"
+  tags:
+    - role::tailscale
+
+- name: Install Tailscale
+  package:
+    name: tailscale
+    state: present
+  tags:
+    - role::tailscale
+
+- name: Ensure Tailscale is enabled and started
+  ansible.builtin.systemd:
+    name: tailscaled
+    enabled: yes
+    state: started
+  tags:
+    - role::tailscale
+
+- name: Check if Tailscale is already authenticated
+  ansible.builtin.command: tailscale status --json
+  register: tailscale_status
+  failed_when: false
+  changed_when: false
+  tags:
+    - role::tailscale
+
+- name: Parse Tailscale status
+  ansible.builtin.set_fact:
+    tailscale_authenticated: "{{ tailscale_status.stdout | from_json | json_query('BackendState') not in ['NeedsLogin', 'Stopped'] }}"
+  tags:
+    - role::tailscale
+
+- name: Authenticate Tailscale
+  when: not tailscale_authenticated
+  ansible.builtin.command: |-
+    tailscale up \
+    --authkey '{{ tailscale_oauth2_client_secret }}?preauthorized=true&ephemeral=false' \
+    --advertise-tags '{{ tailscale_advertise_tags }}' \
+    --hostname '{{ inventory_hostname }}' \
+    --accept-routes \
+    --accept-dns
+  register: tailscale_up_result
+  changed_when: "'Already up to date' not in tailscale_up_result.stdout"
+  tags:
+    - role::tailscale
+
+- name: Fetch hosted Tailscale services
+  ansible.builtin.command: tailscale serve get-config --all
+  register: tailscale_services_status
+  failed_when: false
+  changed_when: false
+  tags:
+    - role::tailscale
+
+- name: Parse Tailscale services
+  ansible.builtin.set_fact:
+    tailscale_hosted_services: "{{ tailscale_services_status.stdout | from_json | json_query('services') }}"
+  tags:
+    - role::tailscale
+
+- name: Set tailscale_hosted_services to empty list if not defined
+  ansible.builtin.set_fact:
+    tailscale_hosted_services: []
+  when: not tailscale_hosted_services
+  tags:
+    - role::tailscale
+
+- name: Ensure Tailscale services are configured
+  ansible.builtin.command: |-
+    tailscale serve --yes --service svc:{{ item.ts_service_name }} --{{ item.proto }} {{ item.listen_port }} {{ item.proxy_dest }}
+  loop: "{{ tailscale_services }}"
+  when: "'svc:' + item.ts_service_name not in tailscale_hosted_services and item.host == inventory_hostname"
+  tags:
+    - role::tailscale
