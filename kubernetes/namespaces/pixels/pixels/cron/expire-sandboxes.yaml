@@ -1,0 +1,48 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: pixels-expire-sandboxes
+  namespace: pixels
+spec:
+  schedule: "0 * * * *"
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 2
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: pixels-cron
+          automountServiceAccountToken: false
+          restartPolicy: OnFailure
+          containers:
+            - name: expire-sandboxes
+              image: curlimages/curl:8.20.0
+              env:
+                - name: WEBHOOK_ENDPOINT
+                  value: https://pixels.pythondiscord.com/expire_sandboxes
+              command:
+                - /bin/sh
+                - -ec
+                - |
+                  TOKEN="$(cat /var/run/secrets/pixels-api/token)"
+                  STATUS="$(curl -sS -o /dev/null -w "%{http_code}" \
+                    -X POST \
+                    -H "Authorization: Token ${TOKEN}" \
+                    "${WEBHOOK_ENDPOINT}")"
+                  case "${STATUS}" in
+                    2*) exit 0 ;;
+                    *) echo "Expire sandboxes webhook call failed with HTTP ${STATUS}" >&2; exit 1 ;;
+                  esac
+              volumeMounts:
+                - name: pixels-api-token
+                  mountPath: /var/run/secrets/pixels-api
+                  readOnly: true
+          volumes:
+            - name: pixels-api-token
+              projected:
+                sources:
+                  - serviceAccountToken:
+                      path: token
+                      audience: pixels-api
+                      expirationSeconds: 600
