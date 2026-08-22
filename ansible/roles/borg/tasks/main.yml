@@ -35,7 +35,7 @@
     virtualenv: "{{ borg_virtualenv }}"
     name:
       - borgbackup[s3] @ git+https://github.com/borgbackup/borg.git@{{ borg_git_version }}
-      - borgmatic=={{ borgmatic_version }}
+      - borgmatic=={{ borg_borgmatic_version }}
     state: present
   tags:
     - role::borg
