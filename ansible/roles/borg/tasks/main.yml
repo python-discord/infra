@@ -105,13 +105,27 @@
   notify:
     - Reload the systemd daemon
 
+- name: Check for existence of borg repositories
+  become: true
+  become_user: "{{ borg_user }}"
+  command: >
+    {{ borg_virtualenv }}/bin/borg repo-list
+    --repo b2:{{ borg_s3_access_key_id }}:{{ borg_s3_access_key_secret }}@https://eu-central-1.linodeobjects.com/borg/database-backups/
+  register: borg_repositories
+  changed_when: false
+  failed_when: false
+  tags:
+    - role::borg
+
 - name: Create borgmatic repositories
+  become: true
   become_user: "{{ borg_user }}"
   command: "{{ borg_virtualenv }}/bin/borgmatic repo-create --encryption=none"
   environment:
     POSTGRES_PASSWORD: "{{ vault_postgres_user_passwords.borg }}"
     BORG_S3_KEY_ID: "{{ borg_s3_access_key_id }}"
     BORG_S3_KEY_SECRET: "{{ borg_s3_access_key_secret }}"
-  #   creates: "{{ borg_home }}/keys/repositories/borg2"
+  when: borg_repositories.rc != 0
+  changed_when: borg_repositories.rc != 0
   tags:
     - role::borg
