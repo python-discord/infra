@@ -4,7 +4,7 @@ borg_home: /var/lib/borg
 borg_virtualenv: "{{ borg_home }}/borgmatic-venv"
 
 # Pinned to a specific commit for S3 compatibility.
-borg_git_version: "1373b30ba8e6b88f6264dc57f6a8da46d8b2e80f"
+borg_git_version: "05aa93444e99076fc30743d3769442a0eefd6f88"
 borgmatic_version: "2.0.11"
 
 # see https://wiki.archlinux.org/title/Systemd/Timers
