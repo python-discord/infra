@@ -20,7 +20,7 @@ spec:
               image: curlimages/curl:8.20.0
               env:
                 - name: WEBHOOK_ENDPOINT
-                  value: https://pixels.pythondiscord.com/expire_sandboxes
+                  value: https://pixels.pythondiscord.com/api/expire_sandboxes
               command:
                 - /bin/sh
                 - -ec

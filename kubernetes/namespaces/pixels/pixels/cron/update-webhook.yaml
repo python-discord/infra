@@ -20,7 +20,7 @@ spec:
               image: curlimages/curl:8.20.0
               env:
                 - name: WEBHOOK_ENDPOINT
-                  value: https://pixels.pythondiscord.com/webhook
+                  value: https://pixels.pythondiscord.com/api/webhook
               command:
                 - /bin/sh
                 - -ec
