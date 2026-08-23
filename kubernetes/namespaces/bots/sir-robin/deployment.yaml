@@ -37,3 +37,15 @@ spec:
             name: sir-robin-config-env
         securityContext:
           readOnlyRootFilesystem: true
+        volumeMounts:
+          - name: pixels-api-token
+            mountPath: /var/run/secrets/pixels-api
+            readOnly: true
+      volumes:
+        - name: pixels-api-token
+          projected:
+            sources:
+              - serviceAccountToken:
+                  path: token
+                  audience: pixels-api
+                  expirationSeconds: 600
