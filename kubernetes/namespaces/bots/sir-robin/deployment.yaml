@@ -17,6 +17,8 @@ spec:
         fsGroup: 2000
         runAsUser: 1000
         runAsNonRoot: true
+      serviceAccountName: sir-robin
+      automountServiceAccountToken: false
       containers:
       - name: sir-robin
         image: ghcr.io/python-discord/sir-robin:latest
