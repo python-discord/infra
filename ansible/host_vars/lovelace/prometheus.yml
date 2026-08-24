@@ -116,6 +116,8 @@ prometheus_rules: |
           for: 15m
           labels:
             severity: warning
+            requires_ack: "true"
+            instance: '{{ $labels.instance }}/{{ $labels.name }}'
           annotations:
             summary: Node systemd unit {{ $labels.name }} has failed (instance {{ $labels.instance }})
 
@@ -125,7 +127,8 @@ prometheus_rules: |
         expr: pg_up == 0
         for: 0m
         labels:
-          severity: page
+          severity: critical
+          service: postgresql
         annotations:
           summary: "PostgreSQL is offline"
           description: "Postgres Exporter cannot connect to PostgreSQL."
@@ -134,7 +137,9 @@ prometheus_rules: |
         expr: (sum(pg_stat_activity_count) by (instance)) / on (instance) pg_settings_max_connections * 100 > 80
         for: 1m
         labels:
-          severity: page
+          severity: major
+          service: postgresql
+          requires_ack: "true"
         annotations:
           summary: PostgreSQL connections near max_connections setting
           description: "PostgreSQL instance is near the maximum connection limit, currently {{ $value }} connections"
@@ -143,7 +148,9 @@ prometheus_rules: |
         expr: increase(pg_stat_database_deadlocks{datname!~"template.*|postgres"}[1m]) > 3
         for: 1m
         labels:
-          severity: page
+          severity: major
+          service: postgresql
+          requires_ack: "true"
         annotations:
           summary: Too many deadlocked tables
           description: "PostgreSQL has dead-locks, value: {{ $value }}"
@@ -154,7 +161,7 @@ prometheus_rules: |
           expr: postfix_up != 1
           for: 5m
           labels:
-            severity: warning
+            severity: critical
           annotations:
             summary: Postfix is down (instance {{ $labels.instance }})
         - alert: postfix/smtp-temporary-errors
@@ -162,6 +169,7 @@ prometheus_rules: |
           for: 0m
           labels:
             severity: warning
+            requires_ack: "true"
           annotations:
             summary: Postfix is rejecting messages due to errors (instance {{ $labels.instance }})
             description: Postfix has seen code {{ $labels.code }} errors recently
