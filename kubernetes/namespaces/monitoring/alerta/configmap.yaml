@@ -24,4 +24,4 @@ data:
   OAUTH2_CLIENT_ID: "alerta-ui"
 
   # Service configuration
-  PLUGINS: "reject,heartbeat,blackout,acked_by"
+  PLUGINS: "reject,heartbeat,blackout,acked_by,timeout,remote_ip"
