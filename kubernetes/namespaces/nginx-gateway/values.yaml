@@ -52,6 +52,7 @@ nginx:
             "ssl_protocol":"$ssl_protocol",
             "ssl_cipher":"$ssl_cipher",
             "ssl_session_reused":"$ssl_session_reused",
+            "content_type":"$sent_http_content_type",
             "referer":"$http_referer",
             "user_agent":"$http_user_agent"}
         escape: json
