@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alertad-conf-file
+  namespace: monitoring
+data:
+  alertad.conf: |
+    ADMIN_ROLES = ["devops-sudo"]
