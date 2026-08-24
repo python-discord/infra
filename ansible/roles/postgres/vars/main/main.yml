@@ -75,6 +75,10 @@ postgres_users:
     password: "{{ vault_postgres_user_passwords.rrdtool }}"
     roles:
 
+  - name: alerta
+    password: "{{ vault_postgres_user_passwords.alerta }}"
+    roles:
+
 postgres_hba_rules:
   #
   # Service HBA rules
@@ -148,6 +152,12 @@ postgres_hba_rules:
   - conn_type: hostssl
     database: thallium
     user: thallium
+    address: all
+    method: scram-sha-256
+
+  - conn_type: hostssl
+    database: alerta
+    user: alerta
     address: all
     method: scram-sha-256
 
@@ -247,6 +257,8 @@ postgres_databases:
     owner: polonium
   - name: thallium
     owner: thallium
+  - name: alerta
+    owner: alerta
 
 postgres_grants:
   - objs: api_nomination,api_infraction,api_user,api_nominationentry,pg_stat_statements,pg_stat_statements_info
