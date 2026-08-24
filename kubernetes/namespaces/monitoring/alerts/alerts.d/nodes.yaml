@@ -6,7 +6,10 @@ groups:
     expr: kube_node_status_condition{condition="DiskPressure",status="true"} == 1
     for: 1m
     labels:
-      severity: page
+      severity: critical
+      service: kubernetes-nodes
+      requires_ack: "true"
+      instance: '{{ $labels.kubernetes_node }}'
     annotations:
       summary: Node {{ $labels.kubernetes_node }} is experiencing disk pressure
       description: "{{ $labels.kubernetes_node }} does not have adequate space to work with."
@@ -15,7 +18,10 @@ groups:
     expr: kube_node_status_condition{condition="MemoryPressure",status="true"} == 1
     for: 15s
     labels:
-      severity: page
+      severity: critical
+      service: kubernetes-nodes
+      requires_ack: "true"
+      instance: '{{ $labels.kubernetes_node }}'
     annotations:
       summary: Node {{ $labels.kubernetes_node }} is experiencing memory pressure
       description: "{{ $labels.kubernetes_node }} does not have adequate RAM to work with."
@@ -24,7 +30,10 @@ groups:
     expr: kube_node_status_condition{condition="NetworkUnavailable",status="true"} == 1
     for: 15s
     labels:
-      severity: page
+      severity: critical
+      service: kubernetes-nodes
+      requires_ack: "true"
+      instance: '{{ $labels.kubernetes_node }}'
     annotations:
       summary: Node {{ $labels.kubernetes_node }} is experiencing network problems
       description: "{{ $labels.kubernetes_node }} is experiencing trouble with inbound and outbound connections"
@@ -34,7 +43,10 @@ groups:
     expr: kube_node_status_condition{condition="PIDPressure",status="true"} == 1
     for: 15s
     labels:
-      severity: page
+      severity: critical
+      service: kubernetes-nodes
+      requires_ack: "true"
+      instance: '{{ $labels.kubernetes_node }}'
     annotations:
       summary: Node {{ $labels.kubernetes_node }} is experiencing PID exhaustion
       description: "{{ $labels.kubernetes_node }} does not have enough PIDs to work with."
@@ -43,7 +55,10 @@ groups:
     expr: kube_node_status_condition{condition="Ready",status="true"} == 0
     for: 1m
     labels:
-      severity: page
+      severity: critical
+      service: kubernetes-nodes
+      requires_ack: "true"
+      instance: '{{ $labels.kubernetes_node }}'
     annotations:
       summary: Kubernetes node ({{ $labels.kubernetes_node }} ) is marked as unready
       description: "Node {{ $labels.kubernetes_node }} has been unready for a long time"
@@ -52,7 +67,10 @@ groups:
     expr: kube_node_spec_unschedulable == 1
     for: 30m
     labels:
-      severity: low
+      severity: informational
+      service: kubernetes-nodes
+      requires_ack: "true"
+      instance: '{{ $labels.kubernetes_node }}'
     annotations:
       summary: Kubernetes node ({{ $labels.kubernetes_node }}) is cordoned
       description: "Node {{ $labels.kubernetes_node }} has been cordoned"

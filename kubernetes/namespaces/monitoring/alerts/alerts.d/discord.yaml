@@ -6,8 +6,9 @@ groups:
     expr: deriv(bot_guild_total_members[30m]) * 3600 > 60
     for: 1m
     labels:
-      severity: page
+      severity: informational
       additional_destination: mods
+      service: discord
     annotations:
       summary: "High rate of guild member joins"
       description: "User join rate is {{ $value }} per hour, which may indicate a raid or other unusual activity."
@@ -17,7 +18,8 @@ groups:
       delta(bot_guild_total_members[5m]) > 50
     for: 1m
     labels:
-      severity: page
+      severity: informational
+      service: discord
     annotations:
       summary: "Sudden member spike detected"
       description: >
@@ -29,7 +31,8 @@ groups:
       deriv(bot_guild_total_members[15m]) * 60 > 10
     for: 10m
     labels:
-      severity: page
+      severity: informational
+      service: discord
     annotations:
       summary: "Abnormal sustained join rate"
       description: >
@@ -41,7 +44,8 @@ groups:
       delta(bot_guild_total_members[5m]) < -30
     for: 1m
     labels:
-      severity: page
+      severity: informational
+      service: discord
     annotations:
       summary: "Sudden member drop detected"
       description: >
@@ -53,7 +57,8 @@ groups:
       changes(bot_guild_total_members[10m]) > 20
     for: 5m
     labels:
-      severity: page
+      severity: informational
+      service: discord
     annotations:
       summary: "High member churn detected"
       description: >

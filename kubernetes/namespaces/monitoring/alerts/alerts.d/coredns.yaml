@@ -6,7 +6,8 @@ groups:
     expr: increase(coredns_panics_total[1m]) > 0
     for: 0m
     labels:
-      severity: page
+      severity: major
+      service: coredns
     annotations:
       summary: "CoreDNS is experiencing panic"
       description: "Number of CoreDNS panics encountered: {{ $value }}"
@@ -15,7 +16,8 @@ groups:
     expr: rate(coredns_cache_misses_total{}[10m]) / rate(coredns_cache_misses_total{}[10m] offset 10m) > 5.00
     for: 2h
     labels:
-      severity: low
+      severity: informational
+      service: coredns
     annotations:
       summary: "High CoreDNS cache misses in last 2 hours"
       description: "This can sometimes be an indication of networking troubles, currently {{ $value | humanizePercentage }} over last 2 hours."

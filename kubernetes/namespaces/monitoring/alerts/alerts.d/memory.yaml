@@ -6,16 +6,22 @@ groups:
     expr: node_memory_Active_bytes / node_memory_MemTotal_bytes > 0.8
     for: 30s
     labels:
-      severity: page
+      severity: warning
+      service: kubernetes-nodes
+      requires_ack: "true"
+      instance: '{{ $labels.kubernetes_node }}'
     annotations:
       summary: "Node {{ $labels.kubernetes_node }} has RAM usage >80% for 5 minutes"
       description: 'RAM usage is currently {{ $value | humanizePercentage }} on {{ $labels.kubernetes_node }}'
 
   - alert: container/oom
-    expr: (kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 10m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[10m]) == 1
+    expr: (kube_pod_container_status_restarts_total - kube_pod_container_status_restarts_total offset 5m >= 1) and ignoring (reason) min_over_time(kube_pod_container_status_last_terminated_reason{reason="OOMKilled"}[5m]) == 1
     for: 0m
     labels:
-      severity: page
+      severity: critical
+      service: kubernetes-containers
+      requires_ack: "true"
+      instance: '{{ $labels.pod }}'
     annotations:
       summary: Kubernetes Container oom killer (instance {{ $labels.instance }})
-      description: "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last 10 minutes.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
+      description: "Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} has been OOMKilled {{ $value }} times in the last 5 minutes.\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"

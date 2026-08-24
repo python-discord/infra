@@ -5,7 +5,8 @@ groups:
     expr: redis_up == 0
     for: 1m
     labels:
-      severity: page
+      severity: critical
+      service: redis
     annotations:
       summary: "Redis is offline"
       description: "Redis Exporter cannot connect to Redis."
@@ -14,7 +15,9 @@ groups:
     expr: redis_memory_used_bytes / redis_memory_max_bytes > 0.9
     for: 0m
     labels:
-      severity: page
+      severity: major
+      service: redis
+      requires_ack: "true"
     annotations:
       summary: "Redis is approaching it's memory limit"
       description: "Redis is currently using {{ $value | humanizePercentage }} of configured memory."

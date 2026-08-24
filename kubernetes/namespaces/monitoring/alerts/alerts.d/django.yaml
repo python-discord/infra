@@ -5,7 +5,9 @@ groups:
         expr: increase(django_http_responses_total_by_status_total{status=~"5.."}[5m]) > 0
         for: 5m
         labels:
-          severity: page
+          severity: critical
+          service: django
+          requires_ack: "true"
         annotations:
           summary: "Django is experiencing 5xx errors"
           description: "Django is experiencing 5xx errors on {{ $labels.namespace }}/{{ $labels.job }}"
@@ -14,7 +16,8 @@ groups:
         expr: histogram_quantile(0.95, rate(django_http_requests_latency_seconds_by_view_method_bucket{view!="api:github-artifacts", view!="api:github-webhook-filter", view!="home:home", view!="content:tag"}[5m])) > 1.0
         for: 15m
         labels:
-          severity: low
+          severity: informational
+          service: django
         annotations:
           summary: "Django route is experiencing high latency"
           description: "Django route {{ $labels.method }} {{ $labels.view }} has raised latency"
@@ -23,7 +26,9 @@ groups:
         expr: histogram_quantile(0.95, rate(django_http_requests_latency_seconds_by_view_method_bucket{view!="api:github-artifacts", view!="api:github-webhook-filter", view!="home:home", view!="content:tag"}[5m])) > 10.0
         for: 15m
         labels:
-          severity: page
+          severity: warning
+          service: django
+          requires_ack: "true"
         annotations:
           summary: "Django route is experiencing high latency"
           description: "Django route {{ $labels.method }} {{ $labels.view }} is experiencing high latency"
