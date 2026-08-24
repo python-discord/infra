@@ -5,7 +5,8 @@ groups:
         expr: rate(etcd_request_error_total[5m]) > 0
         for: 5m
         labels:
-          severity: page
+          severity: major
+          service: etcd
         annotations:
           summary: "Etcd request errors are spiking"
           description: "Etcd request errors are spiking on {{ $labels.instance }} for {{ $labels.operation }}s to {{ $labels.type }}"

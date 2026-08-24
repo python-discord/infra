@@ -5,7 +5,9 @@ groups:
     expr: kube_cronjob_spec_suspend != 0
     for: 0m
     labels:
-      severity: low
+      severity: informational
+      service: kubernetes-jobs
+      instance: '{{ $labels.kubernetes_cronjob }}'
     annotations:
       summary: "Kubernetes CronJob suspended: {{ $labels.cronjob }}"
       description: "CronJob {{ $labels.kubernetes_namespace }}/{{ $labels.cronjob }} is suspended"
@@ -14,7 +16,10 @@ groups:
     expr: kube_job_status_failed > 0
     for: 0m
     labels:
-      severity: page
+      severity: major
+      service: kubernetes-jobs
+      requires_ack: "true"
+      instance: '{{ $labels.kubernetes_job }}'
     annotations:
       summary: "Kubernetes Job failed: {{ $labels.job_name }}"
       description: "Job {{$labels.kubernetes_namespacenamespace}}/{{$labels.job_name}} failed to complete"

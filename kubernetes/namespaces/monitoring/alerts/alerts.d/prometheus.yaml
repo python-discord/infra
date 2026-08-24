@@ -7,7 +7,9 @@ groups:
     expr: up == 0
     for: 5m
     labels:
-      severity: page
+      severity: critical
+      service: prometheus
+      instance: '{{ $labels.job }}/{{ $labels.instance }}'
     annotations:
       summary: "Instance {{ $labels.instance }} down"
       description: "{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 5 minutes."
@@ -16,7 +18,8 @@ groups:
     expr: prometheus_config_last_reload_successful == 0
     for: 0m
     labels:
-      severity: page
+      severity: critical
+      service: prometheus
     annotations:
       summary: "Prometheus config reload in pod {{ $labels.kubernetes_pod_name }} has failed"
       description: "Prometheus instance {{ $labels.kubernetes_pod_name }} (`{{ $labels.instance }}`) has failed to reload its config."

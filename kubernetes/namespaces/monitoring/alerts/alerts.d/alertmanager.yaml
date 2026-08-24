@@ -6,7 +6,8 @@ groups:
     expr: alertmanager_cluster_failed_peers > 0
     for: 1m
     labels:
-      severity: page
+      severity: major
+      service: alertmanager
     annotations:
       summary: "An Alertmanager node is reporting failed peers"
       description: "AM {{ $labels.instance }} is reporting that {{ $value }} of it's peers is invalid."
@@ -15,7 +16,8 @@ groups:
     expr: alertmanager_cluster_health_score > 0
     for: 1m
     labels:
-      severity: page
+      severity: critical
+      service: alertmanager
     annotations:
       summary: "An AlertManagerNode is reporting an unhealthy cluster"
       description: "AM {{ $labels.instance }} is reporting that the cluster has a health score of {{ $value }} (where 0 is healthy.)"

@@ -8,7 +8,10 @@ groups:
     for: 0m
     labels:
       # This isn't critical, but if we have reached this point, renewal probably needs manual intervention.
-      severity: page
+      severity: critical
+      service: cert-manager
+      requires_ack: "true"
+      instance: '{{ $labels.name }}'
     annotations:
       summary: "Certificate is expiring in < 7 days"
       description: "The certificate named {{ $labels.name }} is due for expiry in {{ $value | humanize }} days."
