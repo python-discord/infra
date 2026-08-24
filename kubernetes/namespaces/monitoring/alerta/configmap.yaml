@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alerta-config
+  namespace: monitoring
+data:
+  # Auth configuration
+  AUTH_REQUIRED: "true"
+  AUTH_PROVIDER: "openid"
+
+  OIDC_ISSUER_URL: "https://id.pydis.wtf/realms/pydis"
+  OIDC_AUTH_URL: "https://id.pydis.wtf/realms/pydis/protocol/openid-connect/auth"
+  OIDC_LOGOUT_URL: "https://id.pydis.wtf/realms/pydis/protocol/openid-connect/logout"
+  OIDC_VERIFY_TOKEN: "true"
+
+  ALERTA_CONF_FILE: "/app/alerta.conf"
+
+  OIDC_ROLE_CLAIM: "roles"
+  ALLOWED_OIDC_ROLES: "devops"
+  ADMIN_ROLES: "devops-sudo"
+
+  GUEST_DEFAULT_SCOPES: ""
+
+  OAUTH2_CLIENT_ID: "alerta-ui"
+
+  # Service configuration
+  PLUGINS: "reject,heartbeat,blackout,acked_by"

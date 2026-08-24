@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alerta
+  namespace: monitoring
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: alerta
+  template:
+    metadata:
+      labels:
+        app: alerta
+    spec:
+      containers:
+        - name: alerta
+          image: alerta/alerta-web:latest
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - secretRef:
+                name: alerta-secrets
+            - configMapRef:
+                name: alerta-config
+          readinessProbe:
+            httpGet:
+              path: /api/management/gtg
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /_
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: alerta-config-volume
+              mountPath: /app/alertad.conf
+              subPath: alertad.conf
+      volumes:
+        - name: alerta-config-volume
+          configMap:
+            name: alertad-conf-file
