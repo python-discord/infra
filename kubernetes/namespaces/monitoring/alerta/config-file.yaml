@@ -6,3 +6,8 @@ metadata:
 data:
   alertad.conf: |
     ADMIN_ROLES = ["devops-sudo"]
+
+    # Alert expiry config
+    ALERT_TIMEOUT = 259200 # 3 days
+    DELETE_EXPIRED_AFTER = 1209600 # 14 days
+    DELETE_INFO_AFTER = 604800 # 7 days
