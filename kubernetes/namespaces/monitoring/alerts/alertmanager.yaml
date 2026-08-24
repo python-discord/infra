@@ -7,19 +7,38 @@ route:
   group_interval: 1m
 
   routes:
+    - receiver: alerta-no-resolve
+      matchers:
+        - requires_ack="true"
+      continue: true
+
+    - receiver: alerta
+      matchers:
+        - requires_ack!="true"
+      continue: true
+
     - receiver: mod-team
       matchers:
         - additional_destination="mods"
 
     - receiver: low-priority
       matchers:
-        - severity="low"
+        - severity="informational"
 
     - receiver: devops-team
       continue: true
+
     - receiver: email
 
 receivers:
+  - name: alerta
+    webhook_configs:
+      - url_file: "/opt/pydis/alertmanager/webhooks/ALERTA_HOOK"
+        send_resolved: true
+  - name: alerta-no-resolve
+    webhook_configs:
+      - url_file: "/opt/pydis/alertmanager/webhooks/ALERTA_HOOK"
+        send_resolved: false
   - name: devops-team
     slack_configs:
       - api_url_file: "/opt/pydis/alertmanager/webhooks/DEVOPS_HOOK"
