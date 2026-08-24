@@ -39,7 +39,9 @@ data:
               )
             for: 5m
             labels:
-              severity: page
+              severity: minor
+              service: nginx-gateway
+              instance: '{{ $labels.host }}'
             annotations:
               summary: "High P99 latency on {{ $labels.host }}"
               description: >
@@ -71,7 +73,9 @@ data:
               )
             for: 2m
             labels:
-              severity: page
+              severity: informational
+              service: nginx-gateway
+              instance: '{{ $labels.host }}'
             annotations:
               summary: "Slow backend TTFB on {{ $labels.host }}"
               description: >
@@ -102,7 +106,9 @@ data:
               )
             for: 2m
             labels:
-              severity: page
+              severity: informational
+              service: nginx-gateway
+              instance: '{{ $labels.host }}'
             annotations:
               summary: "Slow upstream TCP connect time on {{ $labels.host }}"
               description: >
@@ -133,7 +139,10 @@ data:
               )
             for: 2m
             labels:
-              severity: low
+              severity: major
+              service: nginx-gateway
+              requires_ack: "true"
+              instance: '{{ $labels.host }}'
             annotations:
               summary: "Upstream queue saturated on {{ $labels.host }}"
               description: >
@@ -176,7 +185,10 @@ data:
               )
             for: 3m
             labels:
-              severity: page
+              severity: major
+              service: nginx-gateway
+              requires_ack: "true"
+              instance: '{{ $labels.host }}/{{ $labels.upstream_addr }}'
             annotations:
               summary: "Slow upstream pod {{ $labels.upstream_addr }} on {{ $labels.host }}"
               description: >
@@ -216,7 +228,10 @@ data:
               ) * 100 > 5
             for: 2m
             labels:
-              severity: page
+              severity: major
+              service: nginx-gateway
+              requires_ack: "true"
+              instance: '{{ $labels.host }}'
             annotations:
               summary: "High 5xx error rate on {{ $labels.host }}"
               description: "{{ $value | humanize }}% of requests are returning 5xx on {{ $labels.host }}."
@@ -260,7 +275,9 @@ data:
               )
             for: 5m
             labels:
-              severity: low
+              severity: minor
+              service: nginx-gateway
+              instance: '{{ $labels.host }}'
             annotations:
               summary: "High {{ $labels.status }} rate on {{ $labels.host }}"
               description: >
@@ -283,7 +300,10 @@ data:
               ) == 0
             for: 3m
             labels:
-              severity: page
+              severity: major
+              service: nginx-gateway
+              requires_ack: "true"
+              instance: '{{ $labels.host }}'
             annotations:
               summary: "No successful responses from {{ $labels.host }}"
               description: >
@@ -318,7 +338,10 @@ data:
               )
             for: 2m
             labels:
-              severity: page
+              severity: major
+              service: nginx-gateway
+              requires_ack: "true"
+              instance: '{{ $labels.host }}/{{ $labels.upstream_addr }}'
             annotations:
               summary: "Upstream errors masked by NGINX on {{ $labels.host }}"
               description: >
@@ -368,7 +391,9 @@ data:
               )
             for: 5m
             labels:
-              severity: page
+              severity: major
+              service: nginx-gateway
+              instance: '{{ $labels.host }}'
             annotations:
               summary: "High dropped connection rate on {{ $labels.host }}"
               description: >
@@ -402,7 +427,9 @@ data:
               )
             for: 2m
             labels:
-              severity: low
+              severity: informational
+              service: nginx-gateway
+              instance: '{{ $labels.host }}'
             annotations:
               summary: "Rate limiter rejecting requests on {{ $labels.host }}"
               description: >
@@ -432,7 +459,10 @@ data:
               )
             for: 2m
             labels:
-              severity: page
+              severity: major
+              service: nginx-gateway
+              requires_ack: "true"
+              instance: '{{ $labels.host }}'
             annotations:
               summary: "Unusually large average request size on {{ $labels.host }}"
               description: >
@@ -458,7 +488,10 @@ data:
               ) > 0
             for: 5m
             labels:
-              severity: page
+              severity: informational
+              service: nginx-gateway
+              requires_ack: "true"
+              instance: '{{ $labels.host }}'
             annotations:
               summary: "Legacy TLS {{ $labels.ssl_protocol }} in use on {{ $labels.host }}"
               description: >
