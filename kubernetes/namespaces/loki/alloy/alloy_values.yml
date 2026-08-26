@@ -71,7 +71,40 @@ alloy:
       // Write all values into the Loki receiver
       loki.source.kubernetes "pods" {
         targets    = discovery.relabel.pods.output
+        forward_to = [loki.process.nginx_gateway.receiver]
+      }
+
+      loki.process "nginx_gateway" {
         forward_to = [loki.write.local.receiver]
+
+        stage.match {
+          selector = `{namespace="nginx-gateway", app_container="/nginx"}`
+
+          // Set the default first
+          stage.static_labels {
+            values = {
+              ngf_host = "unknown",
+            }
+          }
+
+          // Try to extract host from JSON
+          stage.json {
+            expressions = { ngf_host = "host" }
+          }
+
+          // Only overwrites ngf_host if the JSON extraction actually populated it
+          stage.labels {
+            values = {
+              ngf_host = "",
+            }
+          }
+
+          stage.drop {
+            source              = "__error__"
+            value               = "JSONParserErr"
+            drop_counter_reason = "non_json_nginx_log"
+          }
+        }
       }
 
       loki.write "local" {
