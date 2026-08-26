@@ -187,10 +187,10 @@ pddc.devops:
 pixels-mod:
   octodns:
     cloudflare:
-      proxied: true
+      auto-ttl: true
   ttl: 300
   type: CNAME
-  value: nginx-gf.box.pydis.wtf.
+  value: pixels-modsite.netlify.app.
 
 policy-bot:
   octodns:
