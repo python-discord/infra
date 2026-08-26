@@ -78,6 +78,12 @@ loki:
     - selector: '{job="ansible_dirsrv_access"}'
       priority: 7
       period: 1d
+    - selector: '{namespace="kube-system", app_container="/konnectivity-agent"}'
+      priority: 8
+      period: 1d
+    - selector: '{namespace="monitoring", app_container="alerta/alerta"}'
+      priority: 9
+      period: 1d
 
   # Enable ruler, writing to Prometheus
   rulerConfig:
