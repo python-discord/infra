@@ -25,3 +25,7 @@ data:
 
   # Service configuration
   PLUGINS: "reject,heartbeat,blackout,acked_by,timeout,remote_ip"
+
+  # Docker image housekeeping config
+  HK_EXPIRED_DELETE_HRS: "336"
+  HK_INFO_DELETE_HRS: "168"
