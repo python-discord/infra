@@ -23,6 +23,7 @@ data:
                     {namespace="nginx-gateway", app_container="/nginx"}
                     | json
                     | __error__ = ""
+                    | content_type !~ "^text/event-stream"
                     | host !~ "(?:grafana|metabase).pydis.wtf"
                     [5m]
                   )
@@ -34,6 +35,7 @@ data:
                   {namespace="nginx-gateway", app_container="/nginx"}
                   | json
                   | __error__ = ""
+                  | content_type !~ "^text/event-stream"
                   | unwrap request_time [10m]
                 ) by (host) > 3
               )
@@ -56,6 +58,7 @@ data:
                     {namespace="nginx-gateway", app_container="/nginx"}
                     | json
                     | __error__ = ""
+                    | content_type !~ "^text/event-stream"
                     | host !~ "(?:grafana|metabase).pydis.wtf"
                     [5m]
                   )
@@ -67,6 +70,7 @@ data:
                   {namespace="nginx-gateway", app_container="/nginx"}
                   | json
                   | __error__ = ""
+                  | content_type !~ "^text/event-stream"
                   | upstream_header_time =~ "[0-9.]+"
                   | unwrap upstream_header_time [5m]
                 ) by (host) > 2
@@ -90,6 +94,7 @@ data:
                     {namespace="nginx-gateway", app_container="/nginx"}
                     | json
                     | __error__ = ""
+                    | content_type !~ "^text/event-stream"
                     [5m]
                   )
                 ) > 0.033
@@ -100,6 +105,7 @@ data:
                   {namespace="nginx-gateway", app_container="/nginx"}
                   | json
                   | __error__ = ""
+                  | content_type !~ "^text/event-stream"
                   | upstream_connect_time =~ "[0-9.]+"
                   | unwrap upstream_connect_time [5m]
                 ) by (host) > 0.5
@@ -123,6 +129,7 @@ data:
                     {namespace="nginx-gateway", app_container="/nginx"}
                     | json
                     | __error__ = ""
+                    | content_type !~ "^text/event-stream"
                     [5m]
                   )
                 ) > 0.033
@@ -133,6 +140,7 @@ data:
                   {namespace="nginx-gateway", app_container="/nginx"}
                   | json
                   | __error__ = ""
+                  | content_type !~ "^text/event-stream"
                   | upstream_queue_time =~ "[0-9.]+"
                   | unwrap upstream_queue_time [5m]
                 ) by (host) > 0.25
@@ -157,6 +165,7 @@ data:
                     {namespace="nginx-gateway", app_container="/nginx"}
                     | json
                     | __error__ = ""
+                    | content_type !~ "^text/event-stream"
                     [5m]
                   )
                 ) > 0.033
@@ -168,6 +177,7 @@ data:
                     {namespace="nginx-gateway", app_container="/nginx"}
                     | json
                     | __error__ = ""
+                    | content_type !~ "^text/event-stream"
                     | upstream_response_time =~ "[0-9.]+"
                     | unwrap upstream_response_time [5m]
                   ) by (host, upstream_addr)
@@ -178,6 +188,7 @@ data:
                     {namespace="nginx-gateway", app_container="/nginx"}
                     | json
                     | __error__ = ""
+                    | content_type !~ "^text/event-stream"
                     | upstream_response_time =~ "[0-9.]+"
                     | unwrap upstream_response_time [5m]
                   ) by (host) > 0

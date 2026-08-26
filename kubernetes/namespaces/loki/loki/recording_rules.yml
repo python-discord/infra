@@ -129,6 +129,7 @@ data:
                 {namespace="nginx-gateway", app_container="/nginx"}
                 | json
                 | __error__ = ""
+                | content_type !~ "^text/event-stream"
                 | unwrap request_time [2m]
               ) by (host)
 
@@ -138,6 +139,7 @@ data:
                 {namespace="nginx-gateway", app_container="/nginx"}
                 | json
                 | __error__ = ""
+                | content_type !~ "^text/event-stream"
                 | unwrap request_time [2m]
               ) by (host)
 
@@ -147,6 +149,7 @@ data:
                 {namespace="nginx-gateway", app_container="/nginx"}
                 | json
                 | __error__ = ""
+                | content_type !~ "^text/event-stream"
                 | unwrap request_time [2m]
               ) by (host)
 
@@ -163,6 +166,7 @@ data:
                 {namespace="nginx-gateway", app_container="/nginx"}
                 | json
                 | __error__ = ""
+                | content_type !~ "^text/event-stream"
                 | upstream_connect_time =~ "[0-9.]+"
                 | unwrap upstream_connect_time [2m]
               ) by (host)
@@ -173,6 +177,7 @@ data:
                 {namespace="nginx-gateway", app_container="/nginx"}
                 | json
                 | __error__ = ""
+                | content_type !~ "^text/event-stream"
                 | upstream_header_time =~ "[0-9.]+"
                 | unwrap upstream_header_time [2m]
               ) by (host)
@@ -183,6 +188,7 @@ data:
                 {namespace="nginx-gateway", app_container="/nginx"}
                 | json
                 | __error__ = ""
+                | content_type !~ "^text/event-stream"
                 | upstream_response_time =~ "[0-9.]+"
                 | unwrap upstream_response_time [2m]
               ) by (host)
@@ -193,6 +199,7 @@ data:
                 {namespace="nginx-gateway", app_container="/nginx"}
                 | json
                 | __error__ = ""
+                | content_type !~ "^text/event-stream"
                 | upstream_response_time =~ "[0-9.]+"
                 | unwrap upstream_response_time [2m]
               ) by (host)
@@ -203,6 +210,7 @@ data:
                 {namespace="nginx-gateway", app_container="/nginx"}
                 | json
                 | __error__ = ""
+                | content_type !~ "^text/event-stream"
                 | upstream_response_time =~ "[0-9.]+"
                 | unwrap upstream_response_time [2m]
               ) by (host)
@@ -213,6 +221,7 @@ data:
                 {namespace="nginx-gateway", app_container="/nginx"}
                 | json
                 | __error__ = ""
+                | content_type !~ "^text/event-stream"
                 | upstream_queue_time =~ "[0-9.]+"
                 | unwrap upstream_queue_time [2m]
               ) by (host)
@@ -223,6 +232,7 @@ data:
                 {namespace="nginx-gateway", app_container="/nginx"}
                 | json
                 | __error__ = ""
+                | content_type !~ "^text/event-stream"
                 | upstream_response_time =~ "[0-9.]+"
                 | unwrap upstream_response_time [2m]
               ) by (host, upstream_addr)
