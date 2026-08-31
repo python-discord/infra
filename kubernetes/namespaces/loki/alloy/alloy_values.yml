@@ -80,26 +80,27 @@ alloy:
         stage.match {
           selector = `{namespace="nginx-gateway", app_container="/nginx"}`
 
-          // Set the default first
           stage.static_labels {
             values = {
               ngf_host = "unknown",
             }
           }
 
-          // Try to extract host from JSON
           stage.json {
             expressions = {
               ngf_host      = "host",
               upstream_addr = "upstream_addr",
+              scheme        = "scheme",
+              status        = "status",
             }
           }
 
-          // Only overwrites ngf_host if the JSON extraction actually populated it
           stage.labels {
             values = {
               ngf_host      = "",
               upstream_addr = "",
+              scheme        = "",
+              status        = "",
             }
           }
 
@@ -110,8 +111,20 @@ alloy:
           }
         }
 
+        // All HTTP traffic -> fixed bucket, using scheme as a real label matcher now
         stage.match {
-          selector = `{namespace="nginx-gateway", app_container="/nginx", upstream_addr=""}`
+          selector = `{namespace="nginx-gateway", app_container="/nginx", scheme="http"}`
+
+          stage.static_labels {
+            values = {
+              ngf_host = "http-redirect",
+            }
+          }
+        }
+
+        // HTTPS + no upstream + error status -> unmatched, all as label matchers
+        stage.match {
+          selector = `{namespace="nginx-gateway", app_container="/nginx", scheme="https", upstream_addr="", status=~"4..|5.."}`
 
           stage.static_labels {
             values = {
@@ -120,9 +133,8 @@ alloy:
           }
         }
 
-        // upstream_addr itself has huge cardinality (ip:port) - should not remain a label
         stage.label_drop {
-          values = ["upstream_addr"]
+          values = ["upstream_addr", "scheme", "status"]
         }
       }
 
