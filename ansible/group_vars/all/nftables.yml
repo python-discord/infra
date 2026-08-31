@@ -51,6 +51,9 @@ nftables_configuration: |
       # Allow loopback
       iif lo accept
 
+      # Allow all traffic from/to tailscale0
+      iifname tailscale0 accept
+
       # Allow certain inbound ICMP types (ping, traceroute).
       # With these allowed you are a good network citizen.
       meta l4proto { icmp, ipv6-icmp } counter accept
