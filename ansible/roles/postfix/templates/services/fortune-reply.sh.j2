@@ -12,6 +12,14 @@ MESSAGE_ID=$(echo "$EMAIL" | mhdr -h message-id -)
 # Extract the original Subject and prefix it with "Re: " if necessary
 ORIGINAL_SUBJECT=$(echo "$EMAIL" | mhdr -h subject -)
 
+# If marked as spam by SpamAssassin, do not reply
+SPAM_STATUS=$(echo "$EMAIL" | mhdr -h "X-Spam-Status" -)
+
+if [[ "$SPAM_STATUS" =~ ^Yes ]]; then
+  echo "Email marked as spam. Aborting."
+  exit 0
+fi
+
 # Construct the reply subject
 REPLY_SUBJECT="Re: $ORIGINAL_SUBJECT"
 
