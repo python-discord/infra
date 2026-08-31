@@ -177,4 +177,21 @@ prometheus_rules: |
               https://en.wikipedia.org/wiki/List_of_SMTP_server_return_codes and
               `sudo journalctl -xeu postfix@-` may provide more information on
               the current issue.
+        - alert: postfix/held-messages
+          expr: postfix_showq_message_age_seconds_count{queue="hold"} > 0
+          for: 0m
+          labels:
+            severity: warning
+            requires_ack: "true"
+          annotations:
+            summary: Postfix has held messages (instance {{ $labels.instance }})
+            description: "Postfix has messages in the hold queue."
+        - alert: postfix/deferred-messages
+          expr: postfix_showq_message_age_seconds_count{queue="deferred"} > 0
+          for: 0m
+          labels:
+            severity: warning
+          annotations:
+            summary: Postfix has deferred messages (instance {{ $labels.instance }})
+            description: "Postfix has messages in the deferred queue."
   {% endraw %}
