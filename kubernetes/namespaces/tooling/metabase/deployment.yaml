@@ -17,6 +17,34 @@ spec:
         fsGroup: 2000
         runAsUser: 1000
         runAsNonRoot: true
+      initContainers:
+        - name: create-jks-truststore
+          image: metabase/metabase:latest
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          command:
+            - sh
+            - -c
+            - |
+              # Copy default JDK cacerts (contains system public CAs)
+              cp $JAVA_HOME/lib/security/cacerts /custom-truststore/cacerts
+
+              # Import custom IPA CA cert into the truststore
+              keytool -importcert -noprompt \
+                -alias pydis-ipa-ca \
+                -keystore /custom-truststore/cacerts \
+                -storepass changeit \
+                -file /certs/pydis-ipa-cert.pem
+          volumeMounts:
+            - name: ca-cert-volume
+              mountPath: /certs
+              readOnly: true
+            - name: truststore-volume
+              mountPath: /custom-truststore
       containers:
         - name: metabase
           image: metabase/metabase:latest
@@ -26,11 +54,27 @@ spec:
           envFrom:
             - secretRef:
                 name: metabase-env
+          env:
+            # Set JAVA_OPTS explicitly so the JVM loads the truststore
+            - name: JAVA_OPTS
+              value: "-Djavax.net.ssl.trustStore=/custom-truststore/cacerts -Djavax.net.ssl.trustStorePassword=changeit"
           volumeMounts:
             - mountPath: /plugins
               name: mb-plugins-volume
+            - mountPath: /custom-truststore
+              name: truststore-volume
+              readOnly: true
           securityContext:
             readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
       volumes:
         - name: mb-plugins-volume
           emptyDir: {}
+        - name: truststore-volume
+          emptyDir: {}
+        - name: ca-cert-volume
+          configMap:
+            name: ipa-ca-configmap
