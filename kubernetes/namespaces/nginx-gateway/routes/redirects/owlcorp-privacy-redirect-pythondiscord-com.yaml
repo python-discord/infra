@@ -22,5 +22,5 @@ spec:
           hostname: github.com
           path:
             type: ReplaceFullPath
-            replaceFullPath: /owl-corp/owl-corp/blob/main/PRIVACY.md
+            replaceFullPath: /owl-corp/owl-corp/blob/main/polonium/PRIVACY.md
           statusCode: 302
