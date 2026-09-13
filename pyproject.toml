@@ -17,6 +17,7 @@ ansible = [
     "ansible-core>=2.17.0,<3",
     "ansible-lint==26.4.0 ; platform_system != 'Windows'",
     "dnspython==2.7.0",
+    "jmespath==1.1.0"
 ]
 dns = [
     "octodns>=1.8.0,<2",
