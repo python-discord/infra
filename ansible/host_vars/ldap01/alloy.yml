@@ -1,0 +1,9 @@
+---
+alloy_extra_files:
+  - name: dirsrv_access
+    path: "/var/log/dirsrv/slapd-*/access"
+  - name: dirsrv_error
+    path: "/var/log/dirsrv/slapd-*/errors"
+
+alloy_extra_groups:
+  - dirsrv
