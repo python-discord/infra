@@ -17,6 +17,8 @@ spec:
         fsGroup: 2000
         runAsUser: 1000
         runAsNonRoot: true
+      serviceAccountName: bot
+      automountServiceAccountToken: false
       containers:
       - name: bot
         image: ghcr.io/python-discord/bot:latest
@@ -40,6 +42,9 @@ spec:
           name: logs-vol
         - mountPath: /.cache/python-tldextract
           name: tldextract-cache
+        - mountPath: /var/run/secrets/polonium-api
+          name: polonium-api-token
+          readOnly: true
         securityContext:
           readOnlyRootFilesystem: true
       volumes:
@@ -47,3 +52,10 @@ spec:
         emptyDir: {}
       - name: tldextract-cache
         emptyDir: {}
+      - name: polonium-api-token
+        projected:
+          sources:
+          - serviceAccountToken:
+              path: token
+              audience: external-read
+              expirationSeconds: 600
