@@ -46,3 +46,5 @@ EOF
 # Move to final location and reload
 mv "$TMP_FILE" /etc/nftables/lke.nft
 systemctl reload nftables
+# nftables.conf flushes the whole ruleset, which wipes podman's rules; put them back
+/usr/bin/podman network reload --all
