@@ -4,9 +4,35 @@ logging {
   level = "info"
 }
 
+livedebugging {
+  enabled = true
+}
+
 loki.source.journal "system_journal" {
   format_as_json = true
+  forward_to = [loki.process.journal_labels.receiver]
+}
+
+loki.process "journal_labels" {
   forward_to = [loki.write.pydis_gateway.receiver]
+
+  stage.json {
+    expressions = {
+      unit = "_SYSTEMD_UNIT",
+    }
+  }
+
+  stage.labels {
+    values = {
+      unit = "unit",
+    }
+  }
+
+  stage.static_labels {
+    values = {
+      job = "system_journal",
+    }
+  }
 }
 
 {% for extra in alloy_extra_files %}
