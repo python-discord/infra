@@ -6,6 +6,7 @@
   register: linode_geoip_response
   run_once: true
   delegate_to: localhost
+  check_mode: false
   become: false
   tags:
     - role::linode-ips
