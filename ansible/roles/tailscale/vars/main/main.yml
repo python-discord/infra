@@ -1,0 +1,12 @@
+---
+tailscale_oauth2_client_id: "{{ vault_tailscale_oauth2_client_id }}"
+tailscale_oauth2_client_secret: "{{ vault_tailscale_oauth2_client_secret }}"
+
+tailscale_advertise_tags: "tag:baremetal"
+
+tailscale_services:
+  - host: lovelace
+    ts_service_name: "postgres"
+    proto: "tcp"
+    listen_port: 5432
+    proxy_dest: "127.0.0.1:5432"
