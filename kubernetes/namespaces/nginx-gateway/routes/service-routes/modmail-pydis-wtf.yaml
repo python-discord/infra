@@ -11,7 +11,7 @@ spec:
       namespace: nginx-gateway
   rules:
     - backendRefs:
-      - name: modmail-web
+      - name: barium
         namespace: modmail
         port: 80
       filters:
