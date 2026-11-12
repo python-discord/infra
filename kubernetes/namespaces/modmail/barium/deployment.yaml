@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: barium
+  namespace: modmail
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: barium
+  template:
+    metadata:
+      labels:
+        app: barium
+    spec:
+      containers:
+        - name: barium
+          image: ghcr.io/owl-corp/barium:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+          securityContext:
+            readOnlyRootFilesystem: true
+      volumes:
+        - name: tmp
+          emptyDir: {}
+      imagePullSecrets:
+        - name: ghcr-pull-secret
+      securityContext:
+        fsGroup: 2000
+        runAsUser: 1000
+        runAsNonRoot: true
