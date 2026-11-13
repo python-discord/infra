@@ -5,6 +5,7 @@
     - common
     - pydis-mtls
     - wireguard
+    - alloy
     - munin-node
 
 - name: Deploy services to Netcup nodes
@@ -12,7 +13,6 @@
   roles:
     - certbot
     - ci-user
-    - alloy
     - lke-nftables-update
     - nftables
     - prometheus-node-exporter

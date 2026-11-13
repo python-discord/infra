@@ -1,14 +1,26 @@
 ---
 
-- name: Add Grafana apt repository with key
+- name: Add Grafana apt repository (Rocky)
+  yum_repository:
+    name: grafana
+    description: Grafana Repository
+    baseurl: "{{ alloy_rocky_grafana_repository }}"
+    gpgcheck: true
+    gpgkey: "{{ alloy_rocky_grafana_signing_key }}"
+  when: ansible_facts["distribution"] == "Rocky"
+  tags:
+    - role::alloy
+
+- name: Add Grafana apt repository with key (Debian)
   deb822_repository:
     name: grafana
     types: deb
-    uris: "{{ alloy_grafana_repository }}"
+    uris: "{{ alloy_debian_grafana_repository }}"
     state: present
     suites: [stable]
     components: [main]
-    signed_by: "{{ alloy_grafana_signing_key }}"
+    signed_by: "{{ alloy_debian_grafana_signing_key }}"
+  when: ansible_facts["distribution"] == "Debian"
   tags:
     - role::alloy
 
@@ -61,3 +73,39 @@
     enabled: true
   tags:
     - role::alloy
+
+- name: Add user to extra groups for Alloy
+  user:
+    name: "alloy"
+    groups: "{{ alloy_extra_groups }}"
+    append: true
+  when: alloy_extra_groups | length > 0
+  tags:
+    - role::alloy
+  notify:
+    - Restart the alloy service
+
+# We need to add cap_dac_read_search=+ep to the Alloy binary.
+
+- name: Get Alloy binary path
+  command: "which alloy"
+  register: alloy_binary_path
+  changed_when: false
+  tags:
+    - role::alloy
+
+- name: Get the current capabilities of the Alloy binary
+  command: "getcap {{ alloy_binary_path.stdout }}"
+  register: alloy_getcap_output
+  changed_when: false
+  tags:
+    - role::alloy
+
+- name: Set capabilities on the Alloy binary
+  command: "setcap cap_dac_read_search=ep {{ alloy_binary_path.stdout }}"
+  changed_when: true
+  when: "'cap_dac_read_search=ep' not in alloy_getcap_output.stdout"
+  tags:
+    - role::alloy
+  notify:
+    - Restart the alloy service
