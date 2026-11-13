@@ -1,0 +1,4 @@
+---
+tailscale_rocky_repo: "https://pkgs.tailscale.com/stable/centos/10/tailscale.repo"
+tailscale_gpg_key_url: "https://pkgs.tailscale.com/stable/debian/trixie.noarmor.gpg"
+tailscale_apt_repo: "https://pkgs.tailscale.com/stable/debian/trixie.tailscale-keyring.list"
